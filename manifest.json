@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "1stTab",
   "description": "1stTab — new-tab dashboard with bookmarks, world clocks, weather, and retro arcade + Material Design themes.",
   "version": "1.0.0",
@@ -11,6 +11,8 @@
     "48":  "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "content_security_policy": "default-src 'self'; script-src 'self' https://unpkg.com 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https:",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
   "permissions": ["storage"]
 }
