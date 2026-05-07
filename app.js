@@ -5,7 +5,7 @@ function setGlobalBg(css) {
     el.id = "dash-bg-style";
     document.head.appendChild(el);
   }
-  el.textContent = css ? `:root:root body { ${css} }` : "";
+  el.textContent = css ? `:root:root:root body { ${css} }` : "";
 }
 function useTheme(prefTheme) {
   useEffect(() => {
@@ -34,6 +34,7 @@ function App() {
   const [bookmarks, setBookmarks] = useState(() => loadJSON(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS));
   const [zones, setZones] = useState(() => loadJSON(STORAGE_KEYS.zones, defaultZones()));
   const [prefs, setPrefs] = useState(() => ({ ...DEFAULT_PREFS, ...loadJSON(STORAGE_KEYS.prefs, {}) }));
+  const [bgUploads, setBgUploads] = useState(() => loadJSON(STORAGE_KEYS.bgUploads, []));
   const [activeFolderId, setActiveFolderId] = useState("f-all");
   const [view, setView] = useState(() => loadJSON("dash.view", "grid"));
   const [editingZones, setEditingZones] = useState(false);
@@ -46,6 +47,7 @@ function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.bookmarks, bookmarks), [bookmarks]);
   useEffect(() => saveJSON(STORAGE_KEYS.zones, zones), [zones]);
   useEffect(() => saveJSON(STORAGE_KEYS.prefs, prefs), [prefs]);
+  useEffect(() => saveJSON(STORAGE_KEYS.bgUploads, bgUploads), [bgUploads]);
   useEffect(() => saveJSON("dash.view", view), [view]);
   const initTweaks = {
     ...window.__TWEAK_DEFAULTS || { mode: "material-light", background: "floor", arcade: "pacmaze", scanlines: true },
@@ -63,11 +65,10 @@ function App() {
     }
   }, [mode, tweaks.arcade]);
   useEffect(() => {
-    const uploads = prefs.bgUploads || [];
-    const upload = uploads.find((u) => u.id === prefs.bgId);
+    const upload = bgUploads.find((u) => u.id === prefs.bgId);
     const builtin = BUILTIN_BACKGROUNDS.find((b) => b.id === prefs.bgId);
     if (upload) {
-      setGlobalBg(`background: url("${upload.url}") center/cover fixed no-repeat !important;`);
+      setGlobalBg(`background-image: url("${upload.url}") !important; background-size: cover !important; background-position: center !important; background-attachment: fixed !important; background-repeat: no-repeat !important;`);
       document.body.setAttribute("data-bg", "custom");
     } else if (builtin) {
       setGlobalBg(`background: ${builtin.value} !important; background-size: auto !important;`);
@@ -76,7 +77,7 @@ function App() {
       setGlobalBg("");
       document.body.setAttribute("data-bg", mode === "arcade" ? tweaks.background || "floor" : "solid");
     }
-  }, [mode, tweaks.background, prefs.bgId, prefs.bgUploads]);
+  }, [mode, tweaks.background, prefs.bgId, bgUploads]);
   useEffect(() => {
     const on = mode === "arcade" && tweaks.scanlines !== false;
     document.documentElement.style.setProperty("--scan-on", on ? "1" : "0");
@@ -170,7 +171,18 @@ function App() {
       onClose: () => setEditingBookmark(null),
       onSave: saveBookmark
     }
-  ), editingZones && /* @__PURE__ */ React.createElement(ZonesDialog, { zones, setZones, onClose: () => setEditingZones(false) }), editingCity && /* @__PURE__ */ React.createElement(EditDialog, { title: "Weather location", onClose: () => setEditingCity(false), onSave: () => setEditingCity(false) }, /* @__PURE__ */ React.createElement("div", { className: "field" }, /* @__PURE__ */ React.createElement("label", null, "City"), /* @__PURE__ */ React.createElement("input", { autoFocus: true, value: prefs.weatherCity, onChange: (e) => setPrefs({ ...prefs, weatherCity: e.target.value }) })), /* @__PURE__ */ React.createElement("p", { style: { fontSize: 12, color: "var(--text-3)", margin: 0 } }, "Uses mock data \u2014 any city name is shown verbatim.")), editingName && /* @__PURE__ */ React.createElement(EditDialog, { title: "Your name", onClose: () => setEditingName(false), onSave: () => setEditingName(false) }, /* @__PURE__ */ React.createElement("div", { className: "field" }, /* @__PURE__ */ React.createElement("label", null, "Display name"), /* @__PURE__ */ React.createElement("input", { autoFocus: true, value: prefs.name, onChange: (e) => setPrefs({ ...prefs, name: e.target.value }) }))), settingsOpen && /* @__PURE__ */ React.createElement(SettingsDialog, { tweaks, setTweak, prefs, setPrefs, onClose: () => setSettingsOpen(false) }), /* @__PURE__ */ React.createElement(TweaksPanel, { title: "Tweaks" }, /* @__PURE__ */ React.createElement(TweakSection, { label: "Mode" }), /* @__PURE__ */ React.createElement(
+  ), editingZones && /* @__PURE__ */ React.createElement(ZonesDialog, { zones, setZones, onClose: () => setEditingZones(false) }), editingCity && /* @__PURE__ */ React.createElement(EditDialog, { title: "Weather location", onClose: () => setEditingCity(false), onSave: () => setEditingCity(false) }, /* @__PURE__ */ React.createElement("div", { className: "field" }, /* @__PURE__ */ React.createElement("label", null, "City"), /* @__PURE__ */ React.createElement("input", { autoFocus: true, value: prefs.weatherCity, onChange: (e) => setPrefs({ ...prefs, weatherCity: e.target.value }) })), /* @__PURE__ */ React.createElement("p", { style: { fontSize: 12, color: "var(--text-3)", margin: 0 } }, "Uses mock data \u2014 any city name is shown verbatim.")), editingName && /* @__PURE__ */ React.createElement(EditDialog, { title: "Your name", onClose: () => setEditingName(false), onSave: () => setEditingName(false) }, /* @__PURE__ */ React.createElement("div", { className: "field" }, /* @__PURE__ */ React.createElement("label", null, "Display name"), /* @__PURE__ */ React.createElement("input", { autoFocus: true, value: prefs.name, onChange: (e) => setPrefs({ ...prefs, name: e.target.value }) }))), settingsOpen && /* @__PURE__ */ React.createElement(
+    SettingsDialog,
+    {
+      tweaks,
+      setTweak,
+      prefs,
+      setPrefs,
+      bgUploads,
+      setBgUploads,
+      onClose: () => setSettingsOpen(false)
+    }
+  ), /* @__PURE__ */ React.createElement(TweaksPanel, { title: "Tweaks" }, /* @__PURE__ */ React.createElement(TweakSection, { label: "Mode" }), /* @__PURE__ */ React.createElement(
     TweakRadio,
     {
       label: "Theme",
@@ -272,15 +284,14 @@ function ZonesDialog({ zones, setZones, onClose }) {
     /* @__PURE__ */ React.createElement(Icon.trash, { size: 16 })
   ))), list.length < 3 && /* @__PURE__ */ React.createElement("button", { className: "btn text", onClick: add }, /* @__PURE__ */ React.createElement(Icon.plus, { size: 14 }), " Add another")), /* @__PURE__ */ React.createElement("div", { className: "modal-footer", style: { justifyContent: "flex-end", gap: 8 } }, /* @__PURE__ */ React.createElement("button", { className: "btn text", onClick: onClose }, "Cancel"), /* @__PURE__ */ React.createElement("button", { className: "btn primary", onClick: save }, "Save"))));
 }
-function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, onClose }) {
+function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, bgUploads, setBgUploads, onClose }) {
   const mode = tweaks.mode || "material-light";
   const isArcade = mode === "arcade";
   const bgInputRef = useRef(null);
   function handleBgUpload(e) {
     const file = e.target.files?.[0];
     if (!file) return;
-    const uploads = prefs.bgUploads || [];
-    if (uploads.length >= 5) return;
+    if (bgUploads.length >= 5) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
       const img = new Image();
@@ -299,11 +310,8 @@ function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, onClose }) {
         const url = canvas.toDataURL("image/jpeg", 0.82);
         const id = "upload-" + Date.now();
         const label = file.name.replace(/\.[^.]+$/, "").slice(0, 14) || "Photo";
-        setPrefs((p) => ({
-          ...p,
-          bgUploads: [...p.bgUploads || [], { id, label, url }],
-          bgId: id
-        }));
+        setBgUploads((prev) => [...prev, { id, label, url }]);
+        setPrefs((p) => ({ ...p, bgId: id }));
       };
       img.src = ev.target.result;
     };
@@ -311,9 +319,8 @@ function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, onClose }) {
     e.target.value = "";
   }
   function removeUpload(id) {
-    const newUploads = (prefs.bgUploads || []).filter((u) => u.id !== id);
-    const newBgId = prefs.bgId === id ? "bg-dark" : prefs.bgId;
-    setPrefs({ ...prefs, bgUploads: newUploads, bgId: newBgId });
+    setBgUploads((prev) => prev.filter((u) => u.id !== id));
+    if (prefs.bgId === id) setPrefs({ ...prefs, bgId: "bg-dark" });
   }
   return /* @__PURE__ */ React.createElement("div", { className: "modal-backdrop", onMouseDown: (e) => e.target === e.currentTarget && onClose() }, /* @__PURE__ */ React.createElement("div", { className: "modal", style: { maxWidth: 560 } }, /* @__PURE__ */ React.createElement("div", { className: "modal-head" }, /* @__PURE__ */ React.createElement("h2", { className: "modal-title" }, "Settings"), /* @__PURE__ */ React.createElement("button", { className: "icon-btn", onClick: onClose }, /* @__PURE__ */ React.createElement(Icon.close, null))), /* @__PURE__ */ React.createElement("div", { className: "form", style: { maxHeight: "70vh", overflow: "auto" } }, /* @__PURE__ */ React.createElement("div", { className: "settings-section" }, /* @__PURE__ */ React.createElement("h3", { className: "settings-section-title" }, "Appearance"), /* @__PURE__ */ React.createElement("div", { className: "field" }, /* @__PURE__ */ React.createElement("label", null, "Theme"), /* @__PURE__ */ React.createElement("div", { className: "seg-group" }, [{ v: "material-light", l: "Light" }, { v: "material-dark", l: "Dark" }, { v: "arcade", l: "Arcade" }].map((o) => /* @__PURE__ */ React.createElement("button", { key: o.v, className: "seg-btn" + (mode === o.v ? " active" : ""), onClick: () => setTweak("mode", o.v) }, o.l)))), isArcade && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "field" }, /* @__PURE__ */ React.createElement("label", null, "Arcade cabinet"), /* @__PURE__ */ React.createElement("select", { value: tweaks.arcade || "synthwave", onChange: (e) => setTweak("arcade", e.target.value) }, /* @__PURE__ */ React.createElement("option", { value: "synthwave" }, "Synthwave (pink/cyan)"), /* @__PURE__ */ React.createElement("option", { value: "pacmaze" }, "Pac-Maze (yellow/blue)"), /* @__PURE__ */ React.createElement("option", { value: "gameboy" }, "Game Boy (4-shade green)"), /* @__PURE__ */ React.createElement("option", { value: "galaga" }, "Galaga (deep space)"), /* @__PURE__ */ React.createElement("option", { value: "tron" }, "Tron (cyan/orange)"), /* @__PURE__ */ React.createElement("option", { value: "hotlava" }, "Hot Lava (red/orange)"))), /* @__PURE__ */ React.createElement("div", { className: "field" }, /* @__PURE__ */ React.createElement("label", null, "Background"), /* @__PURE__ */ React.createElement("div", { className: "seg-group" }, [{ v: "solid", l: "Solid" }, { v: "gradient", l: "Glow" }, { v: "grid", l: "Grid" }, { v: "floor", l: "Floor" }, { v: "dotted", l: "Dots" }].map((o) => /* @__PURE__ */ React.createElement("button", { key: o.v, className: "seg-btn" + ((tweaks.background || "floor") === o.v ? " active" : ""), onClick: () => setTweak("background", o.v) }, o.l)))), /* @__PURE__ */ React.createElement("label", { className: "settings-toggle" }, /* @__PURE__ */ React.createElement("input", { type: "checkbox", checked: tweaks.scanlines !== false, onChange: (e) => setTweak("scanlines", e.target.checked) }), /* @__PURE__ */ React.createElement("span", null, "CRT scanlines + vignette")))), /* @__PURE__ */ React.createElement("div", { className: "settings-section" }, /* @__PURE__ */ React.createElement("h3", { className: "settings-section-title" }, "Background"), /* @__PURE__ */ React.createElement("div", { className: "bg-picker" }, BUILTIN_BACKGROUNDS.map((bg) => /* @__PURE__ */ React.createElement(
     "button",
@@ -326,7 +333,7 @@ function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, onClose }) {
     /* @__PURE__ */ React.createElement("span", { className: "bg-thumb-img", style: { background: bg.value } }),
     /* @__PURE__ */ React.createElement("span", { className: "bg-thumb-label" }, bg.label),
     prefs.bgId === bg.id && /* @__PURE__ */ React.createElement("span", { className: "bg-check" }, "\u2713")
-  )), (prefs.bgUploads || []).map((up) => /* @__PURE__ */ React.createElement(
+  )), (bgUploads || []).map((up) => /* @__PURE__ */ React.createElement(
     "button",
     {
       key: up.id,
@@ -341,6 +348,6 @@ function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, onClose }) {
       e.stopPropagation();
       removeUpload(up.id);
     }, title: "Remove" }, "\xD7")
-  )), (prefs.bgUploads || []).length < 5 && /* @__PURE__ */ React.createElement("button", { className: "bg-thumb bg-thumb-add", onClick: () => bgInputRef.current?.click(), title: "Upload image" }, /* @__PURE__ */ React.createElement("span", { className: "bg-thumb-img bg-thumb-add-icon" }, /* @__PURE__ */ React.createElement(Icon.upload, { size: 20 })), /* @__PURE__ */ React.createElement("span", { className: "bg-thumb-label" }, "Upload")), /* @__PURE__ */ React.createElement("input", { ref: bgInputRef, type: "file", accept: "image/*", hidden: true, onChange: handleBgUpload }))), /* @__PURE__ */ React.createElement("div", { className: "settings-section" }, /* @__PURE__ */ React.createElement("h3", { className: "settings-section-title" }, "Profile"), /* @__PURE__ */ React.createElement("div", { className: "field" }, /* @__PURE__ */ React.createElement("label", null, "Display name"), /* @__PURE__ */ React.createElement("input", { value: prefs.name, onChange: (e) => setPrefs({ ...prefs, name: e.target.value }) }))), /* @__PURE__ */ React.createElement("div", { className: "settings-section" }, /* @__PURE__ */ React.createElement("h3", { className: "settings-section-title" }, "Weather"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "2fr 1fr", gap: 12 } }, /* @__PURE__ */ React.createElement("div", { className: "field", style: { margin: 0 } }, /* @__PURE__ */ React.createElement("label", null, "City"), /* @__PURE__ */ React.createElement("input", { value: prefs.weatherCity, onChange: (e) => setPrefs({ ...prefs, weatherCity: e.target.value }) })), /* @__PURE__ */ React.createElement("div", { className: "field", style: { margin: 0 } }, /* @__PURE__ */ React.createElement("label", null, "Units"), /* @__PURE__ */ React.createElement("div", { className: "seg-group" }, /* @__PURE__ */ React.createElement("button", { className: "seg-btn" + (prefs.units === "F" ? " active" : ""), onClick: () => setPrefs({ ...prefs, units: "F" }) }, "\xB0F"), /* @__PURE__ */ React.createElement("button", { className: "seg-btn" + (prefs.units === "C" ? " active" : ""), onClick: () => setPrefs({ ...prefs, units: "C" }) }, "\xB0C"))))), /* @__PURE__ */ React.createElement("div", { className: "settings-section" }, /* @__PURE__ */ React.createElement("h3", { className: "settings-section-title" }, "Search"), /* @__PURE__ */ React.createElement("p", { className: "settings-help" }, "Uses ", /* @__PURE__ */ React.createElement("strong", null, "Google"), ". Type a query to search, or paste a URL to open directly."))), /* @__PURE__ */ React.createElement("div", { className: "modal-footer", style: { justifyContent: "flex-end" } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary", onClick: onClose }, "Done"))));
+  )), (bgUploads || []).length < 5 && /* @__PURE__ */ React.createElement("button", { className: "bg-thumb bg-thumb-add", onClick: () => bgInputRef.current?.click(), title: "Upload image" }, /* @__PURE__ */ React.createElement("span", { className: "bg-thumb-img bg-thumb-add-icon" }, /* @__PURE__ */ React.createElement(Icon.upload, { size: 20 })), /* @__PURE__ */ React.createElement("span", { className: "bg-thumb-label" }, "Upload")), /* @__PURE__ */ React.createElement("input", { ref: bgInputRef, type: "file", accept: "image/*", hidden: true, onChange: handleBgUpload }))), /* @__PURE__ */ React.createElement("div", { className: "settings-section" }, /* @__PURE__ */ React.createElement("h3", { className: "settings-section-title" }, "Profile"), /* @__PURE__ */ React.createElement("div", { className: "field" }, /* @__PURE__ */ React.createElement("label", null, "Display name"), /* @__PURE__ */ React.createElement("input", { value: prefs.name, onChange: (e) => setPrefs({ ...prefs, name: e.target.value }) }))), /* @__PURE__ */ React.createElement("div", { className: "settings-section" }, /* @__PURE__ */ React.createElement("h3", { className: "settings-section-title" }, "Weather"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "2fr 1fr", gap: 12 } }, /* @__PURE__ */ React.createElement("div", { className: "field", style: { margin: 0 } }, /* @__PURE__ */ React.createElement("label", null, "City"), /* @__PURE__ */ React.createElement("input", { value: prefs.weatherCity, onChange: (e) => setPrefs({ ...prefs, weatherCity: e.target.value }) })), /* @__PURE__ */ React.createElement("div", { className: "field", style: { margin: 0 } }, /* @__PURE__ */ React.createElement("label", null, "Units"), /* @__PURE__ */ React.createElement("div", { className: "seg-group" }, /* @__PURE__ */ React.createElement("button", { className: "seg-btn" + (prefs.units === "F" ? " active" : ""), onClick: () => setPrefs({ ...prefs, units: "F" }) }, "\xB0F"), /* @__PURE__ */ React.createElement("button", { className: "seg-btn" + (prefs.units === "C" ? " active" : ""), onClick: () => setPrefs({ ...prefs, units: "C" }) }, "\xB0C"))))), /* @__PURE__ */ React.createElement("div", { className: "settings-section" }, /* @__PURE__ */ React.createElement("h3", { className: "settings-section-title" }, "Search"), /* @__PURE__ */ React.createElement("p", { className: "settings-help" }, "Uses ", /* @__PURE__ */ React.createElement("strong", null, "Google"), ". Type a query to search, or paste a URL to open directly."))), /* @__PURE__ */ React.createElement("div", { className: "modal-footer", style: { justifyContent: "flex-end" } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary", onClick: onClose }, "Done"))));
 }
 ReactDOM.createRoot(document.getElementById("root")).render(/* @__PURE__ */ React.createElement(App, null));

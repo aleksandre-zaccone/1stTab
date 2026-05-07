@@ -2285,22 +2285,8 @@ a.icon-btn { text-decoration: none; display: inline-flex; }
    ===== BACKGROUND CUSTOMIZATION
    ============================================================ */
 
-/* Custom image — works in all three themes */
-body[data-bg="custom"] {
-  background-color: #000 !important;
-  background-image: var(--custom-bg-url, none) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-attachment: fixed !important;
-}
-:root[data-mode="material-light"] body[data-bg="custom"],
-:root[data-mode="material-dark"]  body[data-bg="custom"] {
-  background-color: #000 !important;
-  background-image: var(--custom-bg-url, none) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-attachment: fixed !important;
-}
+/* Custom image backgrounds are applied entirely via JS (setGlobalBg).
+   No static CSS rules needed here — the injected <style> wins via source order. */
 
 /* Material-mode pattern backgrounds (override the blanket solid) */
 :root[data-mode="material-light"] body[data-bg="gradient"] {

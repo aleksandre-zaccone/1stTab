@@ -8,9 +8,9 @@ function setGlobalBg(css) {
     el.id = 'dash-bg-style';
     document.head.appendChild(el);
   }
-  // :root:root body has same specificity as :root[data-mode] body (0,2,1)
-  // but our injected <style> appears later in DOM → wins when !important + same specificity
-  el.textContent = css ? `:root:root body { ${css} }` : '';
+  // :root:root:root body = specificity 0,3,1 — beats every theme rule in dashboard.css
+  // and wins on source order since this <style> is appended after the <link> stylesheet
+  el.textContent = css ? `:root:root:root body { ${css} }` : '';
 }
 
 // ============================
@@ -41,10 +41,11 @@ function greetingFor(now) {
 }
 
 function App() {
-  const [folders, setFolders]     = useState(() => loadJSON(STORAGE_KEYS.folders, SEED_FOLDERS));
-  const [bookmarks, setBookmarks] = useState(() => loadJSON(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS));
-  const [zones, setZones]         = useState(() => loadJSON(STORAGE_KEYS.zones, defaultZones()));
-  const [prefs, setPrefs]         = useState(() => ({ ...DEFAULT_PREFS, ...loadJSON(STORAGE_KEYS.prefs, {}) }));
+  const [folders, setFolders]       = useState(() => loadJSON(STORAGE_KEYS.folders, SEED_FOLDERS));
+  const [bookmarks, setBookmarks]   = useState(() => loadJSON(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS));
+  const [zones, setZones]           = useState(() => loadJSON(STORAGE_KEYS.zones, defaultZones()));
+  const [prefs, setPrefs]           = useState(() => ({ ...DEFAULT_PREFS, ...loadJSON(STORAGE_KEYS.prefs, {}) }));
+  const [bgUploads, setBgUploads]   = useState(() => loadJSON(STORAGE_KEYS.bgUploads, []));
   const [activeFolderId, setActiveFolderId] = useState('f-all');
   const [view, setView]           = useState(() => loadJSON('dash.view', 'grid'));
   const [editingZones, setEditingZones]       = useState(false);
@@ -58,6 +59,7 @@ function App() {
   useEffect(() => saveJSON(STORAGE_KEYS.bookmarks, bookmarks), [bookmarks]);
   useEffect(() => saveJSON(STORAGE_KEYS.zones,     zones),     [zones]);
   useEffect(() => saveJSON(STORAGE_KEYS.prefs,     prefs),     [prefs]);
+  useEffect(() => saveJSON(STORAGE_KEYS.bgUploads, bgUploads), [bgUploads]);
   useEffect(() => saveJSON('dash.view',             view),      [view]);
 
   const initTweaks = {
@@ -79,12 +81,11 @@ function App() {
   }, [mode, tweaks.arcade]);
 
   useEffect(() => {
-    const uploads = prefs.bgUploads || [];
-    const upload  = uploads.find(u => u.id === prefs.bgId);
+    const upload  = bgUploads.find(u => u.id === prefs.bgId);
     const builtin = BUILTIN_BACKGROUNDS.find(b => b.id === prefs.bgId);
 
     if (upload) {
-      setGlobalBg(`background: url("${upload.url}") center/cover fixed no-repeat !important;`);
+      setGlobalBg(`background-image: url("${upload.url}") !important; background-size: cover !important; background-position: center !important; background-attachment: fixed !important; background-repeat: no-repeat !important;`);
       document.body.setAttribute('data-bg', 'custom');
     } else if (builtin) {
       setGlobalBg(`background: ${builtin.value} !important; background-size: auto !important;`);
@@ -93,7 +94,7 @@ function App() {
       setGlobalBg('');
       document.body.setAttribute('data-bg', mode === 'arcade' ? (tweaks.background || 'floor') : 'solid');
     }
-  }, [mode, tweaks.background, prefs.bgId, prefs.bgUploads]);
+  }, [mode, tweaks.background, prefs.bgId, bgUploads]);
 
   useEffect(() => {
     const on = (mode === 'arcade') && (tweaks.scanlines !== false);
@@ -256,7 +257,12 @@ function App() {
         </EditDialog>
       )}
       {settingsOpen && (
-        <SettingsDialog tweaks={tweaks} setTweak={setTweak} prefs={prefs} setPrefs={setPrefs} onClose={() => setSettingsOpen(false)}/>
+        <SettingsDialog
+          tweaks={tweaks} setTweak={setTweak}
+          prefs={prefs} setPrefs={setPrefs}
+          bgUploads={bgUploads} setBgUploads={setBgUploads}
+          onClose={() => setSettingsOpen(false)}
+        />
       )}
 
       <TweaksPanel title="Tweaks">
@@ -383,7 +389,7 @@ function ZonesDialog({ zones, setZones, onClose }) {
 }
 
 // ===== Settings dialog =====
-function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, onClose }) {
+function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, bgUploads, setBgUploads, onClose }) {
   const mode = tweaks.mode || 'material-light';
   const isArcade = mode === 'arcade';
   const bgInputRef = useRef(null);
@@ -391,8 +397,7 @@ function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, onClose }) {
   function handleBgUpload(e) {
     const file = e.target.files?.[0];
     if (!file) return;
-    const uploads = prefs.bgUploads || [];
-    if (uploads.length >= 5) return;
+    if (bgUploads.length >= 5) return;
     const reader = new FileReader();
     reader.onload = ev => {
       const img = new Image();
@@ -409,11 +414,8 @@ function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, onClose }) {
         const url = canvas.toDataURL('image/jpeg', 0.82);
         const id = 'upload-' + Date.now();
         const label = file.name.replace(/\.[^.]+$/, '').slice(0, 14) || 'Photo';
-        setPrefs(p => ({
-          ...p,
-          bgUploads: [...(p.bgUploads || []), { id, label, url }],
-          bgId: id,
-        }));
+        setBgUploads(prev => [...prev, { id, label, url }]);
+        setPrefs(p => ({ ...p, bgId: id }));
       };
       img.src = ev.target.result;
     };
@@ -422,9 +424,8 @@ function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, onClose }) {
   }
 
   function removeUpload(id) {
-    const newUploads = (prefs.bgUploads || []).filter(u => u.id !== id);
-    const newBgId = prefs.bgId === id ? 'bg-dark' : prefs.bgId;
-    setPrefs({ ...prefs, bgUploads: newUploads, bgId: newBgId });
+    setBgUploads(prev => prev.filter(u => u.id !== id));
+    if (prefs.bgId === id) setPrefs({ ...prefs, bgId: 'bg-dark' });
   }
 
   return (
@@ -483,7 +484,7 @@ function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, onClose }) {
               ))}
 
               {/* Uploaded backgrounds */}
-              {(prefs.bgUploads || []).map(up => (
+              {(bgUploads || []).map(up => (
                 <button
                   key={up.id}
                   className={'bg-thumb' + (prefs.bgId === up.id ? ' active' : '')}
@@ -498,7 +499,7 @@ function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, onClose }) {
               ))}
 
               {/* Upload slot — shown while < 5 uploads */}
-              {(prefs.bgUploads || []).length < 5 && (
+              {(bgUploads || []).length < 5 && (
                 <button className="bg-thumb bg-thumb-add" onClick={() => bgInputRef.current?.click()} title="Upload image">
                   <span className="bg-thumb-img bg-thumb-add-icon">
                     <Icon.upload size={20}/>

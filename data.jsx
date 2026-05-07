@@ -6,6 +6,7 @@ const STORAGE_KEYS = {
   folders:   'dash.folders.v2',
   zones:     'dash.zones.v1',
   prefs:     'dash.prefs.v1',
+  bgUploads: 'dash.bgUploads.v1',  // separate key — keeps large image data away from prefs
 };
 
 function loadJSON(key, fallback) {
@@ -263,8 +264,7 @@ const DEFAULT_PREFS = {
   units: 'F',
   theme: 'auto',
   weatherCity: 'San Francisco',
-  bgId: 'bg-dark',   // selected background: builtin ID or upload ID
-  bgUploads: [],     // [{id, label, url}] — up to 5 user-uploaded images
+  bgId: 'bg-dark',  // selected background: builtin ID or upload ID
 };
 
 // Mock weather (deterministic-ish based on day-of-year)

@@ -2,7 +2,9 @@ const STORAGE_KEYS = {
   bookmarks: "dash.bookmarks.v2",
   folders: "dash.folders.v2",
   zones: "dash.zones.v1",
-  prefs: "dash.prefs.v1"
+  prefs: "dash.prefs.v1",
+  bgUploads: "dash.bgUploads.v1"
+  // separate key — keeps large image data away from prefs
 };
 function loadJSON(key, fallback) {
   try {
@@ -551,10 +553,8 @@ const DEFAULT_PREFS = {
   units: "F",
   theme: "auto",
   weatherCity: "San Francisco",
-  bgId: "bg-dark",
+  bgId: "bg-dark"
   // selected background: builtin ID or upload ID
-  bgUploads: []
-  // [{id, label, url}] — up to 5 user-uploaded images
 };
 function buildMockWeather(city, units) {
   const now = /* @__PURE__ */ new Date();
