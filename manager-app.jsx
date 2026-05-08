@@ -28,18 +28,19 @@ function ManagerPageApp() {
     const on = (mode === 'arcade') && (savedTweaks.scanlines !== false);
     document.documentElement.style.setProperty('--scan-on', on ? '1' : '0');
 
-    // Apply saved background
-    const prefs = { ...DEFAULT_PREFS, ...loadJSON(STORAGE_KEYS.prefs, {}) };
-    const uploads = prefs.bgUploads || [];
-    const upload  = uploads.find(u => u.id === prefs.bgId);
-    const builtin = BUILTIN_BACKGROUNDS.find(b => b.id === prefs.bgId);
+    // Apply saved background — same logic as app.jsx
+    const prefs    = { ...DEFAULT_PREFS, ...loadJSON(STORAGE_KEYS.prefs, {}) };
+    const bgUploads = loadJSON(STORAGE_KEYS.bgUploads, []);
+    const upload   = bgUploads.find(u => u.id === prefs.bgId);
+    const builtin  = BUILTIN_BACKGROUNDS.find(b => b.id === prefs.bgId);
     function setGlobalBg(css) {
       let el = document.getElementById('dash-bg-style');
       if (!el) { el = document.createElement('style'); el.id = 'dash-bg-style'; document.head.appendChild(el); }
-      el.textContent = css ? `:root:root body { ${css} }` : '';
+      // :root:root:root body = specificity 0,3,1 — beats all theme overrides
+      el.textContent = css ? `:root:root:root body { ${css} }` : '';
     }
     if (upload) {
-      setGlobalBg(`background: url("${upload.url}") center/cover fixed no-repeat !important;`);
+      setGlobalBg(`background-image: url("${upload.url}") !important; background-size: cover !important; background-position: center !important; background-attachment: fixed !important; background-repeat: no-repeat !important;`);
     } else if (builtin) {
       setGlobalBg(`background: ${builtin.value} !important; background-size: auto !important;`);
     } else {

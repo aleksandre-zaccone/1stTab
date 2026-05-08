@@ -20,6 +20,23 @@
 <script>
   window.__TWEAK_DEFAULTS = { "mode": "material-light", "background": "floor", "arcade": "pacmaze", "scanlines": true };
   const { useState, useEffect, useRef, useMemo } = React;
+
+  // Apply theme synchronously before React mounts — prevents flash of dark background
+  (function() {
+    try {
+      var tw = JSON.parse(localStorage.getItem('dash.tweaks') || '{}');
+      var mode = tw.mode || 'material-light';
+      document.documentElement.setAttribute('data-mode', mode);
+      if (mode === 'arcade') {
+        document.documentElement.setAttribute('data-arcade', tw.arcade || 'synthwave');
+        document.body.setAttribute('data-bg', tw.background || 'floor');
+      }
+      var on = mode === 'arcade' && tw.scanlines !== false;
+      document.documentElement.style.setProperty('--scan-on', on ? '1' : '0');
+    } catch(e) {
+      document.documentElement.setAttribute('data-mode', 'material-light');
+    }
+  })();
 </script>
 
 <script src="tweaks-panel.js"></script>

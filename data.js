@@ -1,10 +1,11 @@
 const STORAGE_KEYS = {
-  bookmarks: "dash.bookmarks.v2",
-  folders: "dash.folders.v2",
+  bookmarks: "dash.bookmarks.v3",
+  // bumped: fresh 5-bookmark seed
+  folders: "dash.folders.v3",
+  // bumped: single Favorites folder
   zones: "dash.zones.v1",
   prefs: "dash.prefs.v1",
   bgUploads: "dash.bgUploads.v1"
-  // separate key — keeps large image data away from prefs
 };
 function loadJSON(key, fallback) {
   try {
@@ -59,425 +60,67 @@ function hostnameOf(url) {
   }
 }
 const SEED_FOLDERS = [
-  { id: "f-work", name: "Work" },
-  { id: "f-reading", name: "Reading" },
-  { id: "f-tools", name: "Tools" },
-  { id: "f-personal", name: "Personal" }
+  { id: "f-favorites", name: "Favorites" }
 ];
 function uid() {
   return "b-" + Math.random().toString(36).slice(2, 9);
 }
-const NOW_MS = Date.now();
-const DAY = 864e5;
 const SEED_BOOKMARKS = [
-  // ===== Work (10) =====
+  // ===== Favorites (5 curated) =====
   {
     id: uid(),
-    folderId: "f-work",
-    name: "Project tracker",
-    url: "https://example.com/tracker",
-    description: "Sprint board and active tickets for the design platform team.",
-    tags: ["daily", "team"],
+    folderId: "f-favorites",
+    name: "Claude AI",
+    url: "https://claude.ai",
+    description: "AI assistant by Anthropic.",
+    tags: ["ai"],
     pinned: true,
-    visits: 142,
-    lastVisited: NOW_MS - 2 * 36e5
+    visits: 0,
+    lastVisited: Date.now()
   },
   {
     id: uid(),
-    folderId: "f-work",
-    name: "Team handbook",
-    url: "https://example.com/handbook",
-    description: "Onboarding, processes, RFC index, and meeting cadence.",
-    tags: ["docs"],
-    visits: 38,
-    lastVisited: NOW_MS - 4 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-work",
-    name: "Design specs",
-    url: "https://figma.com/file/specs",
-    description: "Component library and spec sheets for the current quarter.",
-    tags: ["design", "specs"],
-    visits: 86,
-    lastVisited: NOW_MS - 1 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-work",
-    name: "Standup notes",
-    url: "https://example.com/standup",
-    description: "Rolling weekly standup notes and blockers log.",
-    tags: ["notes"],
-    visits: 24,
-    lastVisited: NOW_MS - 6 * 36e5
-  },
-  {
-    id: uid(),
-    folderId: "f-work",
-    name: "Roadmap Q3",
-    url: "https://example.com/roadmap",
-    description: "Quarterly objectives, milestones, and dependency map.",
-    tags: ["planning"],
-    visits: 54,
-    lastVisited: NOW_MS - 3 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-work",
-    name: "Slack",
-    url: "https://slack.com",
-    description: "Team chat, channels, and DM threads.",
-    tags: ["daily", "chat"],
+    folderId: "f-favorites",
+    name: "Google Gemini",
+    url: "https://gemini.google.com",
+    description: "Google AI assistant.",
+    tags: ["ai"],
     pinned: true,
-    visits: 1240,
-    lastVisited: NOW_MS - 5 * 6e4
+    visits: 0,
+    lastVisited: Date.now()
   },
   {
     id: uid(),
-    folderId: "f-work",
-    name: "Google Docs",
-    url: "https://docs.google.com",
-    description: "Shared docs, briefs, and meeting agendas.",
-    tags: ["docs"],
-    visits: 210,
-    lastVisited: NOW_MS - 90 * 6e4
-  },
-  {
-    id: uid(),
-    folderId: "f-work",
-    name: "Zoom",
-    url: "https://zoom.us",
-    description: "Meeting room launcher and recordings library.",
-    tags: ["meetings"],
-    visits: 88,
-    lastVisited: NOW_MS - 7 * 36e5
-  },
-  {
-    id: uid(),
-    folderId: "f-work",
-    name: "Confluence",
-    url: "https://example.atlassian.net/wiki",
-    description: "Internal wiki, runbooks, and architecture docs.",
-    tags: ["docs", "wiki"],
-    visits: 47,
-    lastVisited: NOW_MS - 2 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-work",
-    name: "Analytics",
-    url: "https://analytics.google.com",
-    description: "Product metrics dashboards and funnel reports.",
-    tags: ["data"],
-    visits: 62,
-    lastVisited: NOW_MS - 18 * 36e5
-  },
-  // ===== Reading (10) =====
-  {
-    id: uid(),
-    folderId: "f-reading",
-    name: "Hacker News",
-    url: "https://news.ycombinator.com",
-    description: "Tech news and discussion \u2014 front page check.",
-    tags: ["news", "daily"],
+    folderId: "f-favorites",
+    name: "Google",
+    url: "https://google.com",
+    description: "Search the web.",
+    tags: ["search"],
     pinned: true,
-    visits: 412,
-    lastVisited: NOW_MS - 30 * 6e4
+    visits: 0,
+    lastVisited: Date.now()
   },
   {
     id: uid(),
-    folderId: "f-reading",
-    name: "The Verge",
-    url: "https://theverge.com",
-    description: "Tech, science, art, and culture reporting.",
-    tags: ["news"],
-    visits: 67,
-    lastVisited: NOW_MS - 2 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-reading",
-    name: "A List Apart",
-    url: "https://alistapart.com",
-    description: "Long-form articles on web design and standards.",
-    tags: ["design", "longread"],
-    visits: 12,
-    lastVisited: NOW_MS - 12 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-reading",
-    name: "Ars Technica",
-    url: "https://arstechnica.com",
-    description: "Deep dives on tech, science, and policy.",
-    tags: ["news", "tech"],
-    visits: 44,
-    lastVisited: NOW_MS - 1 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-reading",
-    name: "Wired",
-    url: "https://wired.com",
-    description: "Culture, business, and tech features.",
-    tags: ["news", "culture"],
-    visits: 22,
-    lastVisited: NOW_MS - 5 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-reading",
-    name: "The New York Times",
-    url: "https://nytimes.com",
-    description: "World news, opinion, and analysis.",
-    tags: ["news", "daily"],
-    visits: 198,
-    lastVisited: NOW_MS - 6 * 36e5
-  },
-  {
-    id: uid(),
-    folderId: "f-reading",
-    name: "Substack",
-    url: "https://substack.com",
-    description: "Newsletter inbox and subscriptions.",
-    tags: ["longread", "newsletters"],
-    visits: 71,
-    lastVisited: NOW_MS - 14 * 36e5
-  },
-  {
-    id: uid(),
-    folderId: "f-reading",
-    name: "Pocket",
-    url: "https://getpocket.com",
-    description: "Read-later queue across devices.",
-    tags: ["queue"],
-    visits: 33,
-    lastVisited: NOW_MS - 3 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-reading",
-    name: "Medium",
-    url: "https://medium.com",
-    description: "Essays, tutorials, and personal blogs.",
-    tags: ["longread"],
-    visits: 19,
-    lastVisited: NOW_MS - 8 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-reading",
-    name: "Smashing Magazine",
-    url: "https://smashingmagazine.com",
-    description: "Practical articles on UX, CSS, and frontend.",
-    tags: ["design", "dev"],
-    visits: 28,
-    lastVisited: NOW_MS - 6 * DAY
-  },
-  // ===== Tools (10) =====
-  {
-    id: uid(),
-    folderId: "f-tools",
-    name: "GitHub",
-    url: "https://github.com",
-    description: "Source control, PRs, and CI status across repositories.",
-    tags: ["dev", "daily"],
-    pinned: true,
-    visits: 980,
-    lastVisited: NOW_MS - 10 * 6e4
-  },
-  {
-    id: uid(),
-    folderId: "f-tools",
-    name: "Figma",
-    url: "https://figma.com",
-    description: "Design files, prototypes, and live multiplayer.",
-    tags: ["design"],
-    visits: 320,
-    lastVisited: NOW_MS - 1 * 36e5
-  },
-  {
-    id: uid(),
-    folderId: "f-tools",
-    name: "Notion",
-    url: "https://notion.so",
-    description: "Knowledge base, planning docs, and personal notes.",
-    tags: ["docs", "notes"],
-    visits: 188,
-    lastVisited: NOW_MS - 5 * 36e5
-  },
-  {
-    id: uid(),
-    folderId: "f-tools",
-    name: "Linear",
-    url: "https://linear.app",
-    description: "Issue tracker for engineering and design tasks.",
-    tags: ["dev"],
-    visits: 154,
-    lastVisited: NOW_MS - 8 * 36e5
-  },
-  {
-    id: uid(),
-    folderId: "f-tools",
-    name: "Vercel",
-    url: "https://vercel.com",
-    description: "Deployments, previews, and edge config.",
-    tags: ["dev", "deploy"],
-    visits: 92,
-    lastVisited: NOW_MS - 4 * 36e5
-  },
-  {
-    id: uid(),
-    folderId: "f-tools",
-    name: "CodeSandbox",
-    url: "https://codesandbox.io",
-    description: "In-browser sandboxes for prototyping.",
-    tags: ["dev", "prototype"],
-    visits: 41,
-    lastVisited: NOW_MS - 2 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-tools",
-    name: "Stack Overflow",
-    url: "https://stackoverflow.com",
-    description: "Q&A for programming problems.",
-    tags: ["dev", "reference"],
-    visits: 215,
-    lastVisited: NOW_MS - 22 * 36e5
-  },
-  {
-    id: uid(),
-    folderId: "f-tools",
-    name: "MDN Web Docs",
-    url: "https://developer.mozilla.org",
-    description: "Web platform reference for HTML, CSS, JS.",
-    tags: ["dev", "docs"],
-    visits: 178,
-    lastVisited: NOW_MS - 12 * 36e5
-  },
-  {
-    id: uid(),
-    folderId: "f-tools",
-    name: "Postman",
-    url: "https://postman.com",
-    description: "API client, collections, and environments.",
-    tags: ["dev", "api"],
-    visits: 64,
-    lastVisited: NOW_MS - 1 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-tools",
-    name: "Excalidraw",
-    url: "https://excalidraw.com",
-    description: "Quick whiteboard sketches and diagrams.",
-    tags: ["design", "sketch"],
-    visits: 53,
-    lastVisited: NOW_MS - 16 * 36e5
-  },
-  // ===== Personal (10) =====
-  {
-    id: uid(),
-    folderId: "f-personal",
-    name: "Calendar",
-    url: "https://calendar.google.com",
-    description: "Personal and shared schedules.",
-    tags: ["life"],
-    pinned: true,
-    visits: 220,
-    lastVisited: NOW_MS - 45 * 6e4
-  },
-  {
-    id: uid(),
-    folderId: "f-personal",
-    name: "Recipes",
-    url: "https://example.com/recipes",
-    description: "Saved recipes \u2014 weeknight meals and weekend baking.",
-    tags: ["life", "food"],
-    visits: 18,
-    lastVisited: NOW_MS - 9 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-personal",
-    name: "Gmail",
-    url: "https://mail.google.com",
-    description: "Personal inbox and labels.",
-    tags: ["life", "mail"],
-    visits: 540,
-    lastVisited: NOW_MS - 20 * 6e4
-  },
-  {
-    id: uid(),
-    folderId: "f-personal",
+    folderId: "f-favorites",
     name: "YouTube",
     url: "https://youtube.com",
-    description: "Subscriptions, watch later, and music.",
-    tags: ["life", "video"],
-    visits: 380,
-    lastVisited: NOW_MS - 3 * 36e5
+    description: "Watch and discover videos.",
+    tags: ["video"],
+    pinned: true,
+    visits: 0,
+    lastVisited: Date.now()
   },
   {
     id: uid(),
-    folderId: "f-personal",
-    name: "Spotify",
-    url: "https://open.spotify.com",
-    description: "Playlists, podcasts, and discovery.",
-    tags: ["life", "music"],
-    visits: 290,
-    lastVisited: NOW_MS - 90 * 6e4
-  },
-  {
-    id: uid(),
-    folderId: "f-personal",
-    name: "Reddit",
-    url: "https://reddit.com",
-    description: "Subreddits and saved threads.",
-    tags: ["life", "social"],
-    visits: 410,
-    lastVisited: NOW_MS - 70 * 6e4
-  },
-  {
-    id: uid(),
-    folderId: "f-personal",
-    name: "Goodreads",
-    url: "https://goodreads.com",
-    description: "Reading list, ratings, and recommendations.",
-    tags: ["life", "books"],
-    visits: 24,
-    lastVisited: NOW_MS - 11 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-personal",
-    name: "Letterboxd",
-    url: "https://letterboxd.com",
-    description: "Movie diary and watchlist.",
-    tags: ["life", "film"],
-    visits: 36,
-    lastVisited: NOW_MS - 4 * DAY
-  },
-  {
-    id: uid(),
-    folderId: "f-personal",
-    name: "Maps",
-    url: "https://maps.google.com",
-    description: "Saved places, directions, and trip planning.",
-    tags: ["life", "travel"],
-    visits: 102,
-    lastVisited: NOW_MS - 22 * 36e5
-  },
-  {
-    id: uid(),
-    folderId: "f-personal",
-    name: "Strava",
-    url: "https://strava.com",
-    description: "Runs, rides, and weekly training log.",
-    tags: ["life", "fitness"],
-    visits: 58,
-    lastVisited: NOW_MS - 30 * 36e5
+    folderId: "f-favorites",
+    name: "GitHub",
+    url: "https://github.com",
+    description: "Code hosting and collaboration.",
+    tags: ["dev"],
+    pinned: true,
+    visits: 0,
+    lastVisited: Date.now()
   }
 ];
 function faviconUrl(url, size = 64) {
@@ -553,8 +196,8 @@ const DEFAULT_PREFS = {
   units: "F",
   theme: "auto",
   weatherCity: "San Francisco",
-  bgId: "bg-dark"
-  // selected background: builtin ID or upload ID
+  bgId: "bg-light"
+  // default: light gradient matches the default Material Light theme
 };
 function buildMockWeather(city, units) {
   const now = /* @__PURE__ */ new Date();
