@@ -1,47 +1,11 @@
 function ManagerPageApp() {
   const [folders, setFolders] = useState(() => loadJSON(STORAGE_KEYS.folders, SEED_FOLDERS));
   const [bookmarks, setBookmarks] = useState(() => loadJSON(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS));
-  const [activeFolderId, setActiveFolderId] = useState(() => folders[0]?.id || "f-work");
+  const [activeFolderId, setActiveFolderId] = useState(() => folders[0]?.id || "f-favorites");
   const [editingBookmark, setEditingBookmark] = useState(null);
   const [toast, setToast] = useState(null);
   useEffect(() => saveJSON(STORAGE_KEYS.folders, folders), [folders]);
   useEffect(() => saveJSON(STORAGE_KEYS.bookmarks, bookmarks), [bookmarks]);
-  const savedTweaks = useMemo(() => ({
-    ...window.__TWEAK_DEFAULTS || { mode: "material-light" },
-    ...loadJSON("dash.tweaks", {})
-  }), []);
-  const mode = savedTweaks.mode || "material-light";
-  useEffect(() => {
-    document.documentElement.setAttribute("data-mode", mode);
-    if (mode === "arcade") {
-      document.documentElement.setAttribute("data-arcade", savedTweaks.arcade || "synthwave");
-    } else {
-      document.documentElement.removeAttribute("data-arcade");
-    }
-    const on = mode === "arcade" && savedTweaks.scanlines !== false;
-    document.documentElement.style.setProperty("--scan-on", on ? "1" : "0");
-    const prefs = { ...DEFAULT_PREFS, ...loadJSON(STORAGE_KEYS.prefs, {}) };
-    const bgUploads = loadJSON(STORAGE_KEYS.bgUploads, []);
-    const upload = bgUploads.find((u) => u.id === prefs.bgId);
-    const builtin = BUILTIN_BACKGROUNDS.find((b) => b.id === prefs.bgId);
-    function setGlobalBg(css) {
-      let el = document.getElementById("dash-bg-style");
-      if (!el) {
-        el = document.createElement("style");
-        el.id = "dash-bg-style";
-        document.head.appendChild(el);
-      }
-      el.textContent = css ? `:root:root:root body { ${css} }` : "";
-    }
-    if (upload) {
-      setGlobalBg(`background-image: url("${upload.url}") !important; background-size: cover !important; background-position: center !important; background-attachment: fixed !important; background-repeat: no-repeat !important;`);
-    } else if (builtin) {
-      setGlobalBg(`background: ${builtin.value} !important; background-size: auto !important;`);
-    } else {
-      setGlobalBg("");
-      document.body.setAttribute("data-bg", mode === "arcade" ? savedTweaks.background || "floor" : "solid");
-    }
-  }, []);
   function showToast(msg) {
     setToast(msg);
     setTimeout(() => setToast((t) => t === msg ? null : t), 1800);
@@ -72,7 +36,7 @@ function ManagerPageApp() {
     }
     setEditingBookmark(null);
   }
-  return /* @__PURE__ */ React.createElement("div", { className: "app" }, /* @__PURE__ */ React.createElement("header", { className: "topbar" }, /* @__PURE__ */ React.createElement("div", { className: "brand" }, /* @__PURE__ */ React.createElement("span", { className: "brand-dot" }), /* @__PURE__ */ React.createElement("div", { className: "brand-text" }, mode === "arcade" ? /* @__PURE__ */ React.createElement("span", { className: "brand-main" }, "\u2605 ARCADE NET \u2605") : /* @__PURE__ */ React.createElement("span", { className: "brand-main" }, "Dashboard"), /* @__PURE__ */ React.createElement("span", { className: "brand-sub" }, "Bookmark Manager"))), /* @__PURE__ */ React.createElement("div", { className: "topbar-actions" }, /* @__PURE__ */ React.createElement("a", { className: "btn text", href: "newtab.html" }, "\u2190 Dashboard"))), /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React.createElement("div", { className: "app" }, /* @__PURE__ */ React.createElement("header", { className: "topbar" }, /* @__PURE__ */ React.createElement("div", { className: "brand" }, /* @__PURE__ */ React.createElement("span", { className: "brand-dot" }), /* @__PURE__ */ React.createElement("div", { className: "brand-text" }, /* @__PURE__ */ React.createElement("span", { className: "brand-main" }, "Dashboard"), /* @__PURE__ */ React.createElement("span", { className: "brand-sub" }, "Bookmark Manager"))), /* @__PURE__ */ React.createElement("div", { className: "topbar-actions" }, /* @__PURE__ */ React.createElement("a", { className: "btn text", href: "newtab.html" }, "\u2190 Dashboard"))), /* @__PURE__ */ React.createElement(
     BookmarkManager,
     {
       folders,

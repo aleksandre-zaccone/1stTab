@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-mode="material-light">
 <head>
 <meta charset="utf-8">
 <title>Bookmark Manager — 1stTab</title>
@@ -8,35 +8,24 @@
 <link rel="icon" type="image/png" sizes="48x48" href="icons/icon48.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="dashboard.css">
+<style>
+  /* Hard-code light background so the page is never black */
+  html, body { background: #fafafa !important; color: #212121 !important; }
+</style>
 </head>
 <body>
 <div id="root"></div>
 
 <script src="react.min.js"></script>
 <script src="react-dom.min.js"></script>
-
 <script>
-  window.__TWEAK_DEFAULTS = { "mode": "material-light", "background": "floor", "arcade": "pacmaze", "scanlines": true };
-  const { useState, useEffect, useRef, useMemo } = React;
-
-  // Apply theme synchronously before React mounts — prevents flash of dark background
-  (function() {
-    try {
-      var tw = JSON.parse(localStorage.getItem('dash.tweaks') || '{}');
-      var mode = tw.mode || 'material-light';
-      document.documentElement.setAttribute('data-mode', mode);
-      if (mode === 'arcade') {
-        document.documentElement.setAttribute('data-arcade', tw.arcade || 'synthwave');
-        document.body.setAttribute('data-bg', tw.background || 'floor');
-      }
-      var on = mode === 'arcade' && tw.scanlines !== false;
-      document.documentElement.style.setProperty('--scan-on', on ? '1' : '0');
-    } catch(e) {
-      document.documentElement.setAttribute('data-mode', 'material-light');
-    }
-  })();
+  /* Expose React hooks as globals before any JSX scripts load */
+  var useState  = React.useState;
+  var useEffect = React.useEffect;
+  var useRef    = React.useRef;
+  var useMemo   = React.useMemo;
 </script>
 
 <script src="tweaks-panel.js"></script>
