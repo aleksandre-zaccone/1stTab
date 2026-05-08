@@ -2567,3 +2567,55 @@ a.icon-btn { text-decoration: none; display: inline-flex; }
   background: var(--md-surface-2); border: 1px dashed var(--md-border-strong);
   border-radius: 8px 8px 0 0; color: var(--md-text-3);
 }
+
+
+/* ===== Weather loading / error states ===== */
+.weather-status {
+  font-family: var(--font-pixel);
+  font-size: 9px; color: var(--neon-2); letter-spacing: 1.5px;
+  text-transform: uppercase; text-shadow: var(--glow-1);
+  animation: arcade-blink 1.5s steps(2) infinite;
+  padding: 8px 0;
+}
+.weather-err { color: var(--neon-1); text-shadow: var(--glow-2); animation: none; }
+
+:root[data-mode="material-light"] .weather-status,
+:root[data-mode="material-dark"]  .weather-status {
+  font-family: "Roboto", sans-serif; font-size: 13px; color: var(--md-text-3);
+  letter-spacing: .25px; text-transform: none; text-shadow: none; animation: none;
+}
+:root[data-mode="material-light"] .weather-err,
+:root[data-mode="material-dark"]  .weather-err { color: #d32f2f; }
+
+/* Forecast row */
+.weather-forecast {
+  display: flex; gap: 6px; justify-content: space-between;
+  padding-top: 8px; border-top: 1px dashed var(--border);
+  margin-top: 4px;
+}
+.forecast-day {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  flex: 1;
+}
+.forecast-label {
+  font-family: var(--font-pixel); font-size: 7px;
+  color: var(--text-3); letter-spacing: 1px; text-transform: uppercase;
+}
+.forecast-temp {
+  font-family: var(--font-pixel); font-size: 9px; color: var(--neon-4);
+  text-shadow: 0 0 6px var(--neon-4);
+}
+:root[data-mode="material-light"] .weather-forecast,
+:root[data-mode="material-dark"]  .weather-forecast {
+  border-top: 1px solid var(--md-border);
+}
+:root[data-mode="material-light"] .forecast-label,
+:root[data-mode="material-dark"]  .forecast-label {
+  font-family: "Roboto", sans-serif; font-size: 10px;
+  font-weight: 500; letter-spacing: .4px; color: var(--md-text-3); text-transform: none;
+}
+:root[data-mode="material-light"] .forecast-temp,
+:root[data-mode="material-dark"]  .forecast-temp {
+  font-family: "Roboto Mono", monospace; font-size: 11px;
+  color: var(--md-text); text-shadow: none;
+}

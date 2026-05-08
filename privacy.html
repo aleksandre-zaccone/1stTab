@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>1stTab — Privacy Policy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+         max-width: 760px; margin: 0 auto; padding: 40px 24px 80px;
+         color: #212121; line-height: 1.7; background: #fafafa; }
+  h1 { font-size: 28px; font-weight: 700; color: #1a1a2e; margin: 0 0 4px; }
+  .meta { color: #757575; font-size: 14px; margin-bottom: 40px; }
+  h2 { font-size: 18px; font-weight: 600; color: #1a1a2e; margin: 36px 0 10px;
+       border-bottom: 2px solid #e0e0e0; padding-bottom: 6px; }
+  p, li { font-size: 15px; color: #424242; }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  a { color: #1976d2; }
+  .highlight { background: #e8f4fd; border-left: 4px solid #1976d2;
+               padding: 14px 18px; border-radius: 0 6px 6px 0; margin: 16px 0; }
+  .highlight p { margin: 0; font-weight: 500; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th { background: #f5f5f5; text-align: left; padding: 10px 12px; border: 1px solid #e0e0e0; }
+  td { padding: 9px 12px; border: 1px solid #e0e0e0; vertical-align: top; }
+  footer { margin-top: 60px; font-size: 13px; color: #9e9e9e; border-top: 1px solid #e0e0e0; padding-top: 20px; }
+</style>
+</head>
+<body>
+
+<h1>Privacy Policy — 1stTab</h1>
+<p class="meta">Last updated: May 2026 &nbsp;·&nbsp; Version 1.0</p>
+
+<div class="highlight">
+  <p>📌 Short version: 1stTab stores all your data locally in your browser. We do not collect, transmit, or sell any personal information. No account required.</p>
+</div>
+
+<h2>1. What data 1stTab stores</h2>
+<p>All data is saved exclusively in your browser's <strong>localStorage</strong> on your device. It never leaves your device to our servers (we have no servers).</p>
+<table>
+  <tr><th>Data</th><th>Storage key</th><th>Purpose</th></tr>
+  <tr><td>Bookmarks and folders</td><td>dash.bookmarks.v2, dash.folders.v2</td><td>Your saved links</td></tr>
+  <tr><td>Time zone preferences</td><td>dash.zones.v1</td><td>Clock panel configuration</td></tr>
+  <tr><td>Display preferences</td><td>dash.prefs.v1</td><td>Name, weather city, theme, units</td></tr>
+  <tr><td>Theme settings</td><td>dash.tweaks</td><td>Material/Arcade mode, sub-theme</td></tr>
+  <tr><td>Background uploads</td><td>dash.bgUploads.v1</td><td>Images you upload as backgrounds</td></tr>
+  <tr><td>Grid/list view</td><td>dash.view</td><td>Last-used bookmark layout</td></tr>
+</table>
+<p>You can clear all this data at any time by clearing site data for the extension in Chrome settings, or by using the "Export → Replace" flow to replace it with an empty JSON file.</p>
+
+<h2>2. Third-party services contacted</h2>
+<p>The extension makes outbound HTTPS requests to the following services. No personally identifiable information is included in these requests.</p>
+
+<table>
+  <tr><th>Service</th><th>When</th><th>Data sent</th><th>Privacy policy</th></tr>
+  <tr>
+    <td><strong>Open-Meteo</strong><br><small>api.open-meteo.com<br>geocoding-api.open-meteo.com</small></td>
+    <td>Every time the weather panel loads or city changes</td>
+    <td>City name (geocoding), then latitude/longitude</td>
+    <td><a href="https://open-meteo.com/en/terms" target="_blank">open-meteo.com/en/terms</a></td>
+  </tr>
+  <tr>
+    <td><strong>Google Fonts</strong><br><small>fonts.googleapis.com<br>fonts.gstatic.com</small></td>
+    <td>On every page load</td>
+    <td>Your IP address (standard HTTP request)</td>
+    <td><a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a></td>
+  </tr>
+  <tr>
+    <td><strong>Google Favicon Service</strong><br><small>google.com/s2/favicons</small></td>
+    <td>When bookmark thumbnails are loaded</td>
+    <td>Domain names of your saved bookmarks</td>
+    <td><a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a></td>
+  </tr>
+</table>
+
+<p>None of these services receive your name, bookmark content, uploaded images, or any other personal data beyond what is described above.</p>
+
+<h2>3. Uploaded background images</h2>
+<p>Images you upload as custom backgrounds are stored <strong>only in your browser's localStorage</strong> on your device. They are never uploaded to any server. Images are compressed to JPEG format before storage to reduce size.</p>
+
+<h2>4. Search queries</h2>
+<p>When you use the search bar, your query is sent directly to <strong>Google Search</strong> (google.com) in a new tab, using the standard Google search URL. This is identical to typing in Chrome's address bar. 1stTab does not intercept, log, or proxy this request.</p>
+
+<h2>5. No analytics or tracking</h2>
+<p>1stTab contains <strong>no analytics, tracking pixels, crash reporters, or telemetry</strong> of any kind. We do not know how many people use the extension, which features they use, or anything else about their behaviour.</p>
+
+<h2>6. Permissions</h2>
+<p>1stTab does not request any Chrome permissions. It accesses only <code>localStorage</code>, which is available to all extension pages without a permission declaration.</p>
+
+<h2>7. Children's privacy</h2>
+<p>1stTab does not knowingly collect data from anyone, including children under 13. As all data is stored locally, there is no server-side data collection of any kind.</p>
+
+<h2>8. Changes to this policy</h2>
+<p>If we make material changes to this policy, we will update the "Last updated" date above and increment the extension version. Continued use of the extension after changes constitutes acceptance.</p>
+
+<h2>9. Contact</h2>
+<p>Questions about this privacy policy? Open an issue on our GitHub repository or contact us at the email listed in the Chrome Web Store listing.</p>
+
+<footer>
+  1stTab is an open-source project by Ablotia. Source code: <a href="https://github.com/aleksandre-zaccone/1stTab">github.com/aleksandre-zaccone/1stTab</a>
+</footer>
+
+</body>
+</html>
