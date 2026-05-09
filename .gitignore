@@ -44,3 +44,6 @@ key.pem
 # Misc
 .tmp/
 tmp/
+
+.gemini/
+gha-creds-*.json
