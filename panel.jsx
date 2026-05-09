@@ -1,13 +1,37 @@
 /* global React, ReactDOM, chrome,
    useStorage, STORAGE_KEYS, SEED_FOLDERS, SEED_BOOKMARKS,
-   faviconUrl, colorForString, initialFromUrl,
-   useNow, formatTime, tzOffsetLabel, defaultZones */
+   faviconUrl, colorForString, initialFromUrl, defaultZones */
 
-const { useState, useEffect, useCallback } = React;
+const { useState, useEffect } = React;
+
+function useNow() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(t);
+  }, []);
+  return now;
+}
+
+function formatTime(date, tz) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz, hour: 'numeric', minute: '2-digit', hour12: true,
+  }).formatToParts(date);
+  return {
+    hour:      parts.find(p => p.type === 'hour')?.value      || '',
+    minute:    parts.find(p => p.type === 'minute')?.value    || '',
+    dayPeriod: parts.find(p => p.type === 'dayPeriod')?.value || '',
+  };
+}
+
+function tzOffsetLabel(date, tz) {
+  return new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'shortOffset' })
+    .formatToParts(date).find(p => p.type === 'timeZoneName')?.value || tz;
+}
 
 // ── Compact clocks strip ───────────────────────────────────────────────────
 function ClocksStrip() {
-  const now = useNow(1000);
+  const now = useNow();
   const [zones] = useStorage(STORAGE_KEYS.zones, defaultZones(), true);
 
   return React.createElement('div', { className: 'panel-clocks' },

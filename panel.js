@@ -1,6 +1,30 @@
-const { useState, useEffect, useCallback } = React;
+const { useState, useEffect } = React;
+function useNow() {
+  const [now, setNow] = useState(() => /* @__PURE__ */ new Date());
+  useEffect(() => {
+    const t = setInterval(() => setNow(/* @__PURE__ */ new Date()), 1e3);
+    return () => clearInterval(t);
+  }, []);
+  return now;
+}
+function formatTime(date, tz) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+  }).formatToParts(date);
+  return {
+    hour: parts.find((p) => p.type === "hour")?.value || "",
+    minute: parts.find((p) => p.type === "minute")?.value || "",
+    dayPeriod: parts.find((p) => p.type === "dayPeriod")?.value || ""
+  };
+}
+function tzOffsetLabel(date, tz) {
+  return new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "shortOffset" }).formatToParts(date).find((p) => p.type === "timeZoneName")?.value || tz;
+}
 function ClocksStrip() {
-  const now = useNow(1e3);
+  const now = useNow();
   const [zones] = useStorage(STORAGE_KEYS.zones, defaultZones(), true);
   return React.createElement(
     "div",
