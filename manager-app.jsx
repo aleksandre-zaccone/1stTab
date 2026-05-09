@@ -1,16 +1,15 @@
+var { useState, useMemo, useEffect, useCallback, useRef } = React;
+
 // ============================
 // Standalone bookmark manager page
 // Always runs in Material Light — no theme complexity needed here.
 // ============================
 function ManagerPageApp() {
-  const [folders, setFolders]         = useState(() => loadJSON(STORAGE_KEYS.folders,   SEED_FOLDERS));
-  const [bookmarks, setBookmarks]     = useState(() => loadJSON(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS));
+  const [folders, setFolders]         = window.useStorage(STORAGE_KEYS.folders, SEED_FOLDERS, false);
+  const [bookmarks, setBookmarks]     = window.useStorage(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS, false);
   const [activeFolderId, setActiveFolderId] = useState(() => folders[0]?.id || 'f-favorites');
   const [editingBookmark, setEditingBookmark] = useState(null);
   const [toast, setToast]             = useState(null);
-
-  useEffect(() => saveJSON(STORAGE_KEYS.folders,   folders),   [folders]);
-  useEffect(() => saveJSON(STORAGE_KEYS.bookmarks, bookmarks), [bookmarks]);
 
   function showToast(msg) {
     setToast(msg);
@@ -87,8 +86,9 @@ function ManagerBookmarkDialog({ value, folders, onChange, onClose, onSave }) {
           <button className="icon-btn" onClick={onClose}><Icon.close/></button>
         </div>
         <div className="form">
-          <div className="field"><label>Name</label>
-            <input autoFocus value={v.name} onChange={e=>set('name',e.target.value)} placeholder="Project tracker"/>
+          <div style={{display:'grid',gridTemplateColumns:'48px 1fr',gap:12}}>
+            <div className="field"><label>Icon</label><input value={v.emoji||''} onChange={e=>set('emoji',e.target.value)} maxLength={2} style={{textAlign:'center',padding:'0',fontSize:'16px'}} placeholder="⭐"/></div>
+            <div className="field"><label>Name</label><input autoFocus value={v.name} onChange={e=>set('name',e.target.value)} placeholder="Project tracker"/></div>
           </div>
           <div className="field"><label>URL</label>
             <input value={v.url} onChange={e=>set('url',e.target.value)} placeholder="https://example.com"/>

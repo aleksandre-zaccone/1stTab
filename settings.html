@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings - 1stTab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/icon16.png">
+<link rel="stylesheet" href="dashboard.css">
+<style>
+  body { background: var(--md-bg, #fafafa); color: var(--md-text, #212121); }
+  .settings-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+  .settings-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; border-bottom: 1px solid var(--md-border, #e0e0e0); padding-bottom: 16px; }
+  .settings-title { font-family: "Roboto", sans-serif; font-size: 28px; font-weight: 400; margin: 0; }
+  .shortcut-grid { display: grid; grid-template-columns: auto 1fr; gap: 12px 24px; background: var(--md-surface-2, #f5f5f5); padding: 20px; border-radius: 8px; margin-top: 16px; }
+  .kbd { background: var(--md-surface, #fff); border: 1px solid var(--md-border-strong, #bdbdbd); border-radius: 4px; padding: 2px 6px; font-family: monospace; font-size: 13px; box-shadow: 0 1px 0 rgba(0,0,0,0.2); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="react.min.js"></script>
+<script src="react-dom.min.js"></script>
+<script src="defaults.js"></script>
+<script src="tweaks-panel.js"></script>
+<script src="icons.js"></script>
+<script src="data.js"></script>
+<script src="settings-app.js"></script>
+</body>
+</html>

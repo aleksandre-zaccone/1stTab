@@ -2,7 +2,7 @@
 // Clocks panel (left) + Weather panel (right)
 // Weather uses Open-Meteo — free, no API key required.
 // ============================
-const { useState, useEffect, useRef, useMemo } = React;
+var { useState, useEffect, useRef, useMemo, useCallback } = React;
 
 function useNow(intervalMs = 1000) {
   const [now, setNow] = useState(() => new Date());

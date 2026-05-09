@@ -1,3 +1,5 @@
+var { useState, useMemo, useEffect, useCallback, useRef } = React;
+
 // ============================
 // Bookmarks hero — list/grid views, rich metadata, inline search
 // ============================
@@ -8,8 +10,48 @@ function BookmarksHero({
 }) {
   const [query, setQuery] = useState('');
 
+  const sortedFolders = useMemo(() => {
+    const list = [];
+    const childrenMap = {};
+    for (const f of folders) {
+      const pid = f.parentId || null;
+      if (!childrenMap[pid]) childrenMap[pid] = [];
+      childrenMap[pid].push(f);
+    }
+    function walk(parentId, depth) {
+      const children = childrenMap[parentId] || [];
+      for (const c of children) {
+        list.push({ ...c, depth });
+        walk(c.id, depth + 1);
+      }
+    }
+    walk(null, 0);
+    const addedIds = new Set(list.map(l => l.id));
+    for (const f of folders) {
+      if (!addedIds.has(f.id)) {
+        list.push({ ...f, depth: 0 });
+        walk(f.id, 1);
+      }
+    }
+    return list;
+  }, [folders]);
+
   const isAll = activeFolderId === 'f-all';
-  const folderItems = isAll ? bookmarks : bookmarks.filter(b => b.folderId === activeFolderId);
+  
+  // Recursively get all subfolder IDs for a given folder
+  function getSubfolderIds(folderId) {
+    let ids = [folderId];
+    for (const f of folders) {
+      if (f.parentId === folderId) {
+        ids = ids.concat(getSubfolderIds(f.id));
+      }
+    }
+    return ids;
+  }
+
+  const activeIds = isAll ? [] : getSubfolderIds(activeFolderId);
+  const folderItems = isAll ? bookmarks : bookmarks.filter(b => activeIds.includes(b.folderId));
+
   const q = query.trim().toLowerCase();
   const items = !q ? folderItems : folderItems.filter(b =>
     b.name.toLowerCase().includes(q)
@@ -22,6 +64,9 @@ function BookmarksHero({
   const sorted = [...items].sort((a, b) => Number(!!b.pinned) - Number(!!a.pinned));
 
   const pinnedAcrossAll = bookmarks.filter(b => b.pinned).slice(0, 6);
+  
+  // Only show top-level folders as tabs
+  const topLevelFolders = folders.filter(f => !f.parentId);
 
   return (
     <div className="hero-card">
@@ -72,7 +117,7 @@ function BookmarksHero({
           <div className="pinned-row">
             {pinnedAcrossAll.map(b => (
               <button key={b.id} className="pinned-tile" onClick={() => onOpenBookmark(b)} title={b.name}>
-                <BookmarkFavicon url={b.url} name={b.name} size={28}/>
+                <BookmarkFavicon url={b.url} name={b.name} emoji={b.emoji} size={28}/>
                 <span className="pinned-name">{b.name}</span>
               </button>
             ))}
@@ -80,53 +125,90 @@ function BookmarksHero({
         </div>
       )}
 
-      {/* FOLDER TABS */}
-      <div className="hero-tabs" role="tablist">
-        <button
-          key="f-all"
-          className={"hero-tab" + (isAll ? " active" : "")}
-          onClick={() => setActiveFolderId('f-all')}
-          role="tab"
-          aria-selected={isAll}
-        >
-          <Icon.gridIcon size={14}/>
-          <span>All</span>
-          <span className="count">{bookmarks.length}</span>
-        </button>
-        {folders.map(f => {
-          const count = bookmarks.filter(b => b.folderId === f.id).length;
-          return (
-            <button
-              key={f.id}
-              className={"hero-tab" + (f.id === activeFolderId ? " active" : "")}
-              onClick={() => setActiveFolderId(f.id)}
-              role="tab"
-              aria-selected={f.id === activeFolderId}
-            >
-              <Icon.folder size={14}/>
-              <span>{f.name}</span>
-              <span className="count">{count}</span>
-            </button>
-          );
-        })}
-      </div>
+      {/* GRID VIEW TABS */}
+      {view === 'grid' && (
+        <div className="hero-tabs" role="tablist">
+          <button
+            className={"hero-tab" + (isAll ? " active" : "")}
+            onClick={() => setActiveFolderId('f-all')}
+            role="tab"
+            aria-selected={isAll}
+          >
+            <Icon.gridIcon size={14}/>
+            <span>All</span>
+            <span className="count">{bookmarks.length}</span>
+          </button>
+          {topLevelFolders.map(f => {
+            const ids = getSubfolderIds(f.id);
+            const count = bookmarks.filter(b => ids.includes(b.folderId)).length;
+            return (
+              <button
+                key={f.id}
+                className={"hero-tab" + (activeIds.includes(f.id) || f.id === activeFolderId ? " active" : "")}
+                onClick={() => setActiveFolderId(f.id)}
+                role="tab"
+                aria-selected={f.id === activeFolderId}
+              >
+                <Icon.folder size={14}/>
+                <span>{f.name}</span>
+                <span className="count">{count}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
-      {/* BODY */}
-      {sorted.length === 0 ? (
-        <div className="empty">
-          {query ? `No matches for "${query}".` : 'No bookmarks in this folder yet.'}
-          {!query && (
-            <>
-              {' '}
-              <button className="btn text" onClick={onAddQuick} style={{padding:'0 6px'}}>Add one</button>
-            </>
+      {/* BODY SPLIT */}
+      <div className={"hero-body-split " + view}>
+        {view === 'list' && (
+          <div className="hero-sidebar">
+            <div className="folder-rail" style={{border: 'none', background: 'transparent'}}>
+              <div
+                className={"folder-row" + (isAll ? " active" : "")}
+                onClick={() => setActiveFolderId('f-all')}
+              >
+                <Icon.gridIcon size={14}/>
+                <span style={{flex:1}}>All</span>
+                <span className="folder-count">{bookmarks.length}</span>
+              </div>
+              {sortedFolders.map(f => {
+                const ids = getSubfolderIds(f.id);
+                const count = bookmarks.filter(b => ids.includes(b.folderId)).length;
+                return (
+                  <div
+                    key={f.id}
+                    className={"folder-row" + (activeIds.includes(f.id) || f.id === activeFolderId ? " active" : "")}
+                    onClick={() => setActiveFolderId(f.id)}
+                    style={{ paddingLeft: 12 + (f.depth * 16) }}
+                  >
+                    <Icon.folder size={14}/>
+                    <span style={{flex:1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{f.name}</span>
+                    <span className="folder-count">{count}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        <div className="hero-main">
+          {sorted.length === 0 ? (
+            <div className="empty">
+              {query ? `No matches for "${query}".` : 'No bookmarks in this folder yet.'}
+              {!query && (
+                <>
+                  {' '}
+                  <button className="btn text" onClick={onAddQuick} style={{padding:'0 6px'}}>Add one</button>
+                </>
+              )}
+            </div>
+          ) : view === 'grid' ? (
+            <BookmarkGrid items={sorted} onOpen={onOpenBookmark}/>
+          ) : (
+            <BookmarkListView items={sorted} folders={folders} onOpen={onOpenBookmark}/>
           )}
         </div>
-      ) : view === 'grid' ? (
-        <BookmarkGrid items={sorted} onOpen={onOpenBookmark}/>
-      ) : (
-        <BookmarkListView items={sorted} folders={folders} onOpen={onOpenBookmark}/>
-      )}
+      </div>
     </div>
   );
 }
@@ -138,7 +220,7 @@ function BookmarkGrid({ items, onOpen }) {
       {items.map(b => (
         <button key={b.id} className="bm-card" onClick={() => onOpen(b)}>
           <div className="bm-card-head">
-            <BookmarkFavicon url={b.url} name={b.name} size={32}/>
+            <BookmarkFavicon url={b.url} name={b.name} emoji={b.emoji} size={32}/>
             {b.pinned && <span className="bm-pin"><Icon.pin size={10}/></span>}
           </div>
           <div className="bm-card-name">{b.name}</div>
@@ -167,7 +249,7 @@ function BookmarkListView({ items, folders, onOpen }) {
     <div className="bm-list">
       {items.map(b => (
         <button key={b.id} className="bm-list-row" onClick={() => onOpen(b)}>
-          <BookmarkFavicon url={b.url} name={b.name} size={36}/>
+          <BookmarkFavicon url={b.url} name={b.name} emoji={b.emoji} size={36}/>
           <div className="bm-list-main">
             <div className="bm-list-name-row">
               <span className="bm-list-name">{b.name}</span>
@@ -190,8 +272,16 @@ function BookmarkListView({ items, folders, onOpen }) {
 }
 
 // ----- Favicon (real via Google S2 service, with letter fallback) -----
-function BookmarkFavicon({ url, name, size = 32 }) {
+function BookmarkFavicon({ url, name, emoji, size = 32 }) {
   const [errored, setErrored] = useState(false);
+  if (emoji) {
+    return (
+      <span className="bm-favicon-fallback" style={{
+        width: size, height: size, background: 'transparent',
+        fontSize: Math.round(size * 0.6)
+      }}>{emoji}</span>
+    );
+  }
   const src = faviconUrl(url, size * 2);
   if (errored || !src) {
     return (

@@ -1,9 +1,10 @@
+var { useState, useMemo, useEffect, useCallback, useRef } = React;
 function useTweaks(defaults) {
-  const [values, setValues] = React.useState(defaults);
+  const [values, setValues] = window.useStorage("dash.tweaks", defaults, true);
   const setTweak = React.useCallback((keyOrEdits, val) => {
     const edits = typeof keyOrEdits === "object" && keyOrEdits !== null ? keyOrEdits : { [keyOrEdits]: val };
     setValues((prev) => ({ ...prev, ...edits }));
-  }, []);
+  }, [setValues]);
   return [values, setTweak];
 }
 function TweaksPanel() {

@@ -9,12 +9,12 @@ What you already have today:
 - New-tab override with a 3-column layout (clocks · bookmarks · weather)
 - Bookmark folders, pin/visit tracking, manager page
 - World clocks (up to 3 zones)
-- Weather panel (mock data, °F/°C toggle)
+- Weather panel (real Open-Meteo data, °F/°C toggle)
 - Themes: Material Light, Material Dark, and an Arcade mode with 6 cabinet styles (Synthwave, Pac-Maze, Game Boy, Galaga, Tron, Hot Lava) plus background patterns and CRT scanlines
-- Custom background image upload
+- Custom background image upload (up to 5 images)
 - Google search bar in topbar
-- Storage: only browser `localStorage` / `chrome.storage` — **no cross-device sync**
-- Manifest V2 — needs migration to V3 before Chrome enforcement
+- Storage: only browser `localStorage` — **no cross-device sync yet**
+- Manifest V3 compliant
 
 ## 2. Competitor feature matrix
 
@@ -58,7 +58,7 @@ Group your existing strengths (Arcade theming is genuinely differentiated — no
 
 Beyond what you already ship:
 
-- **Manifest V3 migration** (blocker — Chrome is deprecating MV2)
+- ~~**Manifest V3 migration**~~ *(Completed)*
 - **Cross-device settings sync** via `chrome.storage.sync` (covered in §6 — this is the user's specifically requested feature)
 - **Quick Links / Speed Dial** as a first-class block alongside the bookmarks list (visual tile grid, not just a list)
 - **To-do list** (single list, ~25 item cap on free tier)
@@ -69,7 +69,7 @@ Beyond what you already ship:
 - **Custom font picker** (Google Fonts integration like Bonjourr)
 - **Greeting/personalization** (already partly there — extend to time-of-day mantras)
 - **Emoji-as-favicon** for bookmarks (Bonjourr trick — costs nothing, looks great)
-- **Real weather data** (replace mock) via Open-Meteo (no API key, free, generous)
+- ~~**Real weather data** (replace mock) via Open-Meteo~~ *(Completed)*
 - **Keyboard shortcuts** (open settings, jump folders, focus search, toggle theme)
 - **Import/export settings** as JSON (also helps support tickets)
 - **i18n scaffold** — even if launched in English, structure strings now so adding languages later is cheap
@@ -111,6 +111,15 @@ The competitor analysis shows what people will pay for: **integrations, AI, dept
 | Custom CSS / advanced theme editor | Tinkerer crowd | Bonjourr, Tabliss |
 | Encrypted cloud backup of all settings beyond `storage.sync`'s 100 KB cap | See §6 | — |
 | Tab Stash / session save | Power users | Momentum |
+
+### 3.4 Additional feature recommendations (New Ideas)
+
+To further lean into the Arcade theme and make the extension more engaging, consider these additions:
+- **Interactive Arcade Mini-games**: Allow users to play small snippets of classic games directly in the new tab to relax for a few minutes.
+- **"High Score" Productivity System**: Gamify task completion or Pomodoro focus sessions by awarding points and achievements.
+- **Arcade Soundscapes & Effects**: Introduce live CRT visual glitches (optional/occasional) or arcade hum/blips when interacting with the dashboard.
+- **AI-Generated Backgrounds**: Let users generate their own pixel-art or retro-futuristic backgrounds using an AI image generation integration.
+- **Chrome Bookmarks Sync / Import**: Allow users to import their native Chrome bookmarks (via the `chrome.bookmarks` API) so they don't have to start from scratch, or provide an export to sync back.
 
 ## 4. Design, style & theme recommendations
 
@@ -220,7 +229,7 @@ This is a strong upgrade hook because once a Plus user has bookmarks across 3 de
 
 ## 7. Suggested release order
 
-1. **v1.1** — MV3 migration, real weather (Open-Meteo), `chrome.storage.sync` for preferences, multi-search-engine, keyboard shortcuts, unified Widget shell, import/export.
+1. **v1.1** — `chrome.storage.sync` for preferences, multi-search-engine, keyboard shortcuts, unified Widget shell, import/export. *(Note: MV3 migration and real weather are already completed!)*
 2. **v1.2** — Quick Links speed dial, to-do list (free single-list), quick notes, font picker, daily quotes, emoji favicons, onboarding.
 3. **v1.3** — Draggable grid layout. Replace the fixed 3-column layout. Required before piling on more widgets.
 4. **v2.0** — Plus launch: cloud sync, premium Arcade themes, animated backgrounds, profiles, side panel, calendar integration, focus mode, pricing/billing.

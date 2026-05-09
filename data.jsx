@@ -22,6 +22,147 @@ function saveJSON(key, value) {
   try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
 }
 
+function exportAllData() {
+  const data = {};
+  for (const key of Object.values(STORAGE_KEYS)) data[key] = loadJSON(key);
+  data['dash.tweaks'] = loadJSON('dash.tweaks');
+  data['dash.view'] = loadJSON('dash.view');
+  
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `1stTab-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+async function importAllData(jsonString) {
+  try {
+    const data = JSON.parse(jsonString);
+    const syncKeys = [STORAGE_KEYS.prefs, STORAGE_KEYS.zones, 'dash.tweaks', 'dash.view'];
+    for (const [k, v] of Object.entries(data)) {
+      saveJSON(k, v);
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        const area = syncKeys.includes(k) ? chrome.storage.sync : chrome.storage.local;
+        await new Promise(r => area.set({ [k]: v }, r));
+      }
+    }
+    window.location.reload();
+  } catch (e) {
+    alert("Invalid backup file.");
+  }
+}
+
+async function importChromeBookmarks() {
+  if (typeof chrome === 'undefined' || !chrome.bookmarks) {
+    alert("Bookmarks API not available.");
+    return;
+  }
+  
+  chrome.bookmarks.getTree((tree) => {
+    const existingFolders = loadJSON(STORAGE_KEYS.folders, window.SEED_FOLDERS || []);
+    const existingBookmarks = loadJSON(STORAGE_KEYS.bookmarks, window.SEED_BOOKMARKS || []);
+    
+    const importFolderId = 'f-' + Date.now();
+    existingFolders.push({ id: importFolderId, name: 'Chrome Import', parentId: null });
+
+    let newBookmarks = [];
+    
+    function traverse(nodes, parentFolderId) {
+      for (const node of nodes) {
+        // Skip the root nodes if they are empty, or create folders for them
+        if (node.children) {
+          // If it has a title, it's a folder (Chrome root folders also have titles like "Bookmarks Bar")
+          const folderName = node.title || 'Folder';
+          // Root node often has no title, we skip making a folder for the absolute root and just pass the importFolderId
+          let nextParentId = parentFolderId;
+          if (node.title) {
+            nextParentId = 'f-' + Math.random().toString(36).slice(2, 9);
+            existingFolders.push({
+              id: nextParentId,
+              name: folderName,
+              parentId: parentFolderId
+            });
+          }
+          traverse(node.children, nextParentId);
+        } else if (node.url) {
+          newBookmarks.push({
+            id: 'b-' + Math.random().toString(36).slice(2, 9),
+            folderId: parentFolderId,
+            name: node.title || (node.url.split('/')[2] || 'Bookmark'),
+            url: node.url,
+            description: '',
+            tags: [],
+            pinned: false,
+            visits: 0,
+            lastVisited: Date.now()
+          });
+        }
+      }
+    }
+    
+    traverse(tree, importFolderId);
+    
+    saveJSON(STORAGE_KEYS.folders, existingFolders);
+    saveJSON(STORAGE_KEYS.bookmarks, [...existingBookmarks, ...newBookmarks]);
+    
+    if (chrome.storage) {
+      chrome.storage.local.set({ 
+        [STORAGE_KEYS.folders]: existingFolders,
+        [STORAGE_KEYS.bookmarks]: [...existingBookmarks, ...newBookmarks]
+      });
+    }
+    alert(`Imported ${newBookmarks.length} bookmarks into "Chrome Import" folder!`);
+    window.location.reload();
+  });
+}
+
+// React Hook for cross-device sync and local persistence
+function useStorage(key, fallback, isSync = false) {
+  const [val, setVal] = React.useState(() => {
+    const local = loadJSON(key, undefined);
+    if (local !== undefined) return local;
+    return fallback;
+  });
+
+  React.useEffect(() => {
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      const area = isSync ? chrome.storage.sync : chrome.storage.local;
+      area.get(key, (res) => {
+        if (res[key] !== undefined) {
+          setVal(res[key]);
+          saveJSON(key, res[key]);
+        }
+      });
+
+      const listener = (changes, changedArea) => {
+        if (changedArea === (isSync ? 'sync' : 'local') && changes[key]) {
+          const newVal = changes[key].newValue !== undefined ? changes[key].newValue : fallback;
+          setVal(newVal);
+          saveJSON(key, newVal);
+        }
+      };
+      chrome.storage.onChanged.addListener(listener);
+      return () => chrome.storage.onChanged.removeListener(listener);
+    }
+  }, [key, isSync]);
+
+  const setValue = React.useCallback((newVal) => {
+    setVal(prev => {
+      const valueToStore = typeof newVal === 'function' ? newVal(prev) : newVal;
+      saveJSON(key, valueToStore);
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        const area = isSync ? chrome.storage.sync : chrome.storage.local;
+        area.set({ [key]: valueToStore });
+      }
+      return valueToStore;
+    });
+  }, [key, isSync]);
+
+  return [val, setValue];
+}
+
 // Stable color from string for favicon tile
 const TILE_COLORS = [
   '#1a73e8', '#188038', '#b06000', '#9334e6', '#d93025',
@@ -190,9 +331,13 @@ function buildMockWeather(city, units) {
   };
 }
 
+window.exportAllData = exportAllData;
+window.importAllData = importAllData;
+window.importChromeBookmarks = importChromeBookmarks;
 window.STORAGE_KEYS = STORAGE_KEYS;
 window.loadJSON = loadJSON;
 window.saveJSON = saveJSON;
+window.useStorage = useStorage;
 window.colorForString = colorForString;
 window.initialFromUrl = initialFromUrl;
 window.hostnameOf = hostnameOf;

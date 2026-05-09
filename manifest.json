@@ -11,12 +11,21 @@
     "48":  "icons/icon48.png",
     "128": "icons/icon128.png"
   },
+  "host_permissions": [
+    "https://api.open-meteo.com/*",
+    "https://geocoding-api.open-meteo.com/*",
+    "https://www.google.com/s2/favicons*"
+  ],
+  "permissions": [
+    "storage",
+    "bookmarks"
+  ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "web_accessible_resources": [
     {
-      "resources": ["manager.html", "privacy.html"],
+      "resources": ["manager.html", "privacy.html", "settings.html"],
       "matches": ["chrome-extension://*/*"]
     }
   ]

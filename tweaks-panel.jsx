@@ -1,15 +1,17 @@
+var { useState, useMemo, useEffect, useCallback, useRef } = React;
+
 // ============================
 // Tweaks-panel — production stub
 // The floating dev panel and postMessage design-tool protocol are removed.
 // useTweaks keeps full state management; Tweak* controls are no-ops.
 // ============================
 function useTweaks(defaults) {
-  const [values, setValues] = React.useState(defaults);
+  const [values, setValues] = window.useStorage('dash.tweaks', defaults, true);
   const setTweak = React.useCallback((keyOrEdits, val) => {
     const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
       ? keyOrEdits : { [keyOrEdits]: val };
     setValues((prev) => ({ ...prev, ...edits }));
-  }, []);
+  }, [setValues]);
   return [values, setTweak];
 }
 function TweaksPanel() { return null; }

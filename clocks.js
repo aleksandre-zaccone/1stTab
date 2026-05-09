@@ -1,4 +1,4 @@
-const { useState, useEffect, useRef, useMemo } = React;
+var { useState, useEffect, useRef, useMemo, useCallback } = React;
 function useNow(intervalMs = 1e3) {
   const [now, setNow] = useState(() => /* @__PURE__ */ new Date());
   useEffect(() => {

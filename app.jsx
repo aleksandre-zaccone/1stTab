@@ -1,3 +1,5 @@
+var { useState, useEffect, useMemo, useCallback, useRef } = React;
+
 // ============================
 // Background helper — injects a <style> tag that wins over all !important rules
 // ============================
@@ -34,20 +36,34 @@ function useTheme(prefTheme) {
 
 function greetingFor(now) {
   const h = now.getHours();
-  if (h < 5)  return 'Working late';
-  if (h < 12) return 'Good morning';
-  if (h < 18) return 'Good afternoon';
-  return 'Good evening';
+  const greetings = {
+    late:   ['Working late', 'Burning the midnight oil', 'Night owl mode', 'Still at it?'],
+    early:  ['Rise and shine', 'Early bird catches the worm', 'Good morning', 'Ready for the day?'],
+    morning:['Good morning', 'Have a productive morning', 'Morning, friend', 'Top of the morning'],
+    midday: ['Good afternoon', 'Keep up the momentum', 'Doing great', 'Midday focus'],
+    evening:['Good evening', 'Winding down', 'Evening, friend', 'Time to relax'],
+  };
+
+  let group = 'evening';
+  if (h < 5)  group = 'late';
+  else if (h < 9)  group = 'early';
+  else if (h < 12) group = 'morning';
+  else if (h < 18) group = 'midday';
+
+  const list = greetings[group];
+  // Simple deterministic pick based on the hour and day so it doesn't change on every re-render
+  const seed = h + now.getDate();
+  return list[seed % list.length];
 }
 
 function App() {
-  const [folders, setFolders]       = useState(() => loadJSON(STORAGE_KEYS.folders, SEED_FOLDERS));
-  const [bookmarks, setBookmarks]   = useState(() => loadJSON(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS));
-  const [zones, setZones]           = useState(() => loadJSON(STORAGE_KEYS.zones, defaultZones()));
-  const [prefs, setPrefs]           = useState(() => ({ ...DEFAULT_PREFS, ...loadJSON(STORAGE_KEYS.prefs, {}) }));
-  const [bgUploads, setBgUploads]   = useState(() => loadJSON(STORAGE_KEYS.bgUploads, []));
+  const [folders, setFolders]       = window.useStorage(STORAGE_KEYS.folders, SEED_FOLDERS, false);
+  const [bookmarks, setBookmarks]   = window.useStorage(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS, false);
+  const [zones, setZones]           = window.useStorage(STORAGE_KEYS.zones, defaultZones(), true);
+  const [prefsRaw, setPrefsRaw]     = window.useStorage(STORAGE_KEYS.prefs, {}, true);
+  const [bgUploads, setBgUploads]   = window.useStorage(STORAGE_KEYS.bgUploads, [], false);
   const [activeFolderId, setActiveFolderId] = useState('f-all');
-  const [view, setView]           = useState(() => loadJSON('dash.view', 'grid'));
+  const [view, setView]             = window.useStorage('dash.view', 'grid', true);
   const [editingZones, setEditingZones]       = useState(false);
   const [editingCity, setEditingCity]         = useState(false);
   const [editingName, setEditingName]         = useState(false);
@@ -55,12 +71,13 @@ function App() {
   const [settingsOpen, setSettingsOpen]       = useState(false);
   const [toast, setToast] = useState(null);
 
-  useEffect(() => saveJSON(STORAGE_KEYS.folders,   folders),   [folders]);
-  useEffect(() => saveJSON(STORAGE_KEYS.bookmarks, bookmarks), [bookmarks]);
-  useEffect(() => saveJSON(STORAGE_KEYS.zones,     zones),     [zones]);
-  useEffect(() => saveJSON(STORAGE_KEYS.prefs,     prefs),     [prefs]);
-  useEffect(() => saveJSON(STORAGE_KEYS.bgUploads, bgUploads), [bgUploads]);
-  useEffect(() => saveJSON('dash.view',             view),      [view]);
+  const prefs = { ...DEFAULT_PREFS, ...prefsRaw };
+  const setPrefs = useCallback((newVal) => {
+    setPrefsRaw(prevRaw => {
+      const merged = { ...DEFAULT_PREFS, ...prevRaw };
+      return typeof newVal === 'function' ? newVal(merged) : newVal;
+    });
+  }, [setPrefsRaw]);
 
   const initTweaks = {
     ...(window.__TWEAK_DEFAULTS || { mode: 'material-light', background: 'floor', arcade: 'pacmaze', scanlines: true }),
@@ -69,7 +86,7 @@ function App() {
   const [tweaks, setTweak] = useTweaks(initTweaks);
   const mode = tweaks.mode || 'material-light';
 
-  useEffect(() => saveJSON('dash.tweaks', tweaks), [tweaks]);
+  // tweaks are now handled by useStorage inside useTweaks
 
   useEffect(() => {
     document.documentElement.setAttribute('data-mode', mode);
@@ -136,21 +153,72 @@ function App() {
     }
     setEditingBookmark(null);
   }
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === ',') {
+        e.preventDefault();
+        setSettingsOpen(prev => !prev);
+      }
+      if (e.key === '/' || ((e.metaKey || e.ctrlKey) && e.key === 'k')) {
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          searchRef.current?.focus();
+        }
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   function onSearchSubmit(e) {
     e.preventDefault();
     const q = e.target.q.value.trim();
     if (!q) return;
-    const url = /^https?:\/\//i.test(q) ? q
-      : q.includes('.') && !q.includes(' ') ? 'https://' + q
-      : 'https://www.google.com/search?q=' + encodeURIComponent(q);
-    window.open(url, '_blank', 'noreferrer');
+    const isUrl = /^https?:\/\//i.test(q) || (q.includes('.') && !q.includes(' '));
+    if (isUrl) {
+      window.open(/^https?:\/\//i.test(q) ? q : 'https://' + q, '_blank', 'noreferrer');
+      return;
+    }
+    
+    let searchUrl = 'https://www.google.com/search?q=';
+    if (prefs.searchEngine === 'duckduckgo') searchUrl = 'https://duckduckgo.com/?q=';
+    else if (prefs.searchEngine === 'bing') searchUrl = 'https://www.bing.com/search?q=';
+    else if (prefs.searchEngine === 'brave') searchUrl = 'https://search.brave.com/search?q=';
+    
+    window.open(searchUrl + encodeURIComponent(q), '_blank', 'noreferrer');
   }
 
-  const now = useNow(60000);
+  const now = (window.useNow || useNow)(60000);
+
+  const fontUrl = useMemo(() => {
+    if (!prefs.fontFamily || prefs.fontFamily === 'default') return null;
+    const fonts = {
+      'Inter': 'Inter:wght@400;500;700',
+      'Roboto': 'Roboto:wght@400;500;700',
+      'Outfit': 'Outfit:wght@400;500;700',
+      'VT323': 'VT323',
+    };
+    if (fonts[prefs.fontFamily]) {
+      return `https://fonts.googleapis.com/css2?family=${fonts[prefs.fontFamily]}&display=swap`;
+    }
+    return null;
+  }, [prefs.fontFamily]);
 
   return (
-    <div className="app">
+    <>
+      {fontUrl && <link rel="stylesheet" href={fontUrl} />}
+      {prefs.fontFamily && prefs.fontFamily !== 'default' && (
+        <style dangerouslySetInnerHTML={{__html: `
+          :root[data-mode="material-light"] body,
+          :root[data-mode="material-dark"] body,
+          body, .brand, .clock-time, .clock-label, .greeting, .greeting-sub, .clock-off, .btn {
+            font-family: '${prefs.fontFamily}', sans-serif !important;
+          }
+        `}}/>
+      )}
+      <div className="app">
 
       {/* ── TOPBAR ── */}
       <header className="topbar">
@@ -173,6 +241,7 @@ function App() {
         <form className="topbar-search" onSubmit={onSearchSubmit}>
           <Icon.search size={18}/>
           <input
+            ref={searchRef}
             name="q"
             placeholder={mode === 'arcade' ? 'SEARCH OR ENTER URL' : 'Search Google or enter URL'}
             autoComplete="off"
@@ -181,9 +250,9 @@ function App() {
         </form>
 
         <div className="topbar-actions">
-          <button className="icon-btn" onClick={() => setSettingsOpen(true)} aria-label="Settings" title="Settings">
+          <a className="icon-btn" href={chrome.runtime.getURL('settings.html')} aria-label="Settings" title="Settings">
             <Icon.settings size={20}/>
-          </button>
+          </a>
           <a className="icon-btn" href="manager.html" aria-label="Manage bookmarks" title="Manage bookmarks">
             <Icon.folder size={20}/>
           </a>
@@ -220,12 +289,16 @@ function App() {
         </aside>
       </div>
 
+
+      <QuoteWidget />
+
       <footer className="foot">
         {mode === 'arcade'
           ? `★ ${bookmarks.length} BOOKMARKS · ${folders.length} FOLDERS · STORED LOCALLY ★`
           : `${bookmarks.length} bookmarks · ${folders.length} folders · stored locally`
         }
       </footer>
+    </div>
 
       {/* ── DIALOGS ── */}
       {editingBookmark && (
@@ -255,14 +328,6 @@ function App() {
             <input autoFocus value={prefs.name} onChange={e => setPrefs({...prefs, name: e.target.value})}/>
           </div>
         </EditDialog>
-      )}
-      {settingsOpen && (
-        <SettingsDialog
-          tweaks={tweaks} setTweak={setTweak}
-          prefs={prefs} setPrefs={setPrefs}
-          bgUploads={bgUploads} setBgUploads={setBgUploads}
-          onClose={() => setSettingsOpen(false)}
-        />
       )}
 
       <TweaksPanel title="Tweaks">
@@ -300,7 +365,7 @@ function App() {
       </TweaksPanel>
 
       {toast && <div className="toast">{toast}</div>}
-    </div>
+    </>
   );
 }
 
@@ -316,7 +381,10 @@ function BookmarkDialog({ value, folders, onChange, onClose, onSave }) {
           <button className="icon-btn" onClick={onClose}><Icon.close/></button>
         </div>
         <div className="form">
-          <div className="field"><label>Name</label><input autoFocus value={v.name} onChange={e=>set('name',e.target.value)} placeholder="Project tracker"/></div>
+          <div style={{display:'grid',gridTemplateColumns:'48px 1fr',gap:12}}>
+            <div className="field"><label>Icon</label><input value={v.emoji||''} onChange={e=>set('emoji',e.target.value)} maxLength={2} style={{textAlign:'center',padding:'0',fontSize:'16px'}} placeholder="⭐"/></div>
+            <div className="field"><label>Name</label><input autoFocus value={v.name} onChange={e=>set('name',e.target.value)} placeholder="Project tracker"/></div>
+          </div>
           <div className="field"><label>URL</label><input value={v.url} onChange={e=>set('url',e.target.value)} placeholder="https://example.com"/></div>
           <div className="field"><label>Description (optional)</label><textarea value={v.description||''} onChange={e=>set('description',e.target.value)} placeholder="Why you saved this…" rows={3}/></div>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
@@ -388,156 +456,4 @@ function ZonesDialog({ zones, setZones, onClose }) {
   );
 }
 
-// ===== Settings dialog =====
-function SettingsDialog({ tweaks, setTweak, prefs, setPrefs, bgUploads, setBgUploads, onClose }) {
-  const mode = tweaks.mode || 'material-light';
-  const isArcade = mode === 'arcade';
-  const bgInputRef = useRef(null);
-
-  function handleBgUpload(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (bgUploads.length >= 5) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = new Image();
-      img.onload = () => {
-        const MAX_W = 1920, MAX_H = 1080;
-        let w = img.width, h = img.height;
-        if (w > MAX_W || h > MAX_H) {
-          const r = Math.min(MAX_W / w, MAX_H / h);
-          w = Math.round(w * r); h = Math.round(h * r);
-        }
-        const canvas = document.createElement('canvas');
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        const url = canvas.toDataURL('image/jpeg', 0.82);
-        const id = 'upload-' + Date.now();
-        const label = file.name.replace(/\.[^.]+$/, '').slice(0, 14) || 'Photo';
-        setBgUploads(prev => [...prev, { id, label, url }]);
-        setPrefs(p => ({ ...p, bgId: id }));
-      };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
-  }
-
-  function removeUpload(id) {
-    setBgUploads(prev => prev.filter(u => u.id !== id));
-    if (prefs.bgId === id) setPrefs({ ...prefs, bgId: 'bg-dark' });
-  }
-
-  return (
-    <div className="modal-backdrop" onMouseDown={(e)=>e.target===e.currentTarget&&onClose()}>
-      <div className="modal" style={{maxWidth:560}}>
-        <div className="modal-head"><h2 className="modal-title">Settings</h2><button className="icon-btn" onClick={onClose}><Icon.close/></button></div>
-        <div className="form" style={{maxHeight:'70vh',overflow:'auto'}}>
-          <div className="settings-section">
-            <h3 className="settings-section-title">Appearance</h3>
-            <div className="field"><label>Theme</label>
-              <div className="seg-group">
-                {[{v:'material-light',l:'Light'},{v:'material-dark',l:'Dark'},{v:'arcade',l:'Arcade'}].map(o=>(
-                  <button key={o.v} className={'seg-btn'+(mode===o.v?' active':'')} onClick={()=>setTweak('mode',o.v)}>{o.l}</button>
-                ))}
-              </div>
-            </div>
-            {isArcade && (<>
-              <div className="field"><label>Arcade cabinet</label>
-                <select value={tweaks.arcade||'synthwave'} onChange={e=>setTweak('arcade',e.target.value)}>
-                  <option value="synthwave">Synthwave (pink/cyan)</option>
-                  <option value="pacmaze">Pac-Maze (yellow/blue)</option>
-                  <option value="gameboy">Game Boy (4-shade green)</option>
-                  <option value="galaga">Galaga (deep space)</option>
-                  <option value="tron">Tron (cyan/orange)</option>
-                  <option value="hotlava">Hot Lava (red/orange)</option>
-                </select>
-              </div>
-              <div className="field"><label>Background</label>
-                <div className="seg-group">
-                  {[{v:'solid',l:'Solid'},{v:'gradient',l:'Glow'},{v:'grid',l:'Grid'},{v:'floor',l:'Floor'},{v:'dotted',l:'Dots'}].map(o=>(
-                    <button key={o.v} className={'seg-btn'+((tweaks.background||'floor')===o.v?' active':'')} onClick={()=>setTweak('background',o.v)}>{o.l}</button>
-                  ))}
-                </div>
-              </div>
-              <label className="settings-toggle">
-                <input type="checkbox" checked={tweaks.scanlines!==false} onChange={e=>setTweak('scanlines',e.target.checked)}/>
-                <span>CRT scanlines + vignette</span>
-              </label>
-            </>)}
-          </div>
-          <div className="settings-section">
-            <h3 className="settings-section-title">Background</h3>
-            <div className="bg-picker">
-              {/* Built-in backgrounds */}
-              {BUILTIN_BACKGROUNDS.map(bg => (
-                <button
-                  key={bg.id}
-                  className={'bg-thumb' + (prefs.bgId === bg.id ? ' active' : '')}
-                  onClick={() => setPrefs({ ...prefs, bgId: bg.id })}
-                  title={bg.label}
-                >
-                  <span className="bg-thumb-img" style={{background: bg.value}}/>
-                  <span className="bg-thumb-label">{bg.label}</span>
-                  {prefs.bgId === bg.id && <span className="bg-check">✓</span>}
-                </button>
-              ))}
-
-              {/* Uploaded backgrounds */}
-              {(bgUploads || []).map(up => (
-                <button
-                  key={up.id}
-                  className={'bg-thumb' + (prefs.bgId === up.id ? ' active' : '')}
-                  onClick={() => setPrefs({ ...prefs, bgId: up.id })}
-                  title={up.label}
-                >
-                  <span className="bg-thumb-img" style={{backgroundImage:`url("${up.url}")`,backgroundSize:'cover',backgroundPosition:'center'}}/>
-                  <span className="bg-thumb-label">{up.label}</span>
-                  {prefs.bgId === up.id && <span className="bg-check">✓</span>}
-                  <span className="bg-thumb-del" onClick={e => { e.stopPropagation(); removeUpload(up.id); }} title="Remove">×</span>
-                </button>
-              ))}
-
-              {/* Upload slot — shown while < 5 uploads */}
-              {(bgUploads || []).length < 5 && (
-                <button className="bg-thumb bg-thumb-add" onClick={() => bgInputRef.current?.click()} title="Upload image">
-                  <span className="bg-thumb-img bg-thumb-add-icon">
-                    <Icon.upload size={20}/>
-                  </span>
-                  <span className="bg-thumb-label">Upload</span>
-                </button>
-              )}
-
-              <input ref={bgInputRef} type="file" accept="image/*" hidden onChange={handleBgUpload}/>
-            </div>
-          </div>
-
-          <div className="settings-section">
-            <h3 className="settings-section-title">Profile</h3>
-            <div className="field"><label>Display name</label><input value={prefs.name} onChange={e=>setPrefs({...prefs,name:e.target.value})}/></div>
-          </div>
-          <div className="settings-section">
-            <h3 className="settings-section-title">Weather</h3>
-            <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:12}}>
-              <div className="field" style={{margin:0}}><label>City</label><input value={prefs.weatherCity} onChange={e=>setPrefs({...prefs,weatherCity:e.target.value})}/></div>
-              <div className="field" style={{margin:0}}><label>Units</label>
-                <div className="seg-group">
-                  <button className={'seg-btn'+(prefs.units==='F'?' active':'')} onClick={()=>setPrefs({...prefs,units:'F'})}>°F</button>
-                  <button className={'seg-btn'+(prefs.units==='C'?' active':'')} onClick={()=>setPrefs({...prefs,units:'C'})}>°C</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="settings-section">
-            <h3 className="settings-section-title">Search</h3>
-            <p className="settings-help">Uses <strong>Google</strong>. Type a query to search, or paste a URL to open directly.</p>
-          </div>
-        </div>
-        <div className="modal-footer" style={{justifyContent:'flex-end'}}><button className="btn primary" onClick={onClose}>Done</button></div>
-      </div>
-    </div>
-  );
-}
-
-// EditDialog is defined in manager.jsx (loaded before app.jsx)
-ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);

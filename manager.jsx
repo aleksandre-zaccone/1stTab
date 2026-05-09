@@ -1,3 +1,5 @@
+var { useState, useMemo, useEffect, useCallback, useRef } = React;
+
 // ============================
 // Bookmark manager modal — folders + drag/drop + import/export.
 // Editing/creating delegates to the parent via onEditBookmark.
@@ -13,6 +15,32 @@ function BookmarkManager({
   const [editingFolder, setEditingFolder] = useState(null);
   const fileInputRef = useRef(null);
 
+  const sortedFolders = useMemo(() => {
+    const list = [];
+    const childrenMap = {};
+    for (const f of folders) {
+      const pid = f.parentId || null;
+      if (!childrenMap[pid]) childrenMap[pid] = [];
+      childrenMap[pid].push(f);
+    }
+    function walk(parentId, depth) {
+      const children = childrenMap[parentId] || [];
+      for (const c of children) {
+        list.push({ ...c, depth });
+        walk(c.id, depth + 1);
+      }
+    }
+    walk(null, 0);
+    const addedIds = new Set(list.map(l => l.id));
+    for (const f of folders) {
+      if (!addedIds.has(f.id)) {
+        list.push({ ...f, depth: 0 });
+        walk(f.id, 1);
+      }
+    }
+    return list;
+  }, [folders]);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return bookmarks
@@ -25,26 +53,40 @@ function BookmarkManager({
       );
   }, [bookmarks, activeFolderId, query]);
 
-  function addFolder() { setEditingFolder({ name: '' }); }
+  function addFolder() { setEditingFolder({ name: '', parentId: activeFolderId }); }
   function saveFolder() {
     const name = (editingFolder.name||'').trim();
     if (!name) { setEditingFolder(null); return; }
+    const pid = editingFolder.parentId || null;
     if (editingFolder.id) {
-      setFolders(folders.map(f => f.id === editingFolder.id ? { ...f, name } : f));
+      setFolders(folders.map(f => f.id === editingFolder.id ? { ...f, name, parentId: pid } : f));
     } else {
       const id = 'f-' + Math.random().toString(36).slice(2,7);
-      setFolders([...folders, { id, name }]);
+      setFolders([...folders, { id, name, parentId: pid }]);
       setActiveFolderId(id);
     }
     setEditingFolder(null);
   }
   function deleteFolder(id) {
     if (folders.length <= 1) { showToast('Keep at least one folder.'); return; }
-    if (!confirm('Delete this folder and all its bookmarks?')) return;
-    const remaining = folders.filter(f => f.id !== id);
+    if (!confirm('Delete this folder, its subfolders, and all their bookmarks?')) return;
+    
+    const toDelete = new Set([id]);
+    let added;
+    do {
+      added = false;
+      for (const f of folders) {
+        if (toDelete.has(f.parentId) && !toDelete.has(f.id)) {
+          toDelete.add(f.id);
+          added = true;
+        }
+      }
+    } while (added);
+
+    const remaining = folders.filter(f => !toDelete.has(f.id));
     setFolders(remaining);
-    setBookmarks(bookmarks.filter(b => b.folderId !== id));
-    if (activeFolderId === id) setActiveFolderId(remaining[0].id);
+    setBookmarks(bookmarks.filter(b => !toDelete.has(b.folderId)));
+    if (toDelete.has(activeFolderId) && remaining.length > 0) setActiveFolderId(remaining[0].id);
   }
 
   function addBookmark() {
@@ -58,44 +100,124 @@ function BookmarkManager({
     setBookmarks(bookmarks.map(b => b.id === id ? { ...b, pinned: !b.pinned } : b));
   }
 
-  // drag reorder within folder
+  // drag reorder and move
   const dragId = useRef(null);
+  const dragType = useRef(null); // 'bookmark' | 'folder'
   const [dragOverId, setDragOverId] = useState(null);
   const [dragPos, setDragPos] = useState(null);
-  function onDragStart(e, id) {
+
+  function onDragStart(e, type, id) {
     dragId.current = id;
+    dragType.current = type;
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', id);
   }
-  function onDragOver(e, id) {
+
+  function onDragOver(e, type, id) {
     e.preventDefault();
-    if (!dragId.current || dragId.current === id) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    setDragOverId(id);
-    setDragPos((e.clientY - rect.top) < rect.height / 2 ? 'above' : 'below');
+    if (!dragId.current) return;
+    
+    // If dragging a bookmark over a folder, it's for moving to that folder
+    if (dragType.current === 'bookmark' && type === 'folder') {
+      setDragOverId('__folder-' + id);
+      setDragPos('move');
+      return;
+    }
+
+    // If dragging a folder over another folder
+    if (dragType.current === 'folder' && type === 'folder') {
+      if (dragId.current === id) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const relY = e.clientY - rect.top;
+      
+      // If in the middle 50%, treat as "move into"
+      if (relY > rect.height * 0.25 && relY < rect.height * 0.75) {
+        setDragOverId('__folder-' + id);
+        setDragPos('move');
+      } else {
+        // Otherwise treat as reorder above/below
+        const pos = relY < rect.height / 2 ? 'above' : 'below';
+        setDragOverId(id);
+        setDragPos(pos);
+      }
+    }
+
+    // Reordering bookmarks
+    if (dragType.current === 'bookmark' && type === 'bookmark') {
+      if (dragId.current === id) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const pos = (e.clientY - rect.top) < rect.height / 2 ? 'above' : 'below';
+      setDragOverId(id);
+      setDragPos(pos);
+    }
   }
-  function onDrop(e, id) {
+
+  function onDrop(e, type, id) {
     e.preventDefault();
     const from = dragId.current;
-    if (!from || from === id) { reset(); return; }
-    const list = [...bookmarks];
-    const fi = list.findIndex(b => b.id === from);
-    if (fi < 0) { reset(); return; }
-    const [moved] = list.splice(fi, 1);
-    let insertAt = list.findIndex(b => b.id === id);
-    if (insertAt < 0) { setBookmarks([...list, moved]); reset(); return; }
-    if (dragPos === 'below') insertAt += 1;
-    list.splice(insertAt, 0, moved);
-    setBookmarks(list); reset();
-  }
-  function reset() { dragId.current = null; setDragOverId(null); setDragPos(null); }
-  function onDropOnFolder(e, fid) {
-    e.preventDefault();
-    const id = dragId.current;
-    if (!id) return;
-    setBookmarks(bookmarks.map(b => b.id === id ? { ...b, folderId: fid } : b));
-    showToast('Moved to ' + (folders.find(f => f.id === fid)?.name || 'folder'));
+    if (!from) { reset(); return; }
+
+    if (dragType.current === 'bookmark') {
+      if (type === 'folder' || (type === 'folder' && dragPos === 'move')) {
+        // Move bookmark to folder
+        setBookmarks(bookmarks.map(b => b.id === from ? { ...b, folderId: id } : b));
+        showToast('Moved to ' + (folders.find(f => f.id === id)?.name || 'folder'));
+      } else if (type === 'bookmark') {
+        if (from === id) { reset(); return; }
+        // Reorder bookmark
+        const list = [...bookmarks];
+        const fi = list.findIndex(b => b.id === from);
+        if (fi < 0) { reset(); return; }
+        const [moved] = list.splice(fi, 1);
+        let insertAt = list.findIndex(b => b.id === id);
+        if (dragPos === 'below') insertAt += 1;
+        list.splice(insertAt, 0, moved);
+        setBookmarks(list);
+      }
+    } else if (dragType.current === 'folder' && type === 'folder') {
+      if (from === id) { reset(); return; }
+      
+      // Prevent dropping a folder into its own descendant
+      const isDescendant = (parentId, childId) => {
+        let current = folders.find(f => f.id === childId);
+        while (current && current.parentId) {
+          if (current.parentId === parentId) return true;
+          current = folders.find(f => f.id === current.parentId);
+        }
+        return false;
+      };
+      
+      if (isDescendant(from, id)) {
+        showToast('Cannot move a folder into its own subfolder.');
+        reset();
+        return;
+      }
+
+      if (dragPos === 'move') {
+        // Move 'from' INTO 'id' (re-parenting)
+        setFolders(folders.map(f => f.id === from ? { ...f, parentId: id } : f));
+        showToast('Moved into ' + (folders.find(f => f.id === id)?.name || 'folder'));
+      } else {
+        // Re-ordering siblings
+        const list = [...folders];
+        const fi = list.findIndex(f => f.id === from);
+        const [moved] = list.splice(fi, 1);
+        let insertAt = list.findIndex(f => f.id === id);
+        if (dragPos === 'below') insertAt += 1;
+        const targetFolder = folders.find(f => f.id === id);
+        moved.parentId = targetFolder.parentId;
+        list.splice(insertAt, 0, moved);
+        setFolders(list);
+      }
+    }
     reset();
+  }
+
+  function reset() { 
+    dragId.current = null; 
+    dragType.current = null;
+    setDragOverId(null); 
+    setDragPos(null); 
   }
 
   // import / export
@@ -153,23 +275,33 @@ function BookmarkManager({
 
         <div className="modal-body">
           <div className="folder-rail">
-            {folders.map(f => (
+            {sortedFolders.map(f => (
               <div
                 key={f.id}
                 className={
                   "folder-row" +
                   (f.id === activeFolderId ? " active" : "") +
-                  (dragId.current && dragOverId === '__folder-' + f.id ? " dragover" : "")
+                  (dragId.current === f.id ? " dragging" : "") +
+                  (dragOverId === '__folder-' + f.id ? " dragover" : "") +
+                  (dragOverId === f.id && dragPos === 'above' ? " drop-above" : "") +
+                  (dragOverId === f.id && dragPos === 'below' ? " drop-below" : "")
                 }
+                style={{ 
+                  paddingLeft: 12 + (f.depth * 16),
+                  '--indent': (12 + (f.depth * 16)) + 'px'
+                }}
                 onClick={() => setActiveFolderId(f.id)}
-                onDragOver={(e) => { e.preventDefault(); setDragOverId('__folder-' + f.id); }}
-                onDragLeave={() => setDragOverId(null)}
-                onDrop={(e) => onDropOnFolder(e, f.id)}
+                draggable={f.id !== 'f-favorites'} // usually better to keep favorites stable
+                onDragStart={(e) => onDragStart(e, 'folder', f.id)}
+                onDragOver={(e) => onDragOver(e, 'folder', f.id)}
+                onDrop={(e) => onDrop(e, 'folder', f.id)}
+                onDragEnd={reset}
               >
+                <span className="bookmark-handle" aria-hidden style={{marginRight: 0}}><Icon.drag/></span>
                 <Icon.folder size={14}/>
                 <span style={{flex:1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{f.name}</span>
                 <span className="folder-count">{bookmarks.filter(b => b.folderId === f.id).length}</span>
-                <button className="folder-edit" onClick={(e) => { e.stopPropagation(); setEditingFolder({ id: f.id, name: f.name }); }} aria-label="Edit folder"><Icon.edit size={12}/></button>
+                <button className="folder-edit" onClick={(e) => { e.stopPropagation(); setEditingFolder({ id: f.id, name: f.name, parentId: f.parentId }); }} aria-label="Edit folder"><Icon.edit size={12}/></button>
                 {folders.length > 1 && (
                   <button className="folder-edit" onClick={(e) => { e.stopPropagation(); deleteFolder(f.id); }} aria-label="Delete folder" style={{right: 28}}><Icon.trash size={12}/></button>
                 )}
@@ -193,9 +325,9 @@ function BookmarkManager({
                   (dragOverId === b.id && dragPos === 'below' ? " drop-below" : "")
                 }
                 draggable
-                onDragStart={(e) => onDragStart(e, b.id)}
-                onDragOver={(e) => onDragOver(e, b.id)}
-                onDrop={(e) => onDrop(e, b.id)}
+                onDragStart={(e) => onDragStart(e, 'bookmark', b.id)}
+                onDragOver={(e) => onDragOver(e, 'bookmark', b.id)}
+                onDrop={(e) => onDrop(e, 'bookmark', b.id)}
                 onDragEnd={reset}
               >
                 <span className="bookmark-handle" aria-hidden><Icon.drag/></span>
@@ -237,6 +369,15 @@ function BookmarkManager({
             <div className="field">
               <label>Folder name</label>
               <input autoFocus value={editingFolder.name} onChange={e => setEditingFolder({...editingFolder, name: e.target.value})} placeholder="Reading"/>
+            </div>
+            <div className="field">
+              <label>Parent folder</label>
+              <select value={editingFolder.parentId || ''} onChange={e => setEditingFolder({...editingFolder, parentId: e.target.value || null})}>
+                <option value="">None (Top level)</option>
+                {sortedFolders.filter(f => f.id !== editingFolder.id).map(f => (
+                  <option key={f.id} value={f.id}>{'\u00A0\u00A0'.repeat(f.depth)}{f.name}</option>
+                ))}
+              </select>
             </div>
           </EditDialog>
         )}
