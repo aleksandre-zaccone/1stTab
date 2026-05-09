@@ -1,4 +1,28 @@
 const { useState, useEffect, useCallback } = React;
+function ClocksStrip() {
+  const now = useNow(1e3);
+  const [zones] = useStorage(STORAGE_KEYS.zones, defaultZones(), true);
+  return React.createElement(
+    "div",
+    { className: "panel-clocks" },
+    zones.map((z) => {
+      const { hour, minute, dayPeriod } = formatTime(now, z.tz);
+      const offset = tzOffsetLabel(now, z.tz);
+      return React.createElement(
+        "div",
+        { key: z.id, className: "panel-clock-item" },
+        React.createElement("span", { className: "panel-clock-label" }, z.label),
+        React.createElement(
+          "span",
+          { className: "panel-clock-time" },
+          `${hour}:${minute}`,
+          React.createElement("span", { className: "panel-clock-period" }, ` ${dayPeriod}`)
+        ),
+        React.createElement("span", { className: "panel-clock-offset" }, offset)
+      );
+    })
+  );
+}
 function Favicon({ url, name }) {
   const src = faviconUrl(url, 32);
   const bg = colorForString(url);
@@ -21,7 +45,7 @@ function Favicon({ url, name }) {
   }, initial);
 }
 function Folder({ folder, bookmarks }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   if (!bookmarks.length) return null;
   return React.createElement(
     "div",
@@ -88,6 +112,8 @@ function PanelApp() {
         React.createElement("span", { className: "panel-logo-dot" }, "Tab")
       )
     ),
+    // Clocks
+    React.createElement(ClocksStrip),
     // Search
     React.createElement(
       "div",

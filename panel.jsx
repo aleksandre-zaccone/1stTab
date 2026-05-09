@@ -1,8 +1,30 @@
 /* global React, ReactDOM, chrome,
    useStorage, STORAGE_KEYS, SEED_FOLDERS, SEED_BOOKMARKS,
-   faviconUrl, colorForString, initialFromUrl */
+   faviconUrl, colorForString, initialFromUrl,
+   useNow, formatTime, tzOffsetLabel, defaultZones */
 
 const { useState, useEffect, useCallback } = React;
+
+// ── Compact clocks strip ───────────────────────────────────────────────────
+function ClocksStrip() {
+  const now = useNow(1000);
+  const [zones] = useStorage(STORAGE_KEYS.zones, defaultZones(), true);
+
+  return React.createElement('div', { className: 'panel-clocks' },
+    zones.map(z => {
+      const { hour, minute, dayPeriod } = formatTime(now, z.tz);
+      const offset = tzOffsetLabel(now, z.tz);
+      return React.createElement('div', { key: z.id, className: 'panel-clock-item' },
+        React.createElement('span', { className: 'panel-clock-label' }, z.label),
+        React.createElement('span', { className: 'panel-clock-time' },
+          `${hour}:${minute}`,
+          React.createElement('span', { className: 'panel-clock-period' }, ` ${dayPeriod}`)
+        ),
+        React.createElement('span', { className: 'panel-clock-offset' }, offset),
+      );
+    })
+  );
+}
 
 // ── Favicon with fallback tile ─────────────────────────────────────────────
 function Favicon({ url, name }) {
@@ -29,7 +51,7 @@ function Favicon({ url, name }) {
 
 // ── Single folder section ──────────────────────────────────────────────────
 function Folder({ folder, bookmarks }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   if (!bookmarks.length) return null;
 
@@ -97,6 +119,9 @@ function PanelApp() {
         '1st', React.createElement('span', { className: 'panel-logo-dot' }, 'Tab')
       ),
     ),
+
+    // Clocks
+    React.createElement(ClocksStrip),
 
     // Search
     React.createElement('div', { className: 'panel-search-wrap' },
