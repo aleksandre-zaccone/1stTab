@@ -3027,3 +3027,90 @@ a.icon-btn { text-decoration: none; display: inline-flex; }
   font-family: "Roboto", sans-serif;
   font-size: 11px;
 }
+
+/* ── Quick Links (Speed Dial) ── */
+.quick-links {
+  margin: 0 18px 16px 18px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  padding: 12px;
+}
+.quick-links-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--neon-4);
+  text-shadow: 0 0 8px var(--neon-4);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.quick-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+.quick-link-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.1s steps(2);
+  min-width: 0;
+}
+.quick-link-item:hover {
+  border-color: var(--neon-2);
+  box-shadow: 0 0 10px var(--neon-2);
+  transform: translateY(-1px);
+}
+.quick-link-name {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Material Overrides for Quick Links */
+:root[data-mode="material-light"] .quick-links,
+:root[data-mode="material-dark"] .quick-links {
+  background: var(--md-surface);
+  border: 1px solid var(--md-border);
+  border-radius: 12px;
+  margin: 0 0 24px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,.12);
+}
+:root[data-mode="material-light"] .quick-links-head,
+:root[data-mode="material-dark"] .quick-links-head {
+  font-family: "Roboto", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--md-text-3);
+  text-shadow: none;
+}
+:root[data-mode="material-light"] .quick-link-item,
+:root[data-mode="material-dark"] .quick-link-item {
+  background: var(--md-surface-2);
+  border: none;
+  border-radius: 8px;
+}
+:root[data-mode="material-light"] .quick-link-item:hover,
+:root[data-mode="material-dark"] .quick-link-item:hover {
+  background: var(--md-primary-soft);
+  box-shadow: none;
+}
+:root[data-mode="material-light"] .quick-link-name,
+:root[data-mode="material-dark"] .quick-link-name {
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  text-transform: none;
+  color: var(--md-text);
+}

@@ -44,9 +44,10 @@ Phase 2: UI & UX Enhancements
   - Implemented `QuoteWidget` in `quote.js` using DummyJSON API.
 
 Phase 3: New Widgets
- [ ] Task 9: Quick Links / Speed Dial
-  - Add a grid-based visual component above or alongside the standard bookmarks list for top-visited sites.
-  - Note: "Pinned" strip exists. Automatic "Top Visited" logic is complex for free tier without tracking, but we can allow users to "pin" more items easily.
+ [x] Task 9: Quick Links / Speed Dial
+  - Implemented automatic visit tracking to identify frequently used sites.
+  - Added a "Frequent" (Quick Links) grid above the main bookmarks view.
+  - Limits display to the top 8 most-visited bookmarks for a clean "Speed Dial" experience.
 
  [x] Task 10: Free To-Do List
   - Created a simple to-do list widget (capped at 25 items).

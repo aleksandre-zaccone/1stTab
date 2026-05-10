@@ -109,7 +109,7 @@ function App() {
     setPrefs({ ...prefs, units: prefs.units === "F" ? "C" : "F" });
   }
   function openBookmark(b) {
-    setBookmarks(bookmarks.map((x) => x.id === b.id ? { ...x, lastVisited: Date.now() } : x));
+    setBookmarks(bookmarks.map((x) => x.id === b.id ? { ...x, visits: (x.visits || 0) + 1, lastVisited: Date.now() } : x));
     window.open(b.url, "_blank", "noreferrer");
   }
   function startQuickAdd() {
@@ -203,7 +203,7 @@ function App() {
       placeholder: mode === "arcade" ? "SEARCH OR ENTER URL" : "Search Google or enter URL",
       autoComplete: "off"
     }
-  ), /* @__PURE__ */ React.createElement("span", { className: "search-engine" }, mode === "arcade" ? "\u21B5 GO" : "\u21B5")), /* @__PURE__ */ React.createElement("div", { className: "topbar-actions" }, /* @__PURE__ */ React.createElement("a", { className: "icon-btn", href: chrome.runtime.getURL("settings.html"), "aria-label": "Settings", title: "Settings" }, /* @__PURE__ */ React.createElement(Icon.settings, { size: 20 })), /* @__PURE__ */ React.createElement("a", { className: "icon-btn", href: "manager.html", "aria-label": "Manage bookmarks", title: "Manage bookmarks" }, /* @__PURE__ */ React.createElement(Icon.folder, { size: 20 })))), /* @__PURE__ */ React.createElement("div", { className: "main-layout" }, /* @__PURE__ */ React.createElement("aside", { className: "sidebar sidebar-left" }, /* @__PURE__ */ React.createElement(ClocksPanel, { zones, onEditZones: () => setEditingZones(true) })), /* @__PURE__ */ React.createElement("main", { className: "main-content" }, /* @__PURE__ */ React.createElement(
+  ), /* @__PURE__ */ React.createElement("span", { className: "search-engine" }, mode === "arcade" ? "\u21B5 GO" : "\u21B5")), /* @__PURE__ */ React.createElement("div", { className: "topbar-actions" }, /* @__PURE__ */ React.createElement("a", { className: "icon-btn", href: chrome.runtime.getURL("settings.html"), "aria-label": "Settings", title: "Settings" }, /* @__PURE__ */ React.createElement(Icon.settings, { size: 20 })), /* @__PURE__ */ React.createElement("a", { className: "icon-btn", href: "manager.html", "aria-label": "Manage bookmarks", title: "Manage bookmarks" }, /* @__PURE__ */ React.createElement(Icon.folder, { size: 20 })))), /* @__PURE__ */ React.createElement("div", { className: "main-layout" }, /* @__PURE__ */ React.createElement("aside", { className: "sidebar sidebar-left" }, /* @__PURE__ */ React.createElement(ClocksPanel, { zones, onEditZones: () => setEditingZones(true) })), /* @__PURE__ */ React.createElement("main", { className: "hero-main" }, /* @__PURE__ */ React.createElement(QuickLinks, { bookmarks, onOpen: openBookmark }), /* @__PURE__ */ React.createElement(
     BookmarksHero,
     {
       folders,

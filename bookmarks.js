@@ -185,3 +185,11 @@ function BookmarkFavicon({ url, name, emoji, size = 32 }) {
 }
 window.BookmarksHero = BookmarksHero;
 window.BookmarkFavicon = BookmarkFavicon;
+function QuickLinks({ bookmarks, onOpen }) {
+  const topVisited = useMemo(() => {
+    return [...bookmarks].filter((b) => b.visits > 0).sort((a, b) => (b.visits || 0) - (a.visits || 0)).slice(0, 8);
+  }, [bookmarks]);
+  if (topVisited.length === 0) return null;
+  return /* @__PURE__ */ React.createElement("div", { className: "quick-links" }, /* @__PURE__ */ React.createElement("div", { className: "quick-links-head" }, /* @__PURE__ */ React.createElement(Icon.zap, { size: 14 }), /* @__PURE__ */ React.createElement("span", null, "Frequent")), /* @__PURE__ */ React.createElement("div", { className: "quick-links-grid" }, topVisited.map((b) => /* @__PURE__ */ React.createElement("button", { key: b.id, className: "quick-link-item", onClick: () => onOpen(b), title: `${b.name} (${b.visits} visits)` }, /* @__PURE__ */ React.createElement(BookmarkFavicon, { url: b.url, name: b.name, emoji: b.emoji, size: 24 }), /* @__PURE__ */ React.createElement("span", { className: "quick-link-name" }, b.name)))));
+}
+window.QuickLinks = QuickLinks;

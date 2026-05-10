@@ -312,3 +312,32 @@ function BookmarkFavicon({ url, name, emoji, size = 32 }) {
 
 window.BookmarksHero = BookmarksHero;
 window.BookmarkFavicon = BookmarkFavicon;
+
+function QuickLinks({ bookmarks, onOpen }) {
+  const topVisited = useMemo(() => {
+    return [...bookmarks]
+      .filter(b => b.visits > 0)
+      .sort((a, b) => (b.visits || 0) - (a.visits || 0))
+      .slice(0, 8);
+  }, [bookmarks]);
+
+  if (topVisited.length === 0) return null;
+
+  return (
+    <div className="quick-links">
+      <div className="quick-links-head">
+        <Icon.zap size={14}/>
+        <span>Frequent</span>
+      </div>
+      <div className="quick-links-grid">
+        {topVisited.map(b => (
+          <button key={b.id} className="quick-link-item" onClick={() => onOpen(b)} title={`${b.name} (${b.visits} visits)`}>
+            <BookmarkFavicon url={b.url} name={b.name} emoji={b.emoji} size={24} />
+            <span className="quick-link-name">{b.name}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+window.QuickLinks = QuickLinks;

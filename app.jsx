@@ -133,7 +133,7 @@ function App() {
   function toggleUnits() { setPrefs({ ...prefs, units: prefs.units === 'F' ? 'C' : 'F' }); }
 
   function openBookmark(b) {
-    setBookmarks(bookmarks.map(x => x.id === b.id ? { ...x, lastVisited: Date.now() } : x));
+    setBookmarks(bookmarks.map(x => x.id === b.id ? { ...x, visits: (x.visits || 0) + 1, lastVisited: Date.now() } : x));
     window.open(b.url, '_blank', 'noreferrer');
   }
   function startQuickAdd() {
@@ -271,7 +271,8 @@ function App() {
           <ClocksPanel zones={zones} onEditZones={() => setEditingZones(true)}/>
         </aside>
 
-        <main className="main-content">
+        <main className="hero-main">
+          <QuickLinks bookmarks={bookmarks} onOpen={openBookmark} />
           <BookmarksHero
             folders={folders}
             bookmarks={bookmarks}
