@@ -331,7 +331,7 @@ function BookmarkManager({
                 onDragEnd={reset}
               >
                 <span className="bookmark-handle" aria-hidden><Icon.drag/></span>
-                <BookmarkFavicon url={b.url} name={b.name} size={32}/>
+                <BookmarkFavicon url={b.url} name={b.name} emoji={b.emoji} size={32}/>
                 <div className="bookmark-meta">
                   <p className="bookmark-name">
                     {b.name}

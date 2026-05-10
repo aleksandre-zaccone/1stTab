@@ -135,19 +135,19 @@ function App() {
     setEditingBookmark({ folderId, name: '', url: '', description: '', tags: [], pinned: false });
   }
   function saveBookmark() {
-    let { id, folderId, name, url, description, tags, pinned } = editingBookmark;
+    let { id, folderId, name, url, description, tags, pinned, emoji } = editingBookmark;
     name = (name||'').trim(); url = (url||'').trim();
     if (!name || !url) return;
     if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
     const tagArr = Array.isArray(tags) ? tags : (tags||'').split(',').map(s => s.trim()).filter(Boolean);
     if (id) {
       setBookmarks(bookmarks.map(b => b.id === id
-        ? { ...b, folderId, name, url, description, tags: tagArr, pinned: !!pinned } : b));
+        ? { ...b, folderId, name, url, description, tags: tagArr, pinned: !!pinned, emoji } : b));
       showToast('Saved');
     } else {
       setBookmarks([...bookmarks, {
         id: uid(), folderId, name, url, description, tags: tagArr,
-        pinned: !!pinned, visits: 0, lastVisited: Date.now(),
+        pinned: !!pinned, visits: 0, lastVisited: Date.now(), emoji
       }]);
       showToast('Bookmark added');
     }
@@ -370,6 +370,8 @@ function App() {
 }
 
 // ===== Bookmark dialog =====
+const PRESET_ICONS = ['🌐', '⭐', '🚀', '📺', '📧', '📝', '💰', '🛒', '🎮', '🏠'];
+
 function BookmarkDialog({ value, folders, onChange, onClose, onSave }) {
   const v = value;
   const set = (k, val) => onChange({ ...v, [k]: val });
@@ -381,10 +383,37 @@ function BookmarkDialog({ value, folders, onChange, onClose, onSave }) {
           <button className="icon-btn" onClick={onClose}><Icon.close/></button>
         </div>
         <div className="form">
-          <div style={{display:'grid',gridTemplateColumns:'48px 1fr',gap:12}}>
-            <div className="field"><label>Icon</label><input value={v.emoji||''} onChange={e=>set('emoji',e.target.value)} maxLength={2} style={{textAlign:'center',padding:'0',fontSize:'16px'}} placeholder="⭐"/></div>
-            <div className="field"><label>Name</label><input autoFocus value={v.name} onChange={e=>set('name',e.target.value)} placeholder="Project tracker"/></div>
+          <div className="field">
+            <label>Icon</label>
+            <div className="icon-picker">
+              <button 
+                className={"icon-picker-btn" + (!v.emoji ? " active" : "")}
+                onClick={() => set('emoji', null)}
+                title="Use Website Favicon"
+              >
+                {v.url ? <BookmarkFavicon url={v.url} name={v.name} size={18} /> : <Icon.search size={14}/>}
+              </button>
+              {PRESET_ICONS.map(icon => (
+                <button
+                  key={icon}
+                  className={"icon-picker-btn" + (v.emoji === icon ? " active" : "")}
+                  onClick={() => set('emoji', icon)}
+                >
+                  {icon}
+                </button>
+              ))}
+              <div className="icon-picker-custom">
+                <input 
+                  value={PRESET_ICONS.includes(v.emoji) || !v.emoji ? '' : v.emoji} 
+                  onChange={e => set('emoji', e.target.value)}
+                  placeholder="Custom"
+                  maxLength={2}
+                />
+              </div>
+            </div>
           </div>
+
+          <div className="field"><label>Name</label><input autoFocus value={v.name} onChange={e=>set('name',e.target.value)} placeholder="Project tracker"/></div>
           <div className="field"><label>URL</label><input value={v.url} onChange={e=>set('url',e.target.value)} placeholder="https://example.com"/></div>
           <div className="field"><label>Description (optional)</label><textarea value={v.description||''} onChange={e=>set('description',e.target.value)} placeholder="Why you saved this…" rows={3}/></div>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>

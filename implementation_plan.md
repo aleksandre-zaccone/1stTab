@@ -35,6 +35,7 @@ Phase 2: UI & UX Enhancements
  [x] Task 6: Emoji-as-favicon
   - Updated `BookmarkDialog` to allow emoji input.
   - Updated `BookmarkFavicon` in `bookmarks.jsx` to prioritize emoji rendering.
+  - Fixed visibility bug where symbols/emojis were invisible due to matching background colors.
 
  [x] Task 7: Advanced Greeting / Personalization
   - Expanded `greetingFor` in `app.jsx` with time-based rotating messages.
@@ -57,6 +58,8 @@ Phase 3: New Widgets
  [ ] Task 12: Daily Backgrounds
   - Integrate a free image API for daily backgrounds (e.g., Picsum or Unsplash).
 
+  
+  
 Phase 4: Architecture
  [ ] Task 13: i18n Scaffold
   - Replace hardcoded English strings with a simple `t('key')` function.

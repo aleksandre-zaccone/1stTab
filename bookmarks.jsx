@@ -278,6 +278,7 @@ function BookmarkFavicon({ url, name, emoji, size = 32 }) {
     return (
       <span className="bm-favicon-fallback" style={{
         width: size, height: size, background: 'transparent',
+        color: 'inherit', border: 'none',
         fontSize: Math.round(size * 0.6)
       }}>{emoji}</span>
     );
