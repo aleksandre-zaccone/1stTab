@@ -106,6 +106,46 @@ async function importChromeBookmarks() {
     window.location.reload();
   });
 }
+window.translations = {};
+let i18nLoaded = false;
+const i18nCallbacks = /* @__PURE__ */ new Set();
+async function initI18n() {
+  try {
+    const resp = await fetch(chrome.runtime.getURL("en.json"));
+    window.translations = await resp.json();
+    i18nLoaded = true;
+    i18nCallbacks.forEach((cb) => cb());
+  } catch (e) {
+    console.warn("i18n load failed, falling back to keys");
+  }
+}
+initI18n();
+function t(key, params = {}) {
+  const parts = key.split(".");
+  let val = window.translations;
+  for (const p of parts) {
+    val = val?.[p];
+    if (val === void 0) break;
+  }
+  if (val === void 0) return key;
+  let str = String(val);
+  Object.entries(params).forEach(([k, v]) => {
+    str = str.replace(new RegExp(`{{${k}}}`, "g"), v);
+  });
+  return str;
+}
+function useI18n() {
+  const [, setLoaded] = React.useState(i18nLoaded);
+  React.useEffect(() => {
+    if (i18nLoaded) return;
+    const cb = () => setLoaded(true);
+    i18nCallbacks.add(cb);
+    return () => i18nCallbacks.delete(cb);
+  }, []);
+  return { t, loaded: i18nLoaded };
+}
+window.t = t;
+window.useI18n = useI18n;
 function useStorage(key, fallback, isSync = false) {
   const [val, setVal] = React.useState(() => {
     const local = loadJSON(key, void 0);
@@ -351,9 +391,9 @@ function buildMockWeather(city, units) {
   const today = now.getDay() === 0 ? 6 : now.getDay() - 1;
   const forecast = Array.from({ length: 5 }, (_, i) => {
     const d = (today + i + 1) % 7;
-    const t = Math.round(56 + r(10 + i) * 26);
+    const t2 = Math.round(56 + r(10 + i) * 26);
     const c = conds[Math.floor(r(20 + i) * conds.length)];
-    return { day: days[d], tempF: t, tempC: Math.round((t - 32) * 5 / 9), icon: c.icon };
+    return { day: days[d], tempF: t2, tempC: Math.round((t2 - 32) * 5 / 9), icon: c.icon };
   });
   return {
     city,

@@ -121,6 +121,56 @@ async function importChromeBookmarks() {
   });
 }
 
+// ============================
+// i18n / Translation Helpers
+// ============================
+window.translations = {};
+let i18nLoaded = false;
+const i18nCallbacks = new Set();
+
+async function initI18n() {
+  try {
+    const resp = await fetch(chrome.runtime.getURL('en.json'));
+    window.translations = await resp.json();
+    i18nLoaded = true;
+    i18nCallbacks.forEach(cb => cb());
+  } catch (e) {
+    console.warn('i18n load failed, falling back to keys');
+  }
+}
+initI18n();
+
+function t(key, params = {}) {
+  const parts = key.split('.');
+  let val = window.translations;
+  for (const p of parts) {
+    val = val?.[p];
+    if (val === undefined) break;
+  }
+  if (val === undefined) return key; // Fallback to key
+  
+  // Simple interpolation: {{count}} -> params.count
+  let str = String(val);
+  Object.entries(params).forEach(([k, v]) => {
+    str = str.replace(new RegExp(`{{${k}}}`, 'g'), v);
+  });
+  return str;
+}
+
+function useI18n() {
+  const [, setLoaded] = React.useState(i18nLoaded);
+  React.useEffect(() => {
+    if (i18nLoaded) return;
+    const cb = () => setLoaded(true);
+    i18nCallbacks.add(cb);
+    return () => i18nCallbacks.delete(cb);
+  }, []);
+  return { t, loaded: i18nLoaded };
+}
+
+window.t = t;
+window.useI18n = useI18n;
+
 // React Hook for cross-device sync and local persistence
 function useStorage(key, fallback, isSync = false) {
   const [val, setVal] = React.useState(() => {

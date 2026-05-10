@@ -1,0 +1,30 @@
+{
+  "translation": {
+    "settings": "Settings",
+    "bookmarks": "Bookmarks",
+    "notes": "Notes",
+    "todo": "To-Do",
+    "search": "Search",
+    "quick_links": "Quick Links",
+    "daily_background": "Daily Background",
+    "quote_of_the_day": "Quote of the Day",
+    "add_new_bookmark": "Add New Bookmark",
+    "edit_bookmark": "Edit Bookmark",
+    "delete_bookmark": "Delete Bookmark",
+    "save": "Save",
+    "cancel": "Cancel",
+    "import_bookmarks": "Import Chrome Bookmarks",
+    "export_settings": "Export Settings",
+    "import_settings": "Import Settings",
+    "custom_font": "Custom Font",
+    "select_font": "Select Font",
+    "character_count": "Character Count",
+    "add_note": "Add Note",
+    "add_todo": "Add To-Do",
+    "clear_completed": "Clear Completed",
+    "search_placeholder": "Search...",
+    "no_bookmarks_found": "No bookmarks found.",
+    "no_notes_found": "No notes found.",
+    "no_todos_found": "No to-dos found."
+  }
+}

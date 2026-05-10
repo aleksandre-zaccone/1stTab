@@ -1,5 +1,6 @@
 var { useState, useEffect, useRef } = React;
 function NotesWidget() {
+  const { t } = window.useI18n();
   const [note, setNote] = window.useStorage(STORAGE_KEYS.notes, "", true);
   const [localNote, setLocalNote] = useState(note);
   const saveTimeout = useRef(null);
@@ -15,15 +16,15 @@ function NotesWidget() {
       setNote(val);
     }, 500);
   };
-  return /* @__PURE__ */ React.createElement("div", { className: "crt-panel notes-panel" }, /* @__PURE__ */ React.createElement("div", { className: "crt-panel-label" }, "P4 \xB7 SCRATCHPAD"), /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React.createElement("div", { className: "crt-panel notes-panel" }, /* @__PURE__ */ React.createElement("div", { className: "crt-panel-label" }, "P4 \xB7 ", t("notes.title")), /* @__PURE__ */ React.createElement(
     "textarea",
     {
       className: "notes-textarea custom-scrollbar",
       value: localNote,
       onChange: handleChange,
-      placeholder: "Type your notes here... (autosaves)",
+      placeholder: t("notes.placeholder"),
       spellCheck: "false"
     }
-  ), /* @__PURE__ */ React.createElement("div", { className: "notes-footer" }, localNote.length, "/2000 characters"));
+  ), /* @__PURE__ */ React.createElement("div", { className: "notes-footer" }, t("notes.char_count", { count: localNote.length })));
 }
 window.NotesWidget = NotesWidget;

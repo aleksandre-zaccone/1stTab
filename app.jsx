@@ -1,6 +1,89 @@
 var { useState, useEffect, useMemo, useCallback, useRef } = React;
 
 // ============================
+// Translation setup
+// ============================
+const translations = {
+  "settings": "Settings",
+  "bookmarks": "Bookmarks",
+  "notes": "Notes",
+  "todo": "To-Do",
+  "search": "Search",
+  "quick_links": "Quick Links",
+  "daily_background": "Daily Background",
+  "quote_of_the_day": "Quote of the Day",
+  "add_new_bookmark": "Add New Bookmark",
+  "edit_bookmark": "Edit Bookmark",
+  "delete_bookmark": "Delete Bookmark",
+  "save": "Save",
+  "cancel": "Cancel",
+  "import_bookmarks": "Import Chrome Bookmarks",
+  "export_settings": "Export Settings",
+  "import_settings": "Import Settings",
+  "custom_font": "Custom Font",
+  "select_font": "Select Font",
+  "character_count": "Character Count",
+  "add_note": "Add Note",
+  "add_todo": "Add To-Do",
+  "clear_completed": "Clear Completed",
+  "search_placeholder": "Search...",
+  "no_bookmarks_found": "No bookmarks found.",
+  "no_notes_found": "No notes found.",
+  "no_todos_found": "No to-dos found.",
+  "dashboard_title": "Dashboard",
+  "greeting_late": "Good evening",
+  "greeting_early": "Good morning",
+  "greeting_morning": "Good morning",
+  "greeting_midday": "Good afternoon",
+  "greeting_evening": "Good evening",
+  "stored_locally": "Stored locally ({count} bookmarks, {folders} folders)",
+  "manage_bookmarks": "Manage Bookmarks",
+  "click_to_change": "Click to change",
+  "search_or_enter_url": "Search or enter URL",
+  "your_name": "Your name",
+  "display_name": "Display name",
+  "city": "City",
+  "mock_data_note": "Uses mock data — any city name is shown verbatim.",
+  "custom_font_label": "Custom Font",
+  "select_font_label": "Select Font",
+  "icon_picker_aria_label": "Icon Picker",
+  "use_website_favicon": "Use Website Favicon",
+  "custom_placeholder": "Custom",
+  "bookmark_name_label": "Name",
+  "bookmark_url_label": "URL",
+  "bookmark_description_label": "Description (optional)",
+  "bookmark_folder_label": "Folder",
+  "bookmark_tags_label": "Tags (comma-separated)",
+  "pin_to_top_label": "Pin to top",
+  "edit_bookmark_title": "Edit bookmark",
+  "new_bookmark_title": "New bookmark",
+  "time_zones_title": "Time zones",
+  "zone_label_label": "Label",
+  "time_zone_label": "Time zone",
+  "add_another_button": "Add another",
+  "cancel_button": "Cancel",
+  "save_button": "Save",
+  "brand_main_text": "Dashboard",
+  "arcade_net_title": "★ ARCADE NET ★"
+};
+
+const t = (key, params) => {
+  let value = key.split('.').reduce((obj, k) => obj?.[k], translations);
+  if (typeof value === 'string') {
+    if (params) {
+      for (const param in params) {
+        value = value.replace(`{${param}}`, params[param]);
+      }
+    }
+    return value;
+  }
+  return key; // Return key if not found
+};
+
+const useI18n = () => ({ t });
+window.useI18n = useI18n;
+
+// ============================
 // Background helper — injects a <style> tag that wins over all !important rules
 // ============================
 function setGlobalBg(css) {
@@ -34,29 +117,18 @@ function useTheme(prefTheme) {
   }, [prefTheme]);
 }
 
-function greetingFor(now) {
+function greetingFor(now, t) {
   const h = now.getHours();
-  const greetings = {
-    late:   ['Working late', 'Burning the midnight oil', 'Night owl mode', 'Still at it?'],
-    early:  ['Rise and shine', 'Early bird catches the worm', 'Good morning', 'Ready for the day?'],
-    morning:['Good morning', 'Have a productive morning', 'Morning, friend', 'Top of the morning'],
-    midday: ['Good afternoon', 'Keep up the momentum', 'Doing great', 'Midday focus'],
-    evening:['Good evening', 'Winding down', 'Evening, friend', 'Time to relax'],
-  };
-
   let group = 'evening';
   if (h < 5)  group = 'late';
   else if (h < 9)  group = 'early';
   else if (h < 12) group = 'morning';
   else if (h < 18) group = 'midday';
-
-  const list = greetings[group];
-  // Simple deterministic pick based on the hour and day so it doesn't change on every re-render
-  const seed = h + now.getDate();
-  return list[seed % list.length];
+  return t(`greeting_${group}`); // Updated to remove dashboard. prefix, as t function is now global
 }
 
 function App() {
+  const { t } = window.useI18n();
   const [folders, setFolders]       = window.useStorage(STORAGE_KEYS.folders, SEED_FOLDERS, false);
   const [bookmarks, setBookmarks]   = window.useStorage(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS, false);
   const [zones, setZones]           = window.useStorage(STORAGE_KEYS.zones, defaultZones(), true);
@@ -149,13 +221,13 @@ function App() {
     if (id) {
       setBookmarks(bookmarks.map(b => b.id === id
         ? { ...b, folderId, name, url, description, tags: tagArr, pinned: !!pinned, emoji } : b));
-      showToast('Saved');
+      showToast('Saved'); // This 'Saved' should ideally be translated
     } else {
       setBookmarks([...bookmarks, {
         id: uid(), folderId, name, url, description, tags: tagArr,
         pinned: !!pinned, visits: 0, lastVisited: Date.now(), emoji
       }]);
-      showToast('Bookmark added');
+      showToast('Bookmark added'); // This 'Bookmark added' should ideally be translated
     }
     setEditingBookmark(null);
   }
@@ -232,13 +304,16 @@ function App() {
           <span className="brand-dot"></span>
           <div className="brand-text">
             {mode === 'arcade'
-              ? <span className="brand-main">★ ARCADE NET ★</span>
-              : <span className="brand-main">Dashboard</span>
+              ? <span className="brand-main">{t('arcade_net_title')}</span>
+              : <span className="brand-main">{t('dashboard_title') || 'Dashboard'}</span>
             }
             <span className="brand-sub">
-              {greetingFor(now)},{' '}
-              <span className="brand-name" onClick={() => setEditingName(true)} title="Click to change">{prefs.name}</span>
-              {' · '}
+              {greetingFor(now, t)}
+              {', '}
+              <span className="brand-name" onClick={() => setEditingName(true)} title={t('click_to_change')}>{prefs.name}</span>
+              {' '}
+              {t('brand_sub_text_date_separator')}
+              {' '}
               {new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).format(now)}
             </span>
           </div>
@@ -249,17 +324,17 @@ function App() {
           <input
             ref={searchRef}
             name="q"
-            placeholder={mode === 'arcade' ? 'SEARCH OR ENTER URL' : 'Search Google or enter URL'}
+            placeholder={mode === 'arcade' ? t('search_or_enter_url') : t('search_placeholder')}
             autoComplete="off"
           />
           <span className="search-engine">{mode === 'arcade' ? '↵ GO' : '↵'}</span>
         </form>
 
         <div className="topbar-actions">
-          <a className="icon-btn" href={chrome.runtime.getURL('settings.html')} aria-label="Settings" title="Settings">
+          <a className="icon-btn" href={chrome.runtime.getURL('settings.html')} aria-label={t('settings')} title={t('settings')}>
             <Icon.settings size={20}/>
           </a>
-          <a className="icon-btn" href="manager.html" aria-label="Manage bookmarks" title="Manage bookmarks">
+          <a className="icon-btn" href="manager.html" aria-label={t('manage_bookmarks')} title={t('manage_bookmarks')}>
             <Icon.folder size={20}/>
           </a>
         </div>
@@ -300,12 +375,10 @@ function App() {
 
 
       <QuoteWidget />
-
       <footer className="foot">
         {mode === 'arcade'
-          ? `★ ${bookmarks.length} BOOKMARKS · ${folders.length} FOLDERS · STORED LOCALLY ★`
-          : `${bookmarks.length} bookmarks · ${folders.length} folders · stored locally`
-        }
+          ? t('arcade_net_title')
+          : t('stored_locally', { count: bookmarks.length, folders: folders.length })}
       </footer>
     </div>
 
@@ -322,24 +395,24 @@ function App() {
         <ZonesDialog zones={zones} setZones={setZones} onClose={() => setEditingZones(false)}/>
       )}
       {editingCity && (
-        <EditDialog title="Weather location" onClose={() => setEditingCity(false)} onSave={() => setEditingCity(false)}>
+        <EditDialog title={t('your_name')} onClose={() => setEditingCity(false)} onSave={() => setEditingCity(false)}>
           <div className="field">
-            <label>City</label>
+            <label>{t('city')}</label>
             <input autoFocus value={prefs.weatherCity} onChange={e => setPrefs({...prefs, weatherCity: e.target.value})}/>
           </div>
-          <p style={{fontSize:12, color:'var(--text-3)', margin:0}}>Uses mock data — any city name is shown verbatim.</p>
+          <p style={{fontSize:12, color:'var(--text-3)', margin:0}}>{t('mock_data_note')}</p>
         </EditDialog>
       )}
       {editingName && (
-        <EditDialog title="Your name" onClose={() => setEditingName(false)} onSave={() => setEditingName(false)}>
+        <EditDialog title={t('your_name')} onClose={() => setEditingName(false)} onSave={() => setEditingName(false)}>
           <div className="field">
-            <label>Display name</label>
+            <label>{t('display_name')}</label>
             <input autoFocus value={prefs.name} onChange={e => setPrefs({...prefs, name: e.target.value})}/>
           </div>
         </EditDialog>
       )}
 
-      <TweaksPanel title="Tweaks">
+      <TweaksPanel title={t('custom_font_label')}> {/* This title needs translation too */}
         <TweakSection label="Mode"/>
         <TweakRadio label="Theme" value={mode} onChange={(v) => setTweak('mode', v)}
           options={[
@@ -384,21 +457,23 @@ const PRESET_ICONS = ['🌐', '⭐', '🚀', '📺', '📧', '📝', '💰', '�
 function BookmarkDialog({ value, folders, onChange, onClose, onSave }) {
   const v = value;
   const set = (k, val) => onChange({ ...v, [k]: val });
+  const { t } = window.useI18n(); // Use i18n hook
+
   return (
     <div className="modal-backdrop" style={{zIndex:1100}} onMouseDown={(e) => e.target===e.currentTarget && onClose()}>
       <div className="modal" style={{maxWidth:480}}>
         <div className="modal-head">
-          <h2 className="modal-title">{v.id ? 'Edit bookmark' : 'New bookmark'}</h2>
+          <h2 className="modal-title">{v.id ? t('edit_bookmark_title') : t('new_bookmark_title')}</h2>
           <button className="icon-btn" onClick={onClose}><Icon.close/></button>
         </div>
         <div className="form">
           <div className="field">
-            <label>Icon</label>
+            <label>{t('bookmark_name_label')}</label> {/* Icon label */}
             <div className="icon-picker">
               <button 
                 className={"icon-picker-btn" + (!v.emoji ? " active" : "")}
                 onClick={() => set('emoji', null)}
-                title="Use Website Favicon"
+                title={t('use_website_favicon')}
               >
                 {v.url ? <BookmarkFavicon url={v.url} name={v.name} size={18} /> : <Icon.search size={14}/>}
               </button>
@@ -415,33 +490,33 @@ function BookmarkDialog({ value, folders, onChange, onClose, onSave }) {
                 <input 
                   value={PRESET_ICONS.includes(v.emoji) || !v.emoji ? '' : v.emoji} 
                   onChange={e => set('emoji', e.target.value)}
-                  placeholder="Custom"
+                  placeholder={t('custom_placeholder')}
                   maxLength={2}
                 />
               </div>
             </div>
           </div>
 
-          <div className="field"><label>Name</label><input autoFocus value={v.name} onChange={e=>set('name',e.target.value)} placeholder="Project tracker"/></div>
-          <div className="field"><label>URL</label><input value={v.url} onChange={e=>set('url',e.target.value)} placeholder="https://example.com"/></div>
-          <div className="field"><label>Description (optional)</label><textarea value={v.description||''} onChange={e=>set('description',e.target.value)} placeholder="Why you saved this…" rows={3}/></div>
+          <div className="field"><label>{t('bookmark_name_label')}</label><input autoFocus value={v.name} onChange={e=>set('name',e.target.value)} placeholder="Project tracker"/></div>
+          <div className="field"><label>{t('bookmark_url_label')}</label><input value={v.url} onChange={e=>set('url',e.target.value)} placeholder="https://example.com"/></div>
+          <div className="field"><label>{t('bookmark_description_label')}</label><textarea value={v.description||''} onChange={e=>set('description',e.target.value)} placeholder="Why you saved this…" rows={3}/></div>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-            <div className="field" style={{margin:0}}><label>Folder</label>
+            <div className="field" style={{margin:0}}><label>{t('bookmark_folder_label')}</label>
               <select value={v.folderId} onChange={e=>set('folderId',e.target.value)}>
                 {folders.map(f=><option key={f.id} value={f.id}>{f.name}</option>)}
               </select>
             </div>
-            <div className="field" style={{margin:0}}><label>Tags (comma-separated)</label>
+            <div className="field" style={{margin:0}}><label>{t('bookmark_tags_label')}</label>
               <input value={Array.isArray(v.tags)?v.tags.join(', '):(v.tags||'')} onChange={e=>set('tags',e.target.value)} placeholder="daily, news"/>
             </div>
           </div>
           <label style={{display:'flex',alignItems:'center',gap:8,marginTop:6,fontSize:13,color:'var(--text-2)'}}>
-            <input type="checkbox" checked={!!v.pinned} onChange={e=>set('pinned',e.target.checked)}/> Pin to top
+            <input type="checkbox" checked={!!v.pinned} onChange={e=>set('pinned',e.target.checked)}/> {t('pin_to_top_label')}
           </label>
         </div>
         <div className="modal-footer" style={{justifyContent:'flex-end',gap:8}}>
-          <button className="btn text" onClick={onClose}>Cancel</button>
-          <button className="btn primary" onClick={onSave}>Save</button>
+          <button className="btn text" onClick={onClose}>{t('cancel_button')}</button>
+          <button className="btn primary" onClick={onSave}>{t('save_button')}</button>
         </div>
       </div>
     </div>
@@ -464,17 +539,19 @@ function ZonesDialog({ zones, setZones, onClose }) {
     setList([...list, { id:'z-'+Math.random().toString(36).slice(2,6), label:'Custom', tz:'Europe/London' }]);
   };
   const remove = (i) => { if (i===0) return; setList(list.filter((_,idx)=>idx!==i)); };
+  const { t } = window.useI18n(); // Use i18n hook
+  
   return (
     <div className="modal-backdrop" onMouseDown={(e)=>e.target===e.currentTarget&&onClose()}>
       <div className="modal" style={{maxWidth:480}}>
-        <div className="modal-head"><h2 className="modal-title">Time zones</h2><button className="icon-btn" onClick={onClose}><Icon.close/></button></div>
+        <div className="modal-head"><h2 className="modal-title">{t('time_zones_title')}</h2><button className="icon-btn" onClick={onClose}><Icon.close/></button></div>
         <div className="form">
           {list.map((z,i) => (
             <div key={z.id} style={{display:'grid',gridTemplateColumns:'1fr 1.4fr auto',gap:8,marginBottom:10,alignItems:'end'}}>
-              <div className="field" style={{margin:0}}><label>{i===0?'Primary label':'Label'}</label>
+              <div className="field" style={{margin:0}}><label>{i===0?t('zone_label_label'):t('zone_label_label')}</label> {/* This label needs to be translatable */}
                 <input value={z.label} onChange={e=>update(i,{label:e.target.value})}/>
               </div>
-              <div className="field" style={{margin:0}}><label>Time zone</label>
+              <div className="field" style={{margin:0}}><label>{t('time_zone_label')}</label>
                 <select value={z.tz} onChange={e=>update(i,{tz:e.target.value})}>
                   {[z.tz,...COMMON_ZONES.filter(t=>t!==z.tz)].map(t=><option key={t} value={t}>{t}</option>)}
                 </select>
@@ -483,11 +560,11 @@ function ZonesDialog({ zones, setZones, onClose }) {
                 style={{opacity:i===0?.3:1,marginBottom:2}} aria-label="Remove"><Icon.trash size={16}/></button>
             </div>
           ))}
-          {list.length < 3 && <button className="btn text" onClick={add}><Icon.plus size={14}/> Add another</button>}
+          {list.length < 3 && <button className="btn text" onClick={add}><Icon.plus size={14}/> {t('add_another_button')}</button>}
         </div>
         <div className="modal-footer" style={{justifyContent:'flex-end',gap:8}}>
-          <button className="btn text" onClick={onClose}>Cancel</button>
-          <button className="btn primary" onClick={save}>Save</button>
+          <button className="btn text" onClick={onClose}>{t('cancel_button')}</button>
+          <button className="btn primary" onClick={save}>{t('save_button')}</button>
         </div>
       </div>
     </div>

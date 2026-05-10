@@ -8,6 +8,7 @@ function BookmarksHero({
   view, setView,                // 'grid' | 'list'
   onOpenManager, onAddQuick, onOpenBookmark,
 }) {
+  const { t } = window.useI18n();
   const [query, setQuery] = useState('');
 
   const sortedFolders = useMemo(() => {
@@ -73,20 +74,22 @@ function BookmarksHero({
       {/* HEADER */}
       <div className="hero-head">
         <div className="hero-title-row">
-          <h2 className="hero-title">Bookmarks</h2>
-          <span className="hero-count">{bookmarks.length} saved · {folders.length} folders</span>
+          <h2 className="hero-title">{t('bookmarks.title')}</h2>
+          <span className="hero-count">
+            {t('bookmarks.saved_count', { count: bookmarks.length })} · {t('bookmarks.folders_count', { count: folders.length })}
+          </span>
         </div>
 
         <div className="hero-tools">
           <div className="search-input hero-search">
             <Icon.search size={16}/>
             <input
-              placeholder="Search bookmarks, tags, sites…"
+              placeholder={t('bookmarks.search_placeholder')}
               value={query}
               onChange={e => setQuery(e.target.value)}
             />
             {query && (
-              <button className="icon-btn" style={{width:24,height:24}} onClick={() => setQuery('')} aria-label="Clear">
+              <button className="icon-btn" style={{width:24,height:24}} onClick={() => setQuery('')} aria-label={t('common.close')}>
                 <Icon.close size={14}/>
               </button>
             )}
@@ -194,11 +197,11 @@ function BookmarksHero({
         <div className="hero-main">
           {sorted.length === 0 ? (
             <div className="empty">
-              {query ? `No matches for "${query}".` : 'No bookmarks in this folder yet.'}
+              {query ? t('bookmarks.no_matches_query', { query }) : t('bookmarks.empty_folder')}
               {!query && (
                 <>
                   {' '}
-                  <button className="btn text" onClick={onAddQuick} style={{padding:'0 6px'}}>Add one</button>
+                  <button className="btn text" onClick={onAddQuick} style={{padding:'0 6px'}}>{t('common.add')}</button>
                 </>
               )}
             </div>

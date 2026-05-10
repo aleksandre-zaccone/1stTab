@@ -1,6 +1,7 @@
 var { useState, useCallback } = React;
 
 function TodoWidget() {
+  const { t } = window.useI18n();
   const [todos, setTodos] = window.useStorage(STORAGE_KEYS.todos, [], false);
   const [input, setInput] = useState('');
 
@@ -9,7 +10,7 @@ function TodoWidget() {
     const text = input.trim();
     if (!text) return;
     if (todos.length >= 25) {
-      alert("To-do list is capped at 25 items for the free tier.");
+      alert(t('todo.cap_reached'));
       return;
     }
     setTodos([...todos, { id: Date.now(), text, done: false }]);
@@ -32,13 +33,13 @@ function TodoWidget() {
 
   return (
     <div className="crt-panel todo-panel">
-      <div className="crt-panel-label">P3 · TASKS</div>
+      <div className="crt-panel-label">P3 · {t('todo.title')}</div>
       
       <form className="todo-input-wrap" onSubmit={addTodo}>
         <input 
           value={input} 
           onChange={e => setInput(e.target.value)}
-          placeholder="New task..."
+          placeholder={t('todo.placeholder')}
           maxLength={100}
         />
         <button type="submit" className="todo-add-btn" aria-label="Add task">+</button>
@@ -46,21 +47,21 @@ function TodoWidget() {
 
       <div className="todo-list custom-scrollbar">
         {todos.length === 0 ? (
-          <div className="todo-empty">No pending tasks</div>
+          <div className="todo-empty">{t('todo.empty')}</div>
         ) : (
-          todos.map(t => (
-            <div key={t.id} className={"todo-item" + (t.done ? " done" : "")}>
+          todos.map(task => (
+            <div key={task.id} className={"todo-item" + (task.done ? " done" : "")}>
               <button 
                 className="todo-check" 
-                onClick={() => toggleTodo(t.id)}
-                aria-label={t.done ? "Mark incomplete" : "Mark complete"}
+                onClick={() => toggleTodo(task.id)}
+                aria-label={task.done ? "Mark incomplete" : "Mark complete"}
               >
-                {t.done ? '▣' : '▢'}
+                {task.done ? '▣' : '▢'}
               </button>
-              <span className="todo-text" onClick={() => toggleTodo(t.id)}>{t.text}</span>
+              <span className="todo-text" onClick={() => toggleTodo(task.id)}>{task.text}</span>
               <button 
                 className="todo-del" 
-                onClick={() => deleteTodo(t.id)}
+                onClick={() => deleteTodo(task.id)}
                 aria-label="Delete"
               >×</button>
             </div>
@@ -70,9 +71,9 @@ function TodoWidget() {
 
       {todos.length > 0 && (
         <div className="todo-footer">
-          <span>{completedCount}/{todos.length} done</span>
+          <span>{t('todo.done_count', { done: completedCount, total: todos.length })}</span>
           {completedCount > 0 && (
-            <button className="todo-clear-btn" onClick={clearCompleted}>Clear done</button>
+            <button className="todo-clear-btn" onClick={clearCompleted}>{t('todo.clear_done')}</button>
           )}
         </div>
       )}

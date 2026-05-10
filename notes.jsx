@@ -1,6 +1,7 @@
 var { useState, useEffect, useRef } = React;
 
 function NotesWidget() {
+  const { t } = window.useI18n();
   const [note, setNote] = window.useStorage(STORAGE_KEYS.notes, '', true);
   const [localNote, setLocalNote] = useState(note);
   const saveTimeout = useRef(null);
@@ -24,16 +25,16 @@ function NotesWidget() {
 
   return (
     <div className="crt-panel notes-panel">
-      <div className="crt-panel-label">P4 · SCRATCHPAD</div>
+      <div className="crt-panel-label">P4 · {t('notes.title')}</div>
       <textarea
         className="notes-textarea custom-scrollbar"
         value={localNote}
         onChange={handleChange}
-        placeholder="Type your notes here... (autosaves)"
+        placeholder={t('notes.placeholder')}
         spellCheck="false"
       />
       <div className="notes-footer">
-        {localNote.length}/2000 characters
+        {t('notes.char_count', { count: localNote.length })}
       </div>
     </div>
   );
