@@ -83,7 +83,13 @@ function App() {
       setGlobalBg(`background-image: url("${upload.url}") !important; background-size: cover !important; background-position: center !important; background-attachment: fixed !important; background-repeat: no-repeat !important;`);
       document.body.setAttribute("data-bg", "custom");
     } else if (builtin) {
-      setGlobalBg(`background: ${builtin.value} !important; background-size: auto !important;`);
+      if (builtin.id === "bg-daily") {
+        const today = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
+        const url = `https://picsum.photos/seed/${today}/1920/1080`;
+        setGlobalBg(`background-image: url("${url}") !important; background-size: cover !important; background-position: center !important; background-attachment: fixed !important; background-repeat: no-repeat !important;`);
+      } else {
+        setGlobalBg(`background: ${builtin.value} !important; background-size: auto !important;`);
+      }
       document.body.setAttribute("data-bg", builtin.id);
     } else {
       setGlobalBg("");
@@ -220,7 +226,7 @@ function App() {
       onToggleUnits: toggleUnits,
       onEditCity: () => setEditingCity(true)
     }
-  ))), /* @__PURE__ */ React.createElement(QuoteWidget, null), /* @__PURE__ */ React.createElement("footer", { className: "foot" }, mode === "arcade" ? `\u2605 ${bookmarks.length} BOOKMARKS \xB7 ${folders.length} FOLDERS \xB7 STORED LOCALLY \u2605` : `${bookmarks.length} bookmarks \xB7 ${folders.length} folders \xB7 stored locally`)), editingBookmark && /* @__PURE__ */ React.createElement(
+  ), /* @__PURE__ */ React.createElement(TodoWidget, null), /* @__PURE__ */ React.createElement(NotesWidget, null))), /* @__PURE__ */ React.createElement(QuoteWidget, null), /* @__PURE__ */ React.createElement("footer", { className: "foot" }, mode === "arcade" ? `\u2605 ${bookmarks.length} BOOKMARKS \xB7 ${folders.length} FOLDERS \xB7 STORED LOCALLY \u2605` : `${bookmarks.length} bookmarks \xB7 ${folders.length} folders \xB7 stored locally`)), editingBookmark && /* @__PURE__ */ React.createElement(
     BookmarkDialog,
     {
       value: editingBookmark,

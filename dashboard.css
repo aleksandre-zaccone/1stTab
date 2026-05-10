@@ -2829,3 +2829,201 @@ a.icon-btn { text-decoration: none; display: inline-flex; }
     margin-bottom: 15px; /* Slightly more space below title */
 }
 
+
+/* ── Todo ── */
+.todo-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
+  margin-top: 24px;
+}
+.todo-input-wrap {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.todo-input-wrap input {
+  flex: 1;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--border-strong);
+  color: var(--neon-3);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 6px 10px;
+  outline: none;
+}
+.todo-input-wrap input:focus { border-color: var(--neon-1); }
+.todo-add-btn {
+  background: var(--surface-1);
+  border: 1px solid var(--border-strong);
+  color: var(--neon-1);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.todo-add-btn:hover { background: var(--surface-2); border-color: var(--neon-1); }
+
+.todo-list {
+  flex: 1;
+  overflow-y: auto;
+  margin-right: -4px;
+  padding-right: 4px;
+}
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.todo-item:last-child { border-bottom: none; }
+.todo-item.done .todo-text {
+  color: var(--text-3);
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+.todo-check {
+  background: none;
+  border: none;
+  color: var(--neon-1);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.todo-text {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-2);
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.todo-del {
+  background: none;
+  border: none;
+  color: var(--text-3);
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.todo-item:hover .todo-del { opacity: 1; }
+.todo-del:hover { color: #ff5555; }
+
+.todo-empty {
+  text-align: center;
+  padding: 20px 0;
+  color: var(--text-3);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.todo-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-strong);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--text-3);
+  letter-spacing: 0.5px;
+}
+.todo-clear-btn {
+  background: none;
+  border: none;
+  color: var(--neon-2);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  text-decoration: underline;
+  padding: 0;
+}
+
+/* ── Material Overrides for Todo ── */
+:root[data-mode="material-light"] .todo-panel,
+:root[data-mode="material-dark"] .todo-panel {
+  max-height: 450px;
+}
+:root[data-mode="material-light"] .todo-input-wrap input,
+:root[data-mode="material-dark"] .todo-input-wrap input {
+  background: var(--md-surface-2);
+  border: 1px solid var(--md-border);
+  border-radius: 4px;
+  color: var(--md-text);
+  font-family: "Roboto", sans-serif;
+}
+:root[data-mode="material-light"] .todo-add-btn,
+:root[data-mode="material-dark"] .todo-add-btn {
+  border-radius: 4px;
+  background: var(--md-primary);
+  color: #fff;
+  border: none;
+}
+:root[data-mode="material-light"] .todo-text,
+:root[data-mode="material-dark"] .todo-text {
+  font-family: "Roboto", sans-serif;
+  color: var(--md-text);
+}
+:root[data-mode="material-light"] .todo-footer,
+:root[data-mode="material-dark"] .todo-footer {
+  font-family: "Roboto", sans-serif;
+  font-size: 11px;
+}
+
+/* ── Notes ── */
+.notes-panel {
+  display: flex;
+  flex-direction: column;
+  height: 250px;
+  margin-top: 16px;
+}
+.notes-textarea {
+  flex: 1;
+  background: rgba(0,0,0,0.15);
+  border: 1px solid var(--border-strong);
+  color: var(--text-2);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 10px;
+  resize: none;
+  outline: none;
+  line-height: 1.5;
+}
+.notes-textarea:focus { border-color: var(--neon-2); background: rgba(0,0,0,0.25); }
+.notes-footer {
+  text-align: right;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--text-4);
+  margin-top: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* Material Overrides for Notes */
+:root[data-mode="material-light"] .notes-textarea,
+:root[data-mode="material-dark"] .notes-textarea {
+  background: var(--md-surface-2);
+  border: 1px solid var(--md-border);
+  border-radius: 4px;
+  color: var(--md-text);
+  font-family: "Roboto", sans-serif;
+}
+:root[data-mode="material-light"] .notes-footer,
+:root[data-mode="material-dark"] .notes-footer {
+  font-family: "Roboto", sans-serif;
+  font-size: 11px;
+}

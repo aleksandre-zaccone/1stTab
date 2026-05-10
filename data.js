@@ -5,7 +5,9 @@ const STORAGE_KEYS = {
   // bumped: single Favorites folder
   zones: "dash.zones.v1",
   prefs: "dash.prefs.v1",
-  bgUploads: "dash.bgUploads.v1"
+  bgUploads: "dash.bgUploads.v1",
+  todos: "dash.todos.v1",
+  notes: "dash.notes.v1"
 };
 function loadJSON(key, fallback) {
   try {
@@ -42,7 +44,7 @@ async function importAllData(jsonString) {
     for (const [k, v] of Object.entries(data)) {
       saveJSON(k, v);
       if (typeof chrome !== "undefined" && chrome.storage) {
-        const area = syncKeys.includes(k) ? chrome.storage.sync : chrome.storage.local;
+        const area = syncKeys.includes(k) || k === STORAGE_KEYS.todos || k === STORAGE_KEYS.notes ? chrome.storage.sync : chrome.storage.local;
         await new Promise((r) => area.set({ [k]: v }, r));
       }
     }
@@ -310,6 +312,13 @@ const BUILTIN_BACKGROUNDS = [
     label: "Light",
     // Soft blue-to-lavender-to-peach gradient
     value: "linear-gradient(135deg, #ddeeff 0%, #f8f4ff 45%, #ffeedd 100%)"
+  },
+  {
+    id: "bg-daily",
+    label: "Daily",
+    // Value will be dynamically replaced or handled in app.jsx
+    value: 'url("https://picsum.photos/1920/1080?grayscale&blur=2")'
+    // fallback
   }
 ];
 const DEFAULT_PREFS = {

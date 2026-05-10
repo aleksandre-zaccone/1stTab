@@ -105,7 +105,13 @@ function App() {
       setGlobalBg(`background-image: url("${upload.url}") !important; background-size: cover !important; background-position: center !important; background-attachment: fixed !important; background-repeat: no-repeat !important;`);
       document.body.setAttribute('data-bg', 'custom');
     } else if (builtin) {
-      setGlobalBg(`background: ${builtin.value} !important; background-size: auto !important;`);
+      if (builtin.id === 'bg-daily') {
+        const today = new Date().toISOString().slice(0, 10);
+        const url = `https://picsum.photos/seed/${today}/1920/1080`;
+        setGlobalBg(`background-image: url("${url}") !important; background-size: cover !important; background-position: center !important; background-attachment: fixed !important; background-repeat: no-repeat !important;`);
+      } else {
+        setGlobalBg(`background: ${builtin.value} !important; background-size: auto !important;`);
+      }
       document.body.setAttribute('data-bg', builtin.id);
     } else {
       setGlobalBg('');
@@ -286,6 +292,8 @@ function App() {
             onToggleUnits={toggleUnits}
             onEditCity={() => setEditingCity(true)}
           />
+          <TodoWidget />
+          <NotesWidget />
         </aside>
       </div>
 

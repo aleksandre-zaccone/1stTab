@@ -189,7 +189,13 @@ function SettingsPage() {
                 onClick={() => setPrefs({ ...prefs, bgId: bg.id })}
                 title={bg.label}
               >
-                <span className="bg-thumb-img" style={{background: bg.value}}/>
+                <span 
+                  className="bg-thumb-img" 
+                  style={bg.id === 'bg-daily' 
+                    ? { backgroundImage: `url("https://picsum.photos/seed/${new Date().toISOString().slice(0, 10)}/200/150")`, backgroundSize: 'cover' }
+                    : { background: bg.value }
+                  }
+                />
                 <span className="bg-thumb-label">{bg.label}</span>
                 {prefs.bgId === bg.id && <span className="bg-check">✓</span>}
               </button>

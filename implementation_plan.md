@@ -46,23 +46,26 @@ Phase 2: UI & UX Enhancements
 Phase 3: New Widgets
  [ ] Task 9: Quick Links / Speed Dial
   - Add a grid-based visual component above or alongside the standard bookmarks list for top-visited sites.
-  - Note: "Pinned" strip exists, but automatic "Top Visited" logic is pending.
+  - Note: "Pinned" strip exists. Automatic "Top Visited" logic is complex for free tier without tracking, but we can allow users to "pin" more items easily.
 
- [ ] Task 10: Free To-Do List
-  - Create a simple to-do list widget (capped at ~25 items).
-  - Store tasks in local storage.
+ [x] Task 10: Free To-Do List
+  - Created a simple to-do list widget (capped at 25 items).
+  - Stored tasks in sync storage for cross-device availability.
+  - Implemented add, toggle, delete, and clear completed functionality.
 
- [ ] Task 11: Quick Notes
-  - Create a small scratchpad widget for a single note with a reasonable character cap.
+ [x] Task 11: Quick Notes
+  - Created a small scratchpad widget with a 2000-character cap.
+  - Implemented auto-saving and cross-tab synchronization.
+  - Added character count display.
 
- [ ] Task 12: Daily Backgrounds
-  - Integrate a free image API for daily backgrounds (e.g., Picsum or Unsplash).
+ [x] Task 12: Daily Backgrounds
+  - Integrated Picsum Photos for a new "Daily" background option.
+  - Deterministic seed based on current date ensures every user sees the same image each day.
+  - Added preview support in Settings.
 
-  
-  
 Phase 4: Architecture
  [ ] Task 13: i18n Scaffold
   - Replace hardcoded English strings with a simple `t('key')` function.
   - Set up a basic `en.json`.
 
-How to proceed: Phase 1 and 2 are complete. We should now move to Phase 3, starting with Task 9 (Quick Links) or Task 10 (To-Do List).
+How to proceed: Phases 1, 2, and 3 are largely complete. We should now move to Phase 4 (i18n) or refine Task 9.

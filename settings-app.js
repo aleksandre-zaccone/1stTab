@@ -123,7 +123,13 @@ function SettingsPage() {
       onClick: () => setPrefs({ ...prefs, bgId: bg.id }),
       title: bg.label
     },
-    /* @__PURE__ */ React.createElement("span", { className: "bg-thumb-img", style: { background: bg.value } }),
+    /* @__PURE__ */ React.createElement(
+      "span",
+      {
+        className: "bg-thumb-img",
+        style: bg.id === "bg-daily" ? { backgroundImage: `url("https://picsum.photos/seed/${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}/200/150")`, backgroundSize: "cover" } : { background: bg.value }
+      }
+    ),
     /* @__PURE__ */ React.createElement("span", { className: "bg-thumb-label" }, bg.label),
     prefs.bgId === bg.id && /* @__PURE__ */ React.createElement("span", { className: "bg-check" }, "\u2713")
   )), (bgUploads || []).map((up) => /* @__PURE__ */ React.createElement(
