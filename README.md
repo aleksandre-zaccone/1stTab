@@ -97,15 +97,6 @@ bash build.sh
 └── icons/               # 16/48/128 px extension icons
 ```
 
-## Roadmap
-
-See [`RECOMMENDATIONS.md`](./RECOMMENDATIONS.md) for the full competitive analysis and feature roadmap, including:
-
-- Cross-device sync (`chrome.storage.sync` + cloud backend)
-- Quick links speed dial, todos, notes, daily quotes, font picker
-- Draggable grid layout
-- **1stTab Plus** — paid tier with premium themes, integrations (Calendar, Todoist, Spotify, Linear), focus mode, AI notes, profiles, and side panel
-
 ## Tech notes
 
 - React 18 + Babel-standalone (no build step in dev). Production build pre-compiles JSX via esbuild.
@@ -113,4 +104,4 @@ See [`RECOMMENDATIONS.md`](./RECOMMENDATIONS.md) for the full competitive analys
 
 ## License
 
-TBD — defaulting to "all rights reserved" until a license decision is made.
+MIT — see [`LICENSE`](./LICENSE) for details.
