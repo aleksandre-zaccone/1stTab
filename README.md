@@ -23,18 +23,62 @@ A new-tab dashboard for Chrome with bookmarks, world clocks, weather, and a spli
 
 1. Clone this repo:
    ```bash
-   git clone https://github.com/<your-username>/1st-tab.git
+   git clone https://github.com/aleksandre-zaccone/1stTab.git
    ```
 2. Open Chrome → `chrome://extensions/`
 3. Enable **Developer mode** (top right)
 4. Click **Load unpacked** and select the cloned folder
 5. Open a new tab — 1stTab should now greet you
 
+## Branching & Deployment
+
+```
+feature/my-feature
+       │
+       ▼
+     test        ← staging / QA branch
+       │
+       ▼
+     main        ← triggers pipeline automatically
+```
+
+### Branch rules
+
+| Branch | Purpose |
+|---|---|
+| `feature/*` | Individual feature or fix work |
+| `test` | Staging — merge features here for QA before release |
+| `main` | Production — merging here triggers publish to Chrome Web Store |
+
+### Release flow
+
+1. Create a feature branch off `test`:
+   ```bash
+   git checkout test && git pull
+   git checkout -b feature/my-feature
+   ```
+2. Do your work, push, and open a PR **into `test`**
+3. Verify the feature on the unpacked extension loaded from your local clone
+4. When ready to release, open a PR **from `test` into `main`**
+5. Merging into `main` automatically:
+   - Bumps the patch version in `manifest.json` (e.g. `1.0.1 → 1.0.2`)
+   - Builds `1stTab.zip` via `build.sh`
+   - Uploads and submits to the Chrome Web Store for review
+   - Commits the version bump back to `main` with `[skip ci]`
+
+### Build locally
+
+```bash
+npm install
+bash build.sh
+# produces 1stTab.zip ready for manual upload if needed
+```
+
 ## Project structure
 
 ```
 .
-├── manifest.json        # Chrome extension manifest
+├── manifest.json        # Chrome extension manifest (version is auto-bumped on release)
 ├── newtab.html          # New-tab override entry point
 ├── dashboard.css        # All styles (themes, layout, components)
 ├── app.jsx              # App shell, settings, root render
@@ -47,6 +91,9 @@ A new-tab dashboard for Chrome with bookmarks, world clocks, weather, and a spli
 ├── manager.html         # Bookmarks manager standalone page
 ├── manager.jsx          # Manager-page entry
 ├── manager-app.jsx      # Manager UI (search, edit dialogs, bulk ops)
+├── privacy.html         # Privacy Policy page
+├── terms.html           # Terms of Service page
+├── build.sh             # Production build script
 └── icons/               # 16/48/128 px extension icons
 ```
 
@@ -54,8 +101,6 @@ A new-tab dashboard for Chrome with bookmarks, world clocks, weather, and a spli
 
 See [`RECOMMENDATIONS.md`](./RECOMMENDATIONS.md) for the full competitive analysis and feature roadmap, including:
 
-- Manifest V3 migration
-- Real weather (Open-Meteo)
 - Cross-device sync (`chrome.storage.sync` + cloud backend)
 - Quick links speed dial, todos, notes, daily quotes, font picker
 - Draggable grid layout
@@ -63,8 +108,8 @@ See [`RECOMMENDATIONS.md`](./RECOMMENDATIONS.md) for the full competitive analys
 
 ## Tech notes
 
-- Currently Manifest V2 — V3 migration is the next priority
-- React 18 + Babel-standalone (no build step in dev). Production build will pre-compile JSX to remove `unsafe-eval` from CSP.
+- React 18 + Babel-standalone (no build step in dev). Production build pre-compiles JSX via esbuild.
+- Manifest V3
 
 ## License
 
