@@ -26,11 +26,11 @@ jobs:
         run: bash build.sh
 
       - name: Publish to Chrome Web Store
-        uses: fregante/chrome-extension-upload-action@v1
-        with:
-          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-          artifact: 1stTab.zip
-          publish: true
+        run: |
+          npx chrome-webstore-upload-cli@latest upload \
+            --extension-id ${{ secrets.CHROME_EXTENSION_ID }} \
+            --client-id ${{ secrets.CHROME_CLIENT_ID }} \
+            --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} \
+            --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }} \
+            --source 1stTab.zip \
+            --auto-publish
