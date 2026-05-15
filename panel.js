@@ -505,4 +505,4 @@ function PanelApp() {
     )
   );
 }
-ReactDOM.render(React.createElement(PanelApp), document.getElementById("root"));
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(PanelApp));
