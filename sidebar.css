@@ -1,5 +1,5 @@
-/* 1stTab Sidebar — injected into every web page via content script.
-   All rules are scoped to #sttab-sidebar to avoid conflicts with page styles. */
+/* 1stTab Sidebar — all dynamic values (width, transform) are set via JS inline styles.
+   This file only handles static styles and pseudo-states. */
 
 #sttab-sidebar {
   position: fixed !important;
@@ -11,139 +11,88 @@
   margin: 0 !important;
   padding: 0 !important;
   border: none !important;
-  background: none !important;
+  background: transparent !important;
   box-sizing: border-box !important;
-  transition: transform 0.26s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  overflow: visible !important;
   pointer-events: all !important;
+  transition: transform 0.26s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* ── Right side ── */
-#sttab-sidebar[data-pos="right"] {
-  right: 0 !important;
-  left: auto !important;
-  flex-direction: row-reverse !important;
-}
-#sttab-sidebar[data-pos="right"][data-open="0"] {
-  transform: translateX(var(--sttab-w, 400px)) !important;
-}
-#sttab-sidebar[data-pos="right"][data-open="1"] {
-  transform: translateX(0) !important;
-}
-
-/* ── Left side ── */
-#sttab-sidebar[data-pos="left"] {
-  left: 0 !important;
-  right: auto !important;
-  flex-direction: row !important;
-}
-#sttab-sidebar[data-pos="left"][data-open="0"] {
-  transform: translateX(calc(-1 * var(--sttab-w, 400px))) !important;
-}
-#sttab-sidebar[data-pos="left"][data-open="1"] {
-  transform: translateX(0) !important;
-}
-
-/* ── Toggle tab (always visible at the edge) ── */
+/* Tab button */
 #sttab-tab {
-  all: unset !important;
+  all: initial !important;
   box-sizing: border-box !important;
-  width: 24px !important;
-  flex-shrink: 0 !important;
-  height: 100% !important;
-  background: #1976d2 !important;
-  color: #ffffff !important;
-  border: none !important;
-  cursor: pointer !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  flex-shrink: 0 !important;
+  width: 24px !important;
+  height: 100% !important;
+  background: #1976d2 !important;
+  color: #fff !important;
+  border: none !important;
+  cursor: pointer !important;
+  writing-mode: vertical-rl !important;
   font-size: 11px !important;
   font-weight: 700 !important;
-  font-family: "Roboto", Arial, sans-serif !important;
-  letter-spacing: 0.12em !important;
-  writing-mode: vertical-rl !important;
-  text-orientation: mixed !important;
+  font-family: Arial, sans-serif !important;
+  letter-spacing: 0.1em !important;
   user-select: none !important;
-  transition: background 0.15s !important;
   padding: 0 !important;
   margin: 0 !important;
   outline: none !important;
 }
 
-#sttab-tab::after {
-  content: "1stTab" !important;
+#sttab-tab::after { content: "1stTab" !important; }
+#sttab-tab:hover  { background: #1565c0 !important; }
+
+#sttab-sidebar[data-pos="right"] #sttab-tab { border-radius: 8px 0 0 8px !important; }
+#sttab-sidebar[data-pos="left"]  #sttab-tab { border-radius: 0 8px 8px 0 !important; }
+
+/* Frame wrapper */
+#sttab-frame-wrap {
+  position: relative !important;
+  height: 100% !important;
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
 }
 
-#sttab-tab:hover {
-  background: #1565c0 !important;
-}
-
-#sttab-sidebar[data-pos="right"] #sttab-tab {
-  border-radius: 8px 0 0 8px !important;
-}
-
-#sttab-sidebar[data-pos="left"] #sttab-tab {
-  border-radius: 0 8px 8px 0 !important;
-}
-
-/* ── Panel iframe ── */
+/* Iframe */
 #sttab-frame {
-  all: unset !important;
   display: block !important;
-  width: var(--sttab-w, 400px) !important;
   height: 100% !important;
   border: none !important;
   background: #fafafa !important;
-  flex-shrink: 0 !important;
 }
 
-#sttab-sidebar[data-pos="right"] #sttab-frame {
-  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.18) !important;
-}
+#sttab-sidebar[data-pos="right"] #sttab-frame { box-shadow: -4px 0 20px rgba(0,0,0,.18) !important; }
+#sttab-sidebar[data-pos="left"]  #sttab-frame { box-shadow:  4px 0 20px rgba(0,0,0,.18) !important; }
 
-#sttab-sidebar[data-pos="left"] #sttab-frame {
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.18) !important;
-}
-
-/* ── Resize handle ── */
+/* Resize handle */
 #sttab-resize {
   position: absolute !important;
   top: 0 !important;
   bottom: 0 !important;
   width: 6px !important;
   cursor: ew-resize !important;
-  z-index: 1 !important;
+  z-index: 10 !important;
   background: transparent !important;
   transition: background 0.15s !important;
 }
 
 #sttab-resize:hover,
-#sttab-sidebar[data-resizing="1"] #sttab-resize {
-  background: rgba(25, 118, 210, 0.3) !important;
-}
+#sttab-sidebar[data-resizing] #sttab-resize { background: rgba(25,118,210,.35) !important; }
 
-/* Handle on left edge of iframe when panel is on the right */
-#sttab-sidebar[data-pos="right"] #sttab-resize {
-  left: 0 !important;
-  right: auto !important;
-}
+#sttab-sidebar[data-pos="right"] #sttab-resize { left: 0 !important; }
+#sttab-sidebar[data-pos="left"]  #sttab-resize { right: 0 !important; }
 
-/* Handle on right edge of iframe when panel is on the left */
-#sttab-sidebar[data-pos="left"] #sttab-resize {
-  right: 0 !important;
-  left: auto !important;
-}
-
-/* Overlay to capture mouse during resize (prevents iframe swallowing events) */
+/* Full-page overlay while resizing (blocks iframe from eating mouse events) */
 #sttab-overlay {
   display: none !important;
   position: fixed !important;
   inset: 0 !important;
   z-index: 2147483646 !important;
   cursor: ew-resize !important;
+  background: transparent !important;
 }
 
-#sttab-sidebar[data-resizing="1"] ~ #sttab-overlay {
-  display: block !important;
-}
+#sttab-sidebar[data-resizing] ~ #sttab-overlay { display: block !important; }
