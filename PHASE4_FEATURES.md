@@ -408,108 +408,132 @@ On first new tab of the day, a Claude API call summarizes: calendar events, open
 
 ---
 
-# Publishing: Free vs. Pro
+# Publishing: Single Extension, Free + Plus
 
-## The core question: one extension or two?
+## Decision: One extension, feature gating
 
----
+One Chrome Web Store listing. All users install the same `.crx`. Plus features unlock after license verification against a Google Cloud Function backend.
 
-## Option A — Single Extension, Feature Gating ✓ Recommended
-
-One Chrome Web Store listing. All users install the same `.crx`. Plus features unlock after license verification.
-
-**How it works:**
-1. User installs the extension (free)
-2. User visits `1sttab.com/upgrade`, pays via Lemon Squeezy
-3. Lemon Squeezy generates a license key, emails it to the user
-4. User enters the key in Settings → Plus
-5. Extension calls `POST https://api.1sttab.com/verify` with the key
-6. Server returns `{ active: true, expiry: "2027-05-14" }`
-7. Response cached in `chrome.storage.local` for 30 days (offline resilience)
-
-**Pros:**
-- Zero upgrade friction — users never reinstall
-- One codebase, one review cycle, one listing
+**Why one extension:**
+- Zero upgrade friction — users never reinstall or lose data
+- One codebase, one review cycle, one listing to manage
 - Free users see tasteful "Upgrade" prompts inside the UI they already love
 - Industry standard: Momentum, Grammarly, Vimium C all use this model
-- A/B test upgrade prompts easily
-
-**Cons:**
-- Needs a small backend (a single Cloudflare Worker is enough — ~10 lines)
-- Plus features live in the binary (cosmetic gates can be bypassed by a determined developer, acceptable for this audience)
-
-**Bypass risk is low:** AI and Google Workspace features require server-side API keys and OAuth anyway. A bypass doesn't help without the user's own API key.
+- Bypass risk is low — AI and Google Workspace features require the user's own API key and OAuth regardless of the license gate
 
 ---
 
-## Option B — Two Separate Extensions
-
-Two listings: **1stTab** (free) and **1stTab Plus** (paid one-time via Chrome Web Store).
-
-**Pros:** No backend needed. Clean separation.
-
-**Cons:**
-- Users must uninstall and reinstall to upgrade — the worst UX in extensions
-- Manual data migration step (most users will lose data)
-- Two codebases or a complex build system
-- Two review cycles per release
-- Split ratings and reviews — harder to build social proof
-- Chrome Web Store one-time purchases not available in all regions
-
-**Verdict:** Avoid. Only viable for a simple, server-free tool with no sync or AI roadmap.
-
----
-
-## Option C — Free Extension + Paid Web App (Hybrid)
-
-The extension is always free. A companion web app is the paid product communicating via `chrome.runtime.sendMessage`.
-
-**Verdict:** Avoid. Adds enormous complexity for no UX gain over Option A.
-
----
-
-## Decision Matrix
-
-| Criterion | Option A (Single) | Option B (Two) | Option C (Hybrid) |
-|---|---|---|---|
-| Upgrade friction | None | High (reinstall) | Medium |
-| Data continuity on upgrade | ✓ Automatic | ✗ Manual export/import | ✓ |
-| Backend required | Minimal (1 Worker) | None | Yes (complex) |
-| Codebase complexity | Low | High | Very high |
-| Revenue model flexibility | Subscription + one-time | One-time only | Subscription |
-| Industry precedent | Momentum, Grammarly | Rare | Very rare |
-| **Recommendation** | **✓ Use this** | Avoid | Avoid |
-
----
-
-## Licensing Stack (Minimal, $0/month to start)
+## How It Works — End to End
 
 ```
-User pays → Lemon Squeezy → webhook → Cloudflare Worker → chrome.storage.local
+User pays → Lemon Squeezy → webhook → Google Cloud Function → chrome.storage.local
 ```
 
-**Lemon Squeezy** handles billing, license keys, customer portal, VAT/tax globally.
+1. User installs the extension (free)
+2. User visits `1sttab.com/upgrade`, pays via Lemon Squeezy
+3. Lemon Squeezy emails a license key and fires a webhook
+4. User enters the key in **Settings → Plus**
+5. Extension calls `POST https://us-central1-1sttab.cloudfunctions.net/verify`
+6. Cloud Function validates the key with Lemon Squeezy, returns `{ active, expiry }`
+7. Response cached in `chrome.storage.local` for 30 days (works offline)
+8. Daily background re-check keeps the cache fresh
 
-**Cloudflare Worker** (free tier):
+---
+
+## Licensing Backend — Google Cloud Function
+
+Stays in the same Google Cloud project as Calendar, Drive, and Identity — one console, one billing account.
+
+**Free tier:** 2 million invocations/month — more than enough at any realistic user count.
+
+**Setup:**
+1. Create a Google Cloud project (or reuse the one for Calendar/Drive)
+2. Enable Cloud Functions API
+3. Deploy the function below
+4. Add `LEMON_SQUEEZY_API_KEY` as an environment variable in the Cloud Console
+
 ```js
-export default {
-  async fetch(request) {
-    const { key } = await request.json();
-    const res = await fetch(`https://api.lemonsqueezy.com/v1/licenses/validate`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${LS_API_KEY}` },
-      body: JSON.stringify({ license_key: key }),
-    });
-    const data = await res.json();
-    return Response.json({
-      active: data.valid,
-      expiry: data.license_key?.expires_at,
-    });
+// functions/verify.js  (Node.js 20)
+const { onRequest } = require('firebase-functions/v2/https');
+
+exports.verify = onRequest({ cors: ['chrome-extension://*'] }, async (req, res) => {
+  if (req.method !== 'POST') return res.status(405).end();
+
+  const { key } = req.body;
+  if (!key) return res.status(400).json({ error: 'missing key' });
+
+  const r = await fetch('https://api.lemonsqueezy.com/v1/licenses/validate', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.LEMON_SQUEEZY_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ license_key: key }),
+  });
+
+  const data = await r.json();
+  res.json({
+    active: data.valid === true,
+    expiry: data.license_key?.expires_at ?? null,
+    email: data.meta?.customer_email ?? null,
+  });
+});
+```
+
+**Extension-side verification (background.js):**
+
+```js
+async function verifyLicense(key) {
+  const res = await fetch('https://us-central1-1sttab.cloudfunctions.net/verify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ key }),
+  });
+  const data = await res.json();
+  if (data.active) {
+    saveJSON('1stTab.plus', { active: true, expiry: data.expiry, key });
   }
-};
+  return data.active;
+}
+
+// Re-check once per day via alarm
+chrome.alarms.create('licenseCheck', { periodInMinutes: 1440 });
+chrome.alarms.onAlarm.addListener(({ name }) => {
+  if (name === 'licenseCheck') {
+    const stored = loadJSON('1stTab.plus', {});
+    if (stored.key) verifyLicense(stored.key);
+  }
+});
+```
+
+**Plus gate helper (used everywhere in the extension):**
+
+```js
+function isPlusUser() {
+  return loadJSON('1stTab.plus', { active: false }).active === true;
+}
+
+function requirePlus(featureName, callback) {
+  if (isPlusUser()) { callback(); return; }
+  showUpgradeModal(featureName); // opens 1sttab.com/upgrade
+}
 ```
 
 **Total infrastructure cost at 0–1 000 users: $0/month.**
+(Google Cloud Functions free tier: 2M invocations/month, 400K GB-seconds compute)
+
+---
+
+## Pricing
+
+| Plan | Price | Rationale |
+|---|---|---|
+| Free | $0 | Generous free tier drives installs and word of mouth |
+| Plus Monthly | $3.99/mo | Under the "impulse buy" threshold |
+| Plus Annual | $29.99/yr (~$2.50/mo) | ~37% discount, reduces churn |
+| Lifetime | $79 one-time | Converts users who resist subscriptions |
+
+**Comparable:** Momentum Plus $3.33/mo (annual) · Toby Pro $3/mo · 1stTab's AI features justify parity or a slight premium.
 
 ---
 
@@ -551,6 +575,6 @@ export default {
   "https://open.er-api.com/*",
   "https://finnhub.io/*",
   "https://api.anthropic.com/*",
-  "https://api.1sttab.com/*"
+  "https://us-central1-1sttab.cloudfunctions.net/*"
 ]
 ```
