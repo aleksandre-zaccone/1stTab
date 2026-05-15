@@ -1,16 +1,17 @@
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
-});
+/* global chrome */
 
-chrome.commands.onCommand.addListener(async (command) => {
-  if (command === 'open-panel') {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (!tab) return;
-    // Try sidebar content script first; fall back to native side panel
-    chrome.tabs.sendMessage(tab.id, { action: 'toggleSidebar' }, () => {
-      if (chrome.runtime.lastError) {
-        chrome.sidePanel.open({ windowId: tab.windowId }).catch(() => {});
-      }
-    });
-  }
+async function toggleSidebarInActiveTab() {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab) return;
+  chrome.tabs.sendMessage(tab.id, { action: 'toggleSidebar' }, () => {
+    void chrome.runtime.lastError; // suppress "no receiver" errors on chrome:// pages
+  });
+}
+
+// Toolbar icon click → toggle sidebar
+chrome.action.onClicked.addListener(toggleSidebarInActiveTab);
+
+// Alt+Shift+P → toggle sidebar
+chrome.commands.onCommand.addListener(command => {
+  if (command === 'open-panel') toggleSidebarInActiveTab();
 });

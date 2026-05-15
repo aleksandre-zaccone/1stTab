@@ -19,7 +19,6 @@
   "permissions": [
     "storage",
     "bookmarks",
-    "sidePanel",
     "tabs",
     "sessions",
     "tabGroups",
@@ -32,9 +31,6 @@
       "suggested_key": { "default": "Alt+Shift+P" },
       "description": "Open 1stTab side panel"
     }
-  },
-  "side_panel": {
-    "default_path": "panel.html"
   },
   "background": {
     "service_worker": "background.js"
