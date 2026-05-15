@@ -16,12 +16,12 @@ echo "▶ Packaging..."
 python3 - << 'PYEOF'
 import zipfile, os
 files = [
-  'manifest.json','newtab.html','manager.html','settings.html','privacy.html','dashboard.css',
+  'manifest.json','newtab.html','manager.html','settings.html','privacy.html','terms.html','dashboard.css',
   'react.min.js','react-dom.min.js','defaults.js',
   'tweaks-panel.js','icons.js','data.js','clocks.js','weather.js','todo.js','notes.js','quote.js',
   'bookmarks.js','manager.js','app.js','manager-app.js','settings-app.js','panel.js',
   'panel.html','panel.css','background.js',
-  'icons/icon16.png','icons/icon48.png','icons/icon128.png',
+  'icons/icon16.png','icons/icon48.png','icons/icon128.png','icons/favicon.png',
 ]
 with zipfile.ZipFile('1stTab.zip', 'w', zipfile.ZIP_DEFLATED) as z:
     [z.write(f) for f in files]

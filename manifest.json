@@ -33,7 +33,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["manager.html", "privacy.html", "settings.html"],
+      "resources": ["manager.html", "privacy.html", "terms.html", "settings.html"],
       "matches": ["chrome-extension://*/*"]
     }
   ]
