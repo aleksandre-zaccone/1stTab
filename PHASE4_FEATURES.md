@@ -1,251 +1,532 @@
-# 1stTab — Phase 4 Feature Recommendations
-# Free vs. Plus Tier Breakdown
+# 1stTab — Phase 4 Feature Plan
+## Free vs. Plus Tier Breakdown
 
-> Updated: 2026-05-14
-> Branch: release/v3
-> Scope: Sync, Backup, Finance Widgets, Side Panel v2, Google Workspace integrations, AI features, monetization strategy
+> Updated: 2026-05-14 · Branch: release/v3
 
 ---
 
-## How to read this document
-
-Each feature is tagged:
-- **[FREE]** — ships in the free tier, no account or payment required
-- **[PLUS]** — requires a paid Plus subscription
-- **[FUTURE]** — recommended for a later phase, not Phase 4
-
----
-
-## 1. Cross-Device Sync
-
-### [FREE] Settings sync via `chrome.storage.sync`
-Preferences (theme, font, name, weather city, world clocks, search engine) automatically follow the user across all Chrome instances signed in to the same Google account. No sign-in required beyond being logged into Chrome.
-
-**How it works:** `chrome.storage.sync` encrypts and replicates small key-value pairs via the user's existing Google account. Chrome handles the sync transport — the extension just reads and writes to the storage API.
-
-**Limit:** 100 KB total / 8 KB per item. Sufficient for all preferences.
-
-### [FREE] Todo & Notes sync
-Todos (capped at 25 items) and Quick Notes (capped at 2 000 characters) are small enough to fit comfortably inside the 100 KB sync quota. Both will sync automatically with zero user action.
-
-### [FREE] Quick Links visit counts sync
-The visit frequency data used by the Speed Dial / Quick Links widget is synced so the same "top sites" appear on all devices.
-
-### [PLUS] Full bookmark sync
-Bookmark sets can exceed the 100 KB `chrome.storage.sync` limit. Full bookmark sync requires cloud storage (Google Drive AppData, see §2). Gated behind Plus to cover API and storage costs.
-
-**Free alternative:** Bookmarks remain on the local device and can be exported/imported as JSON.
-
-### [FREE] Conflict resolution — last-write-wins
-For all synced keys, the extension compares `updatedAt` timestamps. The more recent write wins. Todos use a merge-by-ID strategy with 7-day soft-delete tombstones to prevent ghost reappearances.
-
----
-
-## 2. Google Drive Backup & Restore
-
-### [PLUS] Manual backup to Google Drive
-Users can take a full snapshot of all their 1stTab data (bookmarks, settings, todos, notes, quick links, custom backgrounds) and store it as a JSON file in their Google Drive **AppData folder** (hidden from their normal Drive view).
-
-**Why Plus?** Requires Google OAuth (`chrome.identity`) and Google Drive API access — both have usage quotas that scale with user count.
-
-**Flow:**
-1. Click "Back up now" in Settings → Backup & Restore.
-2. One-time Google sign-in prompt (uses the same account as Chrome).
-3. Data serialized to JSON and uploaded to Drive AppData.
-4. Last 5 backups retained; oldest auto-pruned.
-
-### [PLUS] Restore from Google Drive backup
-Users see a list of their last 5 backups (date, size, source device). Selecting one and confirming overwrites current data and reloads the extension.
-
-### [PLUS] Auto-backup
-Options: Off (default), On first open each day, or Every time a new tab opens (max 1/day). Runs silently in the background service worker.
-
-**Recommendation:** Default to Off to avoid surprising users with unexpected OAuth prompts on first install.
-
----
-
-## 3. Finance Widgets
-
-### [FREE] Crypto price ticker
-Displays live prices and 24-hour % change for user-selected coins (BTC, ETH, SOL, BNB, XRP, and any custom CoinGecko coin ID).
-
-**API:** CoinGecko `simple/price` — free, no API key, rate-limited to ~30 req/min.
-**Refresh:** Every 60 seconds (configurable).
-**Why free?** CoinGecko's free tier is generous enough for a single-user extension.
-
-### [FREE] FX / Currency rates
-Displays live exchange rates between a user-selected base currency and up to 6 target currencies. Supports all major fiat currencies.
-
-**API:** open.er-api.com — free, no API key, 1 500 requests/month (daily refresh easily fits).
-**Refresh:** Every hour.
-
-### [PLUS] Stock quotes
-Displays live bid/ask prices and daily % change for user-specified ticker symbols (e.g. AAPL, TSLA, MSFT).
-
-**API:** Finnhub — free tier requires a personal API key. Users supply their own key in Settings.
-**Why Plus?** Stock market data APIs are commercially restricted. Gating behind Plus encourages users to supply their own key or justifies the cost of a paid data plan.
-**Refresh:** Every 5 minutes during market hours.
-
-### [FREE] Widget Manager (enable / disable / configure)
-A dedicated **Widgets tab** in Settings lists every widget with an on/off toggle and an inline Configure panel. Widget state is stored in `prefs.widgets` (synced across devices for free-tier users).
-
----
-
-## 4. Side Panel Enhancements
-
-### [FREE] Chrome theme / system color matching
-The panel respects `prefers-color-scheme` and uses CSS system color keywords so it blends with the user's OS and Chrome theme without needing the Chrome theme API.
-
-### [FREE] Left / Right panel positioning
-A **"Detach"** button opens the panel as a standalone popup window (`chrome.windows.create`). The user can drag it to the left side of their screen.
-
-### [FREE] Tab Management
-A **Tabs** section in the panel lists all open tabs grouped by window with click-to-switch, close, mute/unmute, pin/unpin, search/filter, tab groups, and recently closed.
-
-**New permissions required:** `tabs`, `sessions`, `tabGroups`.
-
-### [FREE] System Monitor
-CPU usage %, RAM used/total, and storage drives shown at the bottom of the panel. Refreshes every 2 seconds.
-
-**New permissions required:** `system.cpu`, `system.memory`, `system.storage`.
-
-### [PLUS] Google Calendar in panel
-Today's and next 3 days' events from the user's primary Google Calendar.
-
-### [PLUS] Google Tasks in panel
-Active tasks with checkboxes, add/complete/delete inline. Two-way sync with Google Tasks.
-
-### [FREE] Panel section collapse / reorder
-Each panel section gets a collapse toggle and drag-to-reorder. Order saved in `prefs`.
-
----
-
-## 5. Additional Recommendations
-
-### [FREE] Pomodoro / Focus Timer
-A configurable work/break countdown timer. Plays a soft chime on cycle end. Session history stored locally.
-
-**Update from previous plan:** Moving to Free — timers are a baseline productivity feature that competitors like Momentum offer free. The differentiation is in the Plus tier's AI coaching and streak analytics.
-
-### [PLUS] Analog clock faces
-Multiple faces: simple, retro, pixel. Matches the Arcade theme.
-
-### [FREE] Keyboard shortcut to open/close panel
-`Alt+Shift+P` (configurable in Chrome's keyboard shortcuts UI).
-
-### [PLUS] Multi-profile support
-Work / Personal / Gaming profiles, each with their own bookmarks, theme, widgets, and panel layout.
-
----
-
-## 6. New Recommended Features (Phase 4 Additions)
-
-### [FREE] Draggable widget grid on main dashboard
-Replace the fixed 3-column layout with a drag-and-drop grid. Users can move Clocks, Weather, Bookmarks, Todo, Notes, Finance widgets to any position. Layout saved in `prefs.layout`.
-
-**Implementation:** CSS Grid + native HTML5 drag events (no library needed). Store a `gridArea` map per widget ID.
-
-**Why important:** The biggest UX complaint about new-tab dashboards is rigidity. This turns 1stTab from a "view" into a workspace.
-
-### [FREE] Bookmark search (global, instant)
-A full-text search bar in the topbar that searches across all bookmarks, folders, notes, and quick links simultaneously. Results shown as a dropdown with keyboard navigation.
-
-**Implementation:** Client-side Trie or simple linear scan (bookmark counts stay under 1 000 for 99% of users — no library needed).
-
-### [FREE] Browser history widget
-A compact panel section showing the last 10 visited sites with favicons, titles, and timestamps.
-
-**API:** `chrome.history.search` — no external network request.
-**Permission required:** `history`.
-
-### [PLUS] AI Bookmark Assistant (Claude API)
-An in-panel chat input that lets users ask questions about their saved bookmarks:
-- "Find me that article about React performance"
-- "What did I save about vacation spots?"
-- "Summarize the description of my 'Work' bookmarks"
-
-**Implementation:** Send bookmark metadata (name, URL, description, tags) as context to Claude API. User provides their own API key (stored in `prefs`, never leaves the device).
-
-**Why Plus?** API key requirement is a natural gate. Plus users are power users who already pay for AI services.
-
-**Privacy note:** Only metadata is sent, never page content. Clearly disclosed in the UI.
-
-### [PLUS] Smart Bookmark Tagging (AI)
-When a user adds a new bookmark, 1stTab suggests 3 tags based on the URL domain and page title using a Claude API call. One-click to accept.
-
-**Implementation:** Single API call on bookmark save. Debounced, opt-in, requires Plus.
-
-### [FREE] Custom new-tab greeting messages
-Instead of "Good morning, [Name]" — users can write their own greeting templates with variables: `{name}`, `{time}`, `{day}`, `{weather}`. Cycles through multiple greetings randomly.
-
-### [PLUS] Appearance: Custom CSS editor
-A code editor in Settings → Appearance where Plus users can write custom CSS that's injected into the new-tab page. Full control over colors, fonts, spacing.
-
-**Implementation:** A `<textarea>` saved to `prefs.customCSS`, injected via a `<style>` tag on load.
-
-### [FREE] One-click "Focus Mode"
-Hides everything except the current time and a motivational quote. All widgets, bookmarks, and the topbar collapse. Accessible via a keyboard shortcut (`F` key) or a button in the topbar.
-
-**Implementation:** `document.documentElement.classList.toggle('focus-mode')` + CSS rules.
-
-### [PLUS] Unlimited custom backgrounds + background gallery
-Free tier: 1 uploaded background. Plus: unlimited uploads + a curated gallery of high-quality backgrounds (stored in the extension, not fetched from a server).
-
-### [FUTURE] RSS / News feed widget
-User-supplied RSS URL → parsed client-side → rendered as a headline list. Free: 1 feed. Plus: unlimited feeds.
-
-### [FUTURE] Habit Tracker widget
-Daily checkbox streaks. Free: 3 habits. Plus: unlimited habits + weekly/monthly charts.
-
-### [FUTURE] Native messaging host (Phase 5)
-A small local binary unlocking CPU/GPU temperature, fan speed, and file system access. Strong differentiator — no new-tab extension does this today.
-
----
-
-## 7. Free vs. Plus — Summary Table
+## Summary Table
 
 | Feature | Free | Plus |
 |---|---|---|
-| Settings sync | ✓ | ✓ |
+| **Sync & Storage** | | |
+| Settings sync (chrome.storage.sync) | ✓ | ✓ |
 | Todo + Notes sync | ✓ | ✓ |
 | Quick Links sync | ✓ | ✓ |
-| Bookmark sync | — | ✓ |
+| Full bookmark sync (Google Drive) | — | ✓ |
 | Google Drive backup / restore | — | ✓ |
 | Auto-backup | — | ✓ |
-| Crypto price widget | ✓ | ✓ |
-| FX rates widget | ✓ | ✓ |
-| Stock quotes widget | — | ✓ |
-| Widget Manager | ✓ | ✓ |
+| **Dashboard** | | |
 | Draggable widget grid | ✓ | ✓ |
-| Global bookmark search | ✓ | ✓ |
-| Browser history widget | ✓ | ✓ |
-| Focus Mode | ✓ | ✓ |
+| Global search (bookmarks, notes, links) | ✓ | ✓ |
+| Focus Mode (hide all, show clock + quote) | ✓ | ✓ |
 | Custom greeting templates | ✓ | ✓ |
-| Pomodoro / Focus Timer | ✓ | ✓ |
-| Panel: Tab Management | ✓ | ✓ |
-| Panel: System Monitor | ✓ | ✓ |
-| Panel: Section collapse + reorder | ✓ | ✓ |
-| Panel: Chrome theme matching | ✓ | ✓ |
-| Panel: Left/right positioning | ✓ | ✓ |
-| Panel: Google Calendar | — | ✓ |
-| Panel: Google Tasks | — | ✓ |
-| Analog clock faces | — | ✓ |
-| Multi-profile (Work/Personal/Gaming) | — | ✓ |
-| AI Bookmark Assistant (Claude API) | — | ✓ |
-| Smart Bookmark Tagging (AI) | — | ✓ |
-| Custom CSS editor | — | ✓ |
 | Custom backgrounds | 1 upload | Unlimited + gallery |
+| **Widgets** | | |
+| Widget Manager (on/off + configure) | ✓ | ✓ |
+| Crypto price ticker | ✓ | ✓ |
+| FX / Currency rates | ✓ | ✓ |
+| Pomodoro / Focus Timer | ✓ | ✓ |
+| Browser history | ✓ | ✓ |
+| Stock quotes | — | ✓ |
+| Analog clock faces | — | ✓ |
+| **Limits** | | |
 | World clocks | 3 | Unlimited |
 | To-do lists | 1 list, 25 items | Unlimited |
 | Notes | 1 note, 2 000 chars | Unlimited |
 | Arcade themes | All 6 | All 6 + premium |
-| CPU temperature (native helper) | — | ✓ (Phase 5) |
-| RSS / News feed | 1 feed | Unlimited (Phase 5) |
-| Habit Tracker | 3 habits | Unlimited (Phase 5) |
+| **Side Panel** | | |
+| Tab Management | ✓ | ✓ |
+| System Monitor (CPU, RAM, Storage) | ✓ | ✓ |
+| Section collapse + reorder | ✓ | ✓ |
+| Chrome theme / system color matching | ✓ | ✓ |
+| Left / right panel positioning (detach) | ✓ | ✓ |
+| Keyboard shortcut (Alt+Shift+P) | ✓ | ✓ |
+| Google Calendar | — | ✓ |
+| Google Tasks | — | ✓ |
+| **AI** | | |
+| AI Bookmark Assistant (Claude API) | — | ✓ |
+| Smart Bookmark Tagging (AI) | — | ✓ |
+| **Appearance** | | |
+| Custom CSS editor | — | ✓ |
+| Multi-profile (Work / Personal / Gaming) | — | ✓ |
+| **Phase 5 (Future)** | | |
+| RSS / News feed | 1 feed | Unlimited |
+| Habit Tracker | 3 habits | Unlimited |
+| CPU temperature (native helper) | — | ✓ |
 
 ---
 
-## 8. Manifest permissions needed for Phase 4
+---
+
+# FREE TIER
+
+Everything below ships in the free extension — no account, no payment required.
+
+---
+
+## F1. Dashboard
+
+### Draggable Widget Grid
+Replace the fixed 3-column layout with a drag-and-drop CSS grid. Users can move Clocks, Weather, Bookmarks, Todo, Notes, and Finance widgets to any position. Layout saved in `prefs.layout`.
+
+**Implementation:** CSS Grid + native HTML5 drag events (no library). Store a `gridArea` map per widget ID.
+
+**Why it matters:** The biggest UX complaint about new-tab dashboards is rigidity. This turns 1stTab from a "view" into a personal workspace.
+
+### Global Search
+A full-text search bar in the topbar that searches across all bookmarks, folders, notes, and quick links simultaneously. Results appear as a dropdown with keyboard navigation (`↑ ↓ Enter`).
+
+**Implementation:** Client-side linear scan (bookmark counts stay under 1 000 for 99% of users — no library needed). Highlight matched terms in results.
+
+### Focus Mode
+One keypress (`F`) hides everything except the current time and a motivational quote. All widgets, bookmarks, and the topbar collapse. A second press restores everything.
+
+**Implementation:** `document.documentElement.classList.toggle('focus-mode')` + CSS rules scoped to that class.
+
+### Custom Greeting Templates
+Users write their own greeting strings with variables: `{name}`, `{time}`, `{day}`, `{weather}`. Multiple greetings cycle randomly on each new tab.
+
+**Example:** `"Ready to build, {name}? It's {day}."` or `"☀️ {weather} — good {time}, {name}."`
+
+---
+
+## F2. Sync & Storage
+
+### Settings Sync (`chrome.storage.sync`)
+Preferences (theme, font, name, weather city, world clocks, search engine) automatically follow the user across all Chrome instances signed in to the same Google account. No sign-in required beyond being logged into Chrome.
+
+**Limit:** 100 KB total / 8 KB per item — sufficient for all preferences.
+
+### Todo & Notes Sync
+Todos (capped at 25 items) and Notes (capped at 2 000 characters) fit inside the sync quota. Both sync automatically with zero user action.
+
+### Quick Links Sync
+Visit frequency data for the Speed Dial widget syncs so the same top sites appear on all devices.
+
+### Conflict Resolution
+For all synced keys: compare `updatedAt` timestamps — most recent write wins. Todos use merge-by-ID with 7-day soft-delete tombstones to prevent ghost reappearances after a device comes back online.
+
+---
+
+## F3. Widgets (Free)
+
+### Widget Manager
+A **Widgets** tab in Settings with an on/off toggle and inline Configure panel for every widget. State stored in `prefs.widgets` and synced.
+
+### Crypto Price Ticker
+Live prices and 24h % change for user-selected coins (BTC, ETH, SOL, BNB, XRP + any CoinGecko coin ID).
+
+**API:** CoinGecko `simple/price` — free, no API key, ~30 req/min limit.
+**Refresh:** Every 60 seconds (configurable).
+
+### FX / Currency Rates
+Live exchange rates between a user-selected base currency and up to 6 target currencies.
+
+**API:** open.er-api.com — free, no API key, 1 500 req/month.
+**Refresh:** Every hour.
+
+### Pomodoro / Focus Timer
+Configurable work/break countdown. Soft chime (Web Audio API) on cycle end. Session history stored locally.
+
+**Note:** Moved from Plus to Free — timers are baseline productivity that competitors like Momentum give away free. The Plus differentiation comes from AI coaching and cross-device streak sync.
+
+### Browser History Widget
+Compact list of the last 10 visited sites with favicons, titles, and timestamps.
+
+**API:** `chrome.history.search` — no external request.
+**Permission required:** `history`.
+
+---
+
+## F4. Side Panel (Free)
+
+### Tab Management
+A **Tabs** section in the panel with:
+- Live tab list grouped by window (updates instantly)
+- Click to switch, close, mute/unmute, pin/unpin
+- Search/filter by title or URL
+- Tab groups (color + label)
+- Recently closed (last 10)
+
+**New permissions:** `tabs`, `sessions`, `tabGroups`.
+
+### System Monitor
+CPU usage %, RAM used/total bar, and storage drives at the bottom of the panel. Refreshes every 2 seconds.
+
+**New permissions:** `system.cpu`, `system.memory`, `system.storage`.
+
+### Section Collapse & Reorder
+Each panel section gets a collapse toggle. Users drag sections to reorder. Both states saved in `prefs.panelLayout`.
+
+**Implementation:** CSS `details`/`summary` for collapse; native drag events for reorder.
+
+### Chrome Theme / System Color Matching
+Panel respects `prefers-color-scheme` and uses CSS system color keywords (`Canvas`, `CanvasText`) to blend with the user's OS and Chrome theme without the Chrome theme API.
+
+A **"Match Chrome theme"** toggle in Settings switches between system-matched and the current Arcade/Material theme.
+
+### Left / Right Positioning (Detach)
+A **Detach** button opens the panel as a standalone popup window (`chrome.windows.create`). The user can drag it to the left side. Chrome remembers position.
+
+**Setting:** `prefs.panelPosition: 'right' | 'detached'`
+
+### Keyboard Shortcut
+`Alt+Shift+P` opens or closes the panel. Configurable in Chrome's native keyboard shortcuts UI (`chrome://extensions/shortcuts`).
+
+---
+
+## F5. Limits in Free Tier
+
+| Item | Free limit | Why |
+|---|---|---|
+| World clocks | 3 | Matches the 3-column layout |
+| To-do lists | 1 list, 25 items | Fits in sync quota |
+| Notes | 1 note, 2 000 chars | Fits in sync quota |
+| Custom backgrounds | 1 upload | localStorage size |
+| Arcade themes | All 6 existing | No artificial lock on what's already built |
+
+---
+
+---
+
+# PLUS TIER
+
+Everything below requires an active Plus subscription. All Plus code is gated behind a single helper:
+
+```js
+function isPlusUser() {
+  return loadJSON('1stTab.plus', { active: false }).active === true;
+}
+
+function requirePlus(featureName, callback) {
+  if (isPlusUser()) { callback(); return; }
+  showUpgradeModal(featureName); // links to 1sttab.com/upgrade
+}
+```
+
+---
+
+## P1. Sync & Backup (Plus)
+
+### Full Bookmark Sync
+Bookmarks can exceed the 100 KB `chrome.storage.sync` limit so they require cloud storage. Full sync writes to Google Drive AppData.
+
+**Free alternative:** Bookmarks stay on-device; JSON export/import always available.
+
+### Google Drive Backup
+Full snapshot of all 1stTab data (bookmarks, settings, todos, notes, quick links, custom backgrounds) stored as JSON in the user's Google Drive **AppData folder** (hidden from normal Drive view).
+
+**Flow:**
+1. Settings → Backup & Restore → "Back up now"
+2. One-time Google sign-in via `chrome.identity`
+3. Data uploaded to Drive AppData
+4. Last 5 backups retained; oldest auto-pruned
+
+### Google Drive Restore
+List of last 5 backups (date, size, source device). Select one → confirm → data overwritten → extension reloads.
+
+### Auto-Backup
+Options: Off (default) · On first open each day · Every new tab open (max 1/day). Runs silently in the background service worker.
+
+---
+
+## P2. Google Workspace (Plus)
+
+### Google Calendar in Panel
+Today's and next 3 days' events from the user's primary Google Calendar, grouped by day. Click an event to open it in Google Calendar. "Add event" opens the new-event page.
+
+**API:** Google Calendar API v3 (`calendar.readonly` scope)
+**Auth:** `chrome.identity.getAuthToken` (shared OAuth flow with Drive and Tasks)
+**Refresh:** Every 15 minutes, or on panel open.
+
+**Why Plus?** Google Calendar API has per-project quotas that cost money at scale.
+
+### Google Tasks in Panel
+Active tasks with checkboxes. Check off in the panel → marked complete in Google Tasks. Add new tasks inline.
+
+**API:** Google Tasks API v1 (`tasks` scope — read + write)
+**Auth:** Same OAuth token as Calendar (scopes requested together at first auth)
+
+**Why Plus?** Same quota reasoning as Calendar.
+
+---
+
+## P3. AI Features (Plus)
+
+### AI Bookmark Assistant
+An in-panel chat input for querying saved bookmarks in plain English:
+
+- *"Find me that article about React performance"*
+- *"What did I save about vacation spots?"*
+- *"Summarize my 'Work' folder bookmarks"*
+
+**Implementation:** User provides their own Claude API key (stored in `chrome.storage.local`, never leaves the device). Bookmark metadata (name, URL, description, tags) is sent as context. Page content is never sent.
+
+**Why Plus?** The API key requirement is a natural gate. Plus users are power users already paying for AI services.
+
+### Smart Bookmark Tagging
+When a user adds or edits a bookmark, 1stTab suggests 3 tags based on the URL domain and title. One-click to accept all, or pick individually.
+
+**Implementation:** Single Claude API call on bookmark save. Debounced, clearly opt-in. Requires Plus and a Claude API key.
+
+---
+
+## P4. Power Features (Plus)
+
+### Multi-Profile Support
+Work / Personal / Gaming profiles — each with their own bookmarks, theme, widgets, and panel layout. Switch via a profile chip in the topbar.
+
+**Implementation:** Separate storage namespace per profile (`1stTab.profiles.{id}.*`). Profile switcher stores `1stTab.activeProfile`.
+
+### Custom CSS Editor
+A code editor textarea in Settings → Appearance. CSS is injected as a `<style>` tag on every new-tab load. Full control over colors, fonts, spacing, and layout.
+
+**Implementation:** `<textarea>` saved to `prefs.customCSS`, injected via a `<style id="user-css">` tag.
+
+### Unlimited Custom Backgrounds + Gallery
+Lift the 1-upload cap. Plus users can upload as many backgrounds as their browser storage allows, and access a curated gallery of 15–20 high-quality wallpapers bundled in the extension (no external fetch needed).
+
+### Stock Quotes Widget
+Live bid/ask prices and daily % change for user-specified ticker symbols (AAPL, TSLA, MSFT, etc.).
+
+**API:** Finnhub — user supplies their own free API key in Settings.
+**Why Plus?** Stock data APIs are commercially restricted. Gating behind Plus encourages users to use their own key or justifies the cost of a paid data plan.
+**Refresh:** Every 5 minutes during market hours.
+
+### Analog Clock Faces
+Replaces or supplements the digital time display. Three SVG faces: minimal, retro, pixel (matches Arcade theme).
+
+---
+
+## P5. Limits in Plus Tier
+
+| Item | Plus |
+|---|---|
+| World clocks | Unlimited |
+| To-do lists | Unlimited lists, unlimited items |
+| Notes | Unlimited notes, unlimited length |
+| Custom backgrounds | Unlimited uploads + gallery |
+| Arcade themes | All 6 existing + future premium themes |
+
+---
+
+---
+
+# FUTURE (Phase 5)
+
+Not in scope for Phase 4. Noted here for roadmap continuity.
+
+### RSS / News Feed Widget
+User-supplied RSS URL → parsed client-side → headline list. Free: 1 feed. Plus: unlimited feeds + multi-column layout.
+
+### Habit Tracker Widget
+Daily checkbox streaks with calendar heatmap. Free: 3 habits. Plus: unlimited + weekly/monthly charts.
+
+### Native Messaging Host
+A small local binary (distributed as an installer) communicating with the extension via `chrome.runtime.connectNative`. Unlocks:
+- CPU/GPU temperature
+- Fan speed
+- System notifications
+- File system access
+
+**Strong differentiator** — no new-tab extension does this today. Plus-only.
+
+### AI Daily Briefing
+On first new tab of the day, a Claude API call summarizes: calendar events, open tasks, top bookmarks accessed recently, and (if RSS is configured) top headlines. Shown as a collapsible card. Plus-only.
+
+---
+
+---
+
+# Implementation Plans
+
+## Free Tier — Sprint Plan
+
+### Sprint 1 — Core UX (2–3 weeks)
+1. **Draggable widget grid** — CSS Grid + native drag. `prefs.layout`.
+2. **Global search** — Client-side full-text, instant dropdown.
+3. **Focus Mode** — `classList.toggle('focus-mode')`, keyboard shortcut `F`.
+4. **Custom greeting templates** — Variable substitution, multiple greetings, random cycle.
+
+### Sprint 2 — Sync & Storage (2 weeks)
+1. **Sync migration** — Move todos, notes, quick links, prefs to `chrome.storage.sync`.
+2. **Conflict resolution** — `updatedAt` comparison, merge-by-ID for todos.
+3. **Storage quota guard** — Warn at 80 KB, graceful fallback to local.
+
+### Sprint 3 — Finance Widgets (1–2 weeks)
+1. **Widget Manager** — On/off toggle + configure panel in Settings.
+2. **Crypto ticker** — CoinGecko, 60s refresh, coin selector.
+3. **FX rates** — open.er-api.com, hourly refresh, base currency selector.
+
+### Sprint 4 — Panel v2 (2–3 weeks)
+1. **Tab Management** — Live list, click to switch, close, mute, pin, search, tab groups.
+2. **System Monitor** — CPU %, RAM bar, storage. 2s refresh.
+3. **Section collapse + reorder** — `details`/`summary` + drag. Save to prefs.
+4. **Theme matching** — `prefers-color-scheme` + system CSS colors.
+
+### Sprint 5 — Polish (1 week)
+1. **Browser history widget** — `chrome.history.search`, last 10 sites.
+2. **Panel keyboard shortcut** — `Alt+Shift+P`.
+3. **Pomodoro timer** — Work/break cycle, Web Audio chime, session log.
+
+---
+
+## Plus Tier — Sprint Plan
+
+> Wire up the licensing system before starting any Plus sprint (see Publishing section below).
+
+### Sprint 1 — Google Auth & Drive (3 weeks)
+1. **`chrome.identity` OAuth** — Request `drive.appdata`, `calendar.readonly`, `tasks` scopes together.
+2. **Token storage** — Access + refresh tokens in `chrome.storage.local`.
+3. **Drive backup** — JSON serialization, upload, list, restore (last 5 backups).
+4. **Auto-backup toggle** — Background service worker, max 1/day.
+
+### Sprint 2 — Google Workspace Panel (2 weeks)
+1. **Calendar section** — Events for today + 3 days, grouped by day.
+2. **Tasks section** — Fetch tasks, check off inline, add task input.
+3. **Auth error handling** — Token refresh, offline graceful fallback.
+
+### Sprint 3 — AI Features (2 weeks)
+1. **API key settings UI** — Settings → Plus → AI. Stored in `chrome.storage.local`.
+2. **AI Bookmark Assistant** — Panel chat input, bookmark metadata as context, streamed response.
+3. **Smart Bookmark Tagging** — Suggest 3 tags on save, one-click accept.
+
+### Sprint 4 — Power Features (2 weeks)
+1. **Multi-profile** — Profile switcher, separate storage namespaces.
+2. **Custom CSS editor** — Textarea in Settings, `<style>` injection on load.
+3. **Unlimited backgrounds + gallery** — Lift cap, bundle curated images.
+4. **Stock quotes** — Finnhub, user API key, market-hours-aware.
+5. **Analog clock faces** — SVG renderer, 3 styles.
+
+### Sprint 5 — Full Bookmark Sync (1 week)
+1. **Serialization** — Chunk large sets across multiple Drive AppData files.
+2. **Incremental sync** — Upload diffs only (added/modified/deleted IDs).
+3. **Conflict UI** — Show diff, let user choose which version wins.
+
+---
+
+---
+
+# Publishing: Free vs. Pro
+
+## The core question: one extension or two?
+
+---
+
+## Option A — Single Extension, Feature Gating ✓ Recommended
+
+One Chrome Web Store listing. All users install the same `.crx`. Plus features unlock after license verification.
+
+**How it works:**
+1. User installs the extension (free)
+2. User visits `1sttab.com/upgrade`, pays via Lemon Squeezy
+3. Lemon Squeezy generates a license key, emails it to the user
+4. User enters the key in Settings → Plus
+5. Extension calls `POST https://api.1sttab.com/verify` with the key
+6. Server returns `{ active: true, expiry: "2027-05-14" }`
+7. Response cached in `chrome.storage.local` for 30 days (offline resilience)
+
+**Pros:**
+- Zero upgrade friction — users never reinstall
+- One codebase, one review cycle, one listing
+- Free users see tasteful "Upgrade" prompts inside the UI they already love
+- Industry standard: Momentum, Grammarly, Vimium C all use this model
+- A/B test upgrade prompts easily
+
+**Cons:**
+- Needs a small backend (a single Cloudflare Worker is enough — ~10 lines)
+- Plus features live in the binary (cosmetic gates can be bypassed by a determined developer, acceptable for this audience)
+
+**Bypass risk is low:** AI and Google Workspace features require server-side API keys and OAuth anyway. A bypass doesn't help without the user's own API key.
+
+---
+
+## Option B — Two Separate Extensions
+
+Two listings: **1stTab** (free) and **1stTab Plus** (paid one-time via Chrome Web Store).
+
+**Pros:** No backend needed. Clean separation.
+
+**Cons:**
+- Users must uninstall and reinstall to upgrade — the worst UX in extensions
+- Manual data migration step (most users will lose data)
+- Two codebases or a complex build system
+- Two review cycles per release
+- Split ratings and reviews — harder to build social proof
+- Chrome Web Store one-time purchases not available in all regions
+
+**Verdict:** Avoid. Only viable for a simple, server-free tool with no sync or AI roadmap.
+
+---
+
+## Option C — Free Extension + Paid Web App (Hybrid)
+
+The extension is always free. A companion web app is the paid product communicating via `chrome.runtime.sendMessage`.
+
+**Verdict:** Avoid. Adds enormous complexity for no UX gain over Option A.
+
+---
+
+## Decision Matrix
+
+| Criterion | Option A (Single) | Option B (Two) | Option C (Hybrid) |
+|---|---|---|---|
+| Upgrade friction | None | High (reinstall) | Medium |
+| Data continuity on upgrade | ✓ Automatic | ✗ Manual export/import | ✓ |
+| Backend required | Minimal (1 Worker) | None | Yes (complex) |
+| Codebase complexity | Low | High | Very high |
+| Revenue model flexibility | Subscription + one-time | One-time only | Subscription |
+| Industry precedent | Momentum, Grammarly | Rare | Very rare |
+| **Recommendation** | **✓ Use this** | Avoid | Avoid |
+
+---
+
+## Licensing Stack (Minimal, $0/month to start)
+
+```
+User pays → Lemon Squeezy → webhook → Cloudflare Worker → chrome.storage.local
+```
+
+**Lemon Squeezy** handles billing, license keys, customer portal, VAT/tax globally.
+
+**Cloudflare Worker** (free tier):
+```js
+export default {
+  async fetch(request) {
+    const { key } = await request.json();
+    const res = await fetch(`https://api.lemonsqueezy.com/v1/licenses/validate`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${LS_API_KEY}` },
+      body: JSON.stringify({ license_key: key }),
+    });
+    const data = await res.json();
+    return Response.json({
+      active: data.valid,
+      expiry: data.license_key?.expires_at,
+    });
+  }
+};
+```
+
+**Total infrastructure cost at 0–1 000 users: $0/month.**
+
+---
+
+## Pricing
+
+| Plan | Price | Rationale |
+|---|---|---|
+| Free | $0 | Generous free tier drives installs and word of mouth |
+| Plus Monthly | $3.99/mo | Under the "impulse buy" threshold |
+| Plus Annual | $29.99/yr (~$2.50/mo) | ~37% discount, reduces churn |
+| Lifetime | $79 one-time | Converts users who resist subscriptions |
+
+**Comparable:** Momentum Plus $3.33/mo (annual) · Toby Pro $3/mo · 1stTab's AI features justify parity or a slight premium.
+
+---
+
+## Manifest Permissions for Phase 4
 
 ```json
 "permissions": [
@@ -269,256 +550,7 @@ A small local binary unlocking CPU/GPU temperature, fan speed, and file system a
   "https://api.coingecko.com/*",
   "https://open.er-api.com/*",
   "https://finnhub.io/*",
-  "https://api.anthropic.com/*"
+  "https://api.anthropic.com/*",
+  "https://api.1sttab.com/*"
 ]
 ```
-
----
-
-## 9. Implementation Plan — Free Tier
-
-Priority order based on user value vs. implementation complexity.
-
-### Sprint 1 — Core UX (2–3 weeks)
-**Goal:** Make the base experience best-in-class before adding paid features.
-
-1. **Draggable widget grid** — Replace fixed 3-column layout with a drag-and-drop CSS grid. Store layout in `prefs.layout`. Biggest daily-use improvement.
-2. **Global bookmark search** — Full-text search across bookmarks, notes, quick links. Client-side, instant results dropdown.
-3. **Focus Mode** — Single CSS class toggle hiding everything except clock + quote. Keyboard shortcut `F`.
-4. **Custom greeting templates** — Let users define greeting strings with `{name}`, `{time}`, `{day}` variables.
-
-### Sprint 2 — Sync & Storage (2 weeks)
-**Goal:** Migrate to `chrome.storage.sync` for zero-friction cross-device continuity.
-
-1. **Sync migration** — Move todos, notes, quick links, prefs to `chrome.storage.sync`. Keep bookmarks in `localStorage` (too large for sync quota).
-2. **Conflict resolution** — `updatedAt` timestamp comparison, merge-by-ID for todos.
-3. **Storage quota guard** — Warn user if approaching 100 KB sync limit, fall back gracefully to local.
-
-### Sprint 3 — Finance Widgets (1–2 weeks)
-**Goal:** Add the most-requested "live data" widgets.
-
-1. **Widget Manager** — On/off toggle + configure panel in Settings → Widgets.
-2. **Crypto ticker** — CoinGecko API, 60s refresh, coin selector UI.
-3. **FX rates** — open.er-api.com, hourly refresh, base currency selector.
-
-### Sprint 4 — Panel v2 (2–3 weeks)
-**Goal:** Make the side panel genuinely useful for daily tab management.
-
-1. **Tab Management section** — Live tab list, click to switch, close, mute, pin. Search/filter. Tab groups.
-2. **System Monitor section** — CPU %, RAM bar, storage. 2s refresh.
-3. **Panel collapse/reorder** — `details`/`summary` collapse + drag reorder. Save to prefs.
-4. **Panel theme matching** — `prefers-color-scheme` + system CSS colors.
-
-### Sprint 5 — Polish (1 week)
-1. **Browser history widget** — `chrome.history.search`, last 10 sites, favicons.
-2. **Keyboard shortcut** — `Alt+Shift+P` to open/close panel.
-3. **Pomodoro timer** — Work/break cycle, Web Audio API chime, session log.
-
----
-
-## 10. Implementation Plan — Plus Tier
-
-### Prerequisites
-Before building Plus features, wire up the licensing system (see §12).
-All Plus-gated code should be wrapped in a single helper:
-
-```js
-function isPlusUser() {
-  return loadJSON('1stTab.plus', { active: false }).active === true;
-}
-
-function requirePlus(featureName, callback) {
-  if (isPlusUser()) { callback(); return; }
-  showUpgradeModal(featureName); // links to the upgrade page
-}
-```
-
-### Sprint 1 — Google Auth & Drive (3 weeks)
-This unlocks Calendar, Tasks, and Drive backup in one auth implementation.
-
-1. **`chrome.identity` OAuth flow** — Request tokens for `drive.appdata`, `calendar.readonly`, `tasks` scopes in a single prompt.
-2. **Token storage** — Store access + refresh tokens in `chrome.storage.local` (encrypted with the extension's own ID as key).
-3. **Google Drive backup** — Serialize all data to JSON, upload to AppData folder. List and restore previous backups.
-4. **Auto-backup toggle** — Background service worker checks `prefs.autoBackup` on tab open, max 1/day.
-
-### Sprint 2 — Google Workspace Panel (2 weeks)
-1. **Google Calendar section** — Fetch events for today + 3 days, grouped by day, click to open in Calendar.
-2. **Google Tasks section** — Fetch active tasks, check off inline, add new task input at top.
-3. **Unified auth error handling** — Token expiry → auto refresh → graceful fallback if offline.
-
-### Sprint 3 — AI Features (2 weeks)
-1. **API key settings** — Input in Settings → Plus → AI. Key stored in `chrome.storage.local`, never sent to any proxy.
-2. **AI Bookmark Assistant** — Panel chat input, sends bookmark metadata as context to Claude API, streams response.
-3. **Smart Bookmark Tagging** — On bookmark save, suggest 3 tags via a single Claude API call. One-click accept.
-
-### Sprint 4 — Power Features (2 weeks)
-1. **Multi-profile support** — Profile switcher UI, separate storage namespaces per profile.
-2. **Custom CSS editor** — Code editor textarea in Settings → Appearance, injected as `<style>` on load.
-3. **Unlimited backgrounds + gallery** — Lift the 1-upload cap. Bundle a curated gallery (10–15 images, ~2–5 MB total).
-4. **Stock quotes widget** — Finnhub API, user-supplied API key, market-hours-aware refresh.
-5. **Analog clock faces** — SVG clock renderer with 3 face styles.
-
-### Sprint 5 — Full Bookmark Sync (1 week)
-1. **Bookmark serialization** — Chunk large bookmark sets into multiple Drive AppData files if needed.
-2. **Incremental sync** — Only upload diffs (added/modified/deleted IDs) to avoid re-uploading everything.
-3. **Conflict UI** — If two devices made conflicting edits, show a simple diff and let the user choose.
-
----
-
-## 11. How to Publish: Free vs. Pro Version
-
-### The core question: one extension or two?
-
-There are three approaches used in the Chrome extension market:
-
----
-
-### Option A — Single Extension, Feature Gating (Recommended)
-
-One Chrome Web Store listing. All users install the same `.crx` file. Plus features are unlocked by verifying a license key or JWT token against your backend.
-
-**How it works:**
-1. User installs the extension (free)
-2. User visits `1sttab.com/upgrade`, pays via Stripe/Paddle/Lemon Squeezy
-3. Payment processor sends a webhook to your server
-4. Your server generates a signed JWT or license key tied to the user's email
-5. User pastes the key into Settings → Plus, or clicks a link that deep-links into the extension
-6. Extension sends the key to your server for validation; server returns `{ active: true, plan: 'plus', expiry: '...' }`
-7. Extension stores the result in `chrome.storage.local`; polls for renewal once per day
-
-**Verification endpoint (minimal):**
-```
-POST https://api.1sttab.com/verify
-{ "key": "1STPLUS-XXXX-XXXX" }
-→ { "active": true, "email": "user@example.com", "expiry": "2027-05-14" }
-```
-
-**Pros:**
-- Users upgrade without reinstalling — zero friction
-- One codebase, one review cycle, one store listing
-- Free users see tasteful "unlock" prompts inside the UI they already love
-- Industry standard: Momentum, Grammarly, Vimium C all use this model
-- Easier to A/B test upgrade prompts
-
-**Cons:**
-- Plus features are technically in the extension binary (obfuscated but not impossible to bypass)
-- Requires a small backend (can start with a serverless function on Vercel/Cloudflare Workers — ~5 min setup)
-- If the backend goes down, license checks fail (mitigated by caching the last valid response for 30 days)
-
-**Bypass risk:** For 1stTab, the Plus features (AI, Google auth, multi-profile) require server-side API calls anyway. A user who bypasses the gate still can't use AI without their own API key or access Google Calendar without OAuth. The gate for cosmetic features (analog clocks, CSS editor) is bypassable by a determined developer, but this is acceptable — power users who can bypass it are not your paying customer segment.
-
----
-
-### Option B — Two Separate Extensions
-
-Two Chrome Web Store listings: **1stTab** (free) and **1stTab Plus**.
-
-**How it works:**
-- 1stTab (free): stripped-down extension, no Plus code at all
-- 1stTab Plus: full extension, no license check needed, purchased directly from the Chrome Web Store via a one-time payment (Chrome Web Store supports this)
-- Data migration: the free extension exports a JSON file, the Plus extension imports it on first run
-
-**Pros:**
-- Plus version can be purchased directly in the Chrome Web Store (no external payment needed)
-- No backend required
-- Clean separation — free users never see locked features
-
-**Cons:**
-- **Users must uninstall one and install the other to upgrade** — the single biggest friction point in extension UX
-- **Data migration is a manual step** — many users will lose their bookmarks and settings
-- Two codebases (or complex shared build system with feature flags)
-- Two review cycles for every release — doubles QA time
-- Chrome Web Store one-time payment is only available in select regions
-- Chrome Web Store takes 5% of revenue (small, but noted)
-- Two listings means split reviews, split ratings — harder to build social proof
-
-**When to choose this:** Only if you want to sell at a one-time price with no recurring subscription and have no plans for server-side features. Not recommended for 1stTab given the cloud sync and AI roadmap.
-
----
-
-### Option C — Free Extension + Web App (Hybrid)
-
-The extension is always free. A companion web app (`app.1sttab.com`) is the paid product, providing sync, backup, and AI features through a web interface that communicates with the extension via `chrome.runtime.sendMessage`.
-
-**Not recommended for 1stTab** — adds massive complexity (web app development, cross-origin messaging, auth in two places) for no real UX gain over Option A.
-
----
-
-### Verdict: Go with Option A
-
-| Criterion | Option A (Single) | Option B (Two) | Option C (Hybrid) |
-|---|---|---|---|
-| Upgrade friction | None | High (reinstall) | Medium |
-| Data continuity | ✓ | Manual migration | ✓ |
-| Backend required | Minimal | No | Yes (complex) |
-| Code complexity | Low | High | Very high |
-| Revenue flexibility | Subscription or one-time | One-time only | Subscription |
-| Industry precedent | Momentum, Grammarly | Rare | Very rare |
-| **Recommendation** | **✓ Use this** | Avoid | Avoid |
-
----
-
-### Licensing backend (minimal viable setup)
-
-You don't need a full server. Start with:
-
-```
-Lemon Squeezy (payment) → webhook → Cloudflare Worker (verify endpoint) → chrome.storage.local
-```
-
-**Lemon Squeezy** handles:
-- Subscription billing (monthly/annual)
-- License key generation
-- Upgrade/downgrade/cancellation
-- Customer portal (users manage their own subscription)
-- VAT/tax compliance globally
-
-**Cloudflare Worker** (free tier, ~10 lines of code):
-- Receives `/verify` requests from the extension
-- Calls Lemon Squeezy API to check license status
-- Returns `{ active, expiry }`
-- Caches response for 1 hour to stay within free tier limits
-
-**Total infrastructure cost at 0–1 000 users: $0/month.**
-
----
-
-### Pricing recommendation
-
-| Plan | Price | Rationale |
-|---|---|---|
-| Free | $0 | Generous free tier drives installs and word of mouth |
-| Plus Monthly | $3.99/mo | Under the "impulse buy" threshold for productivity tools |
-| Plus Annual | $29.99/yr (~$2.50/mo) | ~37% discount incentivizes commitment, reduces churn |
-| Lifetime | $79 (one-time) | Optional. Converts power users who resist subscriptions. Cap sales if support cost grows. |
-
-**Comparable:** Momentum Plus is $3.33/mo (annual). Toby Pro is $3/mo. 1stTab's AI features justify parity or slight premium.
-
----
-
-## 12. Implementation Priority Order (Full Roadmap)
-
-### Phase 4 — Free tier first
-1. Draggable widget grid
-2. Global search
-3. Finance widgets (Crypto + FX)
-4. Sync migration (`chrome.storage.sync`)
-5. Tab Management in panel
-6. System Monitor in panel
-7. Focus Mode + Pomodoro timer
-8. Browser history widget
-
-### Phase 4 — Plus tier (after licensing backend is live)
-9. Licensing backend (Lemon Squeezy + Cloudflare Worker)
-10. Google Auth + Drive backup/restore
-11. Google Calendar + Tasks in panel
-12. AI Bookmark Assistant + Smart Tagging
-13. Multi-profile support
-14. Custom CSS editor + unlimited backgrounds
-15. Stock quotes widget + Analog clocks
-
-### Phase 5
-16. Native messaging host (CPU temperature, fan speed)
-17. RSS feed widget
-18. Habit Tracker
-19. AI daily briefing (summarize calendar + tasks + top news on new tab open)
