@@ -2,32 +2,32 @@
 (function () {
   'use strict';
 
-  if (
-    location.protocol === 'chrome-extension:' ||
-    document.getElementById('sttab-sb')
-  ) return;
+  if (location.protocol === 'chrome-extension:') return;
+  if (document.getElementById('sttab-sb')) return;
 
-  const MIN_W     = 280;
-  const MAX_W     = 700;
-  const DEFAULT_W = 400;
-  const TAB_W     = 28;
+  var MIN_W = 280, MAX_W = 700, DEFAULT_W = 400, TAB_W = 28;
+  var pos = 'right', open = true, width = DEFAULT_W; // open=true by default for testing
+  var sb, tab, frame, inner, handle;
 
-  let pos   = 'right';
-  let open  = false;
-  let width = DEFAULT_W;
+  // Wait for body if not ready yet
+  if (document.body) {
+    init();
+  } else {
+    document.addEventListener('DOMContentLoaded', init);
+  }
 
-  chrome.storage.sync.get(
-    { sidebarPos: 'right', sidebarOpen: false, sidebarWidth: DEFAULT_W },
-    function (prefs) {
-      pos   = prefs.sidebarPos;
-      open  = prefs.sidebarOpen;
-      width = prefs.sidebarWidth;
-      build();
-    }
-  );
-
-  /* ── Elements ── */
-  var sb, tab, frame, handle;
+  function init() {
+    chrome.storage.sync.get(
+      { sidebarPos: 'right', sidebarWidth: DEFAULT_W },
+      function (prefs) {
+        pos   = prefs.sidebarPos;
+        width = prefs.sidebarWidth;
+        // Always start open so user can see it immediately
+        open  = true;
+        build();
+      }
+    );
+  }
 
   function build() {
     sb = document.createElement('div');
@@ -35,54 +35,49 @@
 
     tab = document.createElement('button');
     tab.id = 'sttab-tab';
-    tab.textContent = '1stTab';
-    tab.onclick = toggle;
+    tab.type = 'button';
+    tab.addEventListener('click', toggle, true);
 
-    var inner = document.createElement('div');
+    inner = document.createElement('div');
     inner.id = 'sttab-inner';
 
     handle = document.createElement('div');
     handle.id = 'sttab-handle';
-    handle.onmousedown = startResize;
+    handle.addEventListener('mousedown', startResize, true);
 
     frame = document.createElement('iframe');
-    frame.id  = 'sttab-iframe';
+    frame.id = 'sttab-frame';
     frame.src = chrome.runtime.getURL('panel.html') + '?mode=sidebar';
+    frame.setAttribute('frameborder', '0');
+    frame.setAttribute('scrolling', 'no');
 
     inner.appendChild(handle);
     inner.appendChild(frame);
     sb.appendChild(tab);
     sb.appendChild(inner);
-
-    // Append to body so we inherit the viewport stacking context cleanly
     document.body.appendChild(sb);
 
-    render();
+    paint();
   }
 
-  /* ── Apply all visual state ── */
-  function render() {
+  function paint() {
     if (!sb) return;
 
-    var totalW = width + TAB_W;
-
-    /* Sidebar container */
-    sb.style.cssText = [
-      'position:fixed',
-      'top:0',
-      'bottom:0',
-      'height:100vh',
-      'display:flex',
-      'align-items:stretch',
-      'z-index:2147483647',
-      'box-shadow:none',
-      'margin:0',
-      'padding:0',
-      'border:none',
-      'background:transparent',
-      'box-sizing:border-box',
-      'transition:transform 0.25s cubic-bezier(0.4,0,0.2,1)',
-    ].join(';');
+    /* ── Sidebar ── */
+    sb.style.position      = 'fixed';
+    sb.style.top           = '0';
+    sb.style.bottom        = '0';
+    sb.style.height        = '100vh';
+    sb.style.display       = 'flex';
+    sb.style.alignItems    = 'stretch';
+    sb.style.zIndex        = '2147483647';
+    sb.style.margin        = '0';
+    sb.style.padding       = '0';
+    sb.style.border        = 'none';
+    sb.style.background    = 'transparent';
+    sb.style.boxSizing     = 'border-box';
+    sb.style.transition    = 'transform 0.25s ease';
+    sb.style.overflow      = 'visible';
 
     if (pos === 'right') {
       sb.style.right         = '0';
@@ -96,74 +91,73 @@
       sb.style.transform     = open ? 'translateX(0)' : 'translateX(-' + width + 'px)';
     }
 
-    /* Toggle tab */
-    tab.style.cssText = [
-      'all:unset',
-      'display:flex',
-      'align-items:center',
-      'justify-content:center',
-      'flex-shrink:0',
-      'width:' + TAB_W + 'px',
-      'height:100%',
-      'background:#1976d2',
-      'color:#fff',
-      'font:700 11px/1 Arial,sans-serif',
-      'letter-spacing:0.1em',
-      'writing-mode:vertical-rl',
-      'cursor:pointer',
-      'user-select:none',
-      'box-sizing:border-box',
-      pos === 'right'
-        ? 'border-radius:8px 0 0 8px'
-        : 'border-radius:0 8px 8px 0',
-    ].join(';');
+    /* ── Tab ── */
+    tab.style.display        = 'flex';
+    tab.style.alignItems     = 'center';
+    tab.style.justifyContent = 'center';
+    tab.style.flexShrink     = '0';
+    tab.style.width          = TAB_W + 'px';
+    tab.style.height         = '100%';
+    tab.style.background     = '#1976d2';
+    tab.style.color          = '#ffffff';
+    tab.style.border         = 'none';
+    tab.style.outline        = 'none';
+    tab.style.padding        = '0';
+    tab.style.margin         = '0';
+    tab.style.cursor         = 'pointer';
+    tab.style.writingMode    = 'vertical-rl';
+    tab.style.fontSize       = '11px';
+    tab.style.fontWeight     = '700';
+    tab.style.fontFamily     = 'Arial, sans-serif';
+    tab.style.letterSpacing  = '0.1em';
+    tab.style.userSelect     = 'none';
+    tab.style.zIndex         = '1';
+    tab.style.position       = 'relative';
+    tab.style.borderRadius   = pos === 'right' ? '8px 0 0 8px' : '0 8px 8px 0';
+    tab.textContent          = '1stTab';
 
-    /* Inner container (holds handle + iframe) */
-    var inner = document.getElementById('sttab-inner');
-    if (inner) {
-      inner.style.cssText = [
-        'position:relative',
-        'width:' + width + 'px',
-        'height:100%',
-        'flex-shrink:0',
-        'overflow:hidden',
-        'box-sizing:border-box',
-      ].join(';');
+    /* ── Inner panel wrapper ── */
+    inner.style.position   = 'relative';
+    inner.style.width      = width + 'px';
+    inner.style.height     = '100%';
+    inner.style.flexShrink = '0';
+    inner.style.overflow   = 'hidden';
+    inner.style.background = '#fafafa';
+    inner.style.boxShadow  = pos === 'right'
+      ? '-4px 0 20px rgba(0,0,0,0.2)'
+      : '4px 0 20px rgba(0,0,0,0.2)';
+
+    /* ── Iframe ── */
+    frame.style.display  = 'block';
+    frame.style.width    = '100%';
+    frame.style.height   = '100%';
+    frame.style.border   = 'none';
+
+    /* ── Resize handle ── */
+    handle.style.position = 'absolute';
+    handle.style.top      = '0';
+    handle.style.bottom   = '0';
+    handle.style.width    = '6px';
+    handle.style.zIndex   = '2';
+    handle.style.cursor   = 'ew-resize';
+    handle.style.background = 'transparent';
+    if (pos === 'right') {
+      handle.style.left  = '0';
+      handle.style.right = 'auto';
+    } else {
+      handle.style.right = '0';
+      handle.style.left  = 'auto';
     }
-
-    /* Iframe */
-    frame.style.cssText = [
-      'display:block',
-      'width:' + width + 'px',
-      'height:100%',
-      'border:none',
-      'background:#fafafa',
-    ].join(';');
-
-    /* Resize handle */
-    handle.style.cssText = [
-      'position:absolute',
-      'top:0',
-      'bottom:0',
-      'width:6px',
-      'z-index:10',
-      'cursor:ew-resize',
-      'background:transparent',
-      pos === 'right' ? 'left:0' : 'right:0',
-    ].join(';');
   }
 
-  /* ── Toggle ── */
   function toggle() {
     open = !open;
-    render();
     chrome.storage.sync.set({ sidebarOpen: open });
+    paint();
   }
 
   /* ── Resize ── */
-  var resizing = false;
-  var startX = 0;
-  var startW = 0;
+  var resizing = false, startX = 0, startW = 0;
 
   function startResize(e) {
     e.preventDefault();
@@ -171,46 +165,42 @@
     resizing = true;
     startX   = e.clientX;
     startW   = width;
-    // Disable iframe pointer events so it doesn't swallow mousemove
     frame.style.pointerEvents = 'none';
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup',   onUp);
+    document.addEventListener('mousemove', onMove, true);
+    document.addEventListener('mouseup',   onUp,   true);
   }
 
   function onMove(e) {
     if (!resizing) return;
-    var delta = pos === 'right'
-      ? startX - e.clientX
-      : e.clientX - startX;
+    var delta = pos === 'right' ? startX - e.clientX : e.clientX - startX;
     width = Math.max(MIN_W, Math.min(MAX_W, startW + delta));
-    render();
+    inner.style.width = width + 'px';
   }
 
   function onUp() {
     if (!resizing) return;
     resizing = false;
     frame.style.pointerEvents = '';
-    document.removeEventListener('mousemove', onMove);
-    document.removeEventListener('mouseup',   onUp);
+    document.removeEventListener('mousemove', onMove, true);
+    document.removeEventListener('mouseup',   onUp,   true);
     chrome.storage.sync.set({ sidebarWidth: width });
   }
 
-  /* ── Messages from panel iframe ── */
-  window.addEventListener('message', function (evt) {
-    if (!evt.data || evt.data.src !== '1sttab') return;
-    if (evt.data.action === 'setPos') {
-      pos = evt.data.value;
-      render();
+  /* ── Messages from iframe ── */
+  window.addEventListener('message', function (e) {
+    if (!e.data || e.data.src !== '1sttab') return;
+    if (e.data.action === 'setPos') {
+      pos = e.data.value;
+      paint();
       chrome.storage.sync.set({ sidebarPos: pos });
     }
-    if (evt.data.action === 'close') {
+    if (e.data.action === 'close') {
       open = false;
-      render();
+      paint();
       chrome.storage.sync.set({ sidebarOpen: false });
     }
   });
 
-  /* ── Keyboard toggle from background.js ── */
   chrome.runtime.onMessage.addListener(function (msg) {
     if (msg.action === 'toggleSidebar') toggle();
   });
