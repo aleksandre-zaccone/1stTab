@@ -1,0 +1,104 @@
+/* 1stTab Sidebar — injected into every web page via content script.
+   All rules are scoped to #sttab-sidebar to avoid conflicts with page styles. */
+
+#sttab-sidebar {
+  position: fixed !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 384px !important; /* 360px panel + 24px tab */
+  height: 100vh !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  box-sizing: border-box !important;
+  transition: transform 0.26s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  overflow: visible !important;
+  pointer-events: all !important;
+}
+
+/* ── Right side ── */
+#sttab-sidebar[data-pos="right"] {
+  right: 0 !important;
+  left: auto !important;
+  flex-direction: row-reverse !important;
+  transform: translateX(360px) !important;
+}
+#sttab-sidebar[data-pos="right"][data-open="1"] {
+  transform: translateX(0) !important;
+}
+
+/* ── Left side ── */
+#sttab-sidebar[data-pos="left"] {
+  left: 0 !important;
+  right: auto !important;
+  flex-direction: row !important;
+  transform: translateX(-360px) !important;
+}
+#sttab-sidebar[data-pos="left"][data-open="1"] {
+  transform: translateX(0) !important;
+}
+
+/* ── Toggle tab (always visible at the edge) ── */
+#sttab-tab {
+  all: unset !important;
+  box-sizing: border-box !important;
+  width: 24px !important;
+  flex-shrink: 0 !important;
+  height: 100% !important;
+  background: #1976d2 !important;
+  color: #ffffff !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  font-family: "Roboto", Arial, sans-serif !important;
+  letter-spacing: 0.12em !important;
+  writing-mode: vertical-rl !important;
+  text-orientation: mixed !important;
+  user-select: none !important;
+  transition: background 0.15s !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  outline: none !important;
+}
+
+#sttab-tab::after {
+  content: "1stTab" !important;
+}
+
+#sttab-tab:hover {
+  background: #1565c0 !important;
+}
+
+#sttab-sidebar[data-pos="right"] #sttab-tab {
+  border-radius: 8px 0 0 8px !important;
+}
+
+#sttab-sidebar[data-pos="left"] #sttab-tab {
+  border-radius: 0 8px 8px 0 !important;
+}
+
+/* ── Panel iframe ── */
+#sttab-frame {
+  all: unset !important;
+  display: block !important;
+  width: 360px !important;
+  height: 100% !important;
+  border: none !important;
+  background: #fafafa !important;
+  flex-shrink: 0 !important;
+}
+
+#sttab-sidebar[data-pos="right"] #sttab-frame {
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.18) !important;
+}
+
+#sttab-sidebar[data-pos="left"] #sttab-frame {
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.18) !important;
+}

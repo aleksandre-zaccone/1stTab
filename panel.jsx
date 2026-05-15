@@ -3,6 +3,12 @@
    faviconUrl, colorForString, initialFromUrl, defaultZones */
 
 const { useState, useEffect, useRef, useMemo } = React;
+const isSidebar = new URLSearchParams(location.search).get('mode') === 'sidebar';
+
+function toParent(action, value) {
+  if (isSidebar && window.parent !== window)
+    window.parent.postMessage({ src: '1sttab', action, value }, '*');
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -457,11 +463,24 @@ function PanelApp() {
         '1st', React.createElement('span', { className: 'panel-logo-dot' }, 'Tab')
       ),
       React.createElement('div', { className: 'panel-header-actions' },
-        React.createElement('button', {
-          className: 'panel-icon-btn',
-          onClick: detach,
-          title: 'Open as floating window',
-        }, '⧉'),
+        isSidebar
+          ? React.createElement(React.Fragment, null,
+              React.createElement('button', {
+                className: 'panel-icon-btn',
+                title: 'Move panel to left',
+                onClick: () => toParent('setPos', 'left'),
+              }, '⬅'),
+              React.createElement('button', {
+                className: 'panel-icon-btn',
+                title: 'Move panel to right',
+                onClick: () => toParent('setPos', 'right'),
+              }, '➡'),
+            )
+          : React.createElement('button', {
+              className: 'panel-icon-btn',
+              onClick: detach,
+              title: 'Open as floating window',
+            }, '⧉'),
       ),
     ),
 

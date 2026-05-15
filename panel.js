@@ -1,4 +1,9 @@
 const { useState, useEffect, useRef, useMemo } = React;
+const isSidebar = new URLSearchParams(location.search).get("mode") === "sidebar";
+function toParent(action, value) {
+  if (isSidebar && window.parent !== window)
+    window.parent.postMessage({ src: "1sttab", action, value }, "*");
+}
 function fmtBytes(b) {
   if (b >= 1e9) return (b / 1e9).toFixed(1) + " GB";
   if (b >= 1e6) return (b / 1e6).toFixed(0) + " MB";
@@ -482,7 +487,20 @@ function PanelApp() {
       React.createElement(
         "div",
         { className: "panel-header-actions" },
-        React.createElement("button", {
+        isSidebar ? React.createElement(
+          React.Fragment,
+          null,
+          React.createElement("button", {
+            className: "panel-icon-btn",
+            title: "Move panel to left",
+            onClick: () => toParent("setPos", "left")
+          }, "\u2B05"),
+          React.createElement("button", {
+            className: "panel-icon-btn",
+            title: "Move panel to right",
+            onClick: () => toParent("setPos", "right")
+          }, "\u27A1")
+        ) : React.createElement("button", {
           className: "panel-icon-btn",
           onClick: detach,
           title: "Open as floating window"

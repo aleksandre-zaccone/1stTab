@@ -43,10 +43,23 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["sidebar.js"],
+      "css": ["sidebar.css"],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
   "web_accessible_resources": [
     {
       "resources": ["manager.html", "privacy.html", "terms.html", "settings.html"],
       "matches": ["chrome-extension://*/*"]
+    },
+    {
+      "resources": ["panel.html"],
+      "matches": ["<all_urls>"]
     }
   ]
 }

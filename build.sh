@@ -20,7 +20,7 @@ files = [
   'react.min.js','react-dom.min.js','defaults.js',
   'tweaks-panel.js','icons.js','data.js','clocks.js','weather.js','todo.js','notes.js','quote.js',
   'bookmarks.js','manager.js','app.js','manager-app.js','settings-app.js','panel.js',
-  'panel.html','panel.css','background.js',
+  'panel.html','panel.css','background.js','sidebar.js','sidebar.css',
   'icons/icon16.png','icons/icon48.png','icons/icon128.png','icons/favicon.png',
 ]
 with zipfile.ZipFile('1stTab.zip', 'w', zipfile.ZIP_DEFLATED) as z:
