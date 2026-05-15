@@ -1,18 +1,31 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; background: #f6f8fc; }
+html {
+  height: 100%;
+  background: #f6f8fc;
+}
 body {
+  height: 100%;
+  overflow: hidden;
+  background: #f6f8fc;
   font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
   font-size: 13px;
-  background: #f6f8fc;
   color: #202124;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Root div where React mounts */
+#root {
+  height: 100%;
+  background: #f6f8fc;
 }
 
 /* ── Root: nav | content ── */
 .p-root {
   display: flex;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
+  background: #f6f8fc;
 }
 
 /* ─────────────────────────────────────────────

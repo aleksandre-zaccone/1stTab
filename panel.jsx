@@ -304,8 +304,8 @@ function PanelApp() {
       ),
     ),
 
-    // ── Content panel — always in DOM, hidden via display:none when no section active ──
-    React.createElement('div', { className: 'p-content', style: { display: active ? 'flex' : 'none' } },
+    // ── Content panel — only in DOM when a section is active ──
+    active ? React.createElement('div', { className: 'p-content' },
       React.createElement('div', { className: 'p-content-hd' },
         React.createElement('span', { className: 'p-content-title' }, activeSection?.label),
       ),
@@ -313,7 +313,7 @@ function PanelApp() {
       active === 'tabs'      && React.createElement(TabsContent),
       active === 'clocks'    && React.createElement(ClocksContent),
       active === 'system'    && React.createElement(SystemContent),
-    ),
+    ) : null,
   );
 }
 
