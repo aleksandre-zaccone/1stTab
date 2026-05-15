@@ -1,10 +1,10 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; }
+html, body { height: 100%; overflow: hidden; background: #f6f8fc !important; }
 body {
   font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
   font-size: 13px;
-  background: #f6f8fc;
-  color: #202124;
+  background: #f6f8fc !important;
+  color: #202124 !important;
   -webkit-font-smoothing: antialiased;
 }
 body::before, body::after { display: none !important; }
