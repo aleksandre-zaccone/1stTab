@@ -1,87 +1,84 @@
 var { useState, useEffect, useMemo, useCallback, useRef } = React;
 
-// ============================
-// Translation setup
-// ============================
-const translations = {
-  "settings": "Settings",
-  "bookmarks": "Bookmarks",
-  "notes": "Notes",
-  "todo": "To-Do",
-  "search": "Search",
-  "quick_links": "Quick Links",
-  "daily_background": "Daily Background",
-  "quote_of_the_day": "Quote of the Day",
-  "add_new_bookmark": "Add New Bookmark",
-  "edit_bookmark": "Edit Bookmark",
-  "delete_bookmark": "Delete Bookmark",
-  "save": "Save",
-  "cancel": "Cancel",
-  "import_bookmarks": "Import Chrome Bookmarks",
-  "export_settings": "Export Settings",
-  "import_settings": "Import Settings",
-  "custom_font": "Custom Font",
-  "select_font": "Select Font",
-  "character_count": "Character Count",
-  "add_note": "Add Note",
-  "add_todo": "Add To-Do",
-  "clear_completed": "Clear Completed",
-  "search_placeholder": "Search...",
-  "no_bookmarks_found": "No bookmarks found.",
-  "no_notes_found": "No notes found.",
-  "no_todos_found": "No to-dos found.",
-  "dashboard_title": "Dashboard",
-  "greeting_late": "Good evening",
-  "greeting_early": "Good morning",
-  "greeting_morning": "Good morning",
-  "greeting_midday": "Good afternoon",
-  "greeting_evening": "Good evening",
-  "stored_locally": "Stored locally ({count} bookmarks, {folders} folders)",
-  "manage_bookmarks": "Manage Bookmarks",
-  "click_to_change": "Click to change",
-  "search_or_enter_url": "Search or enter URL",
-  "your_name": "Your name",
-  "display_name": "Display name",
-  "city": "City",
-  "mock_data_note": "Uses mock data — any city name is shown verbatim.",
-  "custom_font_label": "Custom Font",
-  "select_font_label": "Select Font",
-  "icon_picker_aria_label": "Icon Picker",
-  "use_website_favicon": "Use Website Favicon",
-  "custom_placeholder": "Custom",
-  "bookmark_name_label": "Name",
-  "bookmark_url_label": "URL",
-  "bookmark_description_label": "Description (optional)",
-  "bookmark_folder_label": "Folder",
-  "bookmark_tags_label": "Tags (comma-separated)",
-  "pin_to_top_label": "Pin to top",
-  "edit_bookmark_title": "Edit bookmark",
-  "new_bookmark_title": "New bookmark",
-  "time_zones_title": "Time zones",
-  "zone_label_label": "Label",
-  "time_zone_label": "Time zone",
-  "add_another_button": "Add another",
-  "cancel_button": "Cancel",
-  "save_button": "Save",
-  "brand_main_text": "Dashboard",
-  "arcade_net_title": "★ ARCADE NET ★"
-};
-
-const t = (key, params) => {
-  let value = key.split('.').reduce((obj, k) => obj?.[k], translations);
-  if (typeof value === 'string') {
-    if (params) {
-      for (const param in params) {
-        value = value.replace(`{${param}}`, params[param]);
+// Translation setup — block-scoped to avoid conflict with data.js's const t
+{
+  const translations = {
+    "settings": "Settings",
+    "bookmarks": "Bookmarks",
+    "notes": "Notes",
+    "todo": "To-Do",
+    "search": "Search",
+    "quick_links": "Quick Links",
+    "daily_background": "Daily Background",
+    "quote_of_the_day": "Quote of the Day",
+    "add_new_bookmark": "Add New Bookmark",
+    "edit_bookmark": "Edit Bookmark",
+    "delete_bookmark": "Delete Bookmark",
+    "save": "Save",
+    "cancel": "Cancel",
+    "import_bookmarks": "Import Chrome Bookmarks",
+    "export_settings": "Export Settings",
+    "import_settings": "Import Settings",
+    "custom_font": "Custom Font",
+    "select_font": "Select Font",
+    "character_count": "Character Count",
+    "add_note": "Add Note",
+    "add_todo": "Add To-Do",
+    "clear_completed": "Clear Completed",
+    "search_placeholder": "Search...",
+    "no_bookmarks_found": "No bookmarks found.",
+    "no_notes_found": "No notes found.",
+    "no_todos_found": "No to-dos found.",
+    "dashboard_title": "Dashboard",
+    "greeting_late": "Good evening",
+    "greeting_early": "Good morning",
+    "greeting_morning": "Good morning",
+    "greeting_midday": "Good afternoon",
+    "greeting_evening": "Good evening",
+    "stored_locally": "Stored locally ({count} bookmarks, {folders} folders)",
+    "manage_bookmarks": "Manage Bookmarks",
+    "click_to_change": "Click to change",
+    "search_or_enter_url": "Search or enter URL",
+    "your_name": "Your name",
+    "display_name": "Display name",
+    "city": "City",
+    "mock_data_note": "Uses mock data — any city name is shown verbatim.",
+    "custom_font_label": "Custom Font",
+    "select_font_label": "Select Font",
+    "icon_picker_aria_label": "Icon Picker",
+    "use_website_favicon": "Use Website Favicon",
+    "custom_placeholder": "Custom",
+    "bookmark_name_label": "Name",
+    "bookmark_url_label": "URL",
+    "bookmark_description_label": "Description (optional)",
+    "bookmark_folder_label": "Folder",
+    "bookmark_tags_label": "Tags (comma-separated)",
+    "pin_to_top_label": "Pin to top",
+    "edit_bookmark_title": "Edit bookmark",
+    "new_bookmark_title": "New bookmark",
+    "time_zones_title": "Time zones",
+    "zone_label_label": "Label",
+    "time_zone_label": "Time zone",
+    "add_another_button": "Add another",
+    "cancel_button": "Cancel",
+    "save_button": "Save",
+    "brand_main_text": "Dashboard",
+    "arcade_net_title": "★ ARCADE NET ★"
+  };
+  const _t = (key, params) => {
+    let value = key.split('.').reduce((obj, k) => obj?.[k], translations);
+    if (typeof value === 'string') {
+      if (params) {
+        for (const param in params) {
+          value = value.replace(`{${param}}`, params[param]);
+        }
       }
+      return value;
     }
-    return value;
-  }
-  return key; // Return key if not found
-};
-
-const useI18n = () => ({ t });
-window.useI18n = useI18n;
+    return key;
+  };
+  window.useI18n = () => ({ t: _t });
+}
 
 // ============================
 // Background helper — injects a <style> tag that wins over all !important rules
