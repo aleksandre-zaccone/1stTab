@@ -1,17 +1,12 @@
 /* global chrome */
 
-async function toggleSidebarInActiveTab() {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (!tab) return;
-  chrome.tabs.sendMessage(tab.id, { action: 'toggleSidebar' }, () => {
-    void chrome.runtime.lastError; // suppress "no receiver" errors on chrome:// pages
-  });
-}
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
+});
 
-// Toolbar icon click → toggle sidebar
-chrome.action.onClicked.addListener(toggleSidebarInActiveTab);
-
-// Alt+Shift+P → toggle sidebar
-chrome.commands.onCommand.addListener(command => {
-  if (command === 'open-panel') toggleSidebarInActiveTab();
+chrome.commands.onCommand.addListener(async (command) => {
+  if (command === 'open-panel') {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tab) chrome.sidePanel.open({ windowId: tab.windowId });
+  }
 });
