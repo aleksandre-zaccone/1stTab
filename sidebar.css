@@ -5,7 +5,6 @@
   position: fixed !important;
   top: 0 !important;
   bottom: 0 !important;
-  width: 384px !important; /* 360px panel + 24px tab */
   height: 100vh !important;
   z-index: 2147483647 !important;
   display: flex !important;
@@ -24,7 +23,9 @@
   right: 0 !important;
   left: auto !important;
   flex-direction: row-reverse !important;
-  transform: translateX(360px) !important;
+}
+#sttab-sidebar[data-pos="right"][data-open="0"] {
+  transform: translateX(var(--sttab-w, 400px)) !important;
 }
 #sttab-sidebar[data-pos="right"][data-open="1"] {
   transform: translateX(0) !important;
@@ -35,7 +36,9 @@
   left: 0 !important;
   right: auto !important;
   flex-direction: row !important;
-  transform: translateX(-360px) !important;
+}
+#sttab-sidebar[data-pos="left"][data-open="0"] {
+  transform: translateX(calc(-1 * var(--sttab-w, 400px))) !important;
 }
 #sttab-sidebar[data-pos="left"][data-open="1"] {
   transform: translateX(0) !important;
@@ -88,7 +91,7 @@
 #sttab-frame {
   all: unset !important;
   display: block !important;
-  width: 360px !important;
+  width: var(--sttab-w, 400px) !important;
   height: 100% !important;
   border: none !important;
   background: #fafafa !important;
@@ -101,4 +104,46 @@
 
 #sttab-sidebar[data-pos="left"] #sttab-frame {
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* ── Resize handle ── */
+#sttab-resize {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 6px !important;
+  cursor: ew-resize !important;
+  z-index: 1 !important;
+  background: transparent !important;
+  transition: background 0.15s !important;
+}
+
+#sttab-resize:hover,
+#sttab-sidebar[data-resizing="1"] #sttab-resize {
+  background: rgba(25, 118, 210, 0.3) !important;
+}
+
+/* Handle on left edge of iframe when panel is on the right */
+#sttab-sidebar[data-pos="right"] #sttab-resize {
+  left: 0 !important;
+  right: auto !important;
+}
+
+/* Handle on right edge of iframe when panel is on the left */
+#sttab-sidebar[data-pos="left"] #sttab-resize {
+  right: 0 !important;
+  left: auto !important;
+}
+
+/* Overlay to capture mouse during resize (prevents iframe swallowing events) */
+#sttab-overlay {
+  display: none !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483646 !important;
+  cursor: ew-resize !important;
+}
+
+#sttab-sidebar[data-resizing="1"] ~ #sttab-overlay {
+  display: block !important;
 }
