@@ -268,9 +268,7 @@ const NAV = [
 // ─── Root ────────────────────────────────────────────────────────────────────
 
 function PanelApp() {
-  // Always start with no section open — never persist active state
   const [active, setActive] = useState(null);
-  useEffect(() => { setActive(null); }, []);
 
   function toggle(id) {
     setActive(prev => prev === id ? null : id);
@@ -298,8 +296,8 @@ function PanelApp() {
       ),
     ),
 
-    // ── Content panel (shown when a section is active) ──
-    active && React.createElement('div', { className: 'p-content' },
+    // ── Content panel — always in DOM, hidden via display:none when no section active ──
+    React.createElement('div', { className: 'p-content', style: { display: active ? 'flex' : 'none' } },
       React.createElement('div', { className: 'p-content-hd' },
         React.createElement('span', { className: 'p-content-title' }, activeSection?.label),
       ),

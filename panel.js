@@ -295,9 +295,6 @@ const NAV = [
 ];
 function PanelApp() {
   const [active, setActive] = useState(null);
-  useEffect(() => {
-    setActive(null);
-  }, []);
   function toggle(id) {
     setActive((prev) => prev === id ? null : id);
   }
@@ -328,10 +325,10 @@ function PanelApp() {
         )
       )
     ),
-    // ── Content panel (shown when a section is active) ──
-    active && React.createElement(
+    // ── Content panel — always in DOM, hidden via display:none when no section active ──
+    React.createElement(
       "div",
-      { className: "p-content" },
+      { className: "p-content", style: { display: active ? "flex" : "none" } },
       React.createElement(
         "div",
         { className: "p-content-hd" },
