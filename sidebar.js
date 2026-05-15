@@ -4,12 +4,13 @@
 
   if (
     location.protocol === 'chrome-extension:' ||
-    document.getElementById('sttab-sidebar')
+    document.getElementById('sttab-sb')
   ) return;
 
   const MIN_W     = 280;
   const MAX_W     = 700;
   const DEFAULT_W = 400;
+  const TAB_W     = 28;
 
   let pos   = 'right';
   let open  = false;
@@ -17,146 +18,200 @@
 
   chrome.storage.sync.get(
     { sidebarPos: 'right', sidebarOpen: false, sidebarWidth: DEFAULT_W },
-    prefs => {
+    function (prefs) {
       pos   = prefs.sidebarPos;
       open  = prefs.sidebarOpen;
       width = prefs.sidebarWidth;
-      mount();
+      build();
     }
   );
 
-  // ── Build DOM ────────────────────────────────────────────────────────────────
+  /* ── Elements ── */
+  var sb, tab, frame, handle;
 
-  function mount() {
-    // Overlay blocks iframe from swallowing mouse events during resize
-    const overlay = document.createElement('div');
-    overlay.id = 'sttab-overlay';
-    document.documentElement.appendChild(overlay);
+  function build() {
+    sb = document.createElement('div');
+    sb.id = 'sttab-sb';
 
-    const sidebar = document.createElement('div');
-    sidebar.id = 'sttab-sidebar';
-
-    const tab = document.createElement('button');
+    tab = document.createElement('button');
     tab.id = 'sttab-tab';
-    tab.setAttribute('aria-label', 'Toggle 1stTab panel');
-    tab.addEventListener('click', toggle);
+    tab.textContent = '1stTab';
+    tab.onclick = toggle;
 
-    const frameWrap = document.createElement('div');
-    frameWrap.id = 'sttab-frame-wrap';
+    var inner = document.createElement('div');
+    inner.id = 'sttab-inner';
 
-    const handle = document.createElement('div');
-    handle.id = 'sttab-resize';
-    handle.addEventListener('mousedown', startResize);
+    handle = document.createElement('div');
+    handle.id = 'sttab-handle';
+    handle.onmousedown = startResize;
 
-    const frame = document.createElement('iframe');
-    frame.id    = 'sttab-frame';
-    frame.src   = chrome.runtime.getURL('panel.html') + '?mode=sidebar';
-    frame.title = '1stTab';
+    frame = document.createElement('iframe');
+    frame.id  = 'sttab-iframe';
+    frame.src = chrome.runtime.getURL('panel.html') + '?mode=sidebar';
 
-    frameWrap.appendChild(handle);
-    frameWrap.appendChild(frame);
-    sidebar.appendChild(tab);
-    sidebar.appendChild(frameWrap);
-    document.documentElement.appendChild(sidebar);
+    inner.appendChild(handle);
+    inner.appendChild(frame);
+    sb.appendChild(tab);
+    sb.appendChild(inner);
 
-    applyStyles();
+    // Append to body so we inherit the viewport stacking context cleanly
+    document.body.appendChild(sb);
+
+    render();
   }
 
-  // ── Apply all dynamic styles via JS (avoids CSS custom-property issues) ─────
+  /* ── Apply all visual state ── */
+  function render() {
+    if (!sb) return;
 
-  function applyStyles() {
-    const sidebar   = document.getElementById('sttab-sidebar');
-    const frameWrap = document.getElementById('sttab-frame-wrap');
-    const frame     = document.getElementById('sttab-frame');
-    if (!sidebar) return;
+    var totalW = width + TAB_W;
 
-    // Position anchor
+    /* Sidebar container */
+    sb.style.cssText = [
+      'position:fixed',
+      'top:0',
+      'bottom:0',
+      'height:100vh',
+      'display:flex',
+      'align-items:stretch',
+      'z-index:2147483647',
+      'box-shadow:none',
+      'margin:0',
+      'padding:0',
+      'border:none',
+      'background:transparent',
+      'box-sizing:border-box',
+      'transition:transform 0.25s cubic-bezier(0.4,0,0.2,1)',
+    ].join(';');
+
     if (pos === 'right') {
-      sidebar.style.right        = '0';
-      sidebar.style.left         = 'auto';
-      sidebar.style.flexDirection = 'row-reverse';
-      sidebar.style.transform    = open ? 'translateX(0)' : `translateX(${width}px)`;
+      sb.style.right         = '0';
+      sb.style.left          = 'auto';
+      sb.style.flexDirection = 'row-reverse';
+      sb.style.transform     = open ? 'translateX(0)' : 'translateX(' + width + 'px)';
     } else {
-      sidebar.style.left         = '0';
-      sidebar.style.right        = 'auto';
-      sidebar.style.flexDirection = 'row';
-      sidebar.style.transform    = open ? 'translateX(0)' : `translateX(-${width}px)`;
+      sb.style.left          = '0';
+      sb.style.right         = 'auto';
+      sb.style.flexDirection = 'row';
+      sb.style.transform     = open ? 'translateX(0)' : 'translateX(-' + width + 'px)';
     }
 
-    // Dataset for CSS pseudo-selectors (hover, border-radius, shadow)
-    sidebar.dataset.pos = pos;
+    /* Toggle tab */
+    tab.style.cssText = [
+      'all:unset',
+      'display:flex',
+      'align-items:center',
+      'justify-content:center',
+      'flex-shrink:0',
+      'width:' + TAB_W + 'px',
+      'height:100%',
+      'background:#1976d2',
+      'color:#fff',
+      'font:700 11px/1 Arial,sans-serif',
+      'letter-spacing:0.1em',
+      'writing-mode:vertical-rl',
+      'cursor:pointer',
+      'user-select:none',
+      'box-sizing:border-box',
+      pos === 'right'
+        ? 'border-radius:8px 0 0 8px'
+        : 'border-radius:0 8px 8px 0',
+    ].join(';');
 
-    // Widths
-    if (frameWrap) {
-      frameWrap.style.width = width + 'px';
+    /* Inner container (holds handle + iframe) */
+    var inner = document.getElementById('sttab-inner');
+    if (inner) {
+      inner.style.cssText = [
+        'position:relative',
+        'width:' + width + 'px',
+        'height:100%',
+        'flex-shrink:0',
+        'overflow:hidden',
+        'box-sizing:border-box',
+      ].join(';');
     }
-    if (frame) {
-      frame.style.width = width + 'px';
-    }
+
+    /* Iframe */
+    frame.style.cssText = [
+      'display:block',
+      'width:' + width + 'px',
+      'height:100%',
+      'border:none',
+      'background:#fafafa',
+    ].join(';');
+
+    /* Resize handle */
+    handle.style.cssText = [
+      'position:absolute',
+      'top:0',
+      'bottom:0',
+      'width:6px',
+      'z-index:10',
+      'cursor:ew-resize',
+      'background:transparent',
+      pos === 'right' ? 'left:0' : 'right:0',
+    ].join(';');
   }
 
-  // ── Toggle open / closed ─────────────────────────────────────────────────────
-
+  /* ── Toggle ── */
   function toggle() {
     open = !open;
-    applyStyles();
+    render();
     chrome.storage.sync.set({ sidebarOpen: open });
   }
 
-  // ── Resize ───────────────────────────────────────────────────────────────────
-
-  let resizing = false;
-  let startX   = 0;
-  let startW   = 0;
+  /* ── Resize ── */
+  var resizing = false;
+  var startX = 0;
+  var startW = 0;
 
   function startResize(e) {
     e.preventDefault();
+    e.stopPropagation();
     resizing = true;
     startX   = e.clientX;
     startW   = width;
-    const sidebar = document.getElementById('sttab-sidebar');
-    if (sidebar) sidebar.dataset.resizing = '1';
+    // Disable iframe pointer events so it doesn't swallow mousemove
+    frame.style.pointerEvents = 'none';
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup',   onUp);
   }
 
   function onMove(e) {
     if (!resizing) return;
-    const delta = pos === 'right'
-      ? startX - e.clientX   // drag left → wider
-      : e.clientX - startX;  // drag right → wider
+    var delta = pos === 'right'
+      ? startX - e.clientX
+      : e.clientX - startX;
     width = Math.max(MIN_W, Math.min(MAX_W, startW + delta));
-    applyStyles();
+    render();
   }
 
   function onUp() {
+    if (!resizing) return;
     resizing = false;
-    const sidebar = document.getElementById('sttab-sidebar');
-    if (sidebar) delete sidebar.dataset.resizing;
+    frame.style.pointerEvents = '';
     document.removeEventListener('mousemove', onMove);
     document.removeEventListener('mouseup',   onUp);
     chrome.storage.sync.set({ sidebarWidth: width });
   }
 
-  // ── Messages from the panel iframe ───────────────────────────────────────────
-
-  window.addEventListener('message', evt => {
+  /* ── Messages from panel iframe ── */
+  window.addEventListener('message', function (evt) {
     if (!evt.data || evt.data.src !== '1sttab') return;
     if (evt.data.action === 'setPos') {
       pos = evt.data.value;
-      applyStyles();
+      render();
       chrome.storage.sync.set({ sidebarPos: pos });
     }
     if (evt.data.action === 'close') {
       open = false;
-      applyStyles();
+      render();
       chrome.storage.sync.set({ sidebarOpen: false });
     }
   });
 
-  // ── Keyboard shortcut from background.js ─────────────────────────────────────
-
-  chrome.runtime.onMessage.addListener(msg => {
+  /* ── Keyboard toggle from background.js ── */
+  chrome.runtime.onMessage.addListener(function (msg) {
     if (msg.action === 'toggleSidebar') toggle();
   });
-})();
+}());
