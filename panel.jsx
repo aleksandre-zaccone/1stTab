@@ -71,8 +71,7 @@ function useMemoryInfo() {
   const [mem, setMem] = useState(null);
   useEffect(() => {
     const tick = () => chrome.system.memory.getInfo(setMem);
-    tick();
-    const id = setInterval(tick, 2000);
+    tick(); const id = setInterval(tick, 2000);
     return () => clearInterval(id);
   }, []);
   return mem;
@@ -84,7 +83,7 @@ function useStorageInfo() {
   return info;
 }
 
-// ─── Bookmark favicon ────────────────────────────────────────────────────────
+// ─── Favicon ────────────────────────────────────────────────────────────────
 
 function BmFavicon({ url, name }) {
   const src = faviconUrl(url, 32);
@@ -96,7 +95,7 @@ function BmFavicon({ url, name }) {
   return React.createElement('span', { className: 'p-bm-fav p-bm-fav--tile', style: { background: bg } }, initial);
 }
 
-// ─── Section: Bookmarks ──────────────────────────────────────────────────────
+// ─── Bookmarks ───────────────────────────────────────────────────────────────
 
 function BmFolder({ folder, bookmarks }) {
   const [open, setOpen] = useState(false);
@@ -104,7 +103,7 @@ function BmFolder({ folder, bookmarks }) {
   return React.createElement('div', { className: 'p-folder' },
     React.createElement('div', { className: 'p-folder-hd', onClick: () => setOpen(o => !o) },
       React.createElement('span', { className: `p-chevron${open ? ' open' : ''}` }, '›'),
-      React.createElement('span', { className: 'p-folder-icon' }, '📁'),
+      React.createElement('span', null, '📁'),
       React.createElement('span', { className: 'p-folder-name' }, folder.name),
       React.createElement('span', { className: 'p-folder-count' }, bookmarks.length),
     ),
@@ -119,12 +118,14 @@ function BmFolder({ folder, bookmarks }) {
   );
 }
 
-function BookmarksSection() {
+function BookmarksContent() {
   const [folders]   = useStorage(STORAGE_KEYS.folders,   SEED_FOLDERS);
   const [bookmarks] = useStorage(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS);
   const [query, setQuery] = useState('');
   const q = query.trim().toLowerCase();
-  const filtered = q ? bookmarks.filter(bm => bm.name?.toLowerCase().includes(q) || bm.url?.toLowerCase().includes(q)) : bookmarks;
+  const filtered = q
+    ? bookmarks.filter(bm => bm.name?.toLowerCase().includes(q) || bm.url?.toLowerCase().includes(q))
+    : bookmarks;
   const byFolder = {};
   filtered.forEach(bm => { if (!byFolder[bm.folderId]) byFolder[bm.folderId] = []; byFolder[bm.folderId].push(bm); });
 
@@ -141,7 +142,7 @@ function BookmarksSection() {
   );
 }
 
-// ─── Section: Tabs ───────────────────────────────────────────────────────────
+// ─── Tabs ────────────────────────────────────────────────────────────────────
 
 function TabItem({ tab }) {
   return React.createElement('div', {
@@ -159,7 +160,7 @@ function TabItem({ tab }) {
   );
 }
 
-function TabsSection() {
+function TabsContent() {
   const allTabs = useTabs();
   const [query, setQuery] = useState('');
   const q = query.trim().toLowerCase();
@@ -188,14 +189,14 @@ function TabsSection() {
   );
 }
 
-// ─── Section: Clocks ─────────────────────────────────────────────────────────
+// ─── Clocks ──────────────────────────────────────────────────────────────────
 
-function ClocksSection() {
+function ClocksContent() {
   const now = useNow();
   const [zones] = useStorage(STORAGE_KEYS.zones, defaultZones(), true);
   return React.createElement('div', { className: 'p-scroll' },
     zones.map(z => {
-      const fmt = (opts) => new Intl.DateTimeFormat('en-US', { timeZone: z.tz, ...opts }).formatToParts(now);
+      const fmt = opts => new Intl.DateTimeFormat('en-US', { timeZone: z.tz, ...opts }).formatToParts(now);
       const p = fmt({ hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
       const get = type => p.find(x => x.type === type)?.value || '';
       const offset = fmt({ timeZoneName: 'shortOffset' }).find(x => x.type === 'timeZoneName')?.value || '';
@@ -211,7 +212,7 @@ function ClocksSection() {
   );
 }
 
-// ─── Section: System ─────────────────────────────────────────────────────────
+// ─── System ──────────────────────────────────────────────────────────────────
 
 function SysBar({ pct, color }) {
   return React.createElement('div', { className: 'p-sys-bar-bg' },
@@ -219,12 +220,12 @@ function SysBar({ pct, color }) {
   );
 }
 
-function SystemSection() {
+function SystemContent() {
   const cpu    = useCpuUsage();
   const mem    = useMemoryInfo();
   const drives = useStorageInfo();
-  const memPct  = mem ? Math.round(((mem.capacity - mem.availableCapacity) / mem.capacity) * 100) : 0;
-  const memUsed = mem ? fmtBytes(mem.capacity - mem.availableCapacity) : '—';
+  const memPct   = mem ? Math.round(((mem.capacity - mem.availableCapacity) / mem.capacity) * 100) : 0;
+  const memUsed  = mem ? fmtBytes(mem.capacity - mem.availableCapacity) : '—';
   const memTotal = mem ? fmtBytes(mem.capacity) : '—';
   const cpuColor = cpu > 80 ? '#d93025' : cpu > 50 ? '#f29900' : '#1a73e8';
 
@@ -255,74 +256,57 @@ function SystemSection() {
   );
 }
 
-// ─── Nav sections config ─────────────────────────────────────────────────────
+// ─── Nav config ──────────────────────────────────────────────────────────────
 
-const SECTIONS = [
+const NAV = [
   { id: 'bookmarks', label: 'Bookmarks', emoji: '🔖' },
   { id: 'tabs',      label: 'Tabs',      emoji: '⬜' },
   { id: 'clocks',    label: 'Clocks',    emoji: '🕐' },
   { id: 'system',    label: 'System',    emoji: '💻' },
 ];
 
-// ─── Home screen (icon grid) ─────────────────────────────────────────────────
-
-function HomeScreen({ onSelect, bookmarkCount, tabCount }) {
-  const counts = { bookmarks: bookmarkCount, tabs: tabCount };
-  return React.createElement('div', { className: 'p-home' },
-    React.createElement('div', { className: 'p-home-logo' },
-      React.createElement('span', { className: 'p-home-logo-text' }, '1stTab'),
-    ),
-    React.createElement('div', { className: 'p-home-grid' },
-      SECTIONS.map(s =>
-        React.createElement('button', {
-          key: s.id,
-          className: 'p-home-btn',
-          onClick: () => onSelect(s.id),
-        },
-          React.createElement('span', { className: 'p-home-icon' }, s.emoji),
-          React.createElement('span', { className: 'p-home-label' }, s.label),
-          counts[s.id] != null && React.createElement('span', { className: 'p-home-count' }, counts[s.id]),
-        )
-      )
-    )
-  );
-}
-
 // ─── Root ────────────────────────────────────────────────────────────────────
 
 function PanelApp() {
-  const [active, setActive] = useState(null); // null = home screen
-  const [folders]   = useStorage(STORAGE_KEYS.folders,   SEED_FOLDERS);
-  const [bookmarks] = useStorage(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS);
-  const allTabs     = useTabs();
+  // null = no section open (icons only view)
+  const [active, setActive] = useState(null);
 
-  const section = active ? SECTIONS.find(s => s.id === active) : null;
+  function toggle(id) {
+    setActive(prev => prev === id ? null : id);
+  }
 
-  return React.createElement('div', { className: 'p-root' },
+  const activeSection = NAV.find(n => n.id === active);
 
-    // Header
-    React.createElement('header', { className: 'p-header' },
-      active
-        ? React.createElement('button', { className: 'p-back', onClick: () => setActive(null) }, '‹')
-        : null,
-      React.createElement('span', { className: 'p-header-title' }, section ? section.label : '1stTab'),
-      active && React.createElement('span', { className: 'p-header-count' },
-        active === 'bookmarks' ? bookmarks.length
-          : active === 'tabs' ? allTabs.length
-          : null
+  return React.createElement('div', { className: `p-root${active ? ' p-root--open' : ''}` },
+
+    // ── Vertical icon nav (always visible) ──
+    React.createElement('nav', { className: 'p-nav' },
+      React.createElement('div', { className: 'p-nav-logo' }, '1st'),
+      React.createElement('div', { className: 'p-nav-items' },
+        NAV.map(item =>
+          React.createElement('button', {
+            key: item.id,
+            className: `p-nav-btn${active === item.id ? ' active' : ''}`,
+            onClick: () => toggle(item.id),
+            title: item.label,
+          },
+            React.createElement('span', { className: 'p-nav-icon' }, item.emoji),
+            React.createElement('span', { className: 'p-nav-label' }, item.label),
+          )
+        )
       ),
     ),
 
-    // Body
-    active === null && React.createElement(HomeScreen, {
-      onSelect: setActive,
-      bookmarkCount: bookmarks.length,
-      tabCount: allTabs.length,
-    }),
-    active === 'bookmarks' && React.createElement(BookmarksSection),
-    active === 'tabs'      && React.createElement(TabsSection),
-    active === 'clocks'    && React.createElement(ClocksSection),
-    active === 'system'    && React.createElement(SystemSection),
+    // ── Content panel (shown when a section is active) ──
+    active && React.createElement('div', { className: 'p-content' },
+      React.createElement('div', { className: 'p-content-hd' },
+        React.createElement('span', { className: 'p-content-title' }, activeSection?.label),
+      ),
+      active === 'bookmarks' && React.createElement(BookmarksContent),
+      active === 'tabs'      && React.createElement(TabsContent),
+      active === 'clocks'    && React.createElement(ClocksContent),
+      active === 'system'    && React.createElement(SystemContent),
+    ),
   );
 }
 

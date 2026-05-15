@@ -96,7 +96,7 @@ function BmFolder({ folder, bookmarks }) {
       "div",
       { className: "p-folder-hd", onClick: () => setOpen((o) => !o) },
       React.createElement("span", { className: `p-chevron${open ? " open" : ""}` }, "\u203A"),
-      React.createElement("span", { className: "p-folder-icon" }, "\u{1F4C1}"),
+      React.createElement("span", null, "\u{1F4C1}"),
       React.createElement("span", { className: "p-folder-name" }, folder.name),
       React.createElement("span", { className: "p-folder-count" }, bookmarks.length)
     ),
@@ -114,7 +114,7 @@ function BmFolder({ folder, bookmarks }) {
     )
   );
 }
-function BookmarksSection() {
+function BookmarksContent() {
   const [folders] = useStorage(STORAGE_KEYS.folders, SEED_FOLDERS);
   const [bookmarks] = useStorage(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS);
   const [query, setQuery] = useState("");
@@ -168,7 +168,7 @@ function TabItem({ tab }) {
     )
   );
 }
-function TabsSection() {
+function TabsContent() {
   const allTabs = useTabs();
   const [query, setQuery] = useState("");
   const q = query.trim().toLowerCase();
@@ -204,7 +204,7 @@ function TabsSection() {
     )
   );
 }
-function ClocksSection() {
+function ClocksContent() {
   const now = useNow();
   const [zones] = useStorage(STORAGE_KEYS.zones, defaultZones(), true);
   return React.createElement(
@@ -237,7 +237,7 @@ function SysBar({ pct, color }) {
     React.createElement("div", { className: "p-sys-bar-fill", style: { width: `${pct}%`, background: color || "#1a73e8" } })
   );
 }
-function SystemSection() {
+function SystemContent() {
   const cpu = useCpuUsage();
   const mem = useMemoryInfo();
   const drives = useStorageInfo();
@@ -287,72 +287,58 @@ function SystemSection() {
     )
   );
 }
-const SECTIONS = [
+const NAV = [
   { id: "bookmarks", label: "Bookmarks", emoji: "\u{1F516}" },
   { id: "tabs", label: "Tabs", emoji: "\u2B1C" },
   { id: "clocks", label: "Clocks", emoji: "\u{1F550}" },
   { id: "system", label: "System", emoji: "\u{1F4BB}" }
 ];
-function HomeScreen({ onSelect, bookmarkCount, tabCount }) {
-  const counts = { bookmarks: bookmarkCount, tabs: tabCount };
-  return React.createElement(
-    "div",
-    { className: "p-home" },
-    React.createElement(
-      "div",
-      { className: "p-home-logo" },
-      React.createElement("span", { className: "p-home-logo-text" }, "1stTab")
-    ),
-    React.createElement(
-      "div",
-      { className: "p-home-grid" },
-      SECTIONS.map(
-        (s) => React.createElement(
-          "button",
-          {
-            key: s.id,
-            className: "p-home-btn",
-            onClick: () => onSelect(s.id)
-          },
-          React.createElement("span", { className: "p-home-icon" }, s.emoji),
-          React.createElement("span", { className: "p-home-label" }, s.label),
-          counts[s.id] != null && React.createElement("span", { className: "p-home-count" }, counts[s.id])
-        )
-      )
-    )
-  );
-}
 function PanelApp() {
   const [active, setActive] = useState(null);
-  const [folders] = useStorage(STORAGE_KEYS.folders, SEED_FOLDERS);
-  const [bookmarks] = useStorage(STORAGE_KEYS.bookmarks, SEED_BOOKMARKS);
-  const allTabs = useTabs();
-  const section = active ? SECTIONS.find((s) => s.id === active) : null;
+  function toggle(id) {
+    setActive((prev) => prev === id ? null : id);
+  }
+  const activeSection = NAV.find((n) => n.id === active);
   return React.createElement(
     "div",
-    { className: "p-root" },
-    // Header
+    { className: `p-root${active ? " p-root--open" : ""}` },
+    // ── Vertical icon nav (always visible) ──
     React.createElement(
-      "header",
-      { className: "p-header" },
-      active ? React.createElement("button", { className: "p-back", onClick: () => setActive(null) }, "\u2039") : null,
-      React.createElement("span", { className: "p-header-title" }, section ? section.label : "1stTab"),
-      active && React.createElement(
-        "span",
-        { className: "p-header-count" },
-        active === "bookmarks" ? bookmarks.length : active === "tabs" ? allTabs.length : null
+      "nav",
+      { className: "p-nav" },
+      React.createElement("div", { className: "p-nav-logo" }, "1st"),
+      React.createElement(
+        "div",
+        { className: "p-nav-items" },
+        NAV.map(
+          (item) => React.createElement(
+            "button",
+            {
+              key: item.id,
+              className: `p-nav-btn${active === item.id ? " active" : ""}`,
+              onClick: () => toggle(item.id),
+              title: item.label
+            },
+            React.createElement("span", { className: "p-nav-icon" }, item.emoji),
+            React.createElement("span", { className: "p-nav-label" }, item.label)
+          )
+        )
       )
     ),
-    // Body
-    active === null && React.createElement(HomeScreen, {
-      onSelect: setActive,
-      bookmarkCount: bookmarks.length,
-      tabCount: allTabs.length
-    }),
-    active === "bookmarks" && React.createElement(BookmarksSection),
-    active === "tabs" && React.createElement(TabsSection),
-    active === "clocks" && React.createElement(ClocksSection),
-    active === "system" && React.createElement(SystemSection)
+    // ── Content panel (shown when a section is active) ──
+    active && React.createElement(
+      "div",
+      { className: "p-content" },
+      React.createElement(
+        "div",
+        { className: "p-content-hd" },
+        React.createElement("span", { className: "p-content-title" }, activeSection?.label)
+      ),
+      active === "bookmarks" && React.createElement(BookmarksContent),
+      active === "tabs" && React.createElement(TabsContent),
+      active === "clocks" && React.createElement(ClocksContent),
+      active === "system" && React.createElement(SystemContent)
+    )
   );
 }
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(PanelApp));
