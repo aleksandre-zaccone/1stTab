@@ -295,6 +295,13 @@ const NAV = [
 ];
 function PanelApp() {
   const [active, setActive] = useState(null);
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === "visible") setActive(null);
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, []);
   function toggle(id) {
     setActive((prev) => prev === id ? null : id);
   }

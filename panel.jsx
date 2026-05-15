@@ -270,6 +270,15 @@ const NAV = [
 function PanelApp() {
   const [active, setActive] = useState(null);
 
+  // Reset to icons-only every time the panel becomes visible
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') setActive(null);
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, []);
+
   function toggle(id) {
     setActive(prev => prev === id ? null : id);
   }
