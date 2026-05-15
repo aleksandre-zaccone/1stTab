@@ -268,8 +268,9 @@ const NAV = [
 // ─── Root ────────────────────────────────────────────────────────────────────
 
 function PanelApp() {
-  // null = no section open (icons only view)
+  // Always start with no section open — never persist active state
   const [active, setActive] = useState(null);
+  useEffect(() => { setActive(null); }, []);
 
   function toggle(id) {
     setActive(prev => prev === id ? null : id);

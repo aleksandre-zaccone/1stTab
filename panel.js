@@ -295,6 +295,9 @@ const NAV = [
 ];
 function PanelApp() {
   const [active, setActive] = useState(null);
+  useEffect(() => {
+    setActive(null);
+  }, []);
   function toggle(id) {
     setActive((prev) => prev === id ? null : id);
   }
