@@ -19,8 +19,20 @@
   "permissions": [
     "storage",
     "bookmarks",
-    "sidePanel"
+    "sidePanel",
+    "tabs",
+    "sessions",
+    "tabGroups",
+    "system.cpu",
+    "system.memory",
+    "system.storage"
   ],
+  "commands": {
+    "open-panel": {
+      "suggested_key": { "default": "Alt+Shift+P" },
+      "description": "Open 1stTab side panel"
+    }
+  },
   "side_panel": {
     "default_path": "panel.html"
   },
