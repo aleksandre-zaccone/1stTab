@@ -17,40 +17,33 @@ body::before, body::after { display: none !important; }
 }
 
 /* ─────────────────────────────────────────────
-   VERTICAL ICON NAV — always visible
-   Full width when no section open, 72px when section is open
+   VERTICAL ICON NAV — always visible, fixed icon width
 ───────────────────────────────────────────── */
 .p-nav {
-  width: 100%;          /* fills panel when icons-only */
+  width: 56px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 8px 0 16px;
   background: #f6f8fc;
+  border-right: 1px solid #e0e4ef;
   height: 100%;
   overflow: hidden;
-  transition: width 0.2s ease;
-}
-
-/* Shrink to icon strip when a section is open */
-.p-root--open .p-nav {
-  width: 72px;
-  border-right: 1px solid #e0e4ef;
 }
 
 .p-nav-logo {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: #1a73e8;
-  letter-spacing: -0.02em;
-  height: 52px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   border-bottom: 1px solid #e0e4ef;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  letter-spacing: -0.03em;
 }
 
 .p-nav-items {
@@ -59,47 +52,29 @@ body::before, body::after { display: none !important; }
   align-items: center;
   gap: 4px;
   width: 100%;
-  padding: 0 8px;
+  padding: 0 4px;
 }
 
-/* Icons-only mode: full-width buttons with icon + label side by side */
 .p-nav-btn {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  gap: 14px;
-  width: 100%;
-  height: 52px;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   border: none;
   background: transparent;
   cursor: pointer;
   border-radius: 12px;
-  padding: 0 16px;
+  padding: 0;
   transition: background 0.15s;
   color: #5f6368;
   flex-shrink: 0;
 }
 
-/* Section open: compact column layout */
-.p-root--open .p-nav-btn {
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-  width: 56px;
-  height: 56px;
-  padding: 0;
-  border-radius: 14px;
-}
-
 .p-nav-btn:hover  { background: #e8eaed; }
 .p-nav-btn.active { background: #d3e3fd; color: #1a73e8; }
 
-.p-nav-icon  { font-size: 22px; line-height: 1; flex-shrink: 0; }
-.p-nav-label { font-size: 13px; font-weight: 500; line-height: 1; }
-
-/* Compact label in section-open mode */
-.p-root--open .p-nav-label { font-size: 10px; text-align: center; }
+.p-nav-icon { font-size: 22px; line-height: 1; }
 
 /* ─────────────────────────────────────────────
    CONTENT PANEL — appears on right when section is active

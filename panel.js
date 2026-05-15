@@ -319,8 +319,7 @@ function PanelApp() {
               onClick: () => toggle(item.id),
               title: item.label
             },
-            React.createElement("span", { className: "p-nav-icon" }, item.emoji),
-            React.createElement("span", { className: "p-nav-label" }, item.label)
+            React.createElement("span", { className: "p-nav-icon" }, item.emoji)
           )
         )
       )
