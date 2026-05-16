@@ -52,46 +52,54 @@ body {
 }
 
 .p-nav-logo {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   color: #1a73e8;
-  height: 44px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   border-bottom: 1px solid #e0e4ef;
   margin: 0;
-  letter-spacing: -0.03em;
+  flex-shrink: 0;
 }
 
 .p-nav-items {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  align-items: stretch;
   width: 100%;
-  padding: 4px 0;
+  padding: 0;
 }
 
+/* Full-width row, icon centered — no empty space left or right */
 .p-nav-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 100%;
+  height: 64px;
   border: none;
+  border-bottom: 1px solid #e8eaed;
   background: transparent;
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 0;
   padding: 0;
   transition: background 0.15s;
   color: #5f6368;
   flex-shrink: 0;
 }
 
-.p-nav-btn:hover  { background: #e8eaed; }
-.p-nav-btn.active { background: #d3e3fd; color: #1a73e8; }
+.p-nav-btn:last-child { border-bottom: none; }
+.p-nav-btn:hover      { background: #e8eaed; }
+.p-nav-btn.active     { background: #d3e3fd; color: #1a73e8; }
+
+/* Compact when section is open */
+.p-root--open .p-nav-btn {
+  height: 48px;
+  border-bottom: 1px solid #e8eaed;
+}
 
 .p-nav-icon { font-size: 22px; line-height: 1; }
 
