@@ -1,346 +1,364 @@
 var { useState, useMemo, useEffect, useCallback, useRef } = React;
 
-// ============================
-// Bookmarks hero — list/grid views, rich metadata, inline search
-// ============================
-function BookmarksHero({
-  folders, bookmarks, activeFolderId, setActiveFolderId,
-  view, setView,                // 'grid' | 'list'
-  onOpenManager, onAddQuick, onOpenBookmark,
-}) {
-  const { t } = window.useI18n();
+/**
+ * Bookmarks Card (Main Column)
+ */
+function BookmarksHero() {
+  const [bookmarks, setBookmarks] = useState([]);
+  const [folders, setFolders] = useState([]);
+  const [bookmarkMeta, setBookmarkMeta] = useState({});
+  const [activeFolderId, setActiveFolderId] = useState('1'); // Root usually '1'
+  const [view, setView] = useState('list');
   const [query, setQuery] = useState('');
+  const [expandedFolders, setExpandedFolders] = useState([]);
 
-  const sortedFolders = useMemo(() => {
-    const list = [];
-    const childrenMap = {};
-    for (const f of folders) {
-      const pid = f.parentId || null;
-      if (!childrenMap[pid]) childrenMap[pid] = [];
-      childrenMap[pid].push(f);
-    }
-    function walk(parentId, depth) {
-      const children = childrenMap[parentId] || [];
-      for (const c of children) {
-        list.push({ ...c, depth });
-        walk(c.id, depth + 1);
+  // Load data
+  const refresh = useCallback(async () => {
+    const [tree, meta] = await Promise.all([
+      window.Bookmarks.getTree(),
+      window.getStorage(window.STORAGE_KEYS.bookmarkMeta, {})
+    ]);
+    
+    // Flatten tree to list of folders and bookmarks
+    const f = [];
+    const b = [];
+    function walk(nodes) {
+      for (const node of nodes) {
+        if (node.children) {
+          f.push(node);
+          walk(node.children);
+        } else {
+          b.push(node);
+        }
       }
     }
-    walk(null, 0);
-    const addedIds = new Set(list.map(l => l.id));
-    for (const f of folders) {
-      if (!addedIds.has(f.id)) {
-        list.push({ ...f, depth: 0 });
-        walk(f.id, 1);
+    walk(tree);
+    setFolders(f);
+    setBookmarks(b);
+    setBookmarkMeta(meta);
+  }, []);
+
+  useEffect(() => {
+    refresh();
+    chrome.bookmarks.onCreated.addListener(refresh);
+    chrome.bookmarks.onRemoved.addListener(refresh);
+    chrome.bookmarks.onChanged.addListener(refresh);
+    chrome.bookmarks.onMoved.addListener(refresh);
+    const storageListener = (changes) => {
+      if (changes[window.STORAGE_KEYS.bookmarkMeta]) {
+        setBookmarkMeta(changes[window.STORAGE_KEYS.bookmarkMeta].newValue || {});
       }
+    };
+    chrome.storage.onChanged.addListener(storageListener);
+    return () => {
+      chrome.bookmarks.onCreated.removeListener(refresh);
+      chrome.bookmarks.onRemoved.removeListener(refresh);
+      chrome.bookmarks.onChanged.removeListener(refresh);
+      chrome.bookmarks.onMoved.removeListener(refresh);
+      chrome.storage.onChanged.removeListener(storageListener);
+    };
+  }, [refresh]);
+
+  // View state persistence
+  useEffect(() => {
+    window.getStorage(window.STORAGE_KEYS.view, 'list').then(setView);
+    window.getStorage(window.STORAGE_KEYS.folder, 'all').then(setActiveFolderId);
+    // Default: Bookmarks Bar + Other expanded so users see their tree
+    window.getStorage(window.STORAGE_KEYS.treeExpanded, ['1', '2']).then(setExpandedFolders);
+  }, []);
+
+  const handleSetView = (v) => {
+    setView(v);
+    window.setStorage(window.STORAGE_KEYS.view, v);
+  };
+
+  const handleSetFolder = (id) => {
+    setActiveFolderId(id);
+    window.setStorage(window.STORAGE_KEYS.folder, id);
+  };
+
+  const toggleExpand = (e, id) => {
+    e.stopPropagation();
+    const next = expandedFolders.includes(id) 
+      ? expandedFolders.filter(x => x !== id)
+      : [...expandedFolders, id];
+    setExpandedFolders(next);
+    window.setStorage(window.STORAGE_KEYS.treeExpanded, next);
+  };
+
+  // Folder descendant index: { folderId: Set<allDescendantFolderIds incl self> }
+  const folderDescendantIds = useMemo(() => {
+    const childMap = {};
+    for (const f of folders) {
+      if (!childMap[f.parentId]) childMap[f.parentId] = [];
+      childMap[f.parentId].push(f.id);
     }
-    return list;
+    const result = {};
+    for (const f of folders) {
+      const ids = new Set([f.id]);
+      const stack = [...(childMap[f.id] || [])];
+      while (stack.length) {
+        const x = stack.pop();
+        if (ids.has(x)) continue;
+        ids.add(x);
+        for (const c of (childMap[x] || [])) stack.push(c);
+      }
+      result[f.id] = ids;
+    }
+    return result;
   }, [folders]);
 
-  const isAll = activeFolderId === 'f-all';
-  
-  // Recursively get all subfolder IDs for a given folder
-  function getSubfolderIds(folderId) {
-    let ids = [folderId];
-    for (const f of folders) {
-      if (f.parentId === folderId) {
-        ids = ids.concat(getSubfolderIds(f.id));
-      }
+  // Filter logic
+  const filtered = useMemo(() => {
+    let items = bookmarks;
+    if (activeFolderId !== 'all') {
+      const allowed = folderDescendantIds[activeFolderId] || new Set([activeFolderId]);
+      items = items.filter(x => allowed.has(x.parentId));
     }
-    return ids;
-  }
+    const q = query.toLowerCase().trim();
+    if (q) {
+      items = items.filter(x =>
+        x.title.toLowerCase().includes(q) ||
+        x.url.toLowerCase().includes(q)
+      );
+    }
+    return [...items].sort((a, b) => {
+      const pa = bookmarkMeta[a.id]?.pinned ? 0 : 1;
+      const pb = bookmarkMeta[b.id]?.pinned ? 0 : 1;
+      if (pa !== pb) return pa - pb;
+      return (a.title || '').localeCompare(b.title || '');
+    });
+  }, [bookmarks, bookmarkMeta, activeFolderId, query, folderDescendantIds]);
 
-  const activeIds = isAll ? [] : getSubfolderIds(activeFolderId);
-  const folderItems = isAll ? bookmarks : bookmarks.filter(b => activeIds.includes(b.folderId));
+  const pinned = bookmarks.filter(b => bookmarkMeta[b.id]?.pinned);
 
-  const q = query.trim().toLowerCase();
-  const items = !q ? folderItems : folderItems.filter(b =>
-    b.name.toLowerCase().includes(q)
-    || (b.description||'').toLowerCase().includes(q)
-    || hostnameOf(b.url).toLowerCase().includes(q)
-    || (b.tags||[]).some(t => t.toLowerCase().includes(q))
-  );
-
-  // Pinned float to top within each folder view
-  const sorted = [...items].sort((a, b) => Number(!!b.pinned) - Number(!!a.pinned));
-
-  const pinnedAcrossAll = bookmarks.filter(b => b.pinned).slice(0, 6);
-  
-  // Only show top-level folders as tabs
-  const topLevelFolders = folders.filter(f => !f.parentId);
+  const togglePin = async (id) => {
+    const next = { ...bookmarkMeta, [id]: { ...(bookmarkMeta[id] || {}), pinned: !bookmarkMeta[id]?.pinned } };
+    setBookmarkMeta(next);
+    await window.setStorage(window.STORAGE_KEYS.bookmarkMeta, next);
+  };
 
   return (
-    <div className="hero-card">
-      {/* HEADER */}
-      <div className="hero-head">
-        <div className="hero-title-row">
-          <h2 className="hero-title">{t('bookmarks.title')}</h2>
-          <span className="hero-count">
-            {t('bookmarks.saved_count', { count: bookmarks.length })} · {t('bookmarks.folders_count', { count: folders.length })}
+    <div className="card hero-card">
+      {/* Header */}
+      <div className="card-head" style={{marginBottom: 20}}>
+        <div style={{display:'flex', alignItems:'baseline', gap:10}}>
+          <h2 style={{fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em', margin: 0}}>Bookmarks</h2>
+          <span style={{fontFamily: 'var(--font-mono)', fontSize: 12.5, color: 'var(--text-mute)'}}>
+            {bookmarks.length} saved · {folders.length} folders
           </span>
         </div>
-
-        <div className="hero-tools">
-          <div className="search-input hero-search">
-            <Icon.search size={16}/>
-            <input
-              placeholder={t('bookmarks.search_placeholder')}
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-            />
-            {query && (
-              <button className="icon-btn" style={{width:24,height:24}} onClick={() => setQuery('')} aria-label={t('common.close')}>
-                <Icon.close size={14}/>
-              </button>
-            )}
-          </div>
-          <div className="view-toggle" role="tablist" aria-label="View">
-            <button
-              className={"view-btn" + (view === 'grid' ? ' active' : '')}
-              onClick={() => setView('grid')}
-              title="Grid view" role="tab" aria-selected={view==='grid'}
-            ><Icon.gridIcon size={16}/></button>
-            <button
-              className={"view-btn" + (view === 'list' ? ' active' : '')}
-              onClick={() => setView('list')}
-              title="List view" role="tab" aria-selected={view==='list'}
-            ><Icon.listIcon size={16}/></button>
-          </div>
-          <button className="btn" onClick={onAddQuick}><Icon.plus size={14}/> Add</button>
-          <button className="btn text" onClick={onOpenManager}><Icon.settings size={14}/> Manage</button>
-        </div>
+        <a href="manager.html" className="card-action">Manage →</a>
       </div>
 
-      {/* PINNED STRIP */}
-      {!query && pinnedAcrossAll.length > 0 && (
-        <div className="pinned-strip">
-          <div className="pinned-label">
-            <Icon.pin size={11}/> <span>Pinned</span>
-          </div>
-          <div className="pinned-row">
-            {pinnedAcrossAll.map(b => (
-              <button key={b.id} className="pinned-tile" onClick={() => onOpenBookmark(b)} title={b.name}>
-                <BookmarkFavicon url={b.url} name={b.name} emoji={b.emoji} size={28}/>
-                <span className="pinned-name">{b.name}</span>
-              </button>
-            ))}
-          </div>
+      {/* Controls Row */}
+      <div className="bm-controls" style={{display:'flex', gap:12, marginBottom: 20}}>
+        <div className="bm-search" style={{flex: 1, display:'flex', alignItems:'center', gap:10, background:'var(--surface-2)', border:'1px solid var(--border)', borderRadius: 999, padding:'0 14px', height: 36}}>
+          <Icon.search size={15} style={{color:'var(--text-mute)'}}/>
+          <input 
+            type="text" 
+            placeholder="Filter bookmarks..." 
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            style={{background:'none', border:0, outline:0, fontSize: 13.5, width:'100%'}}
+          />
         </div>
-      )}
-
-      {/* GRID VIEW TABS */}
-      {view === 'grid' && (
-        <div className="hero-tabs" role="tablist">
-          <button
-            className={"hero-tab" + (isAll ? " active" : "")}
-            onClick={() => setActiveFolderId('f-all')}
-            role="tab"
-            aria-selected={isAll}
+        <div className="view-toggle" style={{display:'flex', background:'var(--surface-2)', borderRadius: 8, padding: 2}}>
+          <button 
+            className={view === 'list' ? 'active' : ''} 
+            onClick={() => handleSetView('list')}
+            style={{padding: '4px 8px', borderRadius: 6}}
           >
-            <Icon.gridIcon size={14}/>
-            <span>All</span>
-            <span className="count">{bookmarks.length}</span>
+            <Icon.listIcon size={16}/>
           </button>
-          {topLevelFolders.map(f => {
-            const ids = getSubfolderIds(f.id);
-            const count = bookmarks.filter(b => ids.includes(b.folderId)).length;
-            return (
+          <button 
+            className={view === 'grid' ? 'active' : ''} 
+            onClick={() => handleSetView('grid')}
+            style={{padding: '4px 8px', borderRadius: 6}}
+          >
+            <Icon.gridIcon size={16}/>
+          </button>
+        </div>
+
+      </div>
+
+      {/* Pinned Row */}
+      {pinned.length > 0 && (
+        <div className="pinned-row">
+          {pinned.map(b => (
+            <div key={b.id} className="pin-chip">
+              <a href={b.url} className="pin-chip-link">
+                <div className="pin-chip-fav" style={{background: bookmarkMeta[b.id]?.color || 'var(--surface-2)'}}>
+                  {bookmarkMeta[b.id]?.initial || b.title[0]}
+                </div>
+                <span className="pin-chip-name">{b.title}</span>
+              </a>
               <button
-                key={f.id}
-                className={"hero-tab" + (activeIds.includes(f.id) || f.id === activeFolderId ? " active" : "")}
-                onClick={() => setActiveFolderId(f.id)}
-                role="tab"
-                aria-selected={f.id === activeFolderId}
-              >
-                <Icon.folder size={14}/>
-                <span>{f.name}</span>
-                <span className="count">{count}</span>
-              </button>
-            );
-          })}
+                className="pin-chip-x"
+                title="Unpin"
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); togglePin(b.id); }}
+              ><Icon.close size={12} /></button>
+            </div>
+          ))}
         </div>
       )}
 
-      {/* BODY SPLIT */}
-      <div className={"hero-body-split " + view}>
+      {/* Body */}
+      <div className={"bm-body " + (view === 'grid' ? 'grid-mode' : 'list-mode')} style={{display:'grid', gridTemplateColumns: view === 'list' ? '280px 1fr' : '1fr', gap: 24}}>
+        
         {view === 'list' && (
-          <div className="hero-sidebar">
-            <div className="folder-rail" style={{border: 'none', background: 'transparent'}}>
-              <div
-                className={"folder-row" + (isAll ? " active" : "")}
-                onClick={() => setActiveFolderId('f-all')}
-              >
-                <Icon.gridIcon size={14}/>
-                <span style={{flex:1}}>All</span>
-                <span className="folder-count">{bookmarks.length}</span>
-              </div>
-              {sortedFolders.map(f => {
-                const ids = getSubfolderIds(f.id);
-                const count = bookmarks.filter(b => ids.includes(b.folderId)).length;
-                return (
-                  <div
-                    key={f.id}
-                    className={"folder-row" + (activeIds.includes(f.id) || f.id === activeFolderId ? " active" : "")}
-                    onClick={() => setActiveFolderId(f.id)}
-                    style={{ paddingLeft: 12 + (f.depth * 16) }}
-                  >
-                    <Icon.folder size={14}/>
-                    <span style={{flex:1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{f.name}</span>
-                    <span className="folder-count">{count}</span>
-                  </div>
-                );
-              })}
+          <div className="bm-tree">
+            <div
+              className={"tree-node tree-node-all" + (activeFolderId === 'all' ? ' selected' : '')}
+              onClick={() => handleSetFolder('all')}
+            >
+              <span className="tree-chevron placeholder"><ChevronGlyph /></span>
+              <span className="tree-icon"><Icon.zap size={15}/></span>
+              <span className="tree-label">All Bookmarks</span>
+              <span className="tree-count">{bookmarks.length}</span>
             </div>
+            {folders.filter(f => f.parentId === '0').map(f => (
+              <TreeNode
+                key={f.id}
+                node={f}
+                depth={0}
+                activeId={activeFolderId}
+                onSelect={handleSetFolder}
+                expandedIds={expandedFolders}
+                onToggle={toggleExpand}
+              />
+            ))}
           </div>
         )}
 
-        <div className="hero-main">
-          {sorted.length === 0 ? (
-            <div className="empty">
-              {query ? t('bookmarks.no_matches_query', { query }) : t('bookmarks.empty_folder')}
-              {!query && (
-                <>
-                  {' '}
-                  <button className="btn text" onClick={onAddQuick} style={{padding:'0 6px'}}>{t('common.add')}</button>
-                </>
-              )}
+        <div className={view === 'grid' ? 'bm-grid' : 'bm-list'} style={{display: view === 'grid' ? 'grid' : 'block', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 10}}>
+          {filtered.map(b => (
+            <BookmarkItem
+              key={b.id}
+              bookmark={b}
+              meta={bookmarkMeta[b.id]}
+              view={view}
+              isPinned={!!bookmarkMeta[b.id]?.pinned}
+              onTogglePin={() => togglePin(b.id)}
+            />
+          ))}
+          {filtered.length === 0 && (
+            <div style={{textAlign:'center', padding: 40, color:'var(--text-faint)', fontSize: 13}}>
+              No bookmarks found
             </div>
-          ) : view === 'grid' ? (
-            <BookmarkGrid items={sorted} onOpen={onOpenBookmark}/>
-          ) : (
-            <BookmarkListView items={sorted} folders={folders} onOpen={onOpenBookmark}/>
           )}
         </div>
+
       </div>
     </div>
   );
 }
 
-// ----- Grid card -----
-function BookmarkGrid({ items, onOpen }) {
+function ChevronGlyph() {
   return (
-    <div className="bm-grid">
-      {items.map(b => (
-        <button key={b.id} className="bm-card" onClick={() => onOpen(b)}>
-          <div className="bm-card-head">
-            <BookmarkFavicon url={b.url} name={b.name} emoji={b.emoji} size={32}/>
-            {b.pinned && <span className="bm-pin"><Icon.pin size={10}/></span>}
-          </div>
-          <div className="bm-card-name">{b.name}</div>
-          <div className="bm-card-host">{hostnameOf(b.url)}</div>
-          {b.description && (
-            <div className="bm-card-desc">{b.description}</div>
-          )}
-          <div className="bm-card-foot">
-            <div className="bm-tags">
-              {(b.tags || []).slice(0, 3).map(t => (
-                <span key={t} className="bm-tag">#{t}</span>
-              ))}
-            </div>
-            <span className="bm-time">{relativeTime(b.lastVisited)}</span>
-          </div>
-        </button>
-      ))}
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="3.5 2 6.5 5 3.5 8" />
+    </svg>
+  );
+}
+
+function TreeNode({ node, depth, activeId, onSelect, expandedIds, onToggle }) {
+  const isExpanded = expandedIds.includes(node.id);
+  const isSelected = activeId === node.id;
+  const subFolders = (node.children || []).filter(c => c.children);
+  const directBookmarkCount = (node.children || []).filter(c => c.url).length;
+  const hasChildren = subFolders.length > 0;
+
+  return (
+    <div className="tree-group">
+      <div
+        className={"tree-node" + (isSelected ? ' selected' : '')}
+        style={{ paddingLeft: 8 + depth * 14 }}
+        onClick={() => onSelect(node.id)}
+      >
+        <span
+          className={"tree-chevron" + (isExpanded ? ' expanded' : '') + (hasChildren ? '' : ' placeholder')}
+          onClick={(e) => { e.stopPropagation(); if (hasChildren) onToggle(e, node.id); }}
+        >
+          <ChevronGlyph />
+        </span>
+        <span className="tree-icon"><Icon.folder size={15}/></span>
+        <span className="tree-label">{node.title || '(untitled)'}</span>
+        {directBookmarkCount > 0 && <span className="tree-count">{directBookmarkCount}</span>}
+      </div>
+      {isExpanded && hasChildren && (
+        <div className="tree-children">
+          {subFolders.map(c => (
+            <TreeNode
+              key={c.id}
+              node={c}
+              depth={depth + 1}
+              activeId={activeId}
+              onSelect={onSelect}
+              expandedIds={expandedIds}
+              onToggle={onToggle}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-// ----- List row -----
-function BookmarkListView({ items, folders, onOpen }) {
-  const folderName = (id) => folders.find(f => f.id === id)?.name || '';
-  return (
-    <div className="bm-list">
-      {items.map(b => (
-        <button key={b.id} className="bm-list-row" onClick={() => onOpen(b)}>
-          <BookmarkFavicon url={b.url} name={b.name} emoji={b.emoji} size={36}/>
-          <div className="bm-list-main">
-            <div className="bm-list-name-row">
-              <span className="bm-list-name">{b.name}</span>
-              {b.pinned && <span className="bm-pin inline"><Icon.pin size={10}/></span>}
-              {(b.tags || []).slice(0, 4).map(t => (
-                <span key={t} className="bm-tag">#{t}</span>
-              ))}
-            </div>
-            {b.description && <div className="bm-list-desc">{b.description}</div>}
-            <div className="bm-list-host">{hostnameOf(b.url)}</div>
-          </div>
-          <div className="bm-list-meta">
-            <div className="bm-list-folder">{folderName(b.folderId)}</div>
-            <div className="bm-list-time">{relativeTime(b.lastVisited)}</div>
-          </div>
-        </button>
-      ))}
-    </div>
-  );
-}
+function BookmarkItem({ bookmark, meta, view, isPinned, onTogglePin }) {
+  const host = useMemo(() => {
+    try { return new URL(bookmark.url).hostname.replace('www.', ''); }
+    catch(e) { return ''; }
+  }, [bookmark.url]);
 
-// ----- Favicon (real via Google S2 service, with letter fallback) -----
-function BookmarkFavicon({ url, name, emoji, size = 32 }) {
-  const [errored, setErrored] = useState(false);
-  if (emoji) {
+  const pinBtn = (
+    <button
+      className={'bm-pin-btn' + (isPinned ? ' active' : '')}
+      title={isPinned ? 'Unpin' : 'Pin'}
+      onClick={(e) => { e.preventDefault(); e.stopPropagation(); onTogglePin && onTogglePin(); }}
+    >
+      <Icon.pin size={13} />
+    </button>
+  );
+
+  if (view === 'grid') {
     return (
-      <span className="bm-favicon-fallback" style={{
-        width: size, height: size, background: 'transparent',
-        color: 'inherit', border: 'none',
-        fontSize: Math.round(size * 0.6)
-      }}>{emoji}</span>
+      <div className="bm-card-wrap" style={{display: 'flex', height: '100%'}}>
+        <a href={bookmark.url} className="bm-card" style={{flex: 1, padding: 14, background:'var(--surface-2)', border:'1px solid var(--border)', borderRadius: 12, display:'flex', flexDirection:'column', gap:8, textDecoration:'none', color:'inherit', height: '100%', boxSizing: 'border-box'}}>
+          <div style={{width:32, height:32, borderRadius:8, background: meta?.color || 'var(--surface)', border:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center', fontSize: 14, fontWeight: 600, color: 'var(--text)'}}>
+            <window.BookmarkIcon url={bookmark.url} title={bookmark.title} meta={meta} />
+          </div>
+          <div style={{fontSize: 13.5, fontWeight: 500, lineHeight: 1.3, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'}}>
+            {bookmark.title}
+          </div>
+          <div style={{fontFamily:'var(--font-mono)', fontSize: 11, color:'var(--text-mute)', marginTop: 'auto'}}>{host}</div>
+        </a>
+        {pinBtn}
+      </div>
     );
   }
-  const src = faviconUrl(url, size * 2);
-  if (errored || !src) {
-    return (
-      <span
-        className="bm-favicon-fallback"
-        style={{
-          width: size, height: size,
-          background: colorForString(url),
-          fontSize: Math.max(11, Math.round(size * 0.42)),
-        }}
-      >{initialFromUrl(url, name)}</span>
-    );
-  }
+
   return (
-    <span className="bm-favicon" style={{ width: size, height: size }}>
-      <img
-        src={src}
-        alt=""
-        width={Math.round(size*0.7)}
-        height={Math.round(size*0.7)}
-        onError={() => setErrored(true)}
-        loading="lazy"
-      />
-    </span>
+    <div className="bm-row-wrap">
+      <a href={bookmark.url} className="bm-row" style={{display:'grid', gridTemplateColumns:'36px 1fr auto auto', gap:14, padding: 12, borderRadius: 12, alignItems:'center', textDecoration:'none', color:'inherit'}}>
+        <div style={{width:36, height:36, borderRadius:10, background: meta?.color || 'var(--surface-2)', border:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center', fontSize: 14, fontWeight: 600, color: 'var(--text)'}}>
+          <window.BookmarkIcon url={bookmark.url} title={bookmark.title} meta={meta} />
+        </div>
+        <div style={{overflow:'hidden'}}>
+          <div style={{fontSize: 14, fontWeight: 500, display:'flex', alignItems:'center', gap:8}}>
+            {bookmark.title}
+            {meta?.tag && <span style={{fontFamily:'var(--font-mono)', fontSize:10.5, color:'var(--accent-text)', background:'var(--accent-soft)', padding:'1px 6px', borderRadius:4}}>{meta.tag}</span>}
+          </div>
+          <div style={{fontSize: 12.5, color:'var(--text-mute)', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{meta?.desc}</div>
+        </div>
+        <div style={{fontFamily:'var(--font-mono)', fontSize: 11.5, color:'var(--text-mute)', textAlign:'right'}}>{host}</div>
+        <div style={{fontFamily:'var(--font-mono)', fontSize: 11, color:'var(--text-faint)', textAlign:'right', whiteSpace:'nowrap'}}>
+          {new Date(bookmark.dateAdded).toLocaleDateString()}
+        </div>
+      </a>
+      {pinBtn}
+    </div>
   );
 }
 
 window.BookmarksHero = BookmarksHero;
-window.BookmarkFavicon = BookmarkFavicon;
-
-function QuickLinks({ bookmarks, onOpen }) {
-  const topVisited = useMemo(() => {
-    return [...bookmarks]
-      .filter(b => b.visits > 0)
-      .sort((a, b) => (b.visits || 0) - (a.visits || 0))
-      .slice(0, 8);
-  }, [bookmarks]);
-
-  if (topVisited.length === 0) return null;
-
-  return (
-    <div className="quick-links">
-      <div className="quick-links-head">
-        <Icon.zap size={14}/>
-        <span>Frequent</span>
-      </div>
-      <div className="quick-links-grid">
-        {topVisited.map(b => (
-          <button key={b.id} className="quick-link-item" onClick={() => onOpen(b)} title={`${b.name} (${b.visits} visits)`}>
-            <BookmarkFavicon url={b.url} name={b.name} emoji={b.emoji} size={24} />
-            <span className="quick-link-name">{b.name}</span>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-window.QuickLinks = QuickLinks;

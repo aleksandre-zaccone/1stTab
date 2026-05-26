@@ -14,19 +14,37 @@
   "host_permissions": [
     "https://api.open-meteo.com/*",
     "https://geocoding-api.open-meteo.com/*",
-    "https://www.google.com/s2/favicons*"
+    "https://www.google.com/s2/favicons*",
+    "https://www.googleapis.com/*",
+    "https://us-central1-1sttab.cloudfunctions.net/*",
+    "https://api.anthropic.com/*",
+    "https://api.openai.com/*",
+    "https://generativelanguage.googleapis.com/*"
   ],
   "permissions": [
     "storage",
     "bookmarks",
     "sidePanel",
+    "identity",
+    "alarms",
     "tabs",
     "sessions",
     "tabGroups",
     "system.cpu",
     "system.memory",
-    "system.storage"
+    "system.storage",
+    "history",
+    "favicon"
   ],
+  "oauth2": {
+    "client_id": "254305727394-fitpsr3ajbn00k2saat0e3qptr8t016f.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/drive.appdata",
+      "https://www.googleapis.com/auth/calendar.readonly",
+      "https://www.googleapis.com/auth/tasks",
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  },
   "commands": {
     "open-panel": {
       "suggested_key": { "default": "Alt+Shift+P" },

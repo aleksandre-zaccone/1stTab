@@ -1,56 +1,293 @@
 const STORAGE_KEYS = {
-  bookmarks: "dash.bookmarks.v3",
-  // bumped: fresh 5-bookmark seed
-  folders: "dash.folders.v3",
-  // bumped: single Favorites folder
-  zones: "dash.zones.v1",
-  prefs: "dash.prefs.v1",
-  bgUploads: "dash.bgUploads.v1",
-  todos: "dash.todos.v1",
-  notes: "dash.notes.v1"
+  theme: "nt.theme",
+  arcadeGame: "nt.arcadeGame",
+  unit: "nt.unit",
+  name: "nt.name",
+  searchEngine: "nt.searchEngine",
+  widgets: "nt.widgets",
+  todos: "nt.todos",
+  zones: "nt.zones",
+  tab: "nt.tab",
+  folder: "nt.folder",
+  view: "nt.view",
+  treeExpanded: "nt.treeExpanded",
+  bookmarkMeta: "nt.bookmarkMeta",
+  // { [bookmarkId]: { tag, desc, color, initial, pinned } }
+  notes: "nt.notes",
+  weatherCache: "nt.weatherCache",
+  faviconCache: "nt.faviconCache",
+  customCSS: "nt.customCSS",
+  greetings: "nt.greetings",
+  fontFamily: "nt.fontFamily",
+  weatherCity: "nt.weatherCity",
+  clockFace: "nt.clockFace",
+  bgId: "nt.bgId",
+  pomodoroWork: "dash.pomodoro.work",
+  pomodoroBreak: "dash.pomodoro.break",
+  crypto: "dash.crypto",
+  fx: "dash.fx",
+  stocks: "dash.stocks",
+  tweaks: "dash.tweaks",
+  plus: "1stTab.plus",
+  driveEmail: "1stTab.driveEmail",
+  autoBackup: "1stTab.autoBackup",
+  claudeKey: "1stTab.claudeKey",
+  claudeModel: "1stTab.claudeModel",
+  openaiKey: "1stTab.openaiKey",
+  openaiModel: "1stTab.openaiModel",
+  geminiKey: "1stTab.geminiKey",
+  geminiModel: "1stTab.geminiModel",
+  aiProvider: "1stTab.aiProvider",
+  finnhubKey: "1stTab.finnhubKey",
+  bgUploads: "dash.bgUploads"
 };
-function loadJSON(key, fallback) {
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return fallback;
-    return JSON.parse(raw);
-  } catch (e) {
-    return fallback;
-  }
+const SYNC_KEYS = [
+  "nt.theme",
+  "nt.arcadeGame",
+  "nt.unit",
+  "nt.name",
+  "nt.searchEngine",
+  "nt.widgets",
+  "nt.todos",
+  "nt.zones",
+  "nt.tab",
+  "nt.folder",
+  "nt.view",
+  "nt.treeExpanded",
+  "nt.bookmarkMeta",
+  "nt.greetings",
+  "nt.fontFamily",
+  "nt.weatherCity",
+  "nt.clockFace",
+  "nt.bgId",
+  "dash.pomodoro.work",
+  "dash.pomodoro.break",
+  "dash.crypto",
+  "dash.fx",
+  "dash.stocks",
+  "dash.tweaks",
+  "1stTab.plus"
+];
+const LOCAL_KEYS = [
+  "nt.notes",
+  "nt.weatherCache",
+  "nt.faviconCache",
+  "nt.customCSS",
+  "1stTab.driveEmail",
+  "1stTab.autoBackup",
+  "1stTab.claudeKey",
+  "1stTab.claudeModel",
+  "1stTab.openaiKey",
+  "1stTab.openaiModel",
+  "1stTab.geminiKey",
+  "1stTab.geminiModel",
+  "1stTab.aiProvider",
+  "1stTab.finnhubKey",
+  "dash.bgUploads"
+];
+async function getStorage(key, fallback) {
+  return new Promise((resolve) => {
+    const area = SYNC_KEYS.includes(key) ? chrome.storage.sync : chrome.storage.local;
+    area.get(key, (result) => {
+      if (result[key] === void 0) {
+        const lsValue = localStorage.getItem(key);
+        if (lsValue !== null) {
+          try {
+            const parsed = JSON.parse(lsValue);
+            resolve(parsed);
+          } catch (e) {
+            resolve(lsValue);
+          }
+        } else {
+          resolve(fallback);
+        }
+      } else {
+        resolve(result[key]);
+      }
+    });
+  });
 }
-function saveJSON(key, value) {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (e) {
-  }
+async function setStorage(key, value) {
+  return new Promise((resolve) => {
+    const area = SYNC_KEYS.includes(key) ? chrome.storage.sync : chrome.storage.local;
+    area.set({ [key]: value }, () => {
+      if (key === "nt.theme" || key === "nt.arcadeGame") {
+        localStorage.setItem(key, value);
+      } else {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+      resolve();
+    });
+  });
 }
+function wrapBookmarkCall(fn) {
+  return (...args) => new Promise((resolve, reject) => {
+    try {
+      fn(...args, (result) => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message || "Bookmarks API error"));
+        } else {
+          resolve(result);
+        }
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+const Bookmarks = {
+  getTree: wrapBookmarkCall(chrome.bookmarks.getTree.bind(chrome.bookmarks)),
+  getSubTree: wrapBookmarkCall(chrome.bookmarks.getSubTree.bind(chrome.bookmarks)),
+  getChildren: wrapBookmarkCall(chrome.bookmarks.getChildren.bind(chrome.bookmarks)),
+  search: wrapBookmarkCall(chrome.bookmarks.search.bind(chrome.bookmarks)),
+  create: wrapBookmarkCall(chrome.bookmarks.create.bind(chrome.bookmarks)),
+  update: wrapBookmarkCall(chrome.bookmarks.update.bind(chrome.bookmarks)),
+  move: wrapBookmarkCall(chrome.bookmarks.move.bind(chrome.bookmarks)),
+  remove: wrapBookmarkCall(chrome.bookmarks.remove.bind(chrome.bookmarks)),
+  removeTree: wrapBookmarkCall(chrome.bookmarks.removeTree.bind(chrome.bookmarks))
+};
 function exportAllData() {
-  const data = {};
-  for (const key of Object.values(STORAGE_KEYS)) data[key] = loadJSON(key);
-  data["dash.tweaks"] = loadJSON("dash.tweaks");
-  data["dash.view"] = loadJSON("dash.view");
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `1stTab-backup-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
+  chrome.storage.sync.get(null, (syncData) => {
+    chrome.storage.local.get(null, (localData) => {
+      const allData = { ...syncData, ...localData };
+      if (typeof chrome !== "undefined" && chrome.bookmarks) {
+        chrome.bookmarks.getTree((bookmarkTree) => {
+          allData["chrome.bookmarks.tree"] = bookmarkTree;
+          const blob = new Blob([JSON.stringify(allData, null, 2)], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `1stTab-backup-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.json`;
+          a.click();
+          URL.revokeObjectURL(url);
+        });
+      } else {
+        const blob = new Blob([JSON.stringify(allData, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `1stTab-backup-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    });
+  });
 }
 async function importAllData(jsonString) {
   try {
     const data = JSON.parse(jsonString);
-    const syncKeys = [STORAGE_KEYS.prefs, STORAGE_KEYS.zones, "dash.tweaks", "dash.view"];
-    for (const [k, v] of Object.entries(data)) {
-      saveJSON(k, v);
-      if (typeof chrome !== "undefined" && chrome.storage) {
-        const area = syncKeys.includes(k) || k === STORAGE_KEYS.todos || k === STORAGE_KEYS.notes ? chrome.storage.sync : chrome.storage.local;
-        await new Promise((r) => area.set({ [k]: v }, r));
+    if (data["chrome.bookmarks.tree"] && typeof chrome !== "undefined" && chrome.bookmarks) {
+      let traverseRoots2 = function(node) {
+        if (node.id === "1" || node.id === "2" || node.id === "3") {
+          roots[node.id] = node;
+        }
+        if (node.children) {
+          for (const child of node.children) {
+            traverseRoots2(child);
+          }
+        }
+      };
+      var traverseRoots = traverseRoots2;
+      const roots = {};
+      const tree = data["chrome.bookmarks.tree"];
+      if (Array.isArray(tree)) {
+        tree.forEach(traverseRoots2);
+      } else if (tree) {
+        traverseRoots2(tree);
+      }
+      const idMap = {};
+      async function clearFolder(folderId) {
+        try {
+          const children = await new Promise((r) => chrome.bookmarks.getChildren(folderId, r));
+          if (children) {
+            for (const child of children) {
+              await new Promise((r) => chrome.bookmarks.removeTree(child.id, r));
+            }
+          }
+        } catch (e) {
+          console.warn(`Failed to clear folder ${folderId}:`, e);
+        }
+      }
+      async function recreateNode(importedNode, newParentId) {
+        if (importedNode.url) {
+          const newNode = await new Promise((resolve) => {
+            chrome.bookmarks.create({
+              parentId: newParentId,
+              title: importedNode.title,
+              url: importedNode.url
+            }, resolve);
+          });
+          if (newNode) {
+            idMap[importedNode.id] = newNode.id;
+          }
+        } else {
+          let targetParentId = newParentId;
+          if (importedNode.id !== "1" && importedNode.id !== "2" && importedNode.id !== "3") {
+            const newNode = await new Promise((resolve) => {
+              chrome.bookmarks.create({
+                parentId: newParentId,
+                title: importedNode.title
+              }, resolve);
+            });
+            if (newNode) {
+              idMap[importedNode.id] = newNode.id;
+              targetParentId = newNode.id;
+            } else {
+              return;
+            }
+          } else {
+            idMap[importedNode.id] = importedNode.id;
+            targetParentId = importedNode.id;
+          }
+          if (importedNode.children) {
+            for (const child of importedNode.children) {
+              await recreateNode(child, targetParentId);
+            }
+          }
+        }
+      }
+      if (roots["1"]) {
+        await clearFolder("1");
+        await recreateNode(roots["1"], "1");
+      }
+      if (roots["2"]) {
+        await clearFolder("2");
+        await recreateNode(roots["2"], "2");
+      }
+      if (roots["3"]) {
+        await clearFolder("3");
+        await recreateNode(roots["3"], "3");
+      }
+      const oldMeta = data["nt.bookmarkMeta"];
+      if (oldMeta && typeof oldMeta === "object") {
+        const newMeta = {};
+        for (const [oldId, meta] of Object.entries(oldMeta)) {
+          const newId = idMap[oldId];
+          if (newId) {
+            newMeta[newId] = meta;
+          } else if (oldId === "1" || oldId === "2" || oldId === "3") {
+            newMeta[oldId] = meta;
+          }
+        }
+        data["nt.bookmarkMeta"] = newMeta;
       }
     }
+    const syncObj = {};
+    const localObj = {};
+    for (const [k, v] of Object.entries(data)) {
+      if (SYNC_KEYS.includes(k)) syncObj[k] = v;
+      else if (LOCAL_KEYS.includes(k)) localObj[k] = v;
+      if (k === "nt.theme" || k === "nt.arcadeGame") localStorage.setItem(k, v);
+      else localStorage.setItem(k, JSON.stringify(v));
+    }
+    await Promise.all([
+      new Promise((r) => chrome.storage.sync.set(syncObj, r)),
+      new Promise((r) => chrome.storage.local.set(localObj, r))
+    ]);
     window.location.reload();
   } catch (e) {
-    alert("Invalid backup file.");
+    console.error("Error during restore:", e);
+    alert("Invalid backup file or restore failed.");
   }
 }
 async function importChromeBookmarks() {
@@ -112,7 +349,8 @@ const i18nCallbacks = /* @__PURE__ */ new Set();
 async function initI18n() {
   try {
     const resp = await fetch(chrome.runtime.getURL("en.json"));
-    window.translations = await resp.json();
+    const data = await resp.json();
+    window.translations = data?.translation || data;
     i18nLoaded = true;
     i18nCallbacks.forEach((cb) => cb());
   } catch (e) {
@@ -146,7 +384,8 @@ function useI18n() {
 }
 window.t = t;
 window.useI18n = useI18n;
-function useStorage(key, fallback, isSync = false) {
+function useStorage(key, fallback, isSyncOverride) {
+  const isSync = isSyncOverride !== void 0 ? isSyncOverride : SYNC_KEYS.includes(key);
   const [val, setVal] = React.useState(() => {
     const local = loadJSON(key, void 0);
     if (local !== void 0) return local;
@@ -159,6 +398,9 @@ function useStorage(key, fallback, isSync = false) {
         if (res[key] !== void 0) {
           setVal(res[key]);
           saveJSON(key, res[key]);
+        } else {
+          area.set({ [key]: fallback });
+          saveJSON(key, fallback);
         }
       });
       const listener = (changes, changedArea) => {
@@ -286,10 +528,10 @@ const SEED_BOOKMARKS = [
     lastVisited: Date.now()
   }
 ];
-function faviconUrl(url, size = 64) {
+function faviconUrl(url, size = 128) {
   try {
     const u = new URL(url);
-    return `https://www.google.com/s2/favicons?domain=${u.hostname}&sz=${size}`;
+    return `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${encodeURIComponent(u.origin)}&size=${size}`;
   } catch {
     return null;
   }
@@ -408,13 +650,123 @@ function buildMockWeather(city, units) {
     forecast: forecast.map((f) => ({ ...f, temp: units === "F" ? f.tempF : f.tempC }))
   };
 }
+function isPlusUser() {
+  return loadJSON("1stTab.plus", { active: false }).active === true;
+}
+function requirePlus(featureName, callback) {
+  if (isPlusUser()) {
+    callback();
+    return;
+  }
+  if (typeof chrome !== "undefined" && chrome.runtime) {
+    chrome.runtime.sendMessage({ action: "open-settings", hash: "plus" }).catch(() => {
+    });
+  }
+}
+function loadJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw || raw === "undefined") return fallback;
+    return JSON.parse(raw);
+  } catch (e) {
+    return fallback;
+  }
+}
+function saveJSON(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (e) {
+  }
+}
+const BOOKMARK_ICONS = {
+  none: null,
+  globe: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("circle", { cx: "12", cy: "12", r: "10" }), /* @__PURE__ */ React.createElement("line", { x1: "2", y1: "12", x2: "22", y2: "12" }), /* @__PURE__ */ React.createElement("path", { d: "M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" })),
+  github: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("path", { d: "M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" })),
+  code: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("polyline", { points: "16 18 22 12 16 6" }), /* @__PURE__ */ React.createElement("polyline", { points: "8 6 2 12 8 18" })),
+  google: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("path", { d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.24 0 9.59-3.79 10-8.82H12v-3.18h13.2a12.86 12.86 0 0 0-.2-1A10 10 0 0 0 12 2z" })),
+  youtube: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("path", { d: "M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" }), /* @__PURE__ */ React.createElement("polygon", { points: "9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" })),
+  mail: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("path", { d: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" }), /* @__PURE__ */ React.createElement("polyline", { points: "22,6 12,13 2,6" })),
+  game: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("line", { x1: "6", y1: "12", x2: "10", y2: "12" }), /* @__PURE__ */ React.createElement("line", { x1: "8", y1: "10", x2: "8", y2: "14" }), /* @__PURE__ */ React.createElement("line", { x1: "15", y1: "13", x2: "15.01", y2: "13" }), /* @__PURE__ */ React.createElement("line", { x1: "18", y1: "11", x2: "18.01", y2: "11" }), /* @__PURE__ */ React.createElement("rect", { x: "2", y: "6", width: "20", height: "12", rx: "3" })),
+  music: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("path", { d: "M9 18V5l12-2v13" }), /* @__PURE__ */ React.createElement("circle", { cx: "6", cy: "18", r: "3" }), /* @__PURE__ */ React.createElement("circle", { cx: "18", cy: "16", r: "3" })),
+  video: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("polygon", { points: "23 7 16 12 23 17 23 7" }), /* @__PURE__ */ React.createElement("rect", { x: "1", y: "5", width: "15", height: "14", rx: "2", ry: "2" })),
+  star: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("polygon", { points: "12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9 12 2" })),
+  heart: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("path", { d: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" })),
+  book: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("path", { d: "M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" }), /* @__PURE__ */ React.createElement("path", { d: "M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" })),
+  cart: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("circle", { cx: "9", cy: "21", r: "1" }), /* @__PURE__ */ React.createElement("circle", { cx: "20", cy: "21", r: "1" }), /* @__PURE__ */ React.createElement("path", { d: "M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" })),
+  terminal: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("polyline", { points: "4 17 10 11 4 5" }), /* @__PURE__ */ React.createElement("line", { x1: "12", y1: "19", x2: "20", y2: "19" })),
+  hash: /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("line", { x1: "4", y1: "9", x2: "20", y2: "9" }), /* @__PURE__ */ React.createElement("line", { x1: "4", y1: "15", x2: "20", y2: "15" }), /* @__PURE__ */ React.createElement("line", { x1: "10", y1: "3", x2: "8", y2: "21" }), /* @__PURE__ */ React.createElement("line", { x1: "16", y1: "3", x2: "14", y2: "21" }))
+};
+function BookmarkIcon({ url, title, meta }) {
+  const [srcStage, setSrcStage] = React.useState(0);
+  const selectedIconSvg = meta?.icon && meta.icon !== "none" ? BOOKMARK_ICONS[meta.icon] : null;
+  if (selectedIconSvg) {
+    return /* @__PURE__ */ React.createElement(
+      "div",
+      {
+        style: {
+          width: "100%",
+          height: "100%",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "currentColor"
+        }
+      },
+      selectedIconSvg
+    );
+  }
+  if (srcStage === 0) {
+    try {
+      const u = new URL(url);
+      const highResUrl = `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${encodeURIComponent(u.origin)}&size=128`;
+      return /* @__PURE__ */ React.createElement(
+        "img",
+        {
+          src: highResUrl,
+          onError: () => setSrcStage(1),
+          alt: "",
+          style: { width: "100%", height: "100%", borderRadius: "inherit", objectFit: "contain" }
+        }
+      );
+    } catch {
+      const firstLetter2 = title ? title.trim()[0]?.toUpperCase() : "?";
+      return /* @__PURE__ */ React.createElement("span", null, firstLetter2);
+    }
+  }
+  if (srcStage === 1) {
+    try {
+      const u = new URL(url);
+      let nativeUrl = `https://www.google.com/s2/favicons?domain=${u.hostname}&sz=128`;
+      if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.id) {
+        nativeUrl = `chrome-extension://${chrome.runtime.id}/_favicon/?pageUrl=${encodeURIComponent(u.href)}&size=128`;
+      }
+      return /* @__PURE__ */ React.createElement(
+        "img",
+        {
+          src: nativeUrl,
+          onError: () => setSrcStage(2),
+          alt: "",
+          style: { width: "100%", height: "100%", borderRadius: "inherit", objectFit: "contain" }
+        }
+      );
+    } catch {
+      const firstLetter2 = title ? title.trim()[0]?.toUpperCase() : "?";
+      return /* @__PURE__ */ React.createElement("span", null, firstLetter2);
+    }
+  }
+  const firstLetter = title ? title.trim()[0]?.toUpperCase() : "?";
+  return /* @__PURE__ */ React.createElement("span", null, firstLetter);
+}
+window.Bookmarks = Bookmarks;
+window.loadJSON = loadJSON;
+window.saveJSON = saveJSON;
 window.exportAllData = exportAllData;
 window.importAllData = importAllData;
 window.importChromeBookmarks = importChromeBookmarks;
 window.STORAGE_KEYS = STORAGE_KEYS;
-window.loadJSON = loadJSON;
-window.saveJSON = saveJSON;
 window.useStorage = useStorage;
+window.isPlusUser = isPlusUser;
+window.requirePlus = requirePlus;
 window.colorForString = colorForString;
 window.initialFromUrl = initialFromUrl;
 window.hostnameOf = hostnameOf;
@@ -427,3 +779,5 @@ window.BUILTIN_BACKGROUNDS = BUILTIN_BACKGROUNDS;
 window.buildMockWeather = buildMockWeather;
 window.faviconUrl = faviconUrl;
 window.relativeTime = relativeTime;
+window.BOOKMARK_ICONS = BOOKMARK_ICONS;
+window.BookmarkIcon = BookmarkIcon;

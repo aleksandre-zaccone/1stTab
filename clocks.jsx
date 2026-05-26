@@ -1,8 +1,4 @@
-// ============================
-// Clocks panel (left) + Weather panel (right)
-// Weather uses Open-Meteo — free, no API key required.
-// ============================
-var { useState, useEffect, useRef, useMemo, useCallback } = React;
+var { useState, useEffect, useMemo } = React;
 
 function useNow(intervalMs = 1000) {
   const [now, setNow] = useState(() => new Date());
@@ -24,193 +20,117 @@ function formatTime(date, tz) {
     dayPeriod: parts.find(p => p.type === 'dayPeriod')?.value || '',
   };
 }
+
 function tzOffsetLabel(date, tz) {
-  return new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'shortOffset' })
-    .formatToParts(date).find(p => p.type === 'timeZoneName')?.value || tz;
+  const parts = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'shortOffset' })
+    .formatToParts(date);
+  const offset = parts.find(p => p.type === 'timeZoneName')?.value || '';
+  // Try to get region/city name from tz string
+  const region = tz.split('/').pop().replace('_', ' ');
+  return `${offset} · ${region}`;
 }
 
-// ── Weather API (Open-Meteo) ─────────────────────────────────────────────────
-const WMO = {
-  0:  { desc: 'Clear sky',      icon: 'wSun'    },
-  1:  { desc: 'Mainly clear',   icon: 'wSun'    },
-  2:  { desc: 'Partly cloudy',  icon: 'wPartly' },
-  3:  { desc: 'Overcast',       icon: 'wCloud'  },
-  45: { desc: 'Fog',            icon: 'wCloud'  },
-  48: { desc: 'Freezing fog',   icon: 'wCloud'  },
-  51: { desc: 'Light drizzle',  icon: 'wRain'   },
-  53: { desc: 'Drizzle',        icon: 'wRain'   },
-  55: { desc: 'Heavy drizzle',  icon: 'wRain'   },
-  61: { desc: 'Light rain',     icon: 'wRain'   },
-  63: { desc: 'Rain',           icon: 'wRain'   },
-  65: { desc: 'Heavy rain',     icon: 'wRain'   },
-  71: { desc: 'Light snow',     icon: 'wSnow'   },
-  73: { desc: 'Snow',           icon: 'wSnow'   },
-  75: { desc: 'Heavy snow',     icon: 'wSnow'   },
-  80: { desc: 'Rain showers',   icon: 'wRain'   },
-  81: { desc: 'Rain showers',   icon: 'wRain'   },
-  82: { desc: 'Heavy showers',  icon: 'wRain'   },
-  95: { desc: 'Thunderstorm',   icon: 'wRain'   },
-  96: { desc: 'Thunderstorm',   icon: 'wRain'   },
-  99: { desc: 'Thunderstorm',   icon: 'wRain'   },
-};
-const weatherCache = new Map();
-const CACHE_TTL    = 30 * 60 * 1000; // 30 min
+function AnalogFace({ now, tz, variant }) {
+  // Get hours/minutes/seconds in target timezone
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz, hour12: false,
+    hour: 'numeric', minute: '2-digit', second: '2-digit',
+  }).formatToParts(now);
+  const h = parseInt(parts.find(p => p.type === 'hour')?.value || '0', 10) % 12;
+  const m = parseInt(parts.find(p => p.type === 'minute')?.value || '0', 10);
+  const s = parseInt(parts.find(p => p.type === 'second')?.value || '0', 10);
 
-async function fetchWeatherData(city, units) {
-  const key = city.trim().toLowerCase() + '|' + units;
-  const hit = weatherCache.get(key);
-  if (hit && Date.now() - hit.ts < CACHE_TTL) return hit.data;
+  const hourAngle = (h + m / 60) * 30;
+  const minAngle  = (m + s / 60) * 6;
+  const secAngle  = s * 6;
 
-  // 1. Geocode city name → lat/lon
-  const geoRes  = await fetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&format=json`
-  );
-  const geoJson = await geoRes.json();
-  if (!geoJson.results?.length) throw new Error(`City "${city}" not found`);
-  const { latitude, longitude, name, country_code } = geoJson.results[0];
+  const size = 120;
+  const cx = size / 2, cy = size / 2, r = size / 2 - 4;
 
-  // 2. Fetch current + 5-day forecast
-  const tUnit = units === 'F' ? 'fahrenheit' : 'celsius';
-  const wRes  = await fetch(
-    `https://api.open-meteo.com/v1/forecast` +
-    `?latitude=${latitude}&longitude=${longitude}` +
-    `&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m` +
-    `&daily=temperature_2m_max,temperature_2m_min,weather_code` +
-    `&temperature_unit=${tUnit}&wind_speed_unit=mph&forecast_days=6&timezone=auto`
-  );
-  const w = await wRes.json();
-  const cur   = w.current;
-  const daily = w.daily;
-  const cond  = WMO[cur.weather_code] || WMO[2];
-  const DAYS  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const ticks = [];
+  if (variant === 'analog-retro' || variant === 'analog-pixel') {
+    for (let i = 0; i < 12; i++) {
+      const angle = (i * 30) * Math.PI / 180;
+      const tickLen = i % 3 === 0 ? 9 : 4;
+      const x1 = cx + (r - tickLen) * Math.sin(angle);
+      const y1 = cy - (r - tickLen) * Math.cos(angle);
+      const x2 = cx + r * Math.sin(angle);
+      const y2 = cy - r * Math.cos(angle);
+      ticks.push(<line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth={i % 3 === 0 ? 2 : 1.2} strokeLinecap={variant === 'analog-pixel' ? 'butt' : 'round'} />);
+    }
+  }
 
-  const forecast = daily.time.slice(1,6).map((dateStr, i) => {
-    const d  = new Date(dateStr + 'T12:00:00');
-    const fc = WMO[daily.weather_code[i+1]] || WMO[2];
-    return { day: DAYS[d.getDay()], temp: Math.round(daily.temperature_2m_max[i+1]), icon: fc.icon };
-  });
-
-  const data = {
-    city:     name + (country_code ? ', ' + country_code.toUpperCase() : ''),
-    temp:     Math.round(cur.temperature_2m),
-    desc:     cond.desc,
-    icon:     cond.icon,
-    hi:       Math.round(daily.temperature_2m_max[0]),
-    lo:       Math.round(daily.temperature_2m_min[0]),
-    humidity: cur.relative_humidity_2m,
-    wind:     Math.round(cur.wind_speed_10m),
-    forecast,
+  const hand = (angle, len, w, color) => {
+    const rad = (angle - 90) * Math.PI / 180;
+    return <line x1={cx} y1={cy} x2={cx + len * Math.cos(rad)} y2={cy + len * Math.sin(rad)} stroke={color} strokeWidth={w} strokeLinecap={variant === 'analog-pixel' ? 'square' : 'round'} />;
   };
-  weatherCache.set(key, { data, ts: Date.now() });
-  return data;
+
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className={'analog-face analog-' + variant.replace('analog-', '')}>
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="currentColor" strokeWidth={variant === 'analog-min' ? 1 : 2} opacity={variant === 'analog-min' ? 0.6 : 1} />
+      {ticks}
+      {hand(hourAngle, r * 0.55, variant === 'analog-pixel' ? 5 : 3.5, 'currentColor')}
+      {hand(minAngle,  r * 0.78, variant === 'analog-pixel' ? 4 : 2.5, 'currentColor')}
+      {hand(secAngle,  r * 0.85, 1.2, 'var(--accent)')}
+      <circle cx={cx} cy={cy} r={variant === 'analog-pixel' ? 3.5 : 2.5} fill="currentColor" />
+    </svg>
+  );
 }
 
-// ── Clocks panel ──────────────────────────────────────────────────────────────
-function ClocksPanel({ zones, onEditZones }) {
+function ClocksWidget() {
+  const { t: i18n_t } = window.useI18n();
+  const [allZones] = window.useStorage(window.STORAGE_KEYS.zones, window.defaultZones());
+  const [plus] = window.useStorage(window.STORAGE_KEYS.plus, { active: false }, false);
+  const [clockFace] = window.useStorage(window.STORAGE_KEYS.clockFace, 'digital', true);
   const now = useNow(1000);
+
+  if (!allZones) return null;
+  const isPlus = !!plus?.active;
+  const zones = isPlus ? allZones : allZones.slice(0, 3);
+  const overflow = !isPlus && allZones.length > 3 ? allZones.length - 3 : 0;
+  const useAnalog = isPlus && clockFace && clockFace.startsWith('analog-');
+  const primary = zones[0];
+
   return (
-    <div className="crt-panel clocks-panel">
-      <span className="crt-panel-label">P1 · TIME</span>
-      <div className="clocks-list">
-        {zones.map((z, i) => {
-          const t   = formatTime(now, z.tz);
-          const off = tzOffsetLabel(now, z.tz);
+    <div className="card">
+      <div className="card-head">
+        <div className="card-title">
+          <span className="drag-handle"><Icon.drag /></span>
+          {i18n_t('clocks_title') || 'Time'}
+        </div>
+        <button className="card-action" onClick={() => window.location.href = 'settings.html#appearance'}>{i18n_t('common.edit') || 'Edit'}</button>
+      </div>
+      {useAnalog && primary && (
+        <div className="analog-block">
+          <AnalogFace now={now} tz={primary.tz} variant={clockFace} />
+          <div className="analog-label">{primary.label}</div>
+        </div>
+      )}
+      <div className="zones">
+        {zones.map((z) => {
+          const t = formatTime(now, z.tz);
+          const sub = tzOffsetLabel(now, z.tz);
           return (
-            <div key={z.id} className={"clock-row" + (i === 0 ? " primary" : "")}>
-              <div className="clock-meta">
-                <span className="clock-label">{z.label}</span>
-                <span className="clock-off">{off}</span>
+            <div key={z.id} className="zone">
+              <div>
+                <div className="zone-label">{z.label}</div>
+                <div className="zone-sub">{sub}</div>
               </div>
-              <div className="clock-time">
-                {t.hour}:{t.minute}
-                <span className="period">{t.dayPeriod}</span>
+              <div className="zone-time">
+                <span className="t">{t.hour}:{t.minute}</span>
+                <span className="ap">{t.dayPeriod}</span>
               </div>
             </div>
           );
         })}
       </div>
-      <button className="clocks-edit" onClick={onEditZones}>+ EDIT ZONES</button>
-    </div>
-  );
-}
-
-// ── Weather panel ─────────────────────────────────────────────────────────────
-function WeatherPanel({ city, units, onToggleUnits, onEditCity }) {
-  const [weather, setWeather] = useState(null);
-  const [status,  setStatus ] = useState('loading'); // 'loading' | 'ok' | 'error'
-  const [errMsg,  setErrMsg ] = useState('');
-
-  useEffect(() => {
-    let cancelled = false;
-    setStatus('loading');
-    fetchWeatherData(city, units)
-      .then(data => { if (!cancelled) { setWeather(data); setStatus('ok'); } })
-      .catch(err  => { if (!cancelled) { setErrMsg(err.message); setStatus('error'); } });
-    return () => { cancelled = true; };
-  }, [city, units]);
-
-  if (status === 'loading') return (
-    <div className="crt-panel weather-panel">
-      <span className="crt-panel-label">P2 · WEATHER</span>
-      <div className="weather-status">Fetching weather…</div>
-    </div>
-  );
-
-  if (status === 'error') return (
-    <div className="crt-panel weather-panel">
-      <span className="crt-panel-label">P2 · WEATHER</span>
-      <div className="weather-status weather-err">{errMsg}</div>
-      <button className="weather-city" onClick={onEditCity}>
-        <Icon.pin size={10}/> Change city
-      </button>
-    </div>
-  );
-
-  const IconCmp = Icon[weather.icon] || Icon.wSun;
-  return (
-    <div className="crt-panel weather-panel">
-      <span className="crt-panel-label">P2 · WEATHER</span>
-      <div className="weather-main-row">
-        <div className="weather-icon-block"><IconCmp size={36}/></div>
-        <div style={{display:'flex',flexDirection:'column',gap:4}}>
-          <div className="weather-temp">
-            {weather.temp}<span className="unit">°{units}</span>
-            <button className="weather-unit-toggle" onClick={onToggleUnits} title="Toggle °F/°C">
-              °{units === 'F' ? 'C' : 'F'}
-            </button>
-          </div>
-          <div className="weather-desc">{weather.desc}</div>
-        </div>
-      </div>
-      <div className="weather-hilo">
-        <span>HI <b>{weather.hi}°</b></span>
-        <span>LO <b>{weather.lo}°</b></span>
-        <span><Icon.wDrop size={12}/> {weather.humidity}%</span>
-        <span><Icon.wWind size={12}/> {weather.wind}mph</span>
-      </div>
-      <button className="weather-city" onClick={onEditCity}>
-        <Icon.pin size={10}/> {weather.city}
-      </button>
-      {weather.forecast.length > 0 && (
-        <div className="weather-forecast">
-          {weather.forecast.map((f, i) => {
-            const FC = Icon[f.icon] || Icon.wSun;
-            return (
-              <div key={i} className="forecast-day">
-                <span className="forecast-label">{f.day}</span>
-                <FC size={14}/>
-                <span className="forecast-temp">{f.temp}°</span>
-              </div>
-            );
-          })}
-        </div>
+      {overflow > 0 && (
+        <div className="plus-hint">{overflow} more zone{overflow === 1 ? '' : 's'} hidden · Plus shows all</div>
       )}
     </div>
   );
 }
 
-window.ClocksPanel  = ClocksPanel;
-window.WeatherPanel = WeatherPanel;
-window.useNow       = useNow;
-window.formatTime   = formatTime;
-window.tzOffsetLabel = tzOffsetLabel;
+window.ClocksWidget = ClocksWidget;
+window.useNow = useNow;
+window.formatTime = formatTime;

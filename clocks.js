@@ -1,4 +1,4 @@
-var { useState, useEffect, useRef, useMemo, useCallback } = React;
+var { useState, useEffect, useMemo } = React;
 function useNow(intervalMs = 1e3) {
   const [now, setNow] = useState(() => /* @__PURE__ */ new Date());
   useEffect(() => {
@@ -22,111 +22,63 @@ function formatTime(date, tz) {
   };
 }
 function tzOffsetLabel(date, tz) {
-  return new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "shortOffset" }).formatToParts(date).find((p) => p.type === "timeZoneName")?.value || tz;
+  const parts = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "shortOffset" }).formatToParts(date);
+  const offset = parts.find((p) => p.type === "timeZoneName")?.value || "";
+  const region = tz.split("/").pop().replace("_", " ");
+  return `${offset} \xB7 ${region}`;
 }
-const WMO = {
-  0: { desc: "Clear sky", icon: "wSun" },
-  1: { desc: "Mainly clear", icon: "wSun" },
-  2: { desc: "Partly cloudy", icon: "wPartly" },
-  3: { desc: "Overcast", icon: "wCloud" },
-  45: { desc: "Fog", icon: "wCloud" },
-  48: { desc: "Freezing fog", icon: "wCloud" },
-  51: { desc: "Light drizzle", icon: "wRain" },
-  53: { desc: "Drizzle", icon: "wRain" },
-  55: { desc: "Heavy drizzle", icon: "wRain" },
-  61: { desc: "Light rain", icon: "wRain" },
-  63: { desc: "Rain", icon: "wRain" },
-  65: { desc: "Heavy rain", icon: "wRain" },
-  71: { desc: "Light snow", icon: "wSnow" },
-  73: { desc: "Snow", icon: "wSnow" },
-  75: { desc: "Heavy snow", icon: "wSnow" },
-  80: { desc: "Rain showers", icon: "wRain" },
-  81: { desc: "Rain showers", icon: "wRain" },
-  82: { desc: "Heavy showers", icon: "wRain" },
-  95: { desc: "Thunderstorm", icon: "wRain" },
-  96: { desc: "Thunderstorm", icon: "wRain" },
-  99: { desc: "Thunderstorm", icon: "wRain" }
-};
-const weatherCache = /* @__PURE__ */ new Map();
-const CACHE_TTL = 30 * 60 * 1e3;
-async function fetchWeatherData(city, units) {
-  const key = city.trim().toLowerCase() + "|" + units;
-  const hit = weatherCache.get(key);
-  if (hit && Date.now() - hit.ts < CACHE_TTL) return hit.data;
-  const geoRes = await fetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&format=json`
-  );
-  const geoJson = await geoRes.json();
-  if (!geoJson.results?.length) throw new Error(`City "${city}" not found`);
-  const { latitude, longitude, name, country_code } = geoJson.results[0];
-  const tUnit = units === "F" ? "fahrenheit" : "celsius";
-  const wRes = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min,weather_code&temperature_unit=${tUnit}&wind_speed_unit=mph&forecast_days=6&timezone=auto`
-  );
-  const w = await wRes.json();
-  const cur = w.current;
-  const daily = w.daily;
-  const cond = WMO[cur.weather_code] || WMO[2];
-  const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const forecast = daily.time.slice(1, 6).map((dateStr, i) => {
-    const d = /* @__PURE__ */ new Date(dateStr + "T12:00:00");
-    const fc = WMO[daily.weather_code[i + 1]] || WMO[2];
-    return { day: DAYS[d.getDay()], temp: Math.round(daily.temperature_2m_max[i + 1]), icon: fc.icon };
-  });
-  const data = {
-    city: name + (country_code ? ", " + country_code.toUpperCase() : ""),
-    temp: Math.round(cur.temperature_2m),
-    desc: cond.desc,
-    icon: cond.icon,
-    hi: Math.round(daily.temperature_2m_max[0]),
-    lo: Math.round(daily.temperature_2m_min[0]),
-    humidity: cur.relative_humidity_2m,
-    wind: Math.round(cur.wind_speed_10m),
-    forecast
+function AnalogFace({ now, tz, variant }) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    hour12: false,
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit"
+  }).formatToParts(now);
+  const h = parseInt(parts.find((p) => p.type === "hour")?.value || "0", 10) % 12;
+  const m = parseInt(parts.find((p) => p.type === "minute")?.value || "0", 10);
+  const s = parseInt(parts.find((p) => p.type === "second")?.value || "0", 10);
+  const hourAngle = (h + m / 60) * 30;
+  const minAngle = (m + s / 60) * 6;
+  const secAngle = s * 6;
+  const size = 120;
+  const cx = size / 2, cy = size / 2, r = size / 2 - 4;
+  const ticks = [];
+  if (variant === "analog-retro" || variant === "analog-pixel") {
+    for (let i = 0; i < 12; i++) {
+      const angle = i * 30 * Math.PI / 180;
+      const tickLen = i % 3 === 0 ? 9 : 4;
+      const x1 = cx + (r - tickLen) * Math.sin(angle);
+      const y1 = cy - (r - tickLen) * Math.cos(angle);
+      const x2 = cx + r * Math.sin(angle);
+      const y2 = cy - r * Math.cos(angle);
+      ticks.push(/* @__PURE__ */ React.createElement("line", { key: i, x1, y1, x2, y2, stroke: "currentColor", strokeWidth: i % 3 === 0 ? 2 : 1.2, strokeLinecap: variant === "analog-pixel" ? "butt" : "round" }));
+    }
+  }
+  const hand = (angle, len, w, color) => {
+    const rad = (angle - 90) * Math.PI / 180;
+    return /* @__PURE__ */ React.createElement("line", { x1: cx, y1: cy, x2: cx + len * Math.cos(rad), y2: cy + len * Math.sin(rad), stroke: color, strokeWidth: w, strokeLinecap: variant === "analog-pixel" ? "square" : "round" });
   };
-  weatherCache.set(key, { data, ts: Date.now() });
-  return data;
+  return /* @__PURE__ */ React.createElement("svg", { width: size, height: size, viewBox: `0 0 ${size} ${size}`, className: "analog-face analog-" + variant.replace("analog-", "") }, /* @__PURE__ */ React.createElement("circle", { cx, cy, r, fill: "none", stroke: "currentColor", strokeWidth: variant === "analog-min" ? 1 : 2, opacity: variant === "analog-min" ? 0.6 : 1 }), ticks, hand(hourAngle, r * 0.55, variant === "analog-pixel" ? 5 : 3.5, "currentColor"), hand(minAngle, r * 0.78, variant === "analog-pixel" ? 4 : 2.5, "currentColor"), hand(secAngle, r * 0.85, 1.2, "var(--accent)"), /* @__PURE__ */ React.createElement("circle", { cx, cy, r: variant === "analog-pixel" ? 3.5 : 2.5, fill: "currentColor" }));
 }
-function ClocksPanel({ zones, onEditZones }) {
+function ClocksWidget() {
+  const { t: i18n_t } = window.useI18n();
+  const [allZones] = window.useStorage(window.STORAGE_KEYS.zones, window.defaultZones());
+  const [plus] = window.useStorage(window.STORAGE_KEYS.plus, { active: false }, false);
+  const [clockFace] = window.useStorage(window.STORAGE_KEYS.clockFace, "digital", true);
   const now = useNow(1e3);
-  return /* @__PURE__ */ React.createElement("div", { className: "crt-panel clocks-panel" }, /* @__PURE__ */ React.createElement("span", { className: "crt-panel-label" }, "P1 \xB7 TIME"), /* @__PURE__ */ React.createElement("div", { className: "clocks-list" }, zones.map((z, i) => {
+  if (!allZones) return null;
+  const isPlus = !!plus?.active;
+  const zones = isPlus ? allZones : allZones.slice(0, 3);
+  const overflow = !isPlus && allZones.length > 3 ? allZones.length - 3 : 0;
+  const useAnalog = isPlus && clockFace && clockFace.startsWith("analog-");
+  const primary = zones[0];
+  return /* @__PURE__ */ React.createElement("div", { className: "card" }, /* @__PURE__ */ React.createElement("div", { className: "card-head" }, /* @__PURE__ */ React.createElement("div", { className: "card-title" }, /* @__PURE__ */ React.createElement("span", { className: "drag-handle" }, /* @__PURE__ */ React.createElement(Icon.drag, null)), i18n_t("clocks_title") || "Time"), /* @__PURE__ */ React.createElement("button", { className: "card-action", onClick: () => window.location.href = "settings.html#appearance" }, i18n_t("common.edit") || "Edit")), useAnalog && primary && /* @__PURE__ */ React.createElement("div", { className: "analog-block" }, /* @__PURE__ */ React.createElement(AnalogFace, { now, tz: primary.tz, variant: clockFace }), /* @__PURE__ */ React.createElement("div", { className: "analog-label" }, primary.label)), /* @__PURE__ */ React.createElement("div", { className: "zones" }, zones.map((z) => {
     const t = formatTime(now, z.tz);
-    const off = tzOffsetLabel(now, z.tz);
-    return /* @__PURE__ */ React.createElement("div", { key: z.id, className: "clock-row" + (i === 0 ? " primary" : "") }, /* @__PURE__ */ React.createElement("div", { className: "clock-meta" }, /* @__PURE__ */ React.createElement("span", { className: "clock-label" }, z.label), /* @__PURE__ */ React.createElement("span", { className: "clock-off" }, off)), /* @__PURE__ */ React.createElement("div", { className: "clock-time" }, t.hour, ":", t.minute, /* @__PURE__ */ React.createElement("span", { className: "period" }, t.dayPeriod)));
-  })), /* @__PURE__ */ React.createElement("button", { className: "clocks-edit", onClick: onEditZones }, "+ EDIT ZONES"));
+    const sub = tzOffsetLabel(now, z.tz);
+    return /* @__PURE__ */ React.createElement("div", { key: z.id, className: "zone" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "zone-label" }, z.label), /* @__PURE__ */ React.createElement("div", { className: "zone-sub" }, sub)), /* @__PURE__ */ React.createElement("div", { className: "zone-time" }, /* @__PURE__ */ React.createElement("span", { className: "t" }, t.hour, ":", t.minute), /* @__PURE__ */ React.createElement("span", { className: "ap" }, t.dayPeriod)));
+  })), overflow > 0 && /* @__PURE__ */ React.createElement("div", { className: "plus-hint" }, overflow, " more zone", overflow === 1 ? "" : "s", " hidden \xB7 Plus shows all"));
 }
-function WeatherPanel({ city, units, onToggleUnits, onEditCity }) {
-  const [weather, setWeather] = useState(null);
-  const [status, setStatus] = useState("loading");
-  const [errMsg, setErrMsg] = useState("");
-  useEffect(() => {
-    let cancelled = false;
-    setStatus("loading");
-    fetchWeatherData(city, units).then((data) => {
-      if (!cancelled) {
-        setWeather(data);
-        setStatus("ok");
-      }
-    }).catch((err) => {
-      if (!cancelled) {
-        setErrMsg(err.message);
-        setStatus("error");
-      }
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [city, units]);
-  if (status === "loading") return /* @__PURE__ */ React.createElement("div", { className: "crt-panel weather-panel" }, /* @__PURE__ */ React.createElement("span", { className: "crt-panel-label" }, "P2 \xB7 WEATHER"), /* @__PURE__ */ React.createElement("div", { className: "weather-status" }, "Fetching weather\u2026"));
-  if (status === "error") return /* @__PURE__ */ React.createElement("div", { className: "crt-panel weather-panel" }, /* @__PURE__ */ React.createElement("span", { className: "crt-panel-label" }, "P2 \xB7 WEATHER"), /* @__PURE__ */ React.createElement("div", { className: "weather-status weather-err" }, errMsg), /* @__PURE__ */ React.createElement("button", { className: "weather-city", onClick: onEditCity }, /* @__PURE__ */ React.createElement(Icon.pin, { size: 10 }), " Change city"));
-  const IconCmp = Icon[weather.icon] || Icon.wSun;
-  return /* @__PURE__ */ React.createElement("div", { className: "crt-panel weather-panel" }, /* @__PURE__ */ React.createElement("span", { className: "crt-panel-label" }, "P2 \xB7 WEATHER"), /* @__PURE__ */ React.createElement("div", { className: "weather-main-row" }, /* @__PURE__ */ React.createElement("div", { className: "weather-icon-block" }, /* @__PURE__ */ React.createElement(IconCmp, { size: 36 })), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 4 } }, /* @__PURE__ */ React.createElement("div", { className: "weather-temp" }, weather.temp, /* @__PURE__ */ React.createElement("span", { className: "unit" }, "\xB0", units), /* @__PURE__ */ React.createElement("button", { className: "weather-unit-toggle", onClick: onToggleUnits, title: "Toggle \xB0F/\xB0C" }, "\xB0", units === "F" ? "C" : "F")), /* @__PURE__ */ React.createElement("div", { className: "weather-desc" }, weather.desc))), /* @__PURE__ */ React.createElement("div", { className: "weather-hilo" }, /* @__PURE__ */ React.createElement("span", null, "HI ", /* @__PURE__ */ React.createElement("b", null, weather.hi, "\xB0")), /* @__PURE__ */ React.createElement("span", null, "LO ", /* @__PURE__ */ React.createElement("b", null, weather.lo, "\xB0")), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement(Icon.wDrop, { size: 12 }), " ", weather.humidity, "%"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement(Icon.wWind, { size: 12 }), " ", weather.wind, "mph")), /* @__PURE__ */ React.createElement("button", { className: "weather-city", onClick: onEditCity }, /* @__PURE__ */ React.createElement(Icon.pin, { size: 10 }), " ", weather.city), weather.forecast.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "weather-forecast" }, weather.forecast.map((f, i) => {
-    const FC = Icon[f.icon] || Icon.wSun;
-    return /* @__PURE__ */ React.createElement("div", { key: i, className: "forecast-day" }, /* @__PURE__ */ React.createElement("span", { className: "forecast-label" }, f.day), /* @__PURE__ */ React.createElement(FC, { size: 14 }), /* @__PURE__ */ React.createElement("span", { className: "forecast-temp" }, f.temp, "\xB0"));
-  })));
-}
-window.ClocksPanel = ClocksPanel;
-window.WeatherPanel = WeatherPanel;
+window.ClocksWidget = ClocksWidget;
 window.useNow = useNow;
 window.formatTime = formatTime;
-window.tzOffsetLabel = tzOffsetLabel;

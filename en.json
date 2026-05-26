@@ -2,8 +2,24 @@
   "translation": {
     "settings": "Settings",
     "bookmarks": "Bookmarks",
-    "notes": "Notes",
-    "todo": "To-Do",
+    "notes": {
+      "title": "Scratchpad",
+      "placeholder": "A quick thought, a link, a reminder…",
+      "chars": "chars",
+      "saved_locally": "Saved locally"
+    },
+    "todo": {
+      "title": "Today",
+      "done": "done",
+      "placeholder": "What needs doing?",
+      "empty": "No tasks yet"
+    },
+    "clocks_title": "Time",
+    "weather_title": "Weather",
+    "common": {
+      "edit": "Edit",
+      "clear": "Clear"
+    },
     "search": "Search",
     "quick_links": "Quick Links",
     "daily_background": "Daily Background",

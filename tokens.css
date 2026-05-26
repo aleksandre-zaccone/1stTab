@@ -1,0 +1,226 @@
+/* ---------- DESIGN TOKENS (shared across all pages) ---------- */
+
+:root {
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --radius-card: 18px;
+  --radius-control: 12px;
+  --radius-pill: 999px;
+
+  --space-card: 22px;
+  --gap-grid: 32px;
+
+  --accent: #2f6feb;
+  --accent-soft: rgba(47,111,235,0.10);
+  --accent-text: #1f54c2;
+
+  --positive: #15803d;
+}
+
+:root[data-theme="light"] {
+  --bg: #f7f6f3;
+  --bg-grad-1: #f3f1ec;
+  --bg-grad-2: #fbfaf8;
+  --surface: #ffffff;
+  --surface-2: #faf9f6;
+  --surface-hover: #f3f2ee;
+  --border: rgba(17, 17, 17, 0.07);
+  --border-strong: rgba(17, 17, 17, 0.14);
+  --text: #14110b;
+  --text-2: #4a4640;
+  --text-mute: #8a857c;
+  --text-faint: #b8b3a8;
+  --kbd-bg: #ffffff;
+  --kbd-border: rgba(17,17,17,0.12);
+  --kbd-shadow: 0 1px 0 rgba(17,17,17,0.08);
+  --accent-text: #1f54c2;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0c0c0e;
+  --bg-grad-1: #0a0a0c;
+  --bg-grad-2: #131316;
+  --surface: #141417;
+  --surface-2: #1a1a1e;
+  --surface-hover: #1f1f24;
+  --border: rgba(255,255,255,0.07);
+  --border-strong: rgba(255,255,255,0.14);
+  --text: #f1efe9;
+  --text-2: #bdb8af;
+  --text-mute: #7c786f;
+  --text-faint: #4a4843;
+  --kbd-bg: #1c1c20;
+  --kbd-border: rgba(255,255,255,0.12);
+  --kbd-shadow: 0 1px 0 rgba(0,0,0,0.4);
+  --accent: #6a96f1;
+  --accent-soft: rgba(106,150,241,0.14);
+  --accent-text: #93b4f5;
+}
+
+/* Arcade theme(s) - shared base */
+:root[data-theme="arcade"] {
+  --accent: #ff5dac;
+  --accent-soft: rgba(255, 93, 172, 0.14);
+  --accent-text: #ff5dac;
+  --bg: #0e0a1a;
+  --bg-grad-1: #1a0b2e;
+  --bg-grad-2: #090612;
+  --surface: #161026;
+  --surface-2: #1e1633;
+  --surface-hover: #251b40;
+  --border: rgba(255, 93, 172, 0.15);
+  --border-strong: rgba(255, 93, 172, 0.3);
+  --text: #fdfdfd;
+  --text-2: #e0d0f0;
+  --text-mute: #a090b0;
+  --text-faint: #605070;
+  --kbd-bg: #1e1633;
+  --kbd-border: rgba(255, 93, 172, 0.2);
+  --kbd-shadow: 0 1px 0 rgba(255, 93, 172, 0.2);
+}
+
+:root[data-theme="arcade"][data-arcade-game="pacman"] {
+  --bg: #00002a;
+  --bg-grad-1: #000035;
+  --bg-grad-2: #00001a;
+  --surface: #00003a;
+  --surface-2: #00004a;
+  --surface-hover: #00005a;
+  --text: #ffe800; /* Yellow text */
+  --text-2: #dede00;
+  --accent: #ff1744; /* Red accent */
+  --accent-soft: rgba(255, 23, 68, 0.14);
+  --accent-text: #ff1744;
+  --border: rgba(33, 150, 243, 0.3); /* Blue maze-like border */
+  --border-strong: rgba(33, 150, 243, 0.5);
+}
+
+:root[data-theme="arcade"][data-arcade-game="invaders"] {
+  --bg: #000000;
+  --bg-grad-1: #000000;
+  --bg-grad-2: #000000;
+  --surface: #0a0a0a;
+  --surface-2: #111111;
+  --surface-hover: #1a1a1a;
+  --text: #33ff33; /* CRT green */
+  --text-2: #2bd92b;
+  --text-mute: #20a020;
+  --text-faint: #146614;
+  --accent: #ffffff;
+  --accent-soft: rgba(255, 255, 255, 0.14);
+  --accent-text: #ffffff;
+  --border: rgba(51, 255, 51, 0.2);
+  --border-strong: rgba(51, 255, 51, 0.4);
+}
+
+:root[data-theme="arcade"][data-arcade-game="dkong"] {
+  --bg: #1a0700;
+  --bg-grad-1: #2a0a00;
+  --bg-grad-2: #100400;
+  --surface: #250a00;
+  --surface-2: #330e00;
+  --surface-hover: #441300;
+  --text: #ffffff;
+  --text-2: #ffcc00;
+  --accent: #ff4500;
+  --accent-soft: rgba(255, 69, 0, 0.14);
+  --accent-text: #ff4500;
+  --border: rgba(255, 69, 0, 0.25);
+  --border-strong: rgba(255, 69, 0, 0.5);
+}
+
+:root[data-theme="arcade"][data-arcade-game="gameboy"] {
+  --bg: #9bbc0f;
+  --bg-grad-1: #8bac0f;
+  --bg-grad-2: #aacc1a;
+  --surface: #88a008;
+  --surface-2: #79900a;
+  --surface-hover: #6a800a;
+  --text: #0f380f;
+  --text-2: #1d4a1d;
+  --text-mute: #2a5c2a;
+  --text-faint: #3c6e3c;
+  --accent: #0f380f;
+  --accent-soft: rgba(15, 56, 15, 0.20);
+  --accent-text: #0f380f;
+  --border: rgba(15, 56, 15, 0.25);
+  --border-strong: rgba(15, 56, 15, 0.45);
+}
+
+:root[data-theme="arcade"][data-arcade-game="galaga"] {
+  --bg: #050010;
+  --bg-grad-1: #0a0020;
+  --bg-grad-2: #020008;
+  --surface: #0e0028;
+  --surface-2: #160040;
+  --surface-hover: #1d0050;
+  --text: #ffffff;
+  --text-2: #d8d8d8;
+  --text-mute: #888899;
+  --accent: #ff3cee;
+  --accent-soft: rgba(255, 60, 238, 0.16);
+  --accent-text: #ff3cee;
+  --border: rgba(255, 60, 238, 0.22);
+  --border-strong: rgba(255, 60, 238, 0.45);
+}
+
+:root[data-theme="arcade"][data-arcade-game="tron"] {
+  --bg: #000a14;
+  --bg-grad-1: #001428;
+  --bg-grad-2: #00060c;
+  --surface: #001830;
+  --surface-2: #002040;
+  --surface-hover: #002a50;
+  --text: #e7f7ff;
+  --text-2: #a0d8f0;
+  --text-mute: #5a8aa8;
+  --accent: #00bfff;
+  --accent-soft: rgba(0, 191, 255, 0.18);
+  --accent-text: #00d4ff;
+  --border: rgba(0, 191, 255, 0.25);
+  --border-strong: rgba(0, 191, 255, 0.50);
+}
+
+:root[data-theme="arcade"][data-arcade-game="hotlava"] {
+  --bg: #0a0000;
+  --bg-grad-1: #140404;
+  --bg-grad-2: #060000;
+  --surface: #1a0606;
+  --surface-2: #240a08;
+  --surface-hover: #320e0a;
+  --text: #ffe0c0;
+  --text-2: #ffb878;
+  --text-mute: #b87850;
+  --accent: #ff4422;
+  --accent-soft: rgba(255, 68, 34, 0.18);
+  --accent-text: #ff6633;
+  --border: rgba(255, 68, 34, 0.25);
+  --border-strong: rgba(255, 68, 34, 0.50);
+}
+
+/* Background gradient shared across pages */
+body {
+  background:
+    radial-gradient(1200px 600px at 15% -10%, var(--bg-grad-2), transparent 60%),
+    radial-gradient(900px 500px at 100% 110%, var(--bg-grad-1), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-sans);
+  margin: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Arcade Scanlines */
+:root[data-theme="arcade"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 3px, 3px 100%;
+  pointer-events: none;
+  z-index: 10000;
+}
