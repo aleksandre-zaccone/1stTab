@@ -49,6 +49,7 @@ jobs:
         run: |
           npx chrome-webstore-upload-cli@latest upload \
             --source 1stTab.zip \
+            --publisher-id "$PUBLISHER_ID" \
             --auto-publish
 
       - name: Commit version bump
