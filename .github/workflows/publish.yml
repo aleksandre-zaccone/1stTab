@@ -1,9 +1,17 @@
 name: Publish to Chrome Web Store
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 permissions:
   contents: write
@@ -19,13 +27,35 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Bump patch version
+      - name: Bump version
         id: version
         run: |
           VERSION=$(jq -r '.version' manifest.json)
           IFS='.' read -ra PARTS <<< "$VERSION"
-          NEW_VERSION="${PARTS[0]}.${PARTS[1]}.$((${PARTS[2]} + 1))"
+          MAJOR=${PARTS[0]}
+          MINOR=${PARTS[1]}
+          PATCH=${PARTS[2]}
+          BUMP_TYPE="${{ github.event.inputs.version_bump }}"
+          
+          if [ "$BUMP_TYPE" = "major" ]; then
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+          elif [ "$BUMP_TYPE" = "minor" ]; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          else
+            PATCH=$((PATCH + 1))
+          fi
+          
+          NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
           jq ".version = \"$NEW_VERSION\"" manifest.json > tmp.json && mv tmp.json manifest.json
+          
+          # If there is a package.json, bump it too to keep them in sync
+          if [ -f package.json ]; then
+            npm version $NEW_VERSION --no-git-tag-version || true
+          fi
+          
           echo "new=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Setup Node.js
@@ -52,10 +82,12 @@ jobs:
             --publisher-id "$PUBLISHER_ID" \
             --auto-publish
 
-      - name: Commit version bump
+      - name: Commit and push version bump
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add manifest.json
-          git commit -m "chore: bump version to ${{ steps.version.outputs.new }} [skip ci]"
-          git push
+          git add manifest.json package.json package-lock.json || true
+          git commit -m "chore: bump version to v${{ steps.version.outputs.new }} [skip ci]"
+          git tag "v${{ steps.version.outputs.new }}"
+          git push origin main
+          git push origin "v${{ steps.version.outputs.new }}"
