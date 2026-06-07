@@ -2307,23 +2307,23 @@ input, textarea { font: inherit; color: inherit; }
 /* ============================================================
    LEFT RAIL  +  RSS READER
    ============================================================ */
-#root:has(.side-rail) { display: flex; align-items: stretch; min-height: 100vh; }
+#root:has(.side-rail) { display: flex; flex-direction: column; align-items: stretch; min-height: 100vh; }
 
 .side-rail {
-  position: sticky; top: 0; align-self: flex-start;
-  width: 64px; flex: 0 0 64px; height: 100vh;
-  background: var(--surface); border-right: 1px solid var(--border);
-  display: flex; flex-direction: column; align-items: center;
-  padding: 14px 0 16px; gap: 4px; z-index: 50;
+  position: sticky; top: 0; align-self: stretch;
+  width: auto; height: auto;
+  background: var(--surface); border-bottom: 1px solid var(--border); border-right: none;
+  display: flex; flex-direction: row; align-items: center;
+  padding: 10px 16px; gap: 8px; z-index: 50;
 }
 .side-rail .rail-brand {
-  width: 34px; height: 34px; border-radius: 10px; margin-bottom: 12px;
+  width: 34px; height: 34px; border-radius: 10px; margin-right: 12px; margin-bottom: 0;
   background: linear-gradient(135deg, var(--accent), #1f54c2);
   display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 16px;
   text-decoration: none; flex-shrink: 0;
 }
 .side-rail .rail-item {
-  width: 48px; height: 50px; border-radius: 13px; border: 0; background: none;
+  width: 60px; height: 48px; border-radius: 13px; border: 0; background: none;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
   color: var(--text-mute); position: relative; cursor: pointer; text-decoration: none;
   transition: background .14s, color .14s;
@@ -2331,14 +2331,14 @@ input, textarea { font: inherit; color: inherit; }
 .side-rail .rail-item:hover { background: var(--surface-hover); color: var(--text-2); }
 .side-rail .rail-item.active { background: var(--accent-soft); color: var(--accent-text); }
 .side-rail .rail-item.active::before {
-  content: ""; position: absolute; left: -14px; top: 50%; transform: translateY(-50%);
-  width: 3px; height: 22px; border-radius: 0 3px 3px 0; background: var(--accent);
+  content: ""; position: absolute; bottom: -11px; left: 50%; transform: translateX(-50%);
+  width: 22px; height: 3px; border-radius: 3px 3px 0 0; background: var(--accent);
 }
 .side-rail .rail-lbl { font-size: 9.5px; font-weight: 600; letter-spacing: .01em; }
 .side-rail .rail-spacer { flex: 1; }
 
 .app { flex: 1 1 auto; min-width: 0; }
-.app-reader { flex: 1 1 auto; min-width: 0; height: 100vh; overflow: hidden; }
+.app-reader { flex: 1 1 auto; min-width: 0; overflow: hidden; }
 
 /* ---------- reader shell ---------- */
 .rd { display: flex; height: 100%; min-width: 0; }
