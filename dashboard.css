@@ -2879,3 +2879,11 @@ input, textarea { font: inherit; color: inherit; }
   .bm-search { width: 160px; }
   .bm-quick-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* ICON SIZES */
+.bm-hero[data-size="small"] .qtile-logo { transform: scale(0.8); margin-bottom: -4px; }
+.bm-hero[data-size="small"] .bcard-logo { transform: scale(0.85); }
+.bm-hero[data-size="small"] .bm-row-logo { transform: scale(0.85); }
+.bm-hero[data-size="large"] .qtile-logo { transform: scale(1.15); margin-bottom: 4px; }
+.bm-hero[data-size="large"] .bcard-logo { transform: scale(1.15); }
+.bm-hero[data-size="large"] .bm-row-logo { transform: scale(1.15); }

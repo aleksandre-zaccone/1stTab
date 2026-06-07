@@ -9,6 +9,7 @@ var BM_KEYS = {
   sort: "nt.bm.sort",
   shape: "nt.bm.shape",
   view: "nt.bm.view",
+  iconSize: "nt.bm.iconSize",
 };
 
 var BM_SHAPES = [
@@ -47,11 +48,10 @@ function BookmarksHero() {
   var [cap, setCap] = useState(10);
   var [shape, setShape] = useState("squircle");
   var [view, setView] = useState("tree");
+  var [iconSize, setIconSize] = useState("medium");
   var [collapsed, setCollapsed] = useState([]);
   var [activeFolderId, setActiveFolderId] = useState("all");
   var [expandedFolders, setExpandedFolders] = useState(["1", "2"]);
-  var [settingsOpen, setSettingsOpen] = useState(false);
-  var settingsRef = useRef(null);
 
   var refresh = useCallback(async function () {
     var res = await Promise.all([
@@ -83,6 +83,11 @@ function BookmarksHero() {
       if (changes[window.STORAGE_KEYS.bookmarkMeta]) {
         setMeta(changes[window.STORAGE_KEYS.bookmarkMeta].newValue || {});
       }
+      if (changes[BM_KEYS.labels]) setShowLabels(changes[BM_KEYS.labels].newValue);
+      if (changes[BM_KEYS.cap]) setCap(Math.min(10, changes[BM_KEYS.cap].newValue || 10));
+      if (changes[BM_KEYS.shape]) setShape(changes[BM_KEYS.shape].newValue);
+      if (changes[BM_KEYS.view]) setView(changes[BM_KEYS.view].newValue === "grid" ? "card" : changes[BM_KEYS.view].newValue);
+      if (changes[BM_KEYS.iconSize]) setIconSize(changes[BM_KEYS.iconSize].newValue || "medium");
     };
     chrome.storage.onChanged.addListener(storageListener);
     return function () {
@@ -98,25 +103,15 @@ function BookmarksHero() {
     window.getStorage(BM_KEYS.labels, true).then(setShowLabels);
     window.getStorage(BM_KEYS.cap, 10).then(function (v) { setCap(Math.min(10, v || 10)); });
     window.getStorage(BM_KEYS.shape, "squircle").then(setShape);
+    window.getStorage(BM_KEYS.iconSize, "medium").then(setIconSize);
     window.getStorage(BM_KEYS.view, "tree").then(function (v) { setView(v === "grid" ? "card" : v); });
     window.getStorage(BM_KEYS.collapsed, []).then(setCollapsed);
     window.getStorage(window.STORAGE_KEYS.folder, "all").then(setActiveFolderId);
     window.getStorage(window.STORAGE_KEYS.treeExpanded, ["1", "2"]).then(setExpandedFolders);
   }, []);
 
-  // close settings on outside click
-  useEffect(function () {
-    if (!settingsOpen) return;
-    var onDoc = function (e) {
-      if (settingsRef.current && !settingsRef.current.contains(e.target)) setSettingsOpen(false);
-    };
-    document.addEventListener("mousedown", onDoc);
-    return function () { document.removeEventListener("mousedown", onDoc); };
-  }, [settingsOpen]);
 
-  var setLabelsP = function (v) { setShowLabels(v); window.setStorage(BM_KEYS.labels, v); };
-  var setCapP = function (v) { setCap(v); window.setStorage(BM_KEYS.cap, v); };
-  var setShapeP = function (v) { setShape(v); window.setStorage(BM_KEYS.shape, v); };
+
   var setViewP = function (v) { setView(v); window.setStorage(BM_KEYS.view, v); };
   var setFolderP = function (id) { setActiveFolderId(id); window.setStorage(window.STORAGE_KEYS.folder, id); };
   var toggleExpand = function (e, id) {
@@ -210,7 +205,7 @@ function BookmarksHero() {
 
   var totalShown = groups.reduce(function (n, g) { return n + g.items.length; }, 0);
 
-  return h("div", { className: "card hero-card bm-hero", "data-shape": shape },
+  return h("div", { className: "card hero-card bm-hero", "data-shape": shape, "data-size": iconSize },
     // header
     h("div", { className: "card-head bm-head" },
       h("div", { className: "bm-title-wrap" },
@@ -235,43 +230,11 @@ function BookmarksHero() {
             onClick: function () { setViewP("card"); },
           }, h(Icon.gridIcon, { size: 16 }))
         ),
-        h("div", { className: "bm-settings", ref: settingsRef },
-          h("button", {
-            className: "bm-iconbtn" + (settingsOpen ? " active" : ""), title: "Display options",
-            onClick: function () { setSettingsOpen(function (s) { return !s; }); },
-          }, h(Icon.sliders ? Icon.sliders : Icon.settings, { size: 16 })),
-          settingsOpen && h("div", { className: "bm-pop" },
-            h("div", { className: "bm-pop-row" },
-              h("span", { className: "bm-pop-label" }, "Labels under logos"),
-              h("button", {
-                className: "bm-switch" + (showLabels ? " on" : ""),
-                onClick: function () { setLabelsP(!showLabels); },
-              }, h("span", { className: "bm-switch-dot" }))
-            ),
-            h("div", { className: "bm-pop-row col" },
-              h("span", { className: "bm-pop-label" }, "Logo shape"),
-              h("div", { className: "bm-shapes" },
-                BM_SHAPES.map(function (s) {
-                  return h("button", {
-                    key: s.id,
-                    className: "bm-shape-btn" + (shape === s.id ? " active" : ""),
-                    title: s.label,
-                    onClick: function () { setShapeP(s.id); },
-                  }, h("span", { className: "bm-shape-prev shape-" + s.id }), h("span", { className: "bm-shape-lbl" }, s.label));
-                })
-              )
-            ),
-            h("div", { className: "bm-pop-row col" },
-              h("div", { className: "bm-pop-row", style: { width: "100%" } },
-                h("span", { className: "bm-pop-label" }, "Quick-access size"),
-                h("span", { className: "bm-pop-val" }, cap)
-              ),
-              h("input", {
-                type: "range", min: 4, max: 10, step: 1, value: cap, className: "bm-range",
-                onChange: function (e) { setCapP(parseInt(e.target.value, 10)); },
-              })
-            )
-          )
+        h("div", { className: "bm-settings" },
+          h("a", {
+            href: "settings.html#bookmarks",
+            className: "bm-iconbtn", title: "Display options"
+          }, h(Icon.sliders ? Icon.sliders : Icon.settings, { size: 16 }))
         ),
         h("a", { href: "manager.html", className: "card-action" }, "Manage \u2192")
       )

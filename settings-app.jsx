@@ -5,6 +5,7 @@ const PANES = [
   { id: 'appearance', group: 'General', label: 'Appearance', keywords: 'theme dark light arcade clock face digital analog background wallpaper typography font geist outfit vt323', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"/><circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"/><circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"/><circle cx="6.5" cy="12.5" r="0.5" fill="currentColor"/><path d="M12 2A10 10 0 0 0 2 12c0 5.5 4.5 10 10 10a3 3 0 0 0 3-3v-1a2 2 0 0 1 2-2h1a4 4 0 0 0 4-4 10 10 0 0 0-10-10z"/></svg> },
   { id: 'widgets', group: 'New Tab', label: 'Widgets', keywords: 'widgets time notes weather todo bookmarks quote toggle', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg> },
   { id: 'weather', group: 'New Tab', label: 'Weather', keywords: 'weather city units fahrenheit celsius', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19a4.5 4.5 0 1 0 0-9 6 6 0 0 0-11.5 2"/><path d="M3 19h14"/></svg> },
+  { id: 'bookmarks', group: 'New Tab', label: 'Bookmarks', keywords: 'bookmarks icons size shape labels quick access pins', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> },
   { id: 'rss', group: 'Reader', label: 'RSS Reader', keywords: 'rss reader feeds articles news view magazine grid list refresh sync mark read', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg> },
   { id: 'shortcuts', group: 'General', label: 'Shortcuts', keywords: 'keyboard shortcuts hotkeys cmd ctrl', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg> },
   { id: 'data', group: 'General', label: 'Data & sync', keywords: 'data sync export import backup chrome bookmarks json google drive', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.7 4 3 9 3s9-1.3 9-3V5"/><path d="M3 11v6c0 1.7 4 3 9 3s9-1.3 9-3v-6"/></svg> },
@@ -46,6 +47,11 @@ function SettingsApp() {
   const [weatherCity, setWeatherCity] = window.useStorage(window.STORAGE_KEYS.weatherCity, 'San Francisco', true);
   const [clockFace, setClockFace] = window.useStorage(window.STORAGE_KEYS.clockFace, 'digital', true);
   const [bgId, setBgId] = window.useStorage(window.STORAGE_KEYS.bgId, 'bg-light', true);
+
+  const [bmLabels, setBmLabels] = window.useStorage('nt.bm.showLabels', true, false);
+  const [bmCap, setBmCap] = window.useStorage('nt.bm.stripCap', 10, false);
+  const [bmShape, setBmShape] = window.useStorage('nt.bm.shape', 'squircle', false);
+  const [bmIconSize, setBmIconSize] = window.useStorage('nt.bm.iconSize', 'medium', false);
 
   useEffect(() => {
     const handleHashChange = () => setActivePane(location.hash.replace('#', '') || 'general');
@@ -402,6 +408,68 @@ function SettingsApp() {
                       <button className={`seg-btn ${unit === 'F' ? 'active' : ''}`} onClick={() => { setUnit('F'); showToast('Saved'); }}>°F</button>
                       <button className={`seg-btn ${unit === 'C' ? 'active' : ''}`} onClick={() => { setUnit('C'); showToast('Saved'); }}>°C</button>
                     </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          )}
+
+          {activePane === 'bookmarks' && (
+            <div className="pane active">
+              <div className="pane-head">
+                <div className="pane-title">Bookmarks</div>
+                <div className="pane-sub">Customize the look and feel of your bookmarks card.</div>
+              </div>
+
+              <section className="section">
+                <div className="section-head"><div className="section-title">Layout & Pins</div></div>
+                <div className="toggle-row">
+                  <div className="info">
+                    <div className="name">Labels under logos</div>
+                    <div className="hint">Show bookmark titles below the quick-access pins.</div>
+                  </div>
+                  <div className={`toggle ${bmLabels ? 'on' : ''}`} onClick={() => { setBmLabels(!bmLabels); showToast('Saved'); }}></div>
+                </div>
+                <div className="field">
+                  <div className="field-label" style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <span>Quick-access size</span>
+                    <span style={{color: 'var(--text-mute)'}}>{bmCap}</span>
+                  </div>
+                  <div className="field-help">Maximum number of pinned bookmarks to show at the top.</div>
+                  <input type="range" style={{width: '100%', accentColor: 'var(--accent)'}} min={4} max={10} step={1} value={bmCap} onChange={(e) => setBmCap(parseInt(e.target.value, 10))} onMouseUp={() => showToast('Saved')} onTouchEnd={() => showToast('Saved')} />
+                </div>
+              </section>
+
+              <section className="section">
+                <div className="section-head"><div className="section-title">Logos</div></div>
+                <div className="field">
+                  <div className="field-label">Logo shape</div>
+                  <div className="seg-group full">
+                    {[
+                      { id: "squircle", label: "Squircle" },
+                      { id: "circle", label: "Circle" },
+                      { id: "card", label: "Card" },
+                      { id: "oval", label: "Oval" },
+                      { id: "square", label: "Square" }
+                    ].map(s => (
+                      <button key={s.id} className={`seg-btn ${bmShape === s.id ? 'active' : ''}`} onClick={() => { setBmShape(s.id); showToast('Saved'); }}>
+                        {s.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="field">
+                  <div className="field-label">Icon size</div>
+                  <div className="seg-group full">
+                    {[
+                      { id: "small", label: "Small" },
+                      { id: "medium", label: "Medium" },
+                      { id: "large", label: "Large" }
+                    ].map(s => (
+                      <button key={s.id} className={`seg-btn ${bmIconSize === s.id ? 'active' : ''}`} onClick={() => { setBmIconSize(s.id); showToast('Saved'); }}>
+                        {s.label}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </section>
