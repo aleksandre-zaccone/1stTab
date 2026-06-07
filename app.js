@@ -31,6 +31,9 @@ function greetingFor(now, name, templates) {
   const lead = timeOfDay === "night" ? "Still up" : "Good " + timeOfDay;
   return `${lead}, ${safeName}`;
 }
+function renderRail(active, setPrimary) {
+  return /* @__PURE__ */ React.createElement("nav", { className: "side-rail" }, /* @__PURE__ */ React.createElement("a", { href: "newtab.html", className: "rail-brand", title: "1stTab" }, "1"), /* @__PURE__ */ React.createElement("button", { className: "rail-item" + (active === "bookmarks" ? " active" : ""), onClick: () => setPrimary("bookmarks"), title: "Bookmarks" }, /* @__PURE__ */ React.createElement("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("path", { d: "M6 4h12v16l-6-4-6 4z" })), /* @__PURE__ */ React.createElement("span", { className: "rail-lbl" }, "Saved")), /* @__PURE__ */ React.createElement("button", { className: "rail-item" + (active === "reader" ? " active" : ""), onClick: () => setPrimary("reader"), title: "RSS Reader" }, /* @__PURE__ */ React.createElement("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("path", { d: "M5 11a8 8 0 0 1 8 8M5 5a14 14 0 0 1 14 14" }), /* @__PURE__ */ React.createElement("circle", { cx: "6", cy: "18", r: "1.5", fill: "currentColor", stroke: "none" })), /* @__PURE__ */ React.createElement("span", { className: "rail-lbl" }, "Reader")), /* @__PURE__ */ React.createElement("div", { className: "rail-spacer" }), /* @__PURE__ */ React.createElement("a", { href: "settings.html", className: "rail-item", title: "Settings" }, /* @__PURE__ */ React.createElement("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("circle", { cx: "12", cy: "12", r: "3" }), /* @__PURE__ */ React.createElement("path", { d: "M19.4 15a1.6 1.6 0 0 0 .3 1.8M4.6 9a1.6 1.6 0 0 0-.3-1.8M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1" }))));
+}
 function App() {
   const [name, setName] = useState("Friend");
   const [theme, setTheme] = useState("light");
@@ -45,6 +48,11 @@ function App() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchSel, setSearchSel] = useState(0);
   const searchInputRef = useRef(null);
+  const [primaryView, setPrimaryView] = useState("bookmarks");
+  const setPrimary = useCallback((v) => {
+    setPrimaryView(v);
+    window.setStorage("nt.primaryView", v);
+  }, []);
   const [now, setNow] = useState(/* @__PURE__ */ new Date());
   useEffect(() => {
     const i = setInterval(() => setNow(/* @__PURE__ */ new Date()), 1e3);
@@ -56,6 +64,7 @@ function App() {
     window.getStorage(window.STORAGE_KEYS.arcadeGame, "pacman").then(setArcadeGame);
     window.getStorage(window.STORAGE_KEYS.widgets, { left: ["time", "notes"], right: ["weather", "todo"] }).then(setWidgets);
     window.getStorage(window.STORAGE_KEYS.greetings, []).then(setGreetings);
+    window.getStorage("nt.primaryView", "bookmarks").then(setPrimaryView);
   }, []);
   useEffect(() => {
     if (!chrome?.storage?.onChanged) return;
@@ -322,40 +331,43 @@ function App() {
     const [weekday, monthDay] = dateStr.split(", ");
     return /* @__PURE__ */ React.createElement("span", { className: "brand-sub" }, /* @__PURE__ */ React.createElement("b", null, weekday, ", ", monthDay), " \xB7 Week ", weekNum);
   };
-  return /* @__PURE__ */ React.createElement("div", { className: "app" + (focusMode ? " focus-mode" : "") }, focusMode && /* @__PURE__ */ React.createElement("div", { className: "focus-overlay", onClick: () => setFocusMode(false) }, /* @__PURE__ */ React.createElement("div", { className: "focus-time" }, now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })), /* @__PURE__ */ React.createElement("div", { className: "focus-date" }, now.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" })), /* @__PURE__ */ React.createElement("div", { className: "focus-hint" }, "Press ", /* @__PURE__ */ React.createElement("kbd", null, "F"), " or click anywhere to exit")), /* @__PURE__ */ React.createElement("header", { className: "topbar" }, /* @__PURE__ */ React.createElement("div", { className: "brand" }, /* @__PURE__ */ React.createElement("div", { className: "brand-dot" }), /* @__PURE__ */ React.createElement("div", { className: "brand-text" }, /* @__PURE__ */ React.createElement("div", { className: "brand-title" }, greetingFor(now, name, greetings)), formatDate(now))), /* @__PURE__ */ React.createElement("div", { className: "search-wrap" }, /* @__PURE__ */ React.createElement("form", { className: "search", onSubmit: handleSearch }, /* @__PURE__ */ React.createElement(Icon.search, { size: 16, style: { color: "var(--text-mute)" } }), /* @__PURE__ */ React.createElement(
-    "input",
-    {
-      ref: searchInputRef,
-      type: "text",
-      placeholder: "Search bookmarks or the web\u2026",
-      value: searchQ,
-      onChange: (e) => setSearchQ(e.target.value),
-      onKeyDown: onSearchKey,
-      onFocus: () => searchHits.length > 0 && setSearchOpen(true),
-      onBlur: () => setTimeout(() => setSearchOpen(false), 120)
-    }
-  ), /* @__PURE__ */ React.createElement("div", { className: "kbd" }, "\u2318K")), searchOpen && searchHits.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "search-dropdown" }, searchHits.map((h, i) => /* @__PURE__ */ React.createElement(
-    "button",
-    {
-      key: h.id,
-      className: "search-hit" + (i === searchSel ? " active" : ""),
-      onMouseDown: (e) => {
-        e.preventDefault();
-        openHit(h);
-      },
-      onMouseEnter: () => setSearchSel(i)
-    },
-    /* @__PURE__ */ React.createElement("img", { className: "search-hit-fav", src: window.faviconUrl(h.url, 16), alt: "", onError: (e) => {
-      e.target.style.visibility = "hidden";
-    } }),
-    /* @__PURE__ */ React.createElement("div", { className: "search-hit-text" }, /* @__PURE__ */ React.createElement("div", { className: "search-hit-title" }, h.title || h.url), /* @__PURE__ */ React.createElement("div", { className: "search-hit-host" }, (() => {
-      try {
-        return new URL(h.url).hostname;
-      } catch {
-        return h.url;
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, renderRail(primaryView, setPrimary), primaryView === "reader" ? /* @__PURE__ */ React.createElement("div", { className: "app-reader" }, /* @__PURE__ */ React.createElement(window.ReaderApp, null)) : dashboardView());
+  function dashboardView() {
+    return /* @__PURE__ */ React.createElement("div", { className: "app" + (focusMode ? " focus-mode" : "") }, focusMode && /* @__PURE__ */ React.createElement("div", { className: "focus-overlay", onClick: () => setFocusMode(false) }, /* @__PURE__ */ React.createElement("div", { className: "focus-time" }, now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })), /* @__PURE__ */ React.createElement("div", { className: "focus-date" }, now.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" })), /* @__PURE__ */ React.createElement("div", { className: "focus-hint" }, "Press ", /* @__PURE__ */ React.createElement("kbd", null, "F"), " or click anywhere to exit")), /* @__PURE__ */ React.createElement("header", { className: "topbar" }, /* @__PURE__ */ React.createElement("div", { className: "brand" }, /* @__PURE__ */ React.createElement("div", { className: "brand-dot" }), /* @__PURE__ */ React.createElement("div", { className: "brand-text" }, /* @__PURE__ */ React.createElement("div", { className: "brand-title" }, greetingFor(now, name, greetings)), formatDate(now))), /* @__PURE__ */ React.createElement("div", { className: "search-wrap" }, /* @__PURE__ */ React.createElement("form", { className: "search", onSubmit: handleSearch }, /* @__PURE__ */ React.createElement(Icon.search, { size: 16, style: { color: "var(--text-mute)" } }), /* @__PURE__ */ React.createElement(
+      "input",
+      {
+        ref: searchInputRef,
+        type: "text",
+        placeholder: "Search bookmarks or the web\u2026",
+        value: searchQ,
+        onChange: (e) => setSearchQ(e.target.value),
+        onKeyDown: onSearchKey,
+        onFocus: () => searchHits.length > 0 && setSearchOpen(true),
+        onBlur: () => setTimeout(() => setSearchOpen(false), 120)
       }
-    })()))
-  )))), /* @__PURE__ */ React.createElement("div", { className: "topbar-right", style: { display: "flex", gap: 8, justifyContent: "flex-end" } }, /* @__PURE__ */ React.createElement("button", { className: "icon-btn", onClick: toggleTheme, "aria-label": "Toggle theme" }, theme === "dark" ? /* @__PURE__ */ React.createElement(Icon.sun, { size: 20 }) : /* @__PURE__ */ React.createElement(Icon.moon, { size: 20 })), /* @__PURE__ */ React.createElement("a", { href: "manager.html", className: "icon-btn", "aria-label": "Bookmarks" }, /* @__PURE__ */ React.createElement(Icon.folder, { size: 20 })), /* @__PURE__ */ React.createElement("a", { href: "settings.html", className: "icon-btn", "aria-label": "Settings" }, /* @__PURE__ */ React.createElement(Icon.settings, { size: 20 })))), /* @__PURE__ */ React.createElement("div", { className: "quote-subsearch" }, /* @__PURE__ */ React.createElement(window.QuoteWidget, null)), /* @__PURE__ */ React.createElement("main", { className: "main-grid" + (dragState ? " drag-active" : "") }, renderColumn("left"), /* @__PURE__ */ React.createElement("div", { className: "main-col" }, /* @__PURE__ */ React.createElement(window.BookmarksHero, null)), renderColumn("right")), /* @__PURE__ */ React.createElement("footer", { className: "footer" }, /* @__PURE__ */ React.createElement("div", { style: { fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--text-mute)" } }, "Stored locally \xB7 1stTab v1.0.0")));
+    ), /* @__PURE__ */ React.createElement("div", { className: "kbd" }, "\u2318K")), searchOpen && searchHits.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "search-dropdown" }, searchHits.map((h, i) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: h.id,
+        className: "search-hit" + (i === searchSel ? " active" : ""),
+        onMouseDown: (e) => {
+          e.preventDefault();
+          openHit(h);
+        },
+        onMouseEnter: () => setSearchSel(i)
+      },
+      /* @__PURE__ */ React.createElement("img", { className: "search-hit-fav", src: window.faviconUrl(h.url, 16), alt: "", onError: (e) => {
+        e.target.style.visibility = "hidden";
+      } }),
+      /* @__PURE__ */ React.createElement("div", { className: "search-hit-text" }, /* @__PURE__ */ React.createElement("div", { className: "search-hit-title" }, h.title || h.url), /* @__PURE__ */ React.createElement("div", { className: "search-hit-host" }, (() => {
+        try {
+          return new URL(h.url).hostname;
+        } catch {
+          return h.url;
+        }
+      })()))
+    )))), /* @__PURE__ */ React.createElement("div", { className: "topbar-right", style: { display: "flex", gap: 8, justifyContent: "flex-end" } }, /* @__PURE__ */ React.createElement("button", { className: "icon-btn", onClick: toggleTheme, "aria-label": "Toggle theme" }, theme === "dark" ? /* @__PURE__ */ React.createElement(Icon.sun, { size: 20 }) : /* @__PURE__ */ React.createElement(Icon.moon, { size: 20 })), /* @__PURE__ */ React.createElement("a", { href: "manager.html", className: "icon-btn", "aria-label": "Bookmarks" }, /* @__PURE__ */ React.createElement(Icon.folder, { size: 20 })), /* @__PURE__ */ React.createElement("a", { href: "settings.html", className: "icon-btn", "aria-label": "Settings" }, /* @__PURE__ */ React.createElement(Icon.settings, { size: 20 })))), /* @__PURE__ */ React.createElement("div", { className: "quote-subsearch" }, /* @__PURE__ */ React.createElement(window.QuoteWidget, null)), /* @__PURE__ */ React.createElement("main", { className: "main-grid" + (dragState ? " drag-active" : "") }, renderColumn("left"), /* @__PURE__ */ React.createElement("div", { className: "main-col" }, /* @__PURE__ */ React.createElement(window.BookmarksHero, null)), renderColumn("right")), /* @__PURE__ */ React.createElement("footer", { className: "footer" }, /* @__PURE__ */ React.createElement("div", { style: { fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--text-mute)" } }, "Stored locally \xB7 1stTab v1.0.0")));
+  }
 }
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);

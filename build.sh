@@ -19,7 +19,7 @@ files = [
   'manifest.json','newtab.html','manager.html','settings.html','privacy.html','terms.html','manual.html','dashboard.css','tokens.css','favicon.ico',
   'react.min.js','react-dom.min.js','defaults.js',
   'tweaks-panel.js','icons.js','data.js','clocks.js','weather.js','todo.js','notes.js','quote.js',
-  'bookmarks.js','manager.js','app.js','manager-app.js','settings-app.js','panel.js','finance.js',
+  'bookmarks.js','rss-data.js','reader.js','manager.js','app.js','manager-app.js','settings-app.js','panel.js','finance.js',
   'panel.html','panel.css','background.js',
   'theme-bootstrap.js',
   'icons/icon16.png','icons/icon48.png','icons/icon128.png','icons/favicon.png',

@@ -44,6 +44,26 @@ function greetingFor(now, name, templates) {
   return `${lead}, ${safeName}`;
 }
 
+function renderRail(active, setPrimary) {
+  return (
+    <nav className="side-rail">
+      <a href="newtab.html" className="rail-brand" title="1stTab">1</a>
+      <button className={"rail-item" + (active === "bookmarks" ? " active" : "")} onClick={() => setPrimary("bookmarks")} title="Bookmarks">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 4h12v16l-6-4-6 4z"/></svg>
+        <span className="rail-lbl">Saved</span>
+      </button>
+      <button className={"rail-item" + (active === "reader" ? " active" : "")} onClick={() => setPrimary("reader")} title="RSS Reader">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 11a8 8 0 0 1 8 8M5 5a14 14 0 0 1 14 14"/><circle cx="6" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
+        <span className="rail-lbl">Reader</span>
+      </button>
+      <div className="rail-spacer"></div>
+      <a href="settings.html" className="rail-item" title="Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8M4.6 9a1.6 1.6 0 0 0-.3-1.8M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>
+      </a>
+    </nav>
+  );
+}
+
 function App() {
   const [name, setName] = useState('Friend');
   const [theme, setTheme] = useState('light');
@@ -59,6 +79,12 @@ function App() {
   const [searchSel, setSearchSel] = useState(0);
   const searchInputRef = useRef(null);
 
+  const [primaryView, setPrimaryView] = useState("bookmarks");
+  const setPrimary = useCallback((v) => {
+    setPrimaryView(v);
+    window.setStorage("nt.primaryView", v);
+  }, []);
+
   // Custom hook for now
   const [now, setNow] = useState(new Date());
   useEffect(() => {
@@ -73,6 +99,7 @@ function App() {
     window.getStorage(window.STORAGE_KEYS.arcadeGame, 'pacman').then(setArcadeGame);
     window.getStorage(window.STORAGE_KEYS.widgets, { left: ['time', 'notes'], right: ['weather', 'todo'] }).then(setWidgets);
     window.getStorage(window.STORAGE_KEYS.greetings, []).then(setGreetings);
+    window.getStorage("nt.primaryView", "bookmarks").then(setPrimaryView);
   }, []);
 
   // Live updates from storage (custom CSS, greetings, widget layout)
@@ -342,8 +369,20 @@ function App() {
   };
 
   return (
-    <div className={'app' + (focusMode ? ' focus-mode' : '')}>
-      {focusMode && (
+    <>
+      {renderRail(primaryView, setPrimary)}
+      {primaryView === "reader" ? (
+        <div className="app-reader">
+          <window.ReaderApp />
+        </div>
+      ) : dashboardView()}
+    </>
+  );
+
+  function dashboardView() {
+    return (
+      <div className={'app' + (focusMode ? ' focus-mode' : '')}>
+        {focusMode && (
         <div className="focus-overlay" onClick={() => setFocusMode(false)}>
           <div className="focus-time">{now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</div>
           <div className="focus-date">{now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}</div>
@@ -429,7 +468,8 @@ function App() {
         </div>
       </footer>
     </div>
-  );
+    );
+  }
 }
 
 const container = document.getElementById('root');

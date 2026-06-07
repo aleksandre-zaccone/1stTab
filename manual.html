@@ -17,28 +17,55 @@
 <link rel="stylesheet" href="tokens.css">
 <style>
   .container { max-width: 760px; margin: 0 auto; padding: 28px 24px 64px; }
-  article { 
-    background: var(--surface); 
-    border: 1px solid var(--border); 
-    border-radius: var(--radius-card); 
-    padding: 28px 32px; 
+  article {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 28px 32px;
     box-shadow: 0 4px 24px rgba(0,0,0,0.02);
   }
-  h1 { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 24px; }
-  h2 { font-size: 20px; font-weight: 600; margin-top: 36px; margin-bottom: 12px; }
+  h1 { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .version { font-size: 13px; color: var(--text-3); margin-bottom: 28px; }
+  h2 { font-size: 20px; font-weight: 600; margin-top: 44px; margin-bottom: 4px; border-top: 1px solid var(--border); padding-top: 28px; }
+  h3 { font-size: 16px; font-weight: 600; margin-top: 24px; margin-bottom: 10px; }
+  h2:first-of-type { border-top: none; padding-top: 0; margin-top: 24px; }
   p { font-size: 15px; line-height: 1.65; color: var(--text-2); margin-bottom: 14px; }
   ul, ol { font-size: 15px; line-height: 1.65; color: var(--text-2); margin-bottom: 14px; padding-left: 20px; }
-  li { margin-bottom: 8px; }
-  kbd { 
-    font-family: var(--font-mono); 
-    font-size: 12.5px; 
-    background: var(--surface-2); 
-    padding: 2px 6px; 
-    border-radius: 4px; 
+  li { margin-bottom: 7px; }
+  kbd {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    background: var(--surface-2);
+    padding: 2px 6px;
+    border-radius: 4px;
     border: 1px solid var(--border);
   }
+  .badge-plus {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent-text);
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 4px;
+    padding: 1px 6px;
+    vertical-align: middle;
+    margin-left: 6px;
+    letter-spacing: 0.03em;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
+  th { text-align: left; padding: 8px 12px; background: var(--surface-2); border-bottom: 1px solid var(--border); font-weight: 600; color: var(--text-1); }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text-2); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .callout { background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 4px; padding: 12px 16px; margin-bottom: 16px; font-size: 14px; color: var(--text-2); }
+  .toc { margin-bottom: 28px; }
+  .toc ol { margin-bottom: 0; }
+  .toc li { margin-bottom: 4px; }
+  .toc a { color: var(--accent-text); text-decoration: none; font-size: 14px; }
+  .toc a:hover { text-decoration: underline; }
   .top-nav { margin-bottom: 20px; }
   .top-nav a { font-size: 13.5px; color: var(--accent-text); font-weight: 500; }
+  a { color: var(--accent-text); }
 </style>
 </head>
 <body>
@@ -47,61 +74,293 @@
       <a href="newtab.html">← Back to Dashboard</a>
     </nav>
     <article>
-      <h1>1stTab Complete User Manual</h1>
-      <p>Welcome to 1stTab. This comprehensive manual will guide you through all the features, configurations, and powerful tools built into your new-tab dashboard.</p>
-      
-      <h2>1. The Dashboard Basics</h2>
-      <p>1stTab replaces your default Chrome new tab page with a customizable dashboard. It consists of multiple widgets that you can enable, disable, and rearrange.</p>
+      <h1>1stTab User Manual</h1>
+      <p class="version">Version 1.0 &nbsp;·&nbsp; Updated May 2026</p>
+
+      <p>Welcome to 1stTab — a fully-featured new-tab dashboard for Chrome. This manual covers every feature, setting, and keyboard shortcut available in the extension.</p>
+
+      <nav class="toc">
+        <h3>Contents</h3>
+        <ol>
+          <li><a href="#dashboard">The Dashboard</a></li>
+          <li><a href="#shortcuts">Keyboard Shortcuts</a></li>
+          <li><a href="#focus-mode">Focus Mode</a></li>
+          <li><a href="#global-search">Global Search</a></li>
+          <li><a href="#widgets">Dashboard Widgets</a></li>
+          <li><a href="#panel">Side Panel</a></li>
+          <li><a href="#bookmarks-manager">Bookmarks Manager</a></li>
+          <li><a href="#themes">Themes &amp; Appearance</a></li>
+          <li><a href="#settings">Settings Reference</a></li>
+          <li><a href="#plus">1stTab Plus</a></li>
+          <li><a href="#backup">Backup &amp; Sync</a></li>
+          <li><a href="#ai">AI Features</a></li>
+          <li><a href="#limits">Free vs. Plus Limits</a></li>
+          <li><a href="#contact">Support &amp; Contact</a></li>
+        </ol>
+      </nav>
+
+      <!-- 1 -->
+      <h2 id="dashboard">1. The Dashboard</h2>
+      <p>1stTab replaces your default Chrome new-tab page with a two-column widget dashboard. The top bar contains the global search field, a greeting, and navigation icons for Settings, the Bookmarks Manager, and the Side Panel.</p>
       <ul>
-        <li><strong>Arranging Widgets:</strong> Simply drag and drop widgets between the left and right columns to organize your layout.</li>
-        <li><strong>Enabling/Disabling Widgets:</strong> Open the <strong>Settings</strong> menu (via the gear icon) and go to the "Widgets" pane to toggle which widgets appear on your dashboard.</li>
+        <li><strong>Arranging Widgets:</strong> Drag any widget card by its title bar and drop it into the left or right column to reorder your layout. Changes are saved automatically.</li>
+        <li><strong>Enabling / Disabling Widgets:</strong> Open <strong>Settings → Widgets</strong> to toggle individual widgets on or off. Hidden widgets are removed from the layout but your data (notes, todos, etc.) is preserved.</li>
+        <li><strong>Background Image:</strong> Set a custom background image in <strong>Settings → Appearance → Background</strong>. Free users can upload one image; Plus users have unlimited uploads.</li>
       </ul>
 
-      <h2>2. Keyboard Shortcuts</h2>
-      <p>Navigate and command 1stTab quickly using your keyboard:</p>
+      <!-- 2 -->
+      <h2 id="shortcuts">2. Keyboard Shortcuts</h2>
+      <table>
+        <thead>
+          <tr><th>Shortcut</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><kbd>F</kbd></td><td>Toggle Focus Mode (full-screen clock overlay)</td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>K</kbd> or <kbd>⌘K</kbd></td><td>Open Global Search bar</td></tr>
+          <tr><td><kbd>/</kbd></td><td>Focus the bookmark filter on the dashboard</td></tr>
+          <tr><td><kbd>↑</kbd> / <kbd>↓</kbd></td><td>Navigate Global Search results</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>Open highlighted search result</td></tr>
+          <tr><td><kbd>Escape</kbd></td><td>Close Global Search / exit Focus Mode</td></tr>
+          <tr><td><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></td><td>Open the 1stTab Side Panel from any tab</td></tr>
+        </tbody>
+      </table>
+      <p>The full keyboard shortcut list is also visible in <strong>Settings → Keyboard Shortcuts</strong>.</p>
+
+      <!-- 3 -->
+      <h2 id="focus-mode">3. Focus Mode</h2>
+      <p>Press <kbd>F</kbd> on the dashboard to enter Focus Mode. The screen dims and a large clock with today's date fills the center — ideal for Pomodoro breaks or minimizing distractions. Press <kbd>F</kbd> or click anywhere to exit.</p>
+
+      <!-- 4 -->
+      <h2 id="global-search">4. Global Search</h2>
+      <p>Press <kbd>Ctrl</kbd>+<kbd>K</kbd> (or click the search bar in the top nav) to open Global Search. As you type, a dropdown shows matching bookmarks in real time. Use <kbd>↑</kbd>/<kbd>↓</kbd> to highlight a result and <kbd>Enter</kbd> to navigate. Press <kbd>Escape</kbd> or click outside to close.</p>
+
+      <!-- 5 -->
+      <h2 id="widgets">5. Dashboard Widgets</h2>
+      <p>Each widget can be toggled independently in <strong>Settings → Widgets</strong>.</p>
+
+      <h3>Bookmarks</h3>
+      <p>A visual grid of your most important sites. Click any bookmark to navigate. Use the <kbd>/</kbd> shortcut or the filter field at the top to search by title. Add or remove bookmarks directly from the grid using the add (+) button. Bookmarks are read from and written to your Chrome bookmarks.</p>
+
+      <h3>Notes (Scratchpad)</h3>
+      <p>A persistent text area for quick thoughts, links, or snippets. Content is saved automatically as you type to <code>chrome.storage.sync</code> so it's available across your devices. Free users have a 2,000-character limit; Plus users have unlimited storage.</p>
+
+      <h3>To-Do (Today)</h3>
+      <p>A daily task list synced via <code>chrome.storage.sync</code>. Add tasks with the input field, check them off as you complete them, and delete them individually or all at once. Free users can store up to 25 todos; Plus users have unlimited todos.</p>
+
+      <h3>Time &amp; World Clocks</h3>
+      <p>Displays your local time prominently and lets you add world clocks for other time zones. Free users can add up to 3 world clocks; Plus users can add unlimited clocks. Plus users can also choose from three analog clock face styles (see <a href="#themes">Themes</a>).</p>
+
+      <h3>Weather</h3>
+      <p>Shows current conditions, temperature, and a short forecast. Configure your city in <strong>Settings → Weather</strong>. Weather data is fetched from <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a>. No API key is required.</p>
+
+      <h3>Pomodoro Timer</h3>
+      <p>A built-in Pomodoro timer with Work / Short Break / Long Break phases. Start, pause, or reset with the on-widget controls. An audio chime plays at the end of each phase. Configure phase durations in the widget.</p>
+
+      <h3>Cryptocurrency Prices</h3>
+      <p>Shows live prices and 24-hour change for cryptocurrencies you configure. Data is fetched from <a href="https://www.coingecko.com" target="_blank" rel="noopener">CoinGecko</a> and refreshed every 60 seconds. No API key required.</p>
+
+      <h3>Foreign Exchange (FX) Rates</h3>
+      <p>Displays real-time exchange rates for currency pairs you choose, with a configurable base currency. Rates are sourced from <a href="https://open.er-api.com" target="_blank" rel="noopener">ER-API</a> and refreshed hourly. No API key required.</p>
+
+      <h3>Browser History</h3>
+      <p>Shows your most recently visited pages, pulled from Chrome's local history using the <code>chrome.history</code> API. No history data leaves your device. Clear results by clearing your Chrome browsing history.</p>
+
+      <h3>Stock Quotes <span class="badge-plus">Plus</span></h3>
+      <p>Displays live stock prices and change percentages for tickers you configure. Requires a free <a href="https://finnhub.io" target="_blank" rel="noopener">Finnhub</a> API key, which you enter in <strong>Settings → Plus → API Keys</strong>. Quotes refresh every 5 minutes.</p>
+
+      <!-- 6 -->
+      <h2 id="panel">6. Side Panel</h2>
+      <p>Open the Side Panel with <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>, the toolbar button, or the panel icon on the dashboard. The panel stays open while you browse other tabs. Use the detach button to pop the panel into a floating window.</p>
+      <p>The panel has six tabs:</p>
+
+      <h3>Bookmarks</h3>
+      <p>Browse, search, and open your Chrome bookmarks from the panel while on any tab.</p>
+
+      <h3>Calendar <span class="badge-plus">Plus</span></h3>
+      <p>Shows upcoming events from your Google Calendar for today and the next 3 days, grouped by date with color-coded dots. Events refresh every 15 minutes. Requires connecting your Google account in <strong>Settings → Plus → Google</strong>. Use the "+" button to add a new event (opens Google Calendar).</p>
+
+      <h3>Tasks <span class="badge-plus">Plus</span></h3>
+      <p>Displays your Google Tasks inline. Add new tasks with the input at the top, check them off to mark complete, and see overdue tasks highlighted in red. Requires a connected Google account.</p>
+
+      <h3>Tabs</h3>
+      <p>A live list of all open tabs across your browser windows. Search tabs by title or URL, click to switch to any tab, use the mute button to silence audio, or click the close button to close a tab. Recently closed tabs appear at the bottom and can be restored with a click.</p>
+
+      <h3>System Monitor</h3>
+      <p>Displays real-time system information refreshed every 2 seconds:</p>
       <ul>
-        <li><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> — Open the 1stTab Side Panel from anywhere in Chrome.</li>
-        <li><kbd>⌘K</kbd> or <kbd>Ctrl</kbd> + <kbd>K</kbd> — Focus the global search bar on the dashboard.</li>
-        <li><kbd>/</kbd> — Focus the bookmark filter inside the dashboard.</li>
+        <li><strong>CPU:</strong> Current usage percentage (delta from last reading)</li>
+        <li><strong>RAM:</strong> Used vs. available memory with a progress bar</li>
+        <li><strong>Storage:</strong> Disk usage for your system drive</li>
+      </ul>
+      <p>All system data is displayed locally only and is never transmitted.</p>
+
+      <h3>AI Bookmark Assistant</h3>
+      <p>A conversational AI chat interface that uses your bookmarks as context. Ask the AI to find bookmarks, suggest categories, summarize a site, or answer questions. See <a href="#ai">Section 12 — AI Features</a> for setup instructions.</p>
+
+      <!-- 7 -->
+      <h2 id="bookmarks-manager">7. Bookmarks Manager</h2>
+      <p>Click the bookmarks icon in the top-right of the dashboard to open the full Bookmarks Manager in a new tab.</p>
+      <ul>
+        <li><strong>Tree View:</strong> Browse all your Chrome bookmark folders in a collapsible sidebar tree.</li>
+        <li><strong>Drag and Drop:</strong> Drag bookmarks and folders to reorganize your collection.</li>
+        <li><strong>Create &amp; Edit:</strong> Add new folders, edit bookmark titles and URLs, and delete items.</li>
+        <li><strong>Search:</strong> Filter all bookmarks by title or URL in real time.</li>
+        <li><strong>Smart Tags <span class="badge-plus">Plus</span>:</strong> When AI is configured, saving a bookmark automatically suggests 3 tags using AI analysis of the URL and title. Tags help you filter and categorize bookmarks without manual effort.</li>
       </ul>
 
-      <h2>3. Available Widgets</h2>
+      <!-- 8 -->
+      <h2 id="themes">8. Themes &amp; Appearance</h2>
+
+      <h3>Light / Dark</h3>
+      <p>Toggle between Light and Dark themes in <strong>Settings → Appearance → Theme</strong>. The theme applies across the dashboard, side panel, settings, and all extension pages.</p>
+
+      <h3>Arcade Mode</h3>
+      <p>Arcade mode transforms the dashboard with a retro aesthetic. Choose a variant in <strong>Settings → Appearance → Arcade Cabinet</strong>:</p>
       <ul>
-        <li><strong>Bookmarks:</strong> Quick access to your favorite sites. Supports searching and organizing.</li>
-        <li><strong>Notes (Scratchpad):</strong> A handy text area for quick thoughts, links, or reminders. Saved locally automatically.</li>
-        <li><strong>To-Do (Today):</strong> A daily task manager to keep track of what needs doing.</li>
-        <li><strong>Time &amp; World Clocks:</strong> Keep track of different time zones. Plus users get access to premium analog clock faces.</li>
-        <li><strong>Weather:</strong> Local weather updates right on your new tab.</li>
-        <li><strong>Finance &amp; Quotes:</strong> Daily quotes and finance trackers to keep you inspired and informed.</li>
+        <li><strong>Pac-Man</strong> — yellow and blue palette</li>
+        <li><strong>Space Invaders</strong> — green on black terminal style</li>
       </ul>
 
-      <h2>4. Bookmarks Manager</h2>
-      <p>Open the Bookmarks Manager to access advanced tools for organizing your saved links:</p>
+      <h3>Clock Faces <span class="badge-plus">Plus</span></h3>
+      <p>Plus users can select an analog clock face style in <strong>Settings → Appearance → Clock Face</strong>:</p>
       <ul>
-        <li><strong>Tree View:</strong> An intuitive tree structure for navigating folders.</li>
-        <li><strong>Drag and Drop:</strong> Easily move bookmarks and entire folders around to reorganize your collection.</li>
-        <li><strong>Create &amp; Edit:</strong> Add new folders and edit bookmark URLs or titles seamlessly.</li>
+        <li><strong>Minimal</strong> — clean, modern SVG hands</li>
+        <li><strong>Retro</strong> — warm, vintage dial style</li>
+        <li><strong>Pixel</strong> — blocky pixel-art style</li>
       </ul>
 
-      <h2>5. AI Bookmark Assistant</h2>
-      <p>1stTab features an intelligent AI assistant to help you manage and find bookmarks. To enable it:</p>
+      <h3>Background Image</h3>
+      <p>Upload a custom background image in <strong>Settings → Appearance → Background</strong>. The image is stored locally. Free: 1 image. Plus: unlimited.</p>
+
+      <h3>Typography</h3>
+      <p>Adjust the base font size for the dashboard in <strong>Settings → Appearance → Typography</strong>.</p>
+
+      <h3>Custom CSS <span class="badge-plus">Plus</span></h3>
+      <p>Plus users can enter any CSS in <strong>Settings → Plus → Custom CSS</strong>. The CSS is injected as a <code>&lt;style&gt;</code> tag on the dashboard, giving you full control over colors, spacing, fonts, and layout. Changes apply instantly as you type.</p>
+
+      <!-- 9 -->
+      <h2 id="settings">9. Settings Reference</h2>
+      <p>Open Settings with the gear icon (top-right of the dashboard). Settings are organized into panes:</p>
+
+      <table>
+        <thead>
+          <tr><th>Pane</th><th>What you can configure</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>General</strong></td>
+            <td>Your display name, greeting templates (variables: <code>{name}</code>, <code>{day}</code>, <code>{time}</code>), and default search engine</td>
+          </tr>
+          <tr>
+            <td><strong>Appearance</strong></td>
+            <td>Theme (Light / Dark / Arcade), arcade cabinet variant, clock face (Plus), background image, and typography</td>
+          </tr>
+          <tr>
+            <td><strong>Widgets</strong></td>
+            <td>Toggle each widget on or off: Clocks, Weather, To-Do, Notes, Quick Links, Pomodoro, Crypto, FX, History, Stocks</td>
+          </tr>
+          <tr>
+            <td><strong>Weather</strong></td>
+            <td>City / location and units (°C / °F)</td>
+          </tr>
+          <tr>
+            <td><strong>Keyboard Shortcuts</strong></td>
+            <td>Read-only reference for all keyboard shortcuts</td>
+          </tr>
+          <tr>
+            <td><strong>Plus</strong></td>
+            <td>License key activation, Google account connection, AI provider and API keys, Custom CSS editor, Drive backup controls</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 10 -->
+      <h2 id="plus">10. 1stTab Plus</h2>
+      <p>1stTab Plus unlocks premium features. To activate, purchase a license key and enter it in <strong>Settings → Plus → License</strong>.</p>
+
+      <p>Plus features include:</p>
+      <ul>
+        <li>Google Calendar in the Side Panel (today + 3 days)</li>
+        <li>Google Tasks in the Side Panel (inline add, complete, overdue alerts)</li>
+        <li>Google Drive cloud backup (manual + automatic daily)</li>
+        <li>Stock Quotes widget (Finnhub)</li>
+        <li>Analog Clock Face selector (3 styles)</li>
+        <li>Custom CSS editor</li>
+        <li>AI Smart Bookmark Tagging</li>
+        <li>Unlimited world clocks (free: 3)</li>
+        <li>Unlimited todos (free: 25)</li>
+        <li>Unlimited notes (free: 2,000 characters)</li>
+        <li>Unlimited background images (free: 1)</li>
+      </ul>
+
+      <!-- 11 -->
+      <h2 id="backup">11. Backup &amp; Sync</h2>
+
+      <h3>Chrome Sync</h3>
+      <p>Preferences and todos stored in <code>chrome.storage.sync</code> automatically sync across your Chrome devices when you are signed into Chrome with the same Google account.</p>
+
+      <h3>Manual Export / Import</h3>
+      <p>Go to <strong>Settings → Plus → Backup</strong> to export your entire 1stTab configuration as a JSON file. Import a previously exported file to restore settings on a new device or after reinstalling.</p>
+
+      <h3>Google Drive Backup <span class="badge-plus">Plus</span></h3>
+      <p>Connect your Google account in <strong>Settings → Plus → Google</strong> to enable Drive backup. Drive backups are stored in a private app folder that only 1stTab can access.</p>
+      <ul>
+        <li><strong>Backup Now:</strong> Create a backup immediately</li>
+        <li><strong>Auto-Backup:</strong> Enable daily automatic backups (runs once per day via a background alarm)</li>
+        <li><strong>Restore:</strong> Browse the last 5 backups and restore any of them</li>
+        <li><strong>Disconnect:</strong> Removes Drive access and deletes the backup folder</li>
+      </ul>
+
+      <!-- 12 -->
+      <h2 id="ai">12. AI Features</h2>
+      <p>1stTab integrates three optional AI providers. Your API key is stored locally and sent only to the selected provider's API — never to 1stTab servers.</p>
+
+      <h3>Setup</h3>
       <ol>
-        <li>Navigate to the "AI &amp; API Keys" section in Settings.</li>
-        <li>Select your preferred AI provider: OpenAI ChatGPT, Anthropic Claude, or Google Gemini.</li>
-        <li>Enter your personal API key (obtained from your provider's developer platform).</li>
+        <li>Go to <strong>Settings → Plus → AI &amp; API Keys</strong></li>
+        <li>Choose your AI provider: <strong>Anthropic Claude</strong>, <strong>OpenAI</strong>, or <strong>Google Gemini</strong></li>
+        <li>Paste your API key from the respective provider's developer console</li>
+        <li>Optionally select the model (defaults: Claude Haiku, GPT-4o mini, Gemini 1.5 Flash)</li>
       </ol>
-      <p>Once activated, the AI Assistant enables intelligent categorization and conversational chat interactions directly with your bookmarks.</p>
 
-      <h2>6. Themes and Appearance</h2>
-      <p>Personalize your 1stTab experience with themes:</p>
+      <h3>AI Bookmark Assistant (Side Panel)</h3>
+      <p>Open the Side Panel and select the AI tab. The assistant has access to your bookmark titles and URLs as context. Example prompts:</p>
       <ul>
-        <li><strong>Standard Themes:</strong> Switch between clean Light and Dark modes.</li>
-        <li><strong>Arcade Mode:</strong> Turn your dashboard into a retro experience featuring variants like Pac-Man and Space Invaders.</li>
-        <li><strong>Custom CSS:</strong> Plus users have access to unlimited custom CSS to tweak the dashboard exactly to their liking.</li>
+        <li>"Find all my bookmarks related to design tools"</li>
+        <li>"Which of my bookmarks is most likely about machine learning?"</li>
+        <li>"Suggest folders to organize my bookmarks"</li>
       </ul>
+      <p>Chat history is maintained for the current panel session. A "Summarize" action compresses the conversation if it grows long.</p>
 
-      <h2>7. Backup and Sync</h2>
-      <p>Never lose your data. 1stTab allows you to back up your settings and bookmarks. Go to Settings to manually export and import your configuration. Plus users can also link their Google Drive account for automated cloud backups and cross-device sync.</p>
+      <h3>Smart Bookmark Tagging <span class="badge-plus">Plus</span></h3>
+      <p>When you save a bookmark, 1stTab automatically sends the title and URL to your configured AI provider and receives 3 suggested tags. You can accept, edit, or dismiss the suggestions. Tags are stored locally alongside the bookmark.</p>
+
+      <!-- 13 -->
+      <h2 id="limits">13. Free vs. Plus Limits</h2>
+      <table>
+        <thead>
+          <tr><th>Feature</th><th>Free</th><th>Plus</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>World Clocks</td><td>Up to 3</td><td>Unlimited</td></tr>
+          <tr><td>To-Do Items</td><td>Up to 25</td><td>Unlimited</td></tr>
+          <tr><td>Notes (Characters)</td><td>2,000</td><td>Unlimited</td></tr>
+          <tr><td>Background Images</td><td>1</td><td>Unlimited</td></tr>
+          <tr><td>Analog Clock Faces</td><td>—</td><td>3 styles</td></tr>
+          <tr><td>Custom CSS</td><td>—</td><td>Yes</td></tr>
+          <tr><td>Stock Quotes Widget</td><td>—</td><td>Yes (Finnhub key required)</td></tr>
+          <tr><td>Google Calendar Panel</td><td>—</td><td>Yes</td></tr>
+          <tr><td>Google Tasks Panel</td><td>—</td><td>Yes</td></tr>
+          <tr><td>Drive Cloud Backup</td><td>—</td><td>Yes</td></tr>
+          <tr><td>Smart Bookmark Tagging</td><td>—</td><td>Yes (AI key required)</td></tr>
+          <tr><td>AI Bookmark Assistant</td><td>Yes (AI key required)</td><td>Yes (AI key required)</td></tr>
+        </tbody>
+      </table>
+
+      <!-- 14 -->
+      <h2 id="contact">14. Support &amp; Contact</h2>
+      <p>For help, bug reports, or feature requests, contact us at: <strong>aablotia@ablotia.com</strong></p>
+      <p>You can also review our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms of Service</a>.</p>
 
     </article>
   </div>

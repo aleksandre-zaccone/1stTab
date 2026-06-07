@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "1stTab",
-  "description": "1stTab — new-tab dashboard with bookmarks, world clocks, weather, and retro arcade + Material Design themes.",
+  "description": "New-tab dashboard with bookmarks, world clocks, weather, and 8 arcade themes. Beautiful, fast, and local-first.",
   "version": "1.0.0",
   "chrome_url_overrides": {
     "newtab": "newtab.html"
@@ -37,7 +37,7 @@
     "favicon"
   ],
   "oauth2": {
-    "client_id": "254305727394-fitpsr3ajbn00k2saat0e3qptr8t016f.apps.googleusercontent.com",
+    "client_id": "254305727394-vh5b4v4b3ai08b1qn4eb4cuqri9bc6oi.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/drive.appdata",
       "https://www.googleapis.com/auth/calendar.readonly",
@@ -63,7 +63,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["manager.html", "privacy.html", "terms.html", "settings.html"],
+      "resources": ["manager.html", "privacy.html", "terms.html", "manual.html", "settings.html"],
       "matches": ["chrome-extension://*/*"]
     }
   ]

@@ -110,11 +110,19 @@ chrome.runtime.onInstalled.addListener(initMediaTabs);
 const VERIFY_URL = 'https://us-central1-1sttab.cloudfunctions.net/verify';
 
 async function verifyLicense(key) {
+  key = (key || '').trim().toUpperCase();
   // Dev/test bypass — works offline, no server needed
   if (key === '1STTAB-DEV-PLUS') {
     const plusData = { active: true, expiry: null, key, email: 'developer@local', verifiedAt: Date.now() };
     await chrome.storage.local.set({ '1stTab.plus': plusData });
     return { active: true, email: 'developer@local' };
+  }
+
+  // Open-beta code — free Plus for early adopters, no server needed
+  if (key === '1STTAB-BETA-PLUS') {
+    const plusData = { active: true, expiry: null, key, email: 'beta@1sttab.app', verifiedAt: Date.now() };
+    await chrome.storage.local.set({ '1stTab.plus': plusData });
+    return { active: true, email: 'beta@1sttab.app' };
   }
 
   try {
@@ -156,17 +164,27 @@ function getDriveToken(interactive = true) {
   return new Promise((resolve, reject) => {
     chrome.identity.getAuthToken({ interactive, scopes: DRIVE_SCOPES }, token => {
       if (chrome.runtime.lastError) reject(new Error(chrome.runtime.lastError.message));
+      else if (!token) reject(new Error('No auth token returned'));
       else resolve(token);
     });
   });
+}
+
+function removeCachedToken(token) {
+  return new Promise(resolve => chrome.identity.removeCachedAuthToken({ token }, resolve));
 }
 
 async function getConnectedEmail(token) {
   const r = await fetch('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', {
     headers: { Authorization: `Bearer ${token}` },
   });
+  if (!r.ok) {
+    const err = await r.json().catch(() => ({}));
+    throw new Error(err?.error?.message || `userinfo API ${r.status}`);
+  }
   const d = await r.json();
-  return d.email || null;
+  if (!d.email) throw new Error('No email in userinfo response');
+  return d.email;
 }
 
 async function collectAllData() {
@@ -299,21 +317,30 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   }
 
   if (msg.action === 'drive-connect') {
-    getDriveToken(true)
-      .then(async token => {
+    (async () => {
+      let token;
+      try {
+        token = await getDriveToken(true);
         const email = await getConnectedEmail(token);
-        if (email) await chrome.storage.local.set({ '1stTab.driveEmail': email });
-        return { email };
-      })
-      .then(sendResponse)
-      .catch(e => sendResponse({ error: e.message }));
+        await chrome.storage.local.set({ '1stTab.driveEmail': email });
+        sendResponse({ email });
+      } catch (e) {
+        if (token) await removeCachedToken(token);
+        sendResponse({ error: e.message });
+      }
+    })();
     return true;
   }
 
   if (msg.action === 'drive-disconnect') {
-    chrome.identity.clearAllCachedAuthTokens(() => {
-      chrome.storage.local.remove('1stTab.driveEmail', () => sendResponse({ ok: true }));
-    });
+    (async () => {
+      try {
+        const token = await getDriveToken(false).catch(() => null);
+        if (token) await removeCachedToken(token);
+      } catch (_) {}
+      await chrome.storage.local.remove('1stTab.driveEmail');
+      sendResponse({ ok: true });
+    })();
     return true;
   }
 

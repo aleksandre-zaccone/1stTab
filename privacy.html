@@ -17,17 +17,28 @@
 <link rel="stylesheet" href="tokens.css">
 <style>
   .container { max-width: 760px; margin: 0 auto; padding: 28px 24px 64px; }
-  article { 
-    background: var(--surface); 
-    border: 1px solid var(--border); 
-    border-radius: var(--radius-card); 
-    padding: 28px 32px; 
+  article {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 28px 32px;
   }
-  h1 { font-size: 32px; font-weight: 600; margin-bottom: 24px; }
-  h2 { font-size: 18px; font-weight: 600; margin-top: 32px; margin-bottom: 12px; }
+  h1 { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .meta { font-size: 13px; color: var(--text-3); margin-bottom: 28px; }
+  h2 { font-size: 18px; font-weight: 600; margin-top: 36px; margin-bottom: 12px; }
+  h3 { font-size: 15px; font-weight: 600; margin-top: 20px; margin-bottom: 8px; }
   p { font-size: 15px; line-height: 1.65; color: var(--text-2); margin-bottom: 14px; }
+  ul, ol { font-size: 15px; line-height: 1.65; color: var(--text-2); margin-bottom: 14px; padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  code { font-family: var(--font-mono); font-size: 13px; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
+  th { text-align: left; padding: 8px 12px; background: var(--surface-2); border-bottom: 1px solid var(--border); font-weight: 600; color: var(--text-1); }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text-2); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .callout { background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 4px; padding: 12px 16px; margin-bottom: 16px; font-size: 14px; color: var(--text-2); }
   .top-nav { margin-bottom: 20px; }
   .top-nav a { font-size: 13.5px; color: var(--accent-text); font-weight: 500; }
+  a { color: var(--accent-text); }
 </style>
 </head>
 <body>
@@ -37,17 +48,170 @@
     </nav>
     <article>
       <h1>Privacy Policy</h1>
-      <p>Your privacy is paramount. 1stTab is built on the principle of local-first data.</p>
-      
-      <h2>Data Storage</h2>
-      <p>All your notes, todos, and preferences are stored locally within your browser using <code>chrome.storage</code>. 1stTab does not have any central servers and does not track your browsing history.</p>
+      <p class="meta">Effective date: May 27, 2026 &nbsp;·&nbsp; Last updated: May 27, 2026</p>
 
-      <h2>Third-Party Services</h2>
-      <p><b>Weather:</b> If enabled, 1stTab fetches weather data from Open-Meteo. This requires sending your approximate location (city or coordinates) to their API. No personally identifiable information is shared.</p>
-      <p><b>Favicons:</b> 1stTab uses Google's favicon service to display icons for your bookmarks.</p>
+      <div class="callout">
+        <strong>Summary:</strong> 1stTab is built on a local-first principle. All your personal data — notes, todos, bookmarks, and preferences — stays on your device. We do not operate analytics, advertising, or tracking systems of any kind. Where optional features connect to third-party APIs, data leaves your device only when you explicitly enable those features and is used solely to fulfil the request.
+      </div>
 
-      <h2>Sync</h2>
-      <p>If you are signed into Chrome and have sync enabled, your preferences and bookmark metadata may be synced across your devices via Google's sync infrastructure.</p>
+      <h2>1. Who We Are</h2>
+      <p>1stTab is a Chrome browser extension developed and maintained by the 1stTab team. For privacy-related questions, contact us at: <strong>aablotia@ablotia.com</strong>.</p>
+
+      <h2>2. Data Stored Locally on Your Device</h2>
+      <p>The following data is stored exclusively in your browser using Chrome's <code>chrome.storage</code> API and never transmitted to our servers:</p>
+      <ul>
+        <li>Notes and scratchpad content</li>
+        <li>To-do items</li>
+        <li>Dashboard preferences (theme, layout, widget configuration, greeting templates)</li>
+        <li>Bookmarks metadata and custom tags created within 1stTab</li>
+        <li>World clock configurations</li>
+        <li>Weather location preference</li>
+        <li>Your AI provider choice and any API keys you enter (Claude, OpenAI, Gemini, Finnhub)</li>
+        <li>Plus license status</li>
+        <li>Custom CSS</li>
+      </ul>
+      <p>Some preferences use <code>chrome.storage.sync</code>, which means Chrome may replicate this data across your signed-in devices via Google's sync infrastructure — subject to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>. No data is sent to 1stTab servers during this sync.</p>
+
+      <h2>3. Permissions and Why We Need Them</h2>
+      <p>Chrome extensions must declare every capability they use. Here is what each permission allows and why 1stTab requires it:</p>
+
+      <table>
+        <thead>
+          <tr><th>Permission</th><th>What it accesses</th><th>Why it's needed</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>storage</code></td>
+            <td>Local and sync storage</td>
+            <td>Persist your notes, todos, preferences, and settings</td>
+          </tr>
+          <tr>
+            <td><code>bookmarks</code></td>
+            <td>Your Chrome bookmarks</td>
+            <td>Display, search, add, edit, and organize bookmarks on the dashboard</td>
+          </tr>
+          <tr>
+            <td><code>history</code></td>
+            <td>Your recent browsing history titles and URLs</td>
+            <td>Power the optional <em>History</em> widget that shows recently visited pages. Only the most recent results are displayed; no history data is transmitted externally.</td>
+          </tr>
+          <tr>
+            <td><code>tabs</code></td>
+            <td>Open tab titles, URLs, and favicon URLs</td>
+            <td>Power the <em>Tab Manager</em> panel so you can search, switch, mute, and close tabs without leaving the new-tab page</td>
+          </tr>
+          <tr>
+            <td><code>sessions</code></td>
+            <td>Recently closed tab sessions</td>
+            <td>Show recently closed tabs in the Tab Manager panel so you can restore them</td>
+          </tr>
+          <tr>
+            <td><code>tabGroups</code></td>
+            <td>Tab group metadata</td>
+            <td>Display tab groups accurately in the Tab Manager panel</td>
+          </tr>
+          <tr>
+            <td><code>sidePanel</code></td>
+            <td>Chrome Side Panel API</td>
+            <td>Open the 1stTab side panel via keyboard shortcut or toolbar button</td>
+          </tr>
+          <tr>
+            <td><code>identity</code></td>
+            <td>Google OAuth 2.0 flow</td>
+            <td>Authenticate you with Google for optional Plus features: Drive backup, Google Calendar, and Google Tasks. Only requested when you click "Connect Google" in settings. No authentication happens without your explicit action.</td>
+          </tr>
+          <tr>
+            <td><code>alarms</code></td>
+            <td>Background timer scheduling</td>
+            <td>Schedule periodic refreshes for weather, crypto prices, FX rates, stock quotes, and automatic Drive backups</td>
+          </tr>
+          <tr>
+            <td><code>system.cpu</code> / <code>system.memory</code> / <code>system.storage</code></td>
+            <td>CPU usage percentage, RAM usage, and disk storage metrics</td>
+            <td>Power the optional <em>System Monitor</em> panel widget. This data is displayed locally only and never transmitted.</td>
+          </tr>
+          <tr>
+            <td><code>favicon</code></td>
+            <td>Chrome's internal favicon cache</td>
+            <td>Display favicons for bookmarks from Chrome's local cache where available</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>4. Third-Party Services</h2>
+      <p>The following external services are contacted only when the associated feature is enabled. Data is transmitted solely to fulfil the specific request and is not retained by 1stTab servers.</p>
+
+      <h3>4.1 Weather (Open-Meteo)</h3>
+      <p>When the Weather widget is enabled, your approximate location (city name or GPS coordinates) is sent to <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> and <a href="https://open-meteo.com/en/docs/geocoding-api" target="_blank" rel="noopener">Open-Meteo Geocoding</a> to retrieve current weather. Open-Meteo is a free, open-source weather API that does not require account registration and does not sell data. See their <a href="https://open-meteo.com/en/terms" target="_blank" rel="noopener">terms</a>.</p>
+
+      <h3>4.2 Cryptocurrency Prices (CoinGecko)</h3>
+      <p>When the Crypto widget is enabled, 1stTab requests coin prices from the <a href="https://www.coingecko.com" target="_blank" rel="noopener">CoinGecko public API</a>. Only the coin IDs you configure are requested. No personal information is sent.</p>
+
+      <h3>4.3 Foreign Exchange Rates (ER-API)</h3>
+      <p>When the FX widget is enabled, exchange rates are fetched from <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">open.er-api.com</a>. No personal information is sent.</p>
+
+      <h3>4.4 Stock Quotes (Finnhub) — Plus</h3>
+      <p>Plus users who enable the Stocks widget enter their own <a href="https://finnhub.io" target="_blank" rel="noopener">Finnhub</a> API key. Stock symbol requests are made directly from your browser to Finnhub's API using your key. Your Finnhub API key is stored locally and is subject to Finnhub's <a href="https://finnhub.io/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>.</p>
+
+      <h3>4.5 Favicons (Google)</h3>
+      <p>1stTab requests favicon images from Google's favicon service (<code>https://www.google.com/s2/favicons</code>) to display icons next to bookmarks and tabs. The URL of the site whose favicon is requested is sent to Google as part of this request. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+
+      <h3>4.6 Google Account Services — Plus (OAuth)</h3>
+      <p>When you connect your Google account via Plus settings, 1stTab requests the following OAuth scopes. All Google data is rendered locally in your browser and is never stored on 1stTab servers.</p>
+
+      <h4 style="font-size:14px;font-weight:600;margin:16px 0 6px;">Drive App Data (<code>drive.appdata</code>)</h4>
+      <p>1stTab uses the Drive App Data folder to back up and restore your dashboard configuration — themes, bookmarks, widgets, notes, and settings. Data is written only to a private <code>appDataFolder</code> that is invisible to the user and inaccessible to any other app. This lets Plus subscribers sync their setup across devices and recover from data loss. The extension never reads, writes, or lists any file outside this folder.</p>
+
+      <h4 style="font-size:14px;font-weight:600;margin:16px 0 6px;">Calendar Read-Only (<code>calendar.readonly</code>)</h4>
+      <p>1stTab reads your upcoming Google Calendar events to display a glanceable schedule on the new-tab dashboard. Only event title, time, and calendar name are used. The extension never creates, modifies, or deletes calendar entries, and calendar data is not transmitted to any 1stTab server.</p>
+
+      <h4 style="font-size:14px;font-weight:600;margin:16px 0 6px;">Tasks (<code>tasks</code>)</h4>
+      <p>1stTab displays tasks from your default Google Tasks list on the dashboard and lets you add new tasks and mark existing tasks as complete — without opening a separate app. Write access is limited to inserting new tasks and patching the <code>status</code> field to <code>completed</code>. No tasks are deleted, and task data is not stored on 1stTab servers.</p>
+
+      <h4 style="font-size:14px;font-weight:600;margin:16px 0 6px;">Email address (<code>userinfo.email</code>)</h4>
+      <p>Used only to display your connected Google account email address in the Plus settings panel so you can confirm which account is linked. No other profile data is accessed or stored.</p>
+
+      <p>Google API usage is subject to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a> and the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>.</p>
+
+      <h3>4.7 AI Providers (Anthropic Claude, OpenAI, Google Gemini)</h3>
+      <p>The AI Bookmark Assistant and Smart Bookmark Tagging features allow you to choose an AI provider and enter your own API key. When you send a message or request AI-generated tags:</p>
+      <ul>
+        <li>Your typed message is transmitted to the selected provider's API (Anthropic, OpenAI, or Google)</li>
+        <li>A list of your bookmark titles and URLs is included as context so the AI can help you find or categorize them</li>
+        <li>Responses are displayed in your browser only and are not logged by 1stTab</li>
+      </ul>
+      <p>Your API keys are stored locally on your device using <code>chrome.storage.local</code> and are sent only to the respective provider's API endpoint over HTTPS. They are never sent to 1stTab servers. AI usage is subject to each provider's own privacy policy:</p>
+      <ul>
+        <li><a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener">Anthropic Privacy Policy</a></li>
+        <li><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI Privacy Policy</a></li>
+        <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
+      </ul>
+
+      <h3>4.8 License Verification — Plus</h3>
+      <p>When you activate a Plus license key, 1stTab sends the license key to our verification server at <code>us-central1-1sttab.cloudfunctions.net/verify</code> to confirm its validity. Only the license key is transmitted. No account creation or personal information submission is required.</p>
+
+      <h2>5. Data We Do Not Collect</h2>
+      <p>1stTab does not:</p>
+      <ul>
+        <li>Collect analytics, telemetry, crash reports, or usage statistics</li>
+        <li>Use advertising or ad-tracking networks</li>
+        <li>Sell or share your data with third parties for marketing purposes</li>
+        <li>Access, read, or store your full browsing history on any server</li>
+        <li>Intercept or inspect web page content</li>
+        <li>Create user accounts or require registration</li>
+      </ul>
+
+      <h2>6. Children's Privacy</h2>
+      <p>1stTab is not directed at children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us at the email below.</p>
+
+      <h2>7. Data Retention and Deletion</h2>
+      <p>All local data (notes, todos, preferences) is retained until you manually clear it via Settings or uninstall the extension. Uninstalling 1stTab removes all locally stored data. To remove Drive backups, disconnect your Google Drive account in Plus settings, which will delete the app's private backup folder.</p>
+
+      <h2>8. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy when the extension adds new features that affect data handling. The updated date at the top of this document will reflect any changes. Continued use of 1stTab after an update constitutes acceptance of the revised policy.</p>
+
+      <h2>9. Contact</h2>
+      <p>For privacy questions, data concerns, or requests, contact us at: <strong>aablotia@ablotia.com</strong></p>
     </article>
   </div>
 </body>

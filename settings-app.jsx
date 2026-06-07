@@ -1,14 +1,15 @@
 var { useState, useMemo, useEffect, useCallback, useRef } = React;
 
 const PANES = [
-  { id: 'general', label: 'General', keywords: 'profile display name greeting search engine google duckduckgo bing brave', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/></svg> },
-  { id: 'appearance', label: 'Appearance', keywords: 'theme dark light arcade clock face digital analog background wallpaper typography font geist outfit vt323', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"/><circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"/><circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"/><circle cx="6.5" cy="12.5" r="0.5" fill="currentColor"/><path d="M12 2A10 10 0 0 0 2 12c0 5.5 4.5 10 10 10a3 3 0 0 0 3-3v-1a2 2 0 0 1 2-2h1a4 4 0 0 0 4-4 10 10 0 0 0-10-10z"/></svg> },
-  { id: 'widgets', label: 'Widgets', keywords: 'widgets time notes weather todo bookmarks quote toggle', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg> },
-  { id: 'weather', label: 'Weather', keywords: 'weather city units fahrenheit celsius', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19a4.5 4.5 0 1 0 0-9 6 6 0 0 0-11.5 2"/><path d="M3 19h14"/></svg> },
-  { id: 'shortcuts', label: 'Shortcuts', keywords: 'keyboard shortcuts hotkeys cmd ctrl', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg> },
-  { id: 'data', label: 'Data & sync', keywords: 'data sync export import backup chrome bookmarks json google drive', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.7 4 3 9 3s9-1.3 9-3V5"/><path d="M3 11v6c0 1.7 4 3 9 3s9-1.3 9-3v-6"/></svg> },
-  { id: 'advanced', label: 'Advanced', keywords: 'custom css code api key advanced developer', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> },
-  { id: 'plus', label: 'Plus', keywords: 'plus pro upgrade premium subscription license activate', isPlus: true, icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5L18.2 22 12 17.4 5.8 22l2.4-8.1L2 9.4h7.6z"/></svg> },
+  { id: 'general', group: 'General', label: 'General', keywords: 'profile display name greeting search engine google duckduckgo bing brave', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/></svg> },
+  { id: 'appearance', group: 'General', label: 'Appearance', keywords: 'theme dark light arcade clock face digital analog background wallpaper typography font geist outfit vt323', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"/><circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"/><circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"/><circle cx="6.5" cy="12.5" r="0.5" fill="currentColor"/><path d="M12 2A10 10 0 0 0 2 12c0 5.5 4.5 10 10 10a3 3 0 0 0 3-3v-1a2 2 0 0 1 2-2h1a4 4 0 0 0 4-4 10 10 0 0 0-10-10z"/></svg> },
+  { id: 'widgets', group: 'New Tab', label: 'Widgets', keywords: 'widgets time notes weather todo bookmarks quote toggle', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg> },
+  { id: 'weather', group: 'New Tab', label: 'Weather', keywords: 'weather city units fahrenheit celsius', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19a4.5 4.5 0 1 0 0-9 6 6 0 0 0-11.5 2"/><path d="M3 19h14"/></svg> },
+  { id: 'rss', group: 'Reader', label: 'RSS Reader', keywords: 'rss reader feeds articles news view magazine grid list refresh sync mark read', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg> },
+  { id: 'shortcuts', group: 'General', label: 'Shortcuts', keywords: 'keyboard shortcuts hotkeys cmd ctrl', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h12"/></svg> },
+  { id: 'data', group: 'General', label: 'Data & sync', keywords: 'data sync export import backup chrome bookmarks json google drive', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.7 4 3 9 3s9-1.3 9-3V5"/><path d="M3 11v6c0 1.7 4 3 9 3s9-1.3 9-3v-6"/></svg> },
+  { id: 'advanced', group: 'General', label: 'Advanced', keywords: 'custom css code api key advanced developer', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> },
+  { id: 'plus', group: 'Account', label: 'Plus', keywords: 'plus pro upgrade premium subscription license activate', isPlus: true, icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5L18.2 22 12 17.4 5.8 22l2.4-8.1L2 9.4h7.6z"/></svg> },
 ];
 
 function SettingsApp() {
@@ -180,17 +181,22 @@ function SettingsApp() {
             <input placeholder="Search settings…" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
           </label>
           <nav className="nav-list">
-            {filteredPanes.map(p => (
-              <button 
-                key={p.id} 
-                className={`nav-item ${activePane === p.id ? 'active' : ''} ${p.isPlus ? 'nav-plus' : ''}`}
-                onClick={() => { setActivePane(p.id); location.hash = p.id; }}
-              >
-                <span className="nav-icon">{p.icon({})}</span>
-                {p.label}
-                {p.isPlus && <span className="nav-tag">PRO</span>}
-              </button>
-            ))}
+            {["General", "New Tab", "Reader", "Account"].flatMap((g) => 
+              filteredPanes.filter((pp) => (pp.group || "General") === g).length === 0 ? [] : 
+              [<div key={"ng-" + g} className="nav-group-label">{g}</div>].concat(
+                filteredPanes.filter((pp) => (pp.group || "General") === g).map((p) => (
+                  <button 
+                    key={p.id} 
+                    className={`nav-item ${activePane === p.id ? "active" : ""} ${p.isPlus ? "nav-plus" : ""}`}
+                    onClick={() => { setActivePane(p.id); location.hash = p.id; }}
+                  >
+                    <span className="nav-icon">{p.icon({})}</span>
+                    {p.label}
+                    {p.isPlus && <span className="nav-tag">PRO</span>}
+                  </button>
+                ))
+              )
+            )}
           </nav>
           {filteredPanes.length === 0 && <div className="nav-empty">No settings match.</div>}
         </aside>
@@ -402,6 +408,67 @@ function SettingsApp() {
             </div>
           )}
 
+          {activePane === 'rss' && (
+            <div className="pane active">
+              <div className="pane-head">
+                <div className="pane-title">RSS Reader</div>
+                <div className="pane-sub">Feeds and reading preferences for the built-in news reader.</div>
+              </div>
+
+              <div className="rss-soon">
+                <span className="rss-soon-badge">Coming soon</span>
+                <span className="rss-soon-txt">
+                  <b>The Reader is a preview.</b> Browse the sample feeds today — subscriptions and the preferences below unlock in an upcoming release.
+                </span>
+              </div>
+
+              <fieldset className="section rss-disabled" disabled>
+                <div className="section-head">
+                  <div className="section-title">Default layout</div>
+                </div>
+                <div className="field" style={{ margin: 0 }}>
+                  <div className="seg-group full">
+                    {["Magazine", "Grid", "List"].map((l, i) => (
+                      <button key={l} className={`seg-btn ${i === 0 ? "active" : ""}`}>
+                        {l}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset className="section rss-disabled" disabled>
+                <div className="toggle-row">
+                  <div className="info">
+                    <div className="name">Mark articles read on open</div>
+                    <div className="hint">Automatically mark an article as read once you open it.</div>
+                  </div>
+                  <div className="toggle on"></div>
+                </div>
+                <div className="toggle-row">
+                  <div className="info">
+                    <div className="name">Open original links in a new tab</div>
+                    <div className="hint">Open the source article in a background tab.</div>
+                  </div>
+                  <div className="toggle on"></div>
+                </div>
+              </fieldset>
+
+              <fieldset className="section rss-disabled" disabled>
+                <div className="section-head">
+                  <div className="section-title">Refresh interval</div>
+                </div>
+                <div className="field">
+                  <select className="select" style={{ maxWidth: 240 }}>
+                    <option>Every 15 minutes</option>
+                    <option>Every 30 minutes</option>
+                    <option>Every hour</option>
+                  </select>
+                </div>
+              </fieldset>
+            </div>
+          )}
+
           {activePane === 'shortcuts' && (
             <div className="pane active">
               <div className="pane-head">
@@ -503,12 +570,12 @@ function SettingsApp() {
                       className="input" 
                       placeholder="XXXX-XXXX-XXXX-XXXX" 
                       value={licenseKey}
-                      onChange={e => setLicenseKey(e.target.value)}
-                      style={{fontFamily:'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase', maxWidth: 280, background: 'var(--surface)'}} 
+                      onChange={e => setLicenseKey(e.target.value.toUpperCase().trim())}
+                      style={{fontFamily:'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase', maxWidth: 280, background: 'var(--surface)'}}
                     />
                     <button className="btn-gold" onClick={() => {
                       if (licenseKey.length > 5) {
-                        chrome.runtime.sendMessage({ action: 'verify-license', key: licenseKey }, (res) => {
+                        chrome.runtime.sendMessage({ action: 'verify-license', key: licenseKey.trim() }, (res) => {
                           if (res && res.active) {
                             setPlus({ active: true, key: licenseKey, email: res.email, verifiedAt: Date.now() });
                             showToast('Plus activated!');
