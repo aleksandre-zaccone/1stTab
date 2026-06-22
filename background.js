@@ -144,7 +144,7 @@ const DRIVE_SCOPES = [
 ];
 
 const ALL_DASH_KEYS = [
-  'nt.theme', 'nt.arcadeGame', 'nt.unit', 'nt.name', 'nt.searchEngine',
+  'nt.theme', 'nt.arcadeGame', 'nt.unit', 'nt.name',
   'nt.widgets', 'nt.todos', 'nt.zones', 'nt.tab', 'nt.folder',
   'nt.view', 'nt.treeExpanded', 'nt.bookmarkMeta',
   'nt.greetings', 'nt.fontFamily', 'nt.weatherCity', 'nt.clockFace', 'nt.bgId',

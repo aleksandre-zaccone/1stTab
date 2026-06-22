@@ -23,6 +23,7 @@
   ],
   "permissions": [
     "storage",
+    "search",
     "bookmarks",
     "sidePanel",
     "identity",

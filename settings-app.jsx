@@ -1,7 +1,7 @@
 var { useState, useMemo, useEffect, useCallback, useRef } = React;
 
 const PANES = [
-  { id: 'general', label: 'General', keywords: 'profile display name greeting search engine google duckduckgo bing brave', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/></svg> },
+  { id: 'general', label: 'General', keywords: 'profile display name greeting', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/></svg> },
   { id: 'appearance', label: 'Appearance', keywords: 'theme dark light arcade clock face digital analog background wallpaper typography font geist outfit vt323', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"/><circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"/><circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"/><circle cx="6.5" cy="12.5" r="0.5" fill="currentColor"/><path d="M12 2A10 10 0 0 0 2 12c0 5.5 4.5 10 10 10a3 3 0 0 0 3-3v-1a2 2 0 0 1 2-2h1a4 4 0 0 0 4-4 10 10 0 0 0-10-10z"/></svg> },
   { id: 'widgets', label: 'Widgets', keywords: 'widgets time notes weather todo bookmarks quote toggle', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg> },
   { id: 'weather', label: 'Weather', keywords: 'weather city units fahrenheit celsius', icon: (p) => <svg width={p.size||15} height={p.size||15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19a4.5 4.5 0 1 0 0-9 6 6 0 0 0-11.5 2"/><path d="M3 19h14"/></svg> },
@@ -21,7 +21,6 @@ function SettingsApp() {
   const [theme, setTheme] = window.useStorage(window.STORAGE_KEYS.theme, 'light', true);
   const [arcadeGame, setArcadeGame] = window.useStorage(window.STORAGE_KEYS.arcadeGame, 'synthwave', true);
   const [unit, setUnit] = window.useStorage(window.STORAGE_KEYS.unit, 'F', true);
-  const [searchEngine, setSearchEngine] = window.useStorage(window.STORAGE_KEYS.searchEngine, 'google', true);
   const [widgets, setWidgets] = window.useStorage(window.STORAGE_KEYS.widgets, { left: ['time', 'notes'], right: ['weather', 'todo', 'finance'] }, true);
   const [customCSS, setCustomCSS] = window.useStorage(window.STORAGE_KEYS.customCSS, '', false);
   const [plus, setPlus] = window.useStorage(window.STORAGE_KEYS.plus, { active: false }, false);
@@ -200,7 +199,7 @@ function SettingsApp() {
             <div className="pane active">
               <div className="pane-head">
                 <div className="pane-title">General</div>
-                <div className="pane-sub">Your name, greeting templates, and default search engine.</div>
+                <div className="pane-sub">Your name and greeting templates.</div>
               </div>
               <section className="section">
                 <div className="section-head"><div className="section-title">Profile</div></div>
@@ -217,17 +216,6 @@ function SettingsApp() {
                     onChange={e => { setGreetings(e.target.value.split('\n')); showToast('Saved'); }}
                     placeholder="Good morning, {name}!&#10;Ready to conquer {day}?&#10;Hello, {name} — it's {time}."
                   />
-                </div>
-              </section>
-              <section className="section">
-                <div className="section-head"><div class="section-title">Search engine</div></div>
-                <div className="field">
-                  <select className="select" value={searchEngine} onChange={e => { setSearchEngine(e.target.value); showToast('Saved'); }}>
-                    <option value="google">Google</option>
-                    <option value="duckduckgo">DuckDuckGo</option>
-                    <option value="bing">Bing</option>
-                    <option value="brave">Brave</option>
-                  </select>
                 </div>
               </section>
             </div>
