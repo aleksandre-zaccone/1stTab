@@ -232,20 +232,13 @@ function App() {
   };
   const handleSearch = (e) => {
     e.preventDefault();
-    if (!searchQ.trim()) return;
+    const q = searchQ.trim();
+    if (!q) return;
     if (searchOpen && searchHits[searchSel]) {
       openHit(searchHits[searchSel]);
       return;
     }
-    window.getStorage(window.STORAGE_KEYS.searchEngine, "google").then((engine) => {
-      const urls = {
-        google: "https://google.com/search?q=",
-        duckduckgo: "https://duckduckgo.com/?q=",
-        bing: "https://bing.com/search?q=",
-        brave: "https://search.brave.com/search?q="
-      };
-      window.location.href = (urls[engine] || urls.google) + encodeURIComponent(searchQ);
-    });
+    chrome.search.query({ text: q, disposition: "CURRENT_TAB" });
   };
   const onSearchKey = (e) => {
     if (!searchOpen) return;

@@ -254,18 +254,12 @@ function App() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (!searchQ.trim()) return;
+    const q = searchQ.trim();
+    if (!q) return;
     // If a dropdown hit is highlighted, open it instead of web search
     if (searchOpen && searchHits[searchSel]) { openHit(searchHits[searchSel]); return; }
-    window.getStorage(window.STORAGE_KEYS.searchEngine, 'google').then(engine => {
-      const urls = {
-        google: 'https://google.com/search?q=',
-        duckduckgo: 'https://duckduckgo.com/?q=',
-        bing: 'https://bing.com/search?q=',
-        brave: 'https://search.brave.com/search?q='
-      };
-      window.location.href = (urls[engine] || urls.google) + encodeURIComponent(searchQ);
-    });
+    // Route through the user's default search engine (Chrome setting), not a hard-coded URL.
+    chrome.search.query({ text: q, disposition: 'CURRENT_TAB' });
   };
 
   const onSearchKey = (e) => {

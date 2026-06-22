@@ -9,7 +9,6 @@ const STORAGE_KEYS = {
   arcadeGame: 'nt.arcadeGame',
   unit: 'nt.unit',
   name: 'nt.name',
-  searchEngine: 'nt.searchEngine',
   widgets: 'nt.widgets',
   todos: 'nt.todos',
   zones: 'nt.zones',
@@ -48,7 +47,7 @@ const STORAGE_KEYS = {
 };
 
 const SYNC_KEYS = [
-  'nt.theme', 'nt.arcadeGame', 'nt.unit', 'nt.name', 'nt.searchEngine',
+  'nt.theme', 'nt.arcadeGame', 'nt.unit', 'nt.name',
   'nt.widgets', 'nt.todos', 'nt.zones', 'nt.tab', 'nt.folder',
   'nt.view', 'nt.treeExpanded', 'nt.bookmarkMeta',
   'nt.greetings', 'nt.fontFamily', 'nt.weatherCity', 'nt.clockFace', 'nt.bgId',
