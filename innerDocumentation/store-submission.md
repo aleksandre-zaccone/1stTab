@@ -24,4 +24,4 @@ Help users save, organize and retrieve their Chrome bookmarks.
 9. Verify version 2.0.0. A fresh profile starts in Enterprise light / List view; upgrading preserves saved preferences.
 
 ## Required publisher steps
-Host the exact current privacy policy on a stable public URL and enter that URL in the developer dashboard. Capture real extension screenshots. Confirm packaged Chrome toolbar/shortcut behavior, restart handling and native managed-bookmark restrictions. Compare the rejection notice if supplied. No upload or publication has been performed by this implementation.
+The public v2 privacy policy is available at https://1sttab-app.web.app/privacy (verified October 7, 2026). Enter it in the developer dashboard. Capture real extension screenshots. Confirm packaged Chrome toolbar/shortcut behavior, restart handling and native managed-bookmark restrictions. Compare the rejection notice if supplied. Follow [release-automation.md](release-automation.md) to check credentials and submit the reviewed default package. Actual submission and publication status must be verified in the workflow and store dashboard.

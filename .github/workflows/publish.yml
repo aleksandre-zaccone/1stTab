@@ -3,45 +3,51 @@ name: Publish to Chrome Web Store
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag (for example v2.0.0)
+        required: true
+        type: string
+      operation:
+        description: Check access only, or upload and submit for review
+        required: true
+        default: check
+        type: choice
+        options: [check, submit]
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: chrome-web-store
+  cancel-in-progress: false
 
 jobs:
   publish:
+    if: github.event_name == 'workflow_dispatch' || !github.event.release.prerelease
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
 
     steps:
-      - name: Checkout
+      - name: Checkout release tag
         uses: actions/checkout@v4
         with:
+          ref: refs/tags/${{ github.event.release.tag_name || inputs.tag }}
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract Version from Release Tag
-        id: version
-        run: |
-          # Extract the tag name (e.g., "v1.2.3") and remove the leading "v" if it exists
-          TAG_NAME="${{ github.event.release.tag_name }}"
-          NEW_VERSION="${TAG_NAME#v}"
-          
-          # Inject the new version into manifest.json
-          jq ".version = \"$NEW_VERSION\"" manifest.json > tmp.json && mv tmp.json manifest.json
-          
-          # Optional: sync package.json if it exists
-          if [ -f package.json ]; then
-            npm version $NEW_VERSION --no-git-tag-version || true
-          fi
-          
-          echo "new=$NEW_VERSION" >> $GITHUB_OUTPUT
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm install
+      - name: Validate release version and branch
+        run: |
+          node scripts/check-release.mjs "$RELEASE_TAG"
+          git merge-base --is-ancestor HEAD origin/main
 
       - name: Run unit tests
         run: npm test
@@ -49,26 +55,43 @@ jobs:
       - name: Build extension
         run: bash build.sh
 
-      - name: Publish to Chrome Web Store
+      - name: Save verified store package
+        uses: actions/upload-artifact@v4
+        with:
+          name: 1stTab-Chrome-Web-Store-${{ github.event.release.tag_name || inputs.tag }}
+          path: dist/1stTab-bookmarks.zip
+          if-no-files-found: error
+
+      - name: Check Chrome Web Store access
         env:
           EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
           PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
           CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
-        run: |
-          npx chrome-webstore-upload-cli@latest upload \
-            --source dist/1stTab-bookmarks.zip \
-            --publisher-id "$PUBLISHER_ID" \
-            --auto-publish
+        run: node scripts/check-store-access.mjs
 
-      - name: Commit manifest.json version bump back to main
+      - name: Upload and submit to Chrome Web Store
+        if: github.event_name == 'release' || inputs.operation == 'submit'
+        env:
+          EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
+          CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        # No subcommand means upload AND publish. `upload --auto-publish` only uploads.
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout main
-          git pull origin main
-          git add manifest.json package.json package-lock.json || true
-          # The || true prevents failure if there is nothing to commit
-          git commit -m "chore: sync version to ${{ steps.version.outputs.new }} from release [skip ci]" || true
-          git push origin main || true
+          npx --yes chrome-webstore-upload-cli@4.0.2 \
+            --source dist/1stTab-bookmarks.zip \
+            --extension-id "$EXTENSION_ID" \
+            --publisher-id "$PUBLISHER_ID"
+
+      - name: Read submission status
+        if: github.event_name == 'release' || inputs.operation == 'submit'
+        env:
+          EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
+          CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        run: node scripts/check-store-access.mjs
