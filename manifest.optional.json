@@ -36,6 +36,19 @@
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "minimum_chrome_version": "116",
+  "optional_permissions": [
+    "identity"
+  ],
+  "optional_host_permissions": [
+    "https://api.openai.com/*",
+    "https://www.googleapis.com/*"
+  ],
+  "oauth2": {
+    "client_id": "254305727394-fitpsr3ajbn00k2saat0e3qptr8t016f.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/drive.appdata"
+    ]
+  },
   "chrome_url_overrides": {
     "newtab": "manager.html"
   },

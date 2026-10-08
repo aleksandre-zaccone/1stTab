@@ -43,6 +43,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Run unit tests
+        run: npm test
+
       - name: Build extension
         run: bash build.sh
 
@@ -55,7 +58,7 @@ jobs:
           REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
         run: |
           npx chrome-webstore-upload-cli@latest upload \
-            --source 1stTab.zip \
+            --source dist/1stTab-bookmarks.zip \
             --publisher-id "$PUBLISHER_ID" \
             --auto-publish
 

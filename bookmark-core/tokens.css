@@ -1,0 +1,24 @@
+/* Prism: an ink sidebar, luminous canvas, and expressive collection colors. */
+:root {
+ --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+ --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+ --bg:#f4f5fb; --surface:#ffffff; --surface-2:#f0f1f8; --surface-hover:#f7f6ff;
+ --text:#222640; --text-2:#5b607b; --text-mute:#6c728d; --border:#e5e7f1; --border-strong:#c8cbe0;
+ --accent:#6d4aff; --accent-hover:#5937e0; --accent-soft:#eee9ff; --accent-text:#6240d4;
+ --danger:#bd3855; --danger-soft:#fff0f3; --tag:#efebfc; --tag-text:#695098;
+ --shadow:0 4px 20px #27245505; --shadow-hover:0 14px 36px #34306d14;
+ --radius-card:22px; --radius-control:11px; --radius-pill:999px;
+ --veil:rgba(255,255,255,.86); --wash:#ede9ff; --wash-2:#e9f2ff;
+ --sidebar:#1b203c; --sidebar-text:#c5cbe7; --sidebar-muted:#a3accf; --sidebar-line:#424967;
+ --sidebar-hover:#2b3150; --sidebar-selected:linear-gradient(110deg,#7655f8,#5f43ce);
+}
+:root[data-theme="dark"] {
+ --bg:#111525; --surface:#1b2034; --surface-2:#242a42; --surface-hover:#282a48;
+ --text:#edf0ff; --text-2:#c0c6e4; --text-mute:#a2acca; --border:#343b55; --border-strong:#59617e;
+ --accent:#ac98ff; --accent-hover:#c7baff; --accent-soft:#363053; --accent-text:#c2b1ff;
+ --danger:#ffadc1; --danger-soft:#442b3f; --tag:#35314f; --tag-text:#cebfff;
+ --shadow:0 5px 22px #0001; --shadow-hover:0 16px 35px #0004;
+ --veil:rgba(27,32,52,.88); --wash:#25213c; --wash-2:#16273a;
+ --sidebar:#151a2d; --sidebar-text:#c9cfec; --sidebar-muted:#a3accf; --sidebar-line:#424967;
+ --sidebar-hover:#272e47; --sidebar-selected:linear-gradient(110deg,#7655f8,#5f43ce);
+}

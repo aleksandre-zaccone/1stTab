@@ -47,3 +47,6 @@ tmp/
 
 .gemini/
 gha-creds-*.json
+
+# Browser-check screenshots are generated locally
+/tests/*.png
