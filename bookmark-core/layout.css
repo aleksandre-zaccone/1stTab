@@ -1,0 +1,112 @@
+/* Compact workspace: bookmarks take the space, while search remains reachable. */
+:root[data-design] #app{padding:22px 28px}
+:root[data-design] .workspace-shell{grid-template-rows:auto auto auto auto minmax(0,1fr);min-height:calc(100dvh - 44px)}
+:root[data-design] .tree{grid-row:1/6;padding-top:22px}
+:root[data-design] .sidebar-brand{margin-bottom:22px}
+:root[data-design] .tree-divider{margin:14px 9px 10px}
+:root[data-design] .tree>.mobile-close{position:absolute;right:15px;top:24px}
+:root[data-design] .search-row{position:sticky;top:0;z-index:6;background:var(--bg);padding:12px 0;margin:-7px 0 10px;gap:14px}
+:root[data-design] .search-row::before{content:'';position:absolute;inset:-22px 0 0;background:var(--bg);z-index:-1;pointer-events:none}
+:root[data-design] .search-box{height:46px}
+:root[data-design] .settings-button{flex-shrink:0;width:calc(36px * var(--icon-scale));height:calc(36px * var(--icon-scale));background:var(--surface);color:var(--text-2);border:1px solid var(--border);border-radius:9px}
+:root[data-design] .settings-button:hover{background:var(--accent-soft);color:var(--accent-text);border-color:var(--border-strong)}
+:root[data-design] .settings-button svg{width:calc(19px * var(--icon-scale));height:calc(19px * var(--icon-scale))}
+:root[data-design] .workspace-toolbar{margin:15px 0 16px;gap:16px}
+:root[data-design] .workspace-heading h1{margin:0 0 4px;font-size:calc(26px * var(--text-scale));line-height:1.2}
+:root[data-design] .collection-tabs{padding-bottom:8px}
+:root[data-design] .collection-tab{padding:7px 11px}
+:root[data-design] .results.grid{gap:13px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+:root[data-design] .results.grid .bookmark{min-height:0;padding:15px 16px}
+:root[data-design] .grid .bookmark-top{margin-bottom:10px;align-items:center}
+:root[data-design] .grid .bookmark-tile{width:calc(36px * var(--icon-scale));height:calc(36px * var(--icon-scale));font-size:calc(19px * var(--icon-scale))}
+:root[data-design] .grid .card-controls input,:root[data-design] .grid .drag-handle{margin-top:0}
+:root[data-design] .grid .bookmark-note{min-height:0;margin:4px 0 7px;-webkit-line-clamp:1}
+:root[data-design] .grid .bookmark-tags{min-height:0;margin-bottom:9px}
+:root[data-design] .bookmark-tags:empty{display:none}
+:root[data-design] .grid .bookmark-meta{padding-top:8px}
+:root[data-design] .grid .row-actions{margin-top:8px}
+:root[data-design] .results.list{gap:6px}
+:root[data-design] .results.list .bookmark{display:grid;grid-template-columns:max-content minmax(0,1fr) 130px max-content;align-items:center;gap:12px;padding:10px 14px;min-height:0}
+:root[data-design] .results.list .bookmark-top{margin:0;gap:10px;align-items:center}
+:root[data-design] .results.list .bookmark-tile{width:calc(32px * var(--icon-scale));height:calc(32px * var(--icon-scale));font-size:calc(16px * var(--icon-scale))}
+:root[data-design] .results.list .bookmark-body{min-width:0}
+:root[data-design] .results.list .bookmark-note{min-height:0;margin:2px 0;line-height:1.4}
+:root[data-design] .results.list .bookmark-tags{margin:3px 0 0;min-height:0}
+:root[data-design] .results.list .bookmark-meta{display:flex;padding:0;margin:0;border:0;gap:4px}
+:root[data-design] .results.list .row-actions{grid-column:auto;grid-row:auto;align-self:center;margin:0;gap:4px}
+:root[data-density=compact] .results.list .bookmark{padding-block:7px}
+:root[data-density=compact] .results.grid .bookmark{padding:12px 14px;min-height:0}
+:root[data-density=compact] .grid .bookmark-top{margin-bottom:7px}
+:root[data-density=compact] .grid .bookmark-tags{margin-bottom:6px}
+#status.sr-only{margin:0}
+#status.status.error{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:9;margin:0;padding:12px 18px;border:1px solid var(--danger);border-radius:10px;background:var(--danger-soft);box-shadow:var(--shadow);width:max-content;max-width:calc(100vw - 32px);font-size:calc(12px * var(--text-scale))}
+.theme-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+.theme-swatch.enterprise{background:#f3f5f8;border-color:#dce3ec}.enterprise .swatch-sidebar{background:#244a75;border-radius:2px}.enterprise .swatch-cards i{border-color:#dce3ec;border-radius:2px}
+@media(max-width:1250px){:root[data-design] .results.list .bookmark{grid-template-columns:max-content minmax(0,1fr) max-content}:root[data-design] .results.list .bookmark-meta{display:none}}
+@media(max-width:900px){.theme-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){
+ :root[data-design] #app{padding:14px 14px 24px}
+ :root[data-design] .workspace-shell{min-height:0}
+ :root[data-design] .search-row{gap:9px;margin:-7px 0 8px;padding:10px 0}
+ :root[data-design] .search-row::before{top:-14px}
+ :root[data-design] .search-row .wordmark{display:none}
+ :root[data-design] .search-box{height:42px}
+ :root[data-design] .workspace-toolbar{gap:10px;margin:12px 0}
+ :root[data-design] .workspace-heading h1{font-size:calc(24px * var(--text-scale))}
+ :root[data-design] .results.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+ :root[data-design] .results.list .bookmark{padding:9px 10px;gap:9px}
+ :root[data-design] .results.list .bookmark-top{gap:6px}
+ :root[data-design] .tree{padding:20px 13px}
+ :root[data-design] .tree .sidebar-brand{padding-right:32px}
+ .theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:500px){
+ :root[data-design] .results.list .bookmark{grid-template-columns:max-content minmax(0,1fr) max-content;gap:9px}
+ :root[data-design] .results.list .bookmark-top{flex-direction:column;gap:5px}
+ :root[data-design] .results.list .card-controls{order:0;gap:2px}
+ :root[data-design] .results.list .bookmark-tile{width:calc(28px * var(--icon-scale));height:calc(28px * var(--icon-scale))}
+ :root[data-design] .results.list .row-actions{flex-direction:column;gap:3px}
+ :root[data-design] .results.list .bookmark-title{font-size:calc(13px * var(--text-scale))}
+ .settings-dialog .tool-grid{grid-template-columns:1fr}
+}
+/* Selection and drop targets remain visible in every design. */
+:root[data-design] .results .bookmark.selected{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+:root[data-design] .results.grid .bookmark.drop-before{box-shadow:-4px 0 0 var(--accent)}
+:root[data-design] .results.grid .bookmark.drop-after{box-shadow:4px 0 0 var(--accent)}
+:root[data-design] .results.list .bookmark.drop-before{box-shadow:0 -3px 0 var(--accent)}
+:root[data-design] .results.list .bookmark.drop-after{box-shadow:0 3px 0 var(--accent)}
+
+/* A labeled, persistent disclosure shared by cards, lists and the folder tree. */
+:root[data-design] .workspace-tools .filters-toggle{display:inline-flex;gap:7px;min-width:max-content;background:var(--surface);color:var(--text-2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:calc(11px * var(--text-scale))}
+:root[data-design] .workspace-tools .filters-toggle[aria-expanded=true],:root[data-design] .workspace-tools .filters-toggle.has-active-filters{background:var(--accent-soft);color:var(--accent-text);border-color:color-mix(in srgb,var(--accent) 35%,var(--border))}
+.filters-toggle svg{flex-shrink:0}.filter-count{display:inline-grid;place-items:center;min-width:19px;height:19px;border-radius:5px;padding:0 4px;background:var(--accent);color:var(--surface);font-size:calc(10px * var(--text-scale));font-variant-numeric:tabular-nums}
+:root[data-theme=dark] .filter-count{color:var(--bg)}
+/* Keep resize capture outside the tree, whose nodes refresh after edits. */
+@media(min-width:761px){
+ :root[data-design] .workspace-shell{grid-template-columns:clamp(220px,var(--sidebar-width,270px),min(520px,45vw)) minmax(0,1fr)}
+ :root[data-design] .workspace-shell:has(.tree-hidden){grid-template-columns:minmax(0,1fr)}
+ .sidebar-resizer{grid-column:1;grid-row:1/6;position:sticky;top:22px;justify-self:end;align-self:start;width:14px;height:calc(100dvh - 44px);transform:translateX(14px);cursor:col-resize;touch-action:none;z-index:7;border-radius:8px;outline-offset:1px}
+ .sidebar-resizer::after{content:'';position:absolute;top:0;bottom:0;width:3px;left:5px;background:var(--border);border-radius:3px;opacity:.55;transition:opacity .15s,background .15s}
+ .sidebar-resizer:hover::after,.sidebar-resizer:focus-visible::after,.resizing-sidebar .sidebar-resizer::after{background:var(--accent);opacity:1}
+ .tree-hidden .sidebar-resizer{display:none}
+}
+@media(max-width:760px){.sidebar-resizer{display:none}}
+.resizing-sidebar,.resizing-sidebar *{cursor:col-resize!important;user-select:none!important}
+dialog::backdrop{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(20,30,48,.28)}
+/* Shapes apply only to cards. Actions remain inside the visible silhouette. */
+:root[data-grid-shape=square] .results.grid .bookmark{aspect-ratio:1;border-radius:6px;justify-content:center}
+:root[data-grid-shape=rounded] .results.grid .bookmark{aspect-ratio:1;border-radius:32px;justify-content:center}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .results.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(310px * var(--navigation-scale))),1fr))}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .results.grid .bookmark{aspect-ratio:1;border-radius:50%;padding:24px 12%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0;overflow:hidden}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark::before{display:none}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-top{display:flex;flex-direction:column;align-items:center;gap:6px;margin:0 0 4px}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .card-controls{order:0;gap:6px}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-body{width:100%;min-width:0}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.35}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-note{margin:3px 0 5px}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-tags{justify-content:center;flex-wrap:nowrap;overflow:hidden;margin:0 0 5px}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-meta{margin:0;padding:0;border:0;display:flex;align-items:center;justify-content:center;min-height:0;width:100%}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-host{display:none}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .row-actions{margin:6px 0 0;justify-content:center;align-self:center}
+:root[data-grid-shape=sphere] .results.grid .bookmark{background:radial-gradient(circle at 32% 20%,var(--surface) 0%,var(--surface) 32%,color-mix(in srgb,var(--card-spot) 16%,var(--surface)) 75%,color-mix(in srgb,var(--card-spot) 30%,var(--surface)) 100%);box-shadow:inset -8px -12px 22px color-mix(in srgb,var(--card-spot) 12%,transparent),0 6px 16px #1425450a}
+@media(max-width:760px){:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .results.grid .bookmark{padding:20px 10%}}

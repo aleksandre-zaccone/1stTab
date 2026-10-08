@@ -1,3 +1,5 @@
+> Superseded by [bookmark-scope.md](bookmark-scope.md) and [bookmark-product-roadmap.html](bookmark-product-roadmap.html). Retained as historical reference; its general AI features are outside this extension release.
+
 # AI Feature Roadmap for 1stTab
 
 As a Product Owner, I've analyzed the current market landscape for AI Chrome extensions (like Monica, Sider, Harpa, and Merlin) alongside what is technically possible using modern Chrome Extension APIs and multi-modal LLMs.
