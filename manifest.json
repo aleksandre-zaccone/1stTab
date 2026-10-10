@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "1stTab \u2014 Bookmark Manager",
   "description": "Save, organize and find your Chrome bookmarks with folders, tags, notes and safe import/export.",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
