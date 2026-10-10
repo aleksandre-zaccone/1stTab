@@ -2,7 +2,7 @@
 
 Save, organize and find Chrome bookmarks in a full-page library or bookmark-only side panel. This release replaces the old dashboard runtime; historical JSX/dashboard sources remain in the repository and are excluded from the shipping ZIP.
 
-Fresh installations start with the Enterprise light theme and list view. Saved theme, view, sizing and folder preferences are preserved. Both package variants identify as version **2.0.0**.
+Fresh installations start with the Enterprise light theme and list view. Saved theme, view, sizing and folder preferences are preserved. Both package variants identify as version **2.1.0**.
 
 ## Run
 
@@ -31,7 +31,7 @@ See `innerDocumentation/release-verification.md` for results and remaining nativ
 
 ## Optional integrations candidate
 
-Run `npm run build:optional` to build the separate 2.0.0 optional candidate with disabled-by-default OpenAI organization and Google Drive backup. See `innerDocumentation/optional-integrations.md` for consent, data flow and publisher OAuth setup. The default local package requires no account or provider permissions. Live provider/OAuth verification remains necessary before publishing the optional package.
+Run `npm run build:optional` to build the separate 2.1.0 optional candidate with disabled-by-default OpenAI organization and Google Drive backup. See `innerDocumentation/optional-integrations.md` for consent, data flow and publisher OAuth setup. The default local package requires no account or provider permissions. Live provider/OAuth verification remains necessary before publishing the optional package.
 
 ## Design previews and settings checks
 

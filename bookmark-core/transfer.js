@@ -14,17 +14,17 @@ export function parseImport(text) {
 }
 export async function importAdditive(lib,doc,parentId) {
   return lib.serialize(async()=>{
-    const s=await lib.load();lib.destination(s,parentId);await lib.backup('Before importing bookmarks');
-    let added=0; const items={...s.metadata}; const container=await lib.api.bookmarks.create({parentId,title:`Imported ${new Date().toLocaleDateString()}`});
+    const s=await lib.load();const target=lib.destination(s,parentId);await lib.backup('Before importing bookmarks');
+    let added=0; const items={...s.metadata};
     async function insert(n,p){const v=await lib.api.bookmarks.create({parentId:p,title:n.title,...(n.url?{url:n.url}:{})});added++;
       if(n.url)items[v.id]=normalizeMeta(n.metadata);else for(const child of n.children)await insert(child,v.id);}
     let failure;
-    try{for(const n of doc.folders)await insert(n,container.id)}catch(e){failure=e}
+    try{for(const n of doc.folders)await insert(n,parentId)}catch(e){failure=e}
     // Keep metadata for every bookmark Chrome accepted, even if a later item failed.
     try{await lib.api.storage.local.set({'bookmarks.metadata.v1':{version:1,items}})}catch(e){
       throw Error(`Import stopped after ${added} items. Bookmark metadata could not be saved. Keep the source export for recovery; the pre-import snapshot is retained. ${e.message}`);
     }
-    if(failure)throw Error(`Import stopped after ${added} items. Partial import is in “${container.title}”; tags and notes for imported items are retained. Existing bookmarks are unchanged. ${failure.message}`);
+    if(failure)throw Error(`Import stopped after ${added} items. Items added before the failure remain in “${target.title||'Untitled folder'}”; tags and notes for imported items are retained. Existing bookmarks are unchanged. ${failure.message}`);
     return added;
   });
 }
