@@ -1,7 +1,7 @@
 /* Compact workspace: bookmarks take the space, while search remains reachable. */
 :root[data-design] #app{padding:22px 28px}
-:root[data-design] .workspace-shell{grid-template-rows:auto auto auto auto minmax(0,1fr);min-height:calc(100dvh - 44px)}
-:root[data-design] .tree{grid-row:1/6;padding-top:22px}
+:root[data-design] .workspace-shell{grid-template-rows:auto auto auto minmax(0,1fr);min-height:calc(100dvh - 44px)}
+:root[data-design] .tree{grid-row:1/5;padding-top:22px}
 :root[data-design] .sidebar-brand{margin-bottom:22px}
 :root[data-design] .tree-divider{margin:14px 9px 10px}
 :root[data-design] .tree>.mobile-close{position:absolute;right:15px;top:24px}
@@ -13,12 +13,13 @@
 :root[data-design] .settings-button svg{width:calc(19px * var(--icon-scale));height:calc(19px * var(--icon-scale))}
 :root[data-design] .workspace-toolbar{margin:15px 0 16px;gap:16px}
 :root[data-design] .workspace-heading h1{margin:0 0 4px;font-size:calc(26px * var(--text-scale));line-height:1.2}
-:root[data-design] .collection-tabs{padding-bottom:8px}
-:root[data-design] .collection-tab{padding:7px 11px}
+:root[data-design] .workspace-toolbar{grid-row:2}
+:root[data-design] .filter-tray{grid-row:3}
+:root[data-design] .bookmark-workspace{grid-row:4}
 :root[data-design] .results.grid{gap:13px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 :root[data-design] .results.grid .bookmark{min-height:0;padding:15px 16px}
 :root[data-design] .grid .bookmark-top{margin-bottom:10px;align-items:center}
-:root[data-design] .grid .bookmark-tile{width:calc(36px * var(--icon-scale));height:calc(36px * var(--icon-scale));font-size:calc(19px * var(--icon-scale))}
+:root[data-design] .grid .bookmark-tile{width:64px;height:64px;font-size:calc(32px * var(--icon-scale))}
 :root[data-design] .grid .card-controls input,:root[data-design] .grid .drag-handle{margin-top:0}
 :root[data-design] .grid .bookmark-note{min-height:0;margin:4px 0 7px;-webkit-line-clamp:1}
 :root[data-design] .grid .bookmark-tags{min-height:0;margin-bottom:9px}
@@ -85,7 +86,7 @@
 @media(min-width:761px){
  :root[data-design] .workspace-shell{grid-template-columns:clamp(220px,var(--sidebar-width,270px),min(520px,45vw)) minmax(0,1fr)}
  :root[data-design] .workspace-shell:has(.tree-hidden){grid-template-columns:minmax(0,1fr)}
- .sidebar-resizer{grid-column:1;grid-row:1/6;position:sticky;top:22px;justify-self:end;align-self:start;width:14px;height:calc(100dvh - 44px);transform:translateX(14px);cursor:col-resize;touch-action:none;z-index:7;border-radius:8px;outline-offset:1px}
+ .sidebar-resizer{grid-column:1;grid-row:1/5;position:sticky;top:22px;justify-self:end;align-self:start;width:14px;height:calc(100dvh - 44px);transform:translateX(14px);cursor:col-resize;touch-action:none;z-index:7;border-radius:8px;outline-offset:1px}
  .sidebar-resizer::after{content:'';position:absolute;top:0;bottom:0;width:3px;left:5px;background:var(--border);border-radius:3px;opacity:.55;transition:opacity .15s,background .15s}
  .sidebar-resizer:hover::after,.sidebar-resizer:focus-visible::after,.resizing-sidebar .sidebar-resizer::after{background:var(--accent);opacity:1}
  .tree-hidden .sidebar-resizer{display:none}
@@ -96,17 +97,19 @@ dialog::backdrop{backdrop-filter:none!important;-webkit-backdrop-filter:none!imp
 /* Shapes apply only to cards. Actions remain inside the visible silhouette. */
 :root[data-grid-shape=square] .results.grid .bookmark{aspect-ratio:1;border-radius:6px;justify-content:center}
 :root[data-grid-shape=rounded] .results.grid .bookmark{aspect-ratio:1;border-radius:32px;justify-content:center}
-:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .results.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(310px * var(--navigation-scale))),1fr))}
-:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .results.grid .bookmark{aspect-ratio:1;border-radius:50%;padding:24px 12%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0;overflow:hidden}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .results.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr))}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .results.grid .bookmark{width:min(100%,160px);aspect-ratio:1;justify-self:center;border-radius:50%;padding:12px;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto auto;align-content:stretch;justify-items:center;align-items:center;gap:4px;text-align:center;overflow:hidden}
 :root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark::before{display:none}
-:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-top{display:flex;flex-direction:column;align-items:center;gap:6px;margin:0 0 4px}
-:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .card-controls{order:0;gap:6px}
-:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-body{width:100%;min-width:0}
-:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.35}
-:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-note{margin:3px 0 5px}
-:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-tags{justify-content:center;flex-wrap:nowrap;overflow:hidden;margin:0 0 5px}
-:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-meta{margin:0;padding:0;border:0;display:flex;align-items:center;justify-content:center;min-height:0;width:100%}
-:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-host{display:none}
-:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .row-actions{margin:6px 0 0;justify-content:center;align-self:center}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-body{grid-column:1;grid-row:2;width:100%;min-width:0}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;white-space:normal;font-size:calc(13px * var(--text-scale));line-height:1.25}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid :is(.bookmark-note,.bookmark-tags,.bookmark-meta,.row-actions),:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .card-controls>:not(.favorite){display:none}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-top{display:contents}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .bookmark-tile{grid-column:1;grid-row:1;width:100%;height:100%;min-height:0;font-size:calc(36px * var(--icon-scale));border-radius:0;background:transparent;border:0;box-shadow:none;margin:0}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .card-controls{grid-column:1;grid-row:3;order:0;gap:0;justify-content:center}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .favorite{width:calc(24px * var(--icon-scale));height:calc(24px * var(--icon-scale));padding:3px}
+:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .grid .favorite svg{width:calc(14px * var(--icon-scale));height:calc(14px * var(--icon-scale))}
 :root[data-grid-shape=sphere] .results.grid .bookmark{background:radial-gradient(circle at 32% 20%,var(--surface) 0%,var(--surface) 32%,color-mix(in srgb,var(--card-spot) 16%,var(--surface)) 75%,color-mix(in srgb,var(--card-spot) 30%,var(--surface)) 100%);box-shadow:inset -8px -12px 22px color-mix(in srgb,var(--card-spot) 12%,transparent),0 6px 16px #1425450a}
-@media(max-width:760px){:root:is([data-grid-shape=circle],[data-grid-shape=sphere]) .results.grid .bookmark{padding:20px 10%}}
+
+/* Cards show 64px icons; list icons fit their compact tiles. */
+.bookmark-tile{position:relative}
+.bookmark-favicon{position:absolute;top:50%;left:50%;display:block;width:min(100%,64px);height:min(100%,64px);transform:translate(-50%,-50%);object-fit:contain}

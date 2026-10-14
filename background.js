@@ -1,3 +1,13 @@
+import {initializeBookmarks} from './bookmark-core/initial-bookmarks.js';
+
+chrome.runtime.onInstalled.addListener(async details=>{
+  if(details.reason!=='install')return;
+  try{await initializeBookmarks(chrome,fetch,true)}catch(e){console.error('Unable to initialize bookmarks:',e.message)}
+});
+chrome.runtime.onStartup.addListener(async()=>{
+  try{await initializeBookmarks(chrome)}catch(e){console.error('Unable to finish initializing bookmarks:',e.message)}
+});
+
 chrome.action.onClicked.addListener(async tab => {
   try {
     if (tab.url && /^(https?|ftp):/.test(tab.url)) {
