@@ -2,7 +2,7 @@
 
 Save, organize and find Chrome bookmarks in a full-page library or bookmark-only side panel. This release replaces the old dashboard runtime; historical JSX/dashboard sources remain in the repository and are excluded from the shipping ZIP.
 
-Fresh installations start with the Enterprise light theme and list view. Saved theme, view, sizing and folder preferences are preserved. Both package variants identify as version **2.1.0**.
+Fresh installations start with the Enterprise light theme and Favorites in grid view. The initial_bookmarks.json file supplies 12 starter favorites on first install; existing bookmarks are preserved and duplicate URLs are skipped. Updates do not seed the starter list again. Saved theme, sizing and folder preferences are preserved. Both package variants identify as version **2.1.1**.
 
 ## Run
 
@@ -31,14 +31,14 @@ See `innerDocumentation/release-verification.md` for results and remaining nativ
 
 ## Optional integrations candidate
 
-Run `npm run build:optional` to build the separate 2.1.0 optional candidate with disabled-by-default OpenAI organization and Google Drive backup. See `innerDocumentation/optional-integrations.md` for consent, data flow and publisher OAuth setup. The default local package requires no account or provider permissions. Live provider/OAuth verification remains necessary before publishing the optional package.
+Run `npm run build:optional` to build the separate 2.1.1 optional candidate with disabled-by-default OpenAI organization and Google Drive backup. See `innerDocumentation/optional-integrations.md` for consent, data flow and publisher OAuth setup. The default local package requires no account or provider permissions. Live provider/OAuth verification remains necessary before publishing the optional package.
 
 ## Design previews and settings checks
 
-`python3 scripts/preview-workspace.py` bundles the real UI with sample bookmarks into `innerDocumentation/workspace-preview.html`. Use `--design atelier` (or studio/pop) with an output path for another preset. Preview appearance settings persist per page; sample bookmark changes remain temporary. These previews never use your Chrome bookmark library.
+`python3 scripts/preview-workspace.py` bundles the real UI with the 12 first-install starter favorites into `innerDocumentation/workspace-preview.html`. Use `--design atelier` (or studio/pop) with an output path for another preset. Preview appearance settings persist per page; preview bookmark changes remain temporary. These previews never use your Chrome bookmark library.
 
 Run `node tests/preferences.test.js` for preference bounds/defaults and `node tests/settings-browser.mjs` for themes, scaling, saved settings, system mode, responsive layout and reset. Native extension checks also verify cross-page updates and persistence after browser restart. Run `python3 scripts/build-design-styles.py` after editing design-styles.json to regenerate scoped themes.
 
-The interactive design previews contain 40 sample bookmarks across 21 folders/subfolders and 43 tags, including Design, Build, Work, Research, Inspiration and Learning. These samples are excluded from the packaged extension and never seed your actual Chrome bookmarks.
+The generated workspace preview clears mock test bookmarks and runs the real first-install initializer with initial_bookmarks.json. Older design-direction previews still contain the separate 40-bookmark test fixture; those samples are excluded from the packaged extension.
 
 Settings now opens as a full page. Resize the folder sidebar by dragging its right edge; choose Rectangle, Square, Rounded, Circle or Sphere in Settings → Card shapes. Read the included `manual.html` guide and `terms.html` product terms from Settings. Dialog backgrounds are dimmed without blur.

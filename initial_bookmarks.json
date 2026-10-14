@@ -1,0 +1,144 @@
+{
+  "format": "1stTab-bookmarks",
+  "version": 1,
+  "exportedAt": "2026-10-09T12:00:00.000Z",
+  "folders": [
+    {
+      "title": "1stTab",
+      "children": [
+        {
+          "title": "Google",
+          "url": "https://www.google.com/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        },
+        {
+          "title": "Gmail",
+          "url": "https://mail.google.com/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        },
+        {
+          "title": "Google Drive",
+          "url": "https://drive.google.com/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        },
+        {
+          "title": "Claude",
+          "url": "https://claude.ai/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        },
+        {
+          "title": "ChatGPT",
+          "url": "https://chatgpt.com/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        },
+        {
+          "title": "Gemini",
+          "url": "https://gemini.google.com/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        },
+        {
+          "title": "1stTab website",
+          "url": "https://1sttab-app.web.app/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        },
+        {
+          "title": "YouTube",
+          "url": "https://www.youtube.com/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        },
+        {
+          "title": "YouTube Music",
+          "url": "https://music.youtube.com/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        },
+        {
+          "title": "Google Calendar",
+          "url": "https://calendar.google.com/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        },
+        {
+          "title": "DuckDuckGo",
+          "url": "https://duckduckgo.com/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        },
+        {
+          "title": "Brave",
+          "url": "https://brave.com/",
+          "metadata": {
+            "tags": [],
+            "note": "",
+            "pinned": true,
+            "color": "",
+            "initial": ""
+          }
+        }
+      ]
+    }
+  ]
+}
