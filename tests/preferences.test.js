@@ -25,6 +25,7 @@ assert.equal(normalize().gridShape,'rectangle');
 assert.equal(normalize({gridShape:'invalid'}).gridShape,'rectangle');
 for(const gridShape of ['rectangle','square','rounded','circle','sphere'])assert.equal(normalize({gridShape}).gridShape,gridShape);
 
-assert.equal(normalize().view,'list');
+assert.equal(normalize().view,'grid');
+assert.equal(normalize({view:'list'}).view,'list');
 assert.equal(normalize({design:'pop',view:'grid'}).design,'pop');
 assert.equal(normalize({design:'pop',view:'grid'}).view,'grid');

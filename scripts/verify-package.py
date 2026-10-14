@@ -10,7 +10,10 @@ class Assets(HTMLParser):
   if t in ('script','link'):self.refs.append(d.get('src') or d.get('href'))
 with zipfile.ZipFile(root/('dist/1stTab-bookmarks-optional.zip' if optional else 'dist/1stTab-bookmarks.zip')) as z:
  names=set(z.namelist());m=json.loads(z.read('manifest.json'))
- assert set(m['permissions'])=={'bookmarks','storage','sidePanel','activeTab'}
+ assert 'initial_bookmarks.json' in names
+ for icon in (root/'icons/sites').glob('*'):
+  if icon.suffix in ['.png','.svg','.ico','.webp']:assert str(icon.relative_to(root)) in names,f'Missing bundled icon: {icon.name}'
+ assert set(m['permissions'])=={'bookmarks','storage','sidePanel','activeTab','favicon'}
  assert m['chrome_url_overrides']=={'newtab':'manager.html'}
  assert 'host_permissions' not in m
  if optional:

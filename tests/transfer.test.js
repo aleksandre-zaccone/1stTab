@@ -18,3 +18,12 @@ test('metadata write failure preserves the source recovery instruction',async()=
  const set=api.storage.local.set;api.storage.local.set=async value=>{if(value[META_KEY])throw Error('quota');return set(value)};
  await assert.rejects(importAdditive(lib,doc,'other'),/Keep the source export for recovery/);assert.ok(api.local['bookmarks.lastBackup.v1']);
 });
+test('imports land directly in the chosen destination folder without a wrapper',async()=>{
+ const api=mockChrome(),lib=new BookmarkLibrary(api);await lib.migrate();
+ const doc=parseImport(JSON.stringify({format:'1stTab-bookmarks',version:1,folders:[{title:'Search',children:[{title:'Google',url:'https://www.google.com/',metadata:{tags:['search'],note:'Default',pinned:true}}]},{title:'Loose link',url:'https://loose.example'}]}));
+ assert.equal(await importAdditive(lib,doc,'folder'),3);
+ const state=await lib.load(),work=state.nodes.get('folder');
+ assert.deepEqual(work.children.map(n=>n.title),['Other','Search','Loose link']);
+ assert.ok(!state.folders.some(f=>/^Imported /.test(f.title)));
+ const google=state.bookmarks.find(b=>b.url==='https://www.google.com/');assert.equal(state.nodes.get(google.parentId).parentId,'folder');assert.equal(state.metadata[google.id].note,'Default');
+});

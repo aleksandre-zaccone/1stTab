@@ -1,0 +1,16 @@
+{
+  "description": "Official site icons downloaded for starter bookmarks; trademarks remain with their respective owners. ChatGPT uses its available favicon because larger downloads are blocked.",
+  "sources": {
+    "google.png": "https://www.google.com/images/branding/googleg/2x/googleg_standard_color_128dp.png",
+    "gmail.png": "https://www.gstatic.com/images/branding/product/2x/gmail_2020q4_48dp.png",
+    "drive.png": "https://www.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png",
+    "calendar.png": "https://www.gstatic.com/images/branding/product/2x/calendar_2020q4_48dp.png",
+    "claude.svg": "https://claude.ai/favicon.svg",
+    "gemini.png": "https://www.gstatic.com/lamda/images/gemini_sparkle_4g_512_lt_f94943af3be039176192d.png",
+    "1sttab.png": "https://1sttab-app.web.app/assets/icon128.png",
+    "youtube.png": "https://www.youtube.com/s/desktop/eae06bf0/img/favicon_144x144.png",
+    "youtube-music.png": "https://music.youtube.com/img/favicon_144.png",
+    "duckduckgo.png": "https://duckduckgo.com/assets/icons/meta/DDG-icon_256x256.png",
+    "brave.png": "https://brave.com/static-assets/images/cropped-brave_appicon_release-192x192.png"
+  }
+}
