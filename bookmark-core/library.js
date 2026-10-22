@@ -95,7 +95,7 @@ export class BookmarkLibrary {
     });
   }
   async backup(reason) {
-    const s = await this.load(); const snapshot = { version: 1, createdAt: new Date().toISOString(), reason, tree: s.tree, metadata: s.metadata };
+    const s = await this.load(); const snapshot = { version: 1, createdAt: new Date().toISOString(), reason, tree: s.tree, metadata: s.metadata, preferences: (await this.api.storage.local.get('bookmarks.preferences.v1'))['bookmarks.preferences.v1']||{} };
     // Failure to save backup aborts the subsequent destructive operation.
     await this.api.storage.local.set({ 'bookmarks.lastBackup.v1': snapshot }); return snapshot;
   }

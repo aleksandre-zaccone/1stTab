@@ -1,0 +1,881 @@
+{
+  "m_language": {
+    "message": "Language"
+  },
+  "m_automatic_browser_language": {
+    "message": "Automatic — browser language"
+  },
+  "m_appearance": {
+    "message": "Appearance"
+  },
+  "m_settings": {
+    "message": "Settings"
+  },
+  "m_settings_1sttab": {
+    "message": "Settings · 1stTab"
+  },
+  "m_settings_sections": {
+    "message": "Settings sections"
+  },
+  "m_back_to_library": {
+    "message": "Back to library"
+  },
+  "m_your_workspace_your_way": {
+    "message": "Your workspace, your way."
+  },
+  "m_make_this_space_feel_like_yours_changes_save_automatically_on_this_device": {
+    "message": "Make this space feel like yours. Changes save automatically on this device."
+  },
+  "m_all_bookmarks": {
+    "message": "All bookmarks"
+  },
+  "m_all_collections": {
+    "message": "All collections"
+  },
+  "m_favorites": {
+    "message": "Favorites"
+  },
+  "m_favorite": {
+    "message": "Favorite"
+  },
+  "m_collection": {
+    "message": "Collection"
+  },
+  "m_collections": {
+    "message": "Collections"
+  },
+  "m_add_bookmark": {
+    "message": "Add bookmark"
+  },
+  "m_new_collection": {
+    "message": "New collection"
+  },
+  "m_new_folder": {
+    "message": "New folder"
+  },
+  "m_edit_bookmark": {
+    "message": "Edit bookmark"
+  },
+  "m_save_bookmark": {
+    "message": "Save bookmark"
+  },
+  "m_edit_folder": {
+    "message": "Edit folder"
+  },
+  "m_save_folder": {
+    "message": "Save folder"
+  },
+  "m_title": {
+    "message": "Title"
+  },
+  "m_url": {
+    "message": "URL"
+  },
+  "m_folder": {
+    "message": "Folder"
+  },
+  "m_folder_name": {
+    "message": "Folder name"
+  },
+  "m_parent_folder": {
+    "message": "Parent folder"
+  },
+  "m_destination": {
+    "message": "Destination"
+  },
+  "m_destination_folder": {
+    "message": "Destination folder"
+  },
+  "m_tags_separated_by_commas": {
+    "message": "Tags, separated by commas"
+  },
+  "m_note_about_this_bookmark": {
+    "message": "Note about this bookmark"
+  },
+  "m_save": {
+    "message": "Save"
+  },
+  "m_cancel": {
+    "message": "Cancel"
+  },
+  "m_edit": {
+    "message": "Edit"
+  },
+  "m_delete": {
+    "message": "Delete"
+  },
+  "m_close": {
+    "message": "Close"
+  },
+  "m_clear": {
+    "message": "Clear"
+  },
+  "m_add_favorite": {
+    "message": "Add favorite"
+  },
+  "m_remove_favorite": {
+    "message": "Remove favorite"
+  },
+  "m_toggle_favorite": {
+    "message": "Toggle favorite"
+  },
+  "m_show_filters": {
+    "message": "Show filters"
+  },
+  "m_hide_filters": {
+    "message": "Hide filters"
+  },
+  "m_no_active_filters": {
+    "message": "No active filters."
+  },
+  "m_filter_folder": {
+    "message": "Filter folder"
+  },
+  "m_filter_by_tag": {
+    "message": "Filter by tag"
+  },
+  "m_filter_by_domain": {
+    "message": "Filter by domain"
+  },
+  "m_tag": {
+    "message": "Tag"
+  },
+  "m_domain": {
+    "message": "Domain"
+  },
+  "m_reset_filters": {
+    "message": "Reset filters"
+  },
+  "m_bookmark_filters": {
+    "message": "Bookmark filters"
+  },
+  "m_search_bookmarks": {
+    "message": "Search bookmarks"
+  },
+  "m_find_a_bookmark_idea_or_saved_place": {
+    "message": "Find a bookmark, idea, or saved place…"
+  },
+  "m_light_dark": {
+    "message": "Light / dark"
+  },
+  "m_light": {
+    "message": "Light"
+  },
+  "m_dark": {
+    "message": "Dark"
+  },
+  "m_follow_system": {
+    "message": "Follow system"
+  },
+  "m_color_mode": {
+    "message": "Color mode"
+  },
+  "m_design_theme": {
+    "message": "Design theme"
+  },
+  "m_violet_ink": {
+    "message": "Violet & ink"
+  },
+  "m_warm_editorial": {
+    "message": "Warm & editorial"
+  },
+  "m_clean_precise": {
+    "message": "Clean & precise"
+  },
+  "m_playful_graphic": {
+    "message": "Playful & graphic"
+  },
+  "m_focused_professional": {
+    "message": "Focused & professional"
+  },
+  "m_text_icons": {
+    "message": "Text & icons"
+  },
+  "m_text_size": {
+    "message": "Text size"
+  },
+  "m_icon_size": {
+    "message": "Icon size"
+  },
+  "m_make_titles_labels_and_notes_easier_to_read": {
+    "message": "Make titles, labels and notes easier to read."
+  },
+  "m_enlarge_bookmark_icons_and_action_controls": {
+    "message": "Enlarge bookmark icons and action controls."
+  },
+  "m_a_clearer_view_of_your_library": {
+    "message": "A clearer view of your library"
+  },
+  "m_your_changes_appear_immediately": {
+    "message": "Your changes appear immediately."
+  },
+  "m_preview": {
+    "message": "Preview"
+  },
+  "m_workspace": {
+    "message": "Workspace"
+  },
+  "m_bookmark_view": {
+    "message": "Bookmark view"
+  },
+  "m_cards": {
+    "message": "Cards"
+  },
+  "m_list": {
+    "message": "List"
+  },
+  "m_list_view": {
+    "message": "List view"
+  },
+  "m_grid_view": {
+    "message": "Grid view"
+  },
+  "m_default_sort": {
+    "message": "Default sort"
+  },
+  "m_sort_bookmarks": {
+    "message": "Sort bookmarks"
+  },
+  "m_manual_order": {
+    "message": "Manual order"
+  },
+  "m_name_a_z": {
+    "message": "Name A–Z"
+  },
+  "m_newest_first": {
+    "message": "Newest first"
+  },
+  "m_spacing": {
+    "message": "Spacing"
+  },
+  "m_comfortable": {
+    "message": "Comfortable"
+  },
+  "m_compact": {
+    "message": "Compact"
+  },
+  "m_show_bookmark_notes": {
+    "message": "Show bookmark notes"
+  },
+  "m_display_the_note_beneath_each_bookmark_title": {
+    "message": "Display the note beneath each bookmark title."
+  },
+  "m_reduce_motion": {
+    "message": "Reduce motion"
+  },
+  "m_keep_the_interface_still_when_hovering_and_switching_views": {
+    "message": "Keep the interface still when hovering and switching views."
+  },
+  "m_card_shape": {
+    "message": "Card shape"
+  },
+  "m_card_shapes": {
+    "message": "Card shapes"
+  },
+  "m_rectangle": {
+    "message": "Rectangle"
+  },
+  "m_square": {
+    "message": "Square"
+  },
+  "m_rounded": {
+    "message": "Rounded"
+  },
+  "m_circle": {
+    "message": "Circle"
+  },
+  "m_sphere": {
+    "message": "Sphere"
+  },
+  "m_choose_the_silhouette_of_your_bookmark_cards_list_view_stays_compact": {
+    "message": "Choose the silhouette of your bookmark cards. List view stays compact."
+  },
+  "m_preview_in_card_view": {
+    "message": "Preview in card view"
+  },
+  "m_reset_appearance": {
+    "message": "Reset appearance"
+  },
+  "m_library_tools": {
+    "message": "Library tools"
+  },
+  "m_your_bookmarks_follow_chrome_s_sync_settings_tags_and_notes_stay_on_this_device": {
+    "message": "Your bookmarks follow Chrome’s sync settings. Tags and notes stay on this device."
+  },
+  "m_export_library": {
+    "message": "Export library"
+  },
+  "m_import": {
+    "message": "Import"
+  },
+  "m_undo_last_edit": {
+    "message": "Undo last edit"
+  },
+  "m_clean_duplicates": {
+    "message": "Clean duplicates"
+  },
+  "m_user_guide": {
+    "message": "User guide ↗"
+  },
+  "m_terms_conditions": {
+    "message": "Terms & conditions ↗"
+  },
+  "m_privacy": {
+    "message": "Privacy ↗"
+  },
+  "m_bookmark_saved": {
+    "message": "Bookmark saved."
+  },
+  "m_collection_saved": {
+    "message": "Collection saved."
+  },
+  "m_library_ready": {
+    "message": "Library ready."
+  },
+  "m_loading_library": {
+    "message": "Loading library…"
+  },
+  "m_last_supported_operation_undone": {
+    "message": "Last supported operation undone."
+  },
+  "m_bookmark_order_updated_undo_available": {
+    "message": "Bookmark order updated. Undo available."
+  },
+  "m_nothing_here_yet": {
+    "message": "Nothing here yet"
+  },
+  "m_a_home_for_your_next_discovery": {
+    "message": "A home for your next discovery"
+  },
+  "m_try_another_collection_or_clear_your_filters_you_can_also_drag_bookmarks_into_an_empty_collection": {
+    "message": "Try another collection or clear your filters. You can also drag bookmarks into an empty collection."
+  },
+  "m_save_your_first_bookmark_or_import_your_existing_library": {
+    "message": "Save your first bookmark or import your existing library."
+  },
+  "m_untitled": {
+    "message": "Untitled"
+  },
+  "m_untitled_collection": {
+    "message": "Untitled collection"
+  },
+  "m_untitled_folder": {
+    "message": "Untitled folder"
+  },
+  "m_close_collections": {
+    "message": "Close collections"
+  },
+  "m_close_collections_drawer": {
+    "message": "Close collections drawer"
+  },
+  "m_bookmark_folders": {
+    "message": "Bookmark folders"
+  },
+  "m_saved_bookmarks": {
+    "message": "Saved bookmarks"
+  },
+  "m_show_more": {
+    "message": "Show more"
+  },
+  "m_installed_version": {
+    "message": "Installed version"
+  },
+  "m_managed_bookmark": {
+    "message": "Managed bookmark"
+  },
+  "m_drag_to_move_or_sort": {
+    "message": "Drag to move or sort"
+  },
+  "m_resize_folder_sidebar": {
+    "message": "Resize folder sidebar"
+  },
+  "m_drag_to_resize_arrow_keys_to_adjust_double_click_to_reset": {
+    "message": "Drag to resize · Arrow keys to adjust · Double-click to reset"
+  },
+  "m_move_selected": {
+    "message": "Move selected"
+  },
+  "m_delete_selected": {
+    "message": "Delete selected"
+  },
+  "m_tag_selected": {
+    "message": "Tag selected"
+  },
+  "m_tag_bookmarks": {
+    "message": "Tag bookmarks"
+  },
+  "m_add_tags": {
+    "message": "Add tags"
+  },
+  "m_adds_these_tags_to_every_selected_bookmark_existing_tags_and_notes_are_preserved": {
+    "message": "Adds these tags to every selected bookmark. Existing tags and notes are preserved."
+  },
+  "m_enter_at_least_one_tag": {
+    "message": "Enter at least one tag."
+  },
+  "m_select_bookmarks_to_move": {
+    "message": "Select bookmarks to move."
+  },
+  "m_select_items_to_delete": {
+    "message": "Select items to delete."
+  },
+  "m_select_items_to_review": {
+    "message": "Select items to review."
+  },
+  "m_move_items": {
+    "message": "Move items"
+  },
+  "m_move_bookmarks": {
+    "message": "Move bookmarks"
+  },
+  "m_delete_items": {
+    "message": "Delete items"
+  },
+  "m_confirm_move": {
+    "message": "Confirm move"
+  },
+  "m_confirm_delete": {
+    "message": "Confirm delete"
+  },
+  "m_a_local_snapshot_will_be_saved_before_moving_these_items": {
+    "message": "A local snapshot will be saved before moving these items."
+  },
+  "m_folders_include_their_contents_a_local_recovery_snapshot_will_be_saved_first": {
+    "message": "Folders include their contents. A local recovery snapshot will be saved first."
+  },
+  "m_items_moved_recovery_snapshot_retained": {
+    "message": "Items moved. Recovery snapshot retained."
+  },
+  "m_deleted_recovery_snapshot_retained": {
+    "message": "Deleted. Recovery snapshot retained."
+  },
+  "m_these_bookmarks_are_already_in_this_collection": {
+    "message": "These bookmarks are already in this collection."
+  },
+  "m_review_duplicate_links": {
+    "message": "Review duplicate links"
+  },
+  "m_review_selected_deletions": {
+    "message": "Review selected deletions"
+  },
+  "m_import_bookmarks": {
+    "message": "Import bookmarks"
+  },
+  "m_confirm_import": {
+    "message": "Confirm import"
+  },
+  "m_top_level_folders": {
+    "message": "Top-level folders: "
+  },
+  "m_adds_the_imported_folders_and_bookmarks_directly_to_the_destination_folder_existing_bookmarks_will_not_be_overwritten_a_local_snapshot_is_saved_first": {
+    "message": "Adds the imported folders and bookmarks directly to the destination folder. Existing bookmarks will not be overwritten. A local snapshot is saved first."
+  },
+  "m_also_restore_appearance_and_view_preferences": {
+    "message": "Also restore appearance and view preferences"
+  },
+  "m_restores_theme_design_sizes_card_shape_sidebar_width_spacing_note_visibility_motion_view_sort_and_filter_visibility_browser_specific_folder_selections_stay_local": {
+    "message": "Restores theme, design, sizes, card shape, sidebar width, spacing, note visibility, motion, view, sort and filter visibility. Browser-specific folder selections stay local."
+  },
+  "m_backup_google_drive": {
+    "message": "Backup & Google Drive"
+  },
+  "m_connect_google_drive": {
+    "message": "Connect Google Drive"
+  },
+  "m_disconnect": {
+    "message": "Disconnect"
+  },
+  "m_connected": {
+    "message": "Connected"
+  },
+  "m_not_connected": {
+    "message": "Not connected"
+  },
+  "m_connecting": {
+    "message": "Connecting…"
+  },
+  "m_checking_connection": {
+    "message": "Checking connection…"
+  },
+  "m_reconnect_required": {
+    "message": "Reconnect required"
+  },
+  "m_connect_your_google_account_to_back_up_to_drive": {
+    "message": "Connect your Google account to back up to Drive."
+  },
+  "m_back_up_now": {
+    "message": "Back up now"
+  },
+  "m_review_google_drive_backup": {
+    "message": "Review Google Drive backup"
+  },
+  "m_backing_up_to_google_drive": {
+    "message": "Backing up to Google Drive…"
+  },
+  "m_google_drive_backup_saved": {
+    "message": "Google Drive backup saved."
+  },
+  "m_google_drive_disconnected_your_saved_backups_remain_in_drive": {
+    "message": "Google Drive disconnected. Your saved backups remain in Drive."
+  },
+  "m_google_receives_a_bookmark_export_including_urls_tags_notes_favorites_and_portable_preferences_only_when_you_choose_back_up_now_backups_are_stored_privately_in_google_drive_restore_adds_bookmarks_after_your_review": {
+    "message": "Google receives a bookmark export including URLs, tags, notes, favorites and portable preferences only when you choose Back up now. Backups are stored privately in Google Drive. Restore adds bookmarks after your review."
+  },
+  "m_an_upload_may_have_completed_review_google_drive_backup_before_uploading_again": {
+    "message": "An upload may have completed. Review Google Drive backup before uploading again."
+  },
+  "m_no_successful_backup_yet": {
+    "message": "No successful backup yet"
+  },
+  "m_google_drive_snapshots": {
+    "message": "Google Drive snapshots"
+  },
+  "m_saved_google_drive_snapshots": {
+    "message": "Saved Google Drive snapshots"
+  },
+  "m_snapshot": {
+    "message": "Snapshot"
+  },
+  "m_bookmark_snapshot": {
+    "message": "Bookmark snapshot"
+  },
+  "m_restore": {
+    "message": "Restore"
+  },
+  "m_select_a_snapshot_first": {
+    "message": "Select a snapshot first."
+  },
+  "m_delete_this_cloud_backup": {
+    "message": "Delete this cloud backup?"
+  },
+  "m_confirm_cloud_deletion": {
+    "message": "Confirm cloud deletion"
+  },
+  "m_cloud_backup_deleted": {
+    "message": "Cloud backup deleted."
+  },
+  "m_select_one_snapshot_then_choose_restore_or_delete_restore_shows_a_preview_before_changing_your_library": {
+    "message": "Select one snapshot, then choose Restore or Delete. Restore shows a preview before changing your library."
+  },
+  "m_no_backups_found": {
+    "message": "No backups found."
+  },
+  "m_older_snapshot_counts_available_in_the_restore_preview": {
+    "message": "Older snapshot — counts available in the restore preview."
+  },
+  "m_date_unavailable": {
+    "message": "Date unavailable"
+  },
+  "m_last_backup_date": {
+    "message": "Last backup: {date}"
+  },
+  "m_move_count_item_s": {
+    "message": "Move {count} item(s)"
+  },
+  "m_delete_count_item_s": {
+    "message": "Delete {count} item(s)?"
+  },
+  "m_import_bookmarks_bookmarks_and_folders_folders": {
+    "message": "Import {bookmarks} bookmarks and {folders} folders"
+  },
+  "m_duplicates_duplicate_urls_differences_metadata_differences_duplicates_will_be_added_as_separate_bookmarks_existing_notes_and_tags_are_preserved": {
+    "message": "{duplicates} duplicate URLs; {differences} metadata differences. Duplicates will be added as separate bookmarks; existing notes and tags are preserved."
+  },
+  "m_imported_count_items": {
+    "message": "Imported {count} items."
+  },
+  "m_duplicates_exact_url_duplicate_groups_folders_empty_folders_no_automatic_deletion": {
+    "message": "{duplicates} exact-URL duplicate groups; {folders} empty folders. No automatic deletion."
+  },
+  "m_empty_folder_title": {
+    "message": "Empty folder: {title}"
+  },
+  "m_count_active_filters_hiding_the_controls_keeps_filters_applied": {
+    "message": "{count} active filters. Hiding the controls keeps filters applied."
+  },
+  "m_count_pixels": {
+    "message": "{count} pixels"
+  },
+  "m_moved_count_bookmarks_to_title_undo_available": {
+    "message": "Moved {count} bookmarks to {title}. Undo available."
+  },
+  "m_collapse_title": {
+    "message": "Collapse {title}"
+  },
+  "m_expand_title": {
+    "message": "Expand {title}"
+  },
+  "m_title_folder": {
+    "message": "{title}, folder"
+  },
+  "m_add_collection_in_title": {
+    "message": "Add collection in {title}"
+  },
+  "m_edit_folder_title": {
+    "message": "Edit folder {title}"
+  },
+  "m_delete_folder_title": {
+    "message": "Delete folder {title}"
+  },
+  "m_tag_count_bookmarks": {
+    "message": "Tag {count} bookmarks"
+  },
+  "m_tags_added_to_count_bookmarks_undo_available": {
+    "message": "Tags added to {count} bookmarks. Undo available."
+  },
+  "m_count_bookmarks_folders_collections": {
+    "message": "{count} bookmarks · {folders} collections"
+  },
+  "m_count_saved_places": {
+    "message": "{count} saved places"
+  },
+  "m_count_selected": {
+    "message": "{count} selected"
+  },
+  "m_select_title": {
+    "message": "Select {title}"
+  },
+  "m_title_bookmark": {
+    "message": "{title} bookmark"
+  },
+  "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort": {
+    "message": "Dragging {count} bookmarks · Drop on a collection to move, or between bookmarks in the same folder to sort."
+  },
+  "m_show_more_count_remaining": {
+    "message": "Show more ({count} remaining)"
+  },
+  "m_bookmarks_bookmarks_folders_folders_favorites_favorites_notes_with_notes_tagged_with_tags_preferences_preferences": {
+    "message": "{bookmarks} bookmarks · {folders} folders · {favorites} favorites · {notes} with notes · {tagged} with tags · Preferences {preferences}"
+  },
+  "m_included": {
+    "message": "included"
+  },
+  "m_not_included": {
+    "message": "not included"
+  },
+  "m_format_version": {
+    "message": "Format {version}"
+  },
+  "m_count_kb": {
+    "message": "{count} KB"
+  },
+  "m_saved_automatically_on_this_device": {
+    "message": "Saved automatically on this device"
+  },
+  "m_1sttab_bookmark_manager": {
+    "message": "1stTab bookmark manager"
+  },
+  "m_1sttab_bookmark_manager_version_version": {
+    "message": "1stTab bookmark manager, version {version}"
+  },
+  "m_1sttab_bookmarks": {
+    "message": "1stTab Bookmarks"
+  },
+  "m_research_work": {
+    "message": "research, work"
+  },
+  "m_research_ideas": {
+    "message": "research, ideas"
+  },
+  "extension_name": {
+    "message": "1stTab — Bookmark Manager"
+  },
+  "m_save_organize_and_find_your_chrome_bookmarks_with_folders_tags_notes_and_safe_import_export": {
+    "message": "Save, organize and find your Chrome bookmarks with folders, tags, notes and safe import/export."
+  },
+  "m_open_1sttab_side_panel": {
+    "message": "Open 1stTab side panel"
+  },
+  "m_save_this_page_to_1sttab": {
+    "message": "Save this page to 1stTab"
+  },
+  "m_import_is_limited_to_20_mb": {
+    "message": "Import is limited to 20 MB."
+  },
+  "m_use_an_http_https_or_ftp_url": {
+    "message": "Use an http, https, or ftp URL."
+  },
+  "m_notes_and_tags_belong_to_a_bookmark": {
+    "message": "Notes and tags belong to a bookmark."
+  },
+  "m_this_item_no_longer_exists_refresh_and_try_again": {
+    "message": "This item no longer exists. Refresh and try again."
+  },
+  "m_chrome_root_and_managed_folders_cannot_be_edited": {
+    "message": "Chrome root and managed folders cannot be edited."
+  },
+  "m_choose_a_writable_bookmark_folder": {
+    "message": "Choose a writable bookmark folder."
+  },
+  "m_a_folder_cannot_become_a_bookmark": {
+    "message": "A folder cannot become a bookmark."
+  },
+  "m_a_folder_cannot_move_inside_itself": {
+    "message": "A folder cannot move inside itself."
+  },
+  "m_choose_a_bookmark_to_sort_beside": {
+    "message": "Choose a bookmark to sort beside."
+  },
+  "m_sort_bookmarks_in_the_same_folder_drop_onto_a_folder_to_move_them": {
+    "message": "Sort bookmarks in the same folder. Drop onto a folder to move them."
+  },
+  "m_choose_a_version_1_or_2_1sttab_bookmark_export": {
+    "message": "Choose a version 1 or 2 1stTab bookmark export."
+  },
+  "m_import_is_too_large_or_deeply_nested": {
+    "message": "Import is too large or deeply nested."
+  },
+  "m_invalid_item_title": {
+    "message": "Invalid item title."
+  },
+  "m_invalid_folder": {
+    "message": "Invalid folder."
+  },
+  "m_invalid_backup_preferences": {
+    "message": "Invalid backup preferences."
+  },
+  "m_the_library_changed_preview_the_restore_again_before_importing": {
+    "message": "The library changed. Preview the restore again before importing."
+  },
+  "m_no_supported_operation_is_available_to_undo": {
+    "message": "No supported operation is available to undo."
+  },
+  "m_the_library_changed_after_this_operation_undo_stopped_to_avoid_overwriting_other_edits_use_snapshot_import_for_recovery": {
+    "message": "The library changed after this operation. Undo stopped to avoid overwriting other edits. Use snapshot import for recovery."
+  },
+  "m_chrome_root_structure_changed": {
+    "message": "Chrome root structure changed."
+  },
+  "m_restored_bookmark_order_is_incomplete": {
+    "message": "Restored bookmark order is incomplete."
+  },
+  "m_undo_stopped_partway_through_pre_undo_snapshot_retained": {
+    "message": "Undo stopped partway through. Pre-undo snapshot retained. "
+  },
+  "m_another_google_drive_operation_is_running_try_again_when_it_finishes": {
+    "message": "Another Google Drive operation is running. Try again when it finishes."
+  },
+  "m_connect_google_drive_first": {
+    "message": "Connect Google Drive first."
+  },
+  "m_connect_or_reconnect_google_drive_first": {
+    "message": "Connect or reconnect Google Drive first."
+  },
+  "m_google_drive_could_not_be_reached_check_your_connection_and_try_again": {
+    "message": "Google Drive could not be reached. Check your connection and try again."
+  },
+  "m_google_account_changed_disconnect_and_reconnect_before_continuing": {
+    "message": "Google account changed. Disconnect and reconnect before continuing."
+  },
+  "m_google_account_changed_reconnect": {
+    "message": "Google account changed. Reconnect."
+  },
+  "m_could_not_verify_the_google_drive_account_reconnect_before_continuing": {
+    "message": "Could not verify the Google Drive account. Reconnect before continuing."
+  },
+  "m_cloud_backup_access_was_declined_local_export_remains_available": {
+    "message": "Cloud backup access was declined. Local export remains available."
+  },
+  "m_google_connection_changed_refresh_backup_history_and_preview_again": {
+    "message": "Google connection changed. Refresh backup history and preview again."
+  },
+  "m_refresh_backup_history_and_preview_again": {
+    "message": "Refresh backup history and preview again."
+  },
+  "m_backup_completion_is_unknown_refresh_backup_history_before_uploading_again_the_backup_may_already_exist": {
+    "message": "Backup completion is unknown. Refresh backup history before uploading again; the backup may already exist. "
+  },
+  "m_google_drive_returned_invalid_backup_history": {
+    "message": "Google Drive returned invalid backup history."
+  },
+  "m_backup_history_is_too_large_or_incomplete_try_again_later": {
+    "message": "Backup history is too large or incomplete. Try again later."
+  },
+  "m_invalid_backup_id": {
+    "message": "Invalid backup ID."
+  },
+  "m_reconnect_google_drive_authorization_expired": {
+    "message": "Reconnect Google Drive. Authorization expired."
+  },
+  "m_google_drive_denied_access_check_consent_and_storage_quota_then_try_again": {
+    "message": "Google Drive denied access. Check consent and storage quota, then try again."
+  },
+  "m_google_drive_rate_limit_reached_try_again_later": {
+    "message": "Google Drive rate limit reached. Try again later."
+  },
+  "m_this_backup_no_longer_exists_refresh_backup_history": {
+    "message": "This backup no longer exists. Refresh backup history."
+  },
+  "m_google_drive_request_failed_status_try_again_later": {
+    "message": "Google Drive request failed ({status}). Try again later."
+  },
+  "m_reconnect_google_drive": {
+    "message": "Reconnect Google Drive. "
+  },
+  "m_chrome_could_not_authorize_google_drive_verify_the_publisher_oauth_client_and_consent_configuration": {
+    "message": "Chrome could not authorize Google Drive. Verify the publisher OAuth client and consent configuration."
+  },
+  "m_google_rejected_the_oauth_client_its_application_type_must_be_chrome_extension_and_its_item_id_must_match_this_extension": {
+    "message": "Google rejected the OAuth client. Its application type must be Chrome Extension and its Item ID must match this extension."
+  },
+  "m_chrome_has_no_signed_in_google_account_available_sign_in_to_this_chrome_profile_then_try_connect_again": {
+    "message": "Chrome has no signed-in Google account available. Sign in to this Chrome profile, then try Connect again."
+  },
+  "m_google_sign_in_or_consent_was_cancelled_choose_connect_again_and_complete_the_consent_screen": {
+    "message": "Google sign-in or consent was cancelled. Choose Connect again and complete the consent screen."
+  },
+  "m_google_denied_access_check_the_consent_audience_and_if_the_app_is_in_testing_add_your_google_account_as_a_test_user": {
+    "message": "Google denied access. Check the consent audience and, if the app is in testing, add your Google account as a test user."
+  },
+  "m_google_needs_interactive_authorization_choose_connect_google_drive_again": {
+    "message": "Google needs interactive authorization. Choose Connect Google Drive again."
+  },
+  "m_chrome_could_not_reach_google_check_your_network_connection_and_try_again": {
+    "message": "Chrome could not reach Google. Check your network connection and try again."
+  },
+  "m_loaded_extension_id_id": {
+    "message": " Loaded extension ID: {id}."
+  },
+  "m_find_the_loaded_extension_id_on_chrome_extensions": {
+    "message": " Find the loaded extension ID on chrome://extensions."
+  },
+  "m_could_not_load_language_file": {
+    "message": "Could not load language file."
+  },
+  "m_applied_of_total_items_moved_backup_retained_detail": {
+    "message": "{applied} of {total} items moved. Backup retained. {detail}"
+  },
+  "m_applied_of_total_items_deleted_backup_retained_detail": {
+    "message": "{applied} of {total} items deleted. Backup retained. {detail}"
+  },
+  "m_applied_sorting_steps_applied_backup_retained_detail": {
+    "message": "{applied} sorting steps applied. Backup retained. {detail}"
+  },
+  "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail": {
+    "message": "Import stopped after {count} items. Bookmark metadata could not be saved. Keep the source export for recovery; the pre-import snapshot is retained. {detail}"
+  },
+  "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail": {
+    "message": "Import stopped after {count} items. Items added before the failure remain in “{title}”; tags and notes for imported items are retained. Existing bookmarks are unchanged. {detail}"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained": {
+    "message": "Imported {count} items, but preferences could not be restored. The pre-import snapshot is retained."
+  },
+  "m_count_active_filters_hiding_the_controls_keeps_filters_applied_one": {
+    "message": "{count} active filter. Hiding the controls keeps filters applied."
+  },
+  "m_moved_count_bookmarks_to_title_undo_available_one": {
+    "message": "Moved {count} bookmark to {title}. Undo available."
+  },
+  "m_tag_count_bookmarks_one": {
+    "message": "Tag {count} bookmark"
+  },
+  "m_tags_added_to_count_bookmarks_undo_available_one": {
+    "message": "Tags added to {count} bookmark. Undo available."
+  },
+  "m_count_bookmarks_folders_collections_one": {
+    "message": "{count} bookmark · {folders} collections"
+  },
+  "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
+    "message": "Dragging {count} bookmark · Drop on a collection to move, or between bookmarks in the same folder to sort."
+  }
+}

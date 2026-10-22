@@ -2,7 +2,7 @@
 
 Save, organize and find Chrome bookmarks in a full-page library or bookmark-only side panel. This release replaces the old dashboard runtime; historical JSX/dashboard sources remain in the repository and are excluded from the shipping ZIP.
 
-Fresh installations start with the Enterprise light theme and Favorites in grid view. The initial_bookmarks.json file supplies 12 starter favorites on first install; existing bookmarks are preserved and duplicate URLs are skipped. Updates do not seed the starter list again. Saved theme, sizing and folder preferences are preserved. Both package variants identify as version **2.1.1**.
+Fresh installations start with the Enterprise light theme and Favorites in grid view. The initial_bookmarks.json file supplies 12 starter favorites on first install; existing bookmarks are preserved and duplicate URLs are skipped. Updates do not seed the starter list again. Saved theme, sizing and folder preferences are preserved. Both package variants identify as version **2.2.0**.
 
 ## Run
 
@@ -31,7 +31,7 @@ See `innerDocumentation/release-verification.md` for results and remaining nativ
 
 ## Optional integrations candidate
 
-Run `npm run build:optional` to build the separate 2.1.1 optional candidate with disabled-by-default OpenAI organization and Google Drive backup. See `innerDocumentation/optional-integrations.md` for consent, data flow and publisher OAuth setup. The default local package requires no account or provider permissions. Live provider/OAuth verification remains necessary before publishing the optional package.
+Run `npm run build:optional` to build the separate 2.2.0 optional candidate with disabled-by-default Google Drive backup. See `innerDocumentation/optional-integrations.md` for consent, data flow and publisher OAuth setup. The default local package requires no account or provider permissions. The optional candidate includes manual backup history, account verification, safe restore preview and portable preferences. Live provider/OAuth verification remains necessary before publishing the optional package.
 
 ## Design previews and settings checks
 
@@ -148,3 +148,15 @@ For a missing `favicon` explanation, the current behavior can be described as: �
 The API's generic publishing error may not name the incomplete field. Resolve the dashboard errors and submit the uploaded version there. If upload already succeeded, rerunning the full workflow can encounter a duplicate-version upload; prefer the dashboard for that pending package. Manual and Actions submissions use Google's same [review process](https://developer.chrome.com/docs/webstore/review-process).
 
 The website has a separate Firebase pipeline: see its [README](https://github.com/aleksandre-zaccone/1sttab-website#github-actions-deployment-pipeline).
+
+## Next versions
+
+See the [product roadmap](innerDocumentation/bookmark-product-roadmap.html#next-versions) for proposed 2.2 manual Google Drive backup/restore, 2.3 scheduled backups, and 2.4 Google-account-based sync via Drive. [Research spikes](innerDocumentation/bookmark-product-roadmap.html#spikes) cover Edge, Brave and Firefox compatibility and smart collections. These are planned capabilities; live OAuth validation remains pending for the existing optional manual backup candidate.
+
+Implementation details: [2.2 Google Drive backup and restore plan](innerDocumentation/implementation-plan-v2.2.md).
+
+### 2.2 integration verification and local installation
+
+Run `npm run test:integration` with Playwright installed and an extension-capable Chrome for Testing binary. `PLAYWRIGHT_MODULE` and `CHROME_PATH` can point to external installations. The command runs unit checks, both package verifiers, browser workflows and isolated native Chrome checks. Drive provider responses are mocked in automated checks; actual Google OAuth remains a separate publisher verification step.
+
+For local Drive testing, run `npm run build:optional`, extract `dist/1stTab-bookmarks-optional.zip` into a dedicated folder, then open Chrome Extensions, enable Developer mode and choose Load unpacked on that folder. Open Settings → Backup & Google Drive → Review Google Drive backup. After rebuilding, extract the new ZIP into the same folder and click Reload in Chrome Extensions. The OAuth client must be configured for the extension ID shown there. Keep the same folder for local reloads; do not load the repository root. See [2.2 release notes](innerDocumentation/release-v2.2.0.md) for verification limits.
