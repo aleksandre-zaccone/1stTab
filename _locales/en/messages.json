@@ -570,10 +570,10 @@
     "message": "Last backup: {date}"
   },
   "m_move_count_item_s": {
-    "message": "Move {count} item(s)"
+    "message": "Move {count} items"
   },
   "m_delete_count_item_s": {
-    "message": "Delete {count} item(s)?"
+    "message": "Delete {count} items?"
   },
   "m_import_bookmarks_bookmarks_and_folders_folders": {
     "message": "Import {bookmarks} bookmarks and {folders} folders"
@@ -877,5 +877,35 @@
   },
   "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
     "message": "Dragging {count} bookmark · Drop on a collection to move, or between bookmarks in the same folder to sort."
+  },
+  "m_move_count_item_s_one": {
+    "message": "Move {count} item"
+  },
+  "m_move_count_item_s_few": {
+    "message": "Move {count} items"
+  },
+  "m_move_count_item_s_many": {
+    "message": "Move {count} items"
+  },
+  "m_delete_count_item_s_one": {
+    "message": "Delete {count} item?"
+  },
+  "m_delete_count_item_s_few": {
+    "message": "Delete {count} items?"
+  },
+  "m_delete_count_item_s_many": {
+    "message": "Delete {count} items?"
+  },
+  "m_imported_count_items_one": {
+    "message": "Imported {count} item."
+  },
+  "m_imported_count_items_few": {
+    "message": "Imported {count} items."
+  },
+  "m_imported_count_items_many": {
+    "message": "Imported {count} items."
+  },
+  "m_count_saved_places_one": {
+    "message": "{count} saved place"
   }
 }

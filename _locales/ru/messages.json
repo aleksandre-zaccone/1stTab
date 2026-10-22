@@ -570,10 +570,10 @@
     "message": "Последняя копия: {date}"
   },
   "m_move_count_item_s": {
-    "message": "Переместить элементов: {count}"
+    "message": "Переместить {count} элементов"
   },
   "m_delete_count_item_s": {
-    "message": "Удалить элементов: {count}?"
+    "message": "Удалить {count} элементов?"
   },
   "m_import_bookmarks_bookmarks_and_folders_folders": {
     "message": "Импорт закладок: {bookmarks}, папок: {folders}"
@@ -582,7 +582,7 @@
     "message": "Повторяющихся URL: {duplicates}; различий метаданных: {differences}. Дубликаты будут добавлены отдельно; существующие заметки и теги сохраняются."
   },
   "m_imported_count_items": {
-    "message": "Импортировано элементов: {count}."
+    "message": "Импортировано {count} элементов."
   },
   "m_duplicates_exact_url_duplicate_groups_folders_empty_folders_no_automatic_deletion": {
     "message": "Групп одинаковых URL: {duplicates}; пустых папок: {folders}. Автоматическое удаление отключено."
@@ -621,7 +621,7 @@
     "message": "Добавить теги к {count} закладкам"
   },
   "m_tags_added_to_count_bookmarks_undo_available": {
-    "message": "Теги добавлены к {count} закладкам. Доступна отмена."
+    "message": "Теги добавлены к {count} закладкам. Это действие можно отменить."
   },
   "m_count_bookmarks_folders_collections": {
     "message": "Закладок: {count} · Коллекций: {folders}"
@@ -861,21 +861,51 @@
     "message": "Импортировано {count} элементов, но настройки восстановить не удалось. Снимок до импорта сохранён."
   },
   "m_count_active_filters_hiding_the_controls_keeps_filters_applied_one": {
-    "message": "Активных фильтров: {count}. При скрытии панели фильтры сохраняются."
+    "message": "Активный фильтр: {count}. При скрытии панели фильтр остаётся активным."
   },
   "m_moved_count_bookmarks_to_title_undo_available_one": {
-    "message": "Закладок перемещено в «{title}»: {count}. Доступна отмена."
+    "message": "Перемещена {count} закладка в «{title}». Это действие можно отменить."
   },
   "m_tag_count_bookmarks_one": {
-    "message": "Добавить теги к {count} закладкам"
+    "message": "Добавить теги к {count} закладке"
   },
   "m_tags_added_to_count_bookmarks_undo_available_one": {
-    "message": "Теги добавлены к {count} закладкам. Доступна отмена."
+    "message": "Теги добавлены к {count} закладке. Это действие можно отменить."
   },
   "m_count_bookmarks_folders_collections_one": {
     "message": "Закладок: {count} · Коллекций: {folders}"
   },
   "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
     "message": "Перетаскивание закладок: {count} · Отпустите на коллекции для перемещения или между закладками одной папки для сортировки."
+  },
+  "m_move_count_item_s_one": {
+    "message": "Переместить {count} элемент"
+  },
+  "m_move_count_item_s_few": {
+    "message": "Переместить {count} элемента"
+  },
+  "m_move_count_item_s_many": {
+    "message": "Переместить {count} элементов"
+  },
+  "m_delete_count_item_s_one": {
+    "message": "Удалить {count} элемент?"
+  },
+  "m_delete_count_item_s_few": {
+    "message": "Удалить {count} элемента?"
+  },
+  "m_delete_count_item_s_many": {
+    "message": "Удалить {count} элементов?"
+  },
+  "m_imported_count_items_one": {
+    "message": "Импортирован {count} элемент."
+  },
+  "m_imported_count_items_few": {
+    "message": "Импортировано {count} элемента."
+  },
+  "m_imported_count_items_many": {
+    "message": "Импортировано {count} элементов."
+  },
+  "m_count_saved_places_one": {
+    "message": "Сохранено мест: {count}"
   }
 }

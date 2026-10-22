@@ -877,5 +877,35 @@
   },
   "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
     "message": "ブックマーク{count}件をドラッグ中 · コレクションにドロップして移動、同じフォルダ内のブックマーク間にドロップして並べ替え。"
+  },
+  "m_move_count_item_s_one": {
+    "message": "{count}件を移動"
+  },
+  "m_move_count_item_s_few": {
+    "message": "{count}件を移動"
+  },
+  "m_move_count_item_s_many": {
+    "message": "{count}件を移動"
+  },
+  "m_delete_count_item_s_one": {
+    "message": "{count}件を削除しますか？"
+  },
+  "m_delete_count_item_s_few": {
+    "message": "{count}件を削除しますか？"
+  },
+  "m_delete_count_item_s_many": {
+    "message": "{count}件を削除しますか？"
+  },
+  "m_imported_count_items_one": {
+    "message": "{count}件をインポートしました。"
+  },
+  "m_imported_count_items_few": {
+    "message": "{count}件をインポートしました。"
+  },
+  "m_imported_count_items_many": {
+    "message": "{count}件をインポートしました。"
+  },
+  "m_count_saved_places_one": {
+    "message": "保存したサイト{count}件"
   }
 }

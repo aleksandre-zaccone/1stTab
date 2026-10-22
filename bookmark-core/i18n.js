@@ -22,7 +22,7 @@ export async function setLanguage(choice, browserLanguage=globalThis.chrome?.i18
  const [base,messages]=await Promise.all([load('en'),load(next)]);
  if(version!==revision)return false;
  const changed=next!==locale;english=base;catalog=messages;locale=next;
- keys=new Map(Object.entries(base).filter(([key])=>!key.endsWith('_one')).map(([key,value])=>[value.message,key]));
+ keys=new Map(Object.entries(base).filter(([key])=>!/_((?:zero|one|two|few|many|other))$/.test(key)).map(([key,value])=>[value.message,key]));
  if(globalThis.document)document.documentElement.lang=next;
  return changed;
 }

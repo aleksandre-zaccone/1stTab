@@ -570,10 +570,10 @@
     "message": "Letzte Sicherung: {date}"
   },
   "m_move_count_item_s": {
-    "message": "{count} Element(e) verschieben"
+    "message": "{count} Elemente verschieben"
   },
   "m_delete_count_item_s": {
-    "message": "{count} Element(e) löschen?"
+    "message": "{count} Elemente löschen?"
   },
   "m_import_bookmarks_bookmarks_and_folders_folders": {
     "message": "{bookmarks} Lesezeichen und {folders} Ordner importieren"
@@ -861,7 +861,7 @@
     "message": "{count} Elemente importiert, aber Einstellungen konnten nicht wiederhergestellt werden. Vorherige Sicherung bleibt erhalten."
   },
   "m_count_active_filters_hiding_the_controls_keeps_filters_applied_one": {
-    "message": "{count} aktive Filter. Ausblenden der Steuerelemente behält die Filter bei."
+    "message": "{count} aktiver Filter. Beim Ausblenden der Steuerelemente bleibt der Filter aktiv."
   },
   "m_moved_count_bookmarks_to_title_undo_available_one": {
     "message": "{count} Lesezeichen nach „{title}“ verschoben. Rückgängig möglich."
@@ -877,5 +877,35 @@
   },
   "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
     "message": "{count} Lesezeichen werden gezogen · Auf einer Sammlung ablegen zum Verschieben oder zwischen Lesezeichen desselben Ordners zum Sortieren."
+  },
+  "m_move_count_item_s_one": {
+    "message": "{count} Element verschieben"
+  },
+  "m_move_count_item_s_few": {
+    "message": "{count} Elemente verschieben"
+  },
+  "m_move_count_item_s_many": {
+    "message": "{count} Elemente verschieben"
+  },
+  "m_delete_count_item_s_one": {
+    "message": "{count} Element löschen?"
+  },
+  "m_delete_count_item_s_few": {
+    "message": "{count} Elemente löschen?"
+  },
+  "m_delete_count_item_s_many": {
+    "message": "{count} Elemente löschen?"
+  },
+  "m_imported_count_items_one": {
+    "message": "{count} Element importiert."
+  },
+  "m_imported_count_items_few": {
+    "message": "{count} Elemente importiert."
+  },
+  "m_imported_count_items_many": {
+    "message": "{count} Elemente importiert."
+  },
+  "m_count_saved_places_one": {
+    "message": "{count} gespeicherte Seite"
   }
 }

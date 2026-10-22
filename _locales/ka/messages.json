@@ -877,5 +877,35 @@
   },
   "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
     "message": "გადაადგილდება {count} სანიშნე · ჩააგდეთ კოლექციაში გადასატანად ან იმავე საქაღალდის სანიშნეებს შორის დასალაგებლად."
+  },
+  "m_move_count_item_s_one": {
+    "message": "ელემენტების გადატანა: {count}"
+  },
+  "m_move_count_item_s_few": {
+    "message": "ელემენტების გადატანა: {count}"
+  },
+  "m_move_count_item_s_many": {
+    "message": "ელემენტების გადატანა: {count}"
+  },
+  "m_delete_count_item_s_one": {
+    "message": "წაიშალოს {count} ელემენტი?"
+  },
+  "m_delete_count_item_s_few": {
+    "message": "წაიშალოს {count} ელემენტი?"
+  },
+  "m_delete_count_item_s_many": {
+    "message": "წაიშალოს {count} ელემენტი?"
+  },
+  "m_imported_count_items_one": {
+    "message": "შემოტანილია {count} ელემენტი."
+  },
+  "m_imported_count_items_few": {
+    "message": "შემოტანილია {count} ელემენტი."
+  },
+  "m_imported_count_items_many": {
+    "message": "შემოტანილია {count} ელემენტი."
+  },
+  "m_count_saved_places_one": {
+    "message": "შენახული ადგილები: {count}"
   }
 }
