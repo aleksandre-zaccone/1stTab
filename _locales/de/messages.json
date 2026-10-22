@@ -1,0 +1,911 @@
+{
+  "m_language": {
+    "message": "Sprache"
+  },
+  "m_automatic_browser_language": {
+    "message": "Automatisch — Browsersprache"
+  },
+  "m_appearance": {
+    "message": "Darstellung"
+  },
+  "m_settings": {
+    "message": "Einstellungen"
+  },
+  "m_settings_1sttab": {
+    "message": "Einstellungen · 1stTab"
+  },
+  "m_settings_sections": {
+    "message": "Einstellungsbereiche"
+  },
+  "m_back_to_library": {
+    "message": "Zurück zur Bibliothek"
+  },
+  "m_your_workspace_your_way": {
+    "message": "Ihr Arbeitsbereich, Ihre Wahl."
+  },
+  "m_make_this_space_feel_like_yours_changes_save_automatically_on_this_device": {
+    "message": "Gestalten Sie Ihren Arbeitsbereich. Änderungen werden auf diesem Gerät automatisch gespeichert."
+  },
+  "m_all_bookmarks": {
+    "message": "Alle Lesezeichen"
+  },
+  "m_all_collections": {
+    "message": "Alle Sammlungen"
+  },
+  "m_favorites": {
+    "message": "Favoriten"
+  },
+  "m_favorite": {
+    "message": "Favorit"
+  },
+  "m_collection": {
+    "message": "Sammlung"
+  },
+  "m_collections": {
+    "message": "Sammlungen"
+  },
+  "m_add_bookmark": {
+    "message": "Lesezeichen hinzufügen"
+  },
+  "m_new_collection": {
+    "message": "Neue Sammlung"
+  },
+  "m_new_folder": {
+    "message": "Neuer Ordner"
+  },
+  "m_edit_bookmark": {
+    "message": "Lesezeichen bearbeiten"
+  },
+  "m_save_bookmark": {
+    "message": "Lesezeichen speichern"
+  },
+  "m_edit_folder": {
+    "message": "Ordner bearbeiten"
+  },
+  "m_save_folder": {
+    "message": "Ordner speichern"
+  },
+  "m_title": {
+    "message": "Titel"
+  },
+  "m_url": {
+    "message": "URL"
+  },
+  "m_folder": {
+    "message": "Ordner"
+  },
+  "m_folder_name": {
+    "message": "Ordnername"
+  },
+  "m_parent_folder": {
+    "message": "Übergeordneter Ordner"
+  },
+  "m_destination": {
+    "message": "Ziel"
+  },
+  "m_destination_folder": {
+    "message": "Zielordner"
+  },
+  "m_tags_separated_by_commas": {
+    "message": "Tags, durch Kommas getrennt"
+  },
+  "m_note_about_this_bookmark": {
+    "message": "Notiz zu diesem Lesezeichen"
+  },
+  "m_save": {
+    "message": "Speichern"
+  },
+  "m_cancel": {
+    "message": "Abbrechen"
+  },
+  "m_edit": {
+    "message": "Bearbeiten"
+  },
+  "m_delete": {
+    "message": "Löschen"
+  },
+  "m_close": {
+    "message": "Schließen"
+  },
+  "m_clear": {
+    "message": "Leeren"
+  },
+  "m_add_favorite": {
+    "message": "Zu Favoriten hinzufügen"
+  },
+  "m_remove_favorite": {
+    "message": "Aus Favoriten entfernen"
+  },
+  "m_toggle_favorite": {
+    "message": "Favorit umschalten"
+  },
+  "m_show_filters": {
+    "message": "Filter anzeigen"
+  },
+  "m_hide_filters": {
+    "message": "Filter ausblenden"
+  },
+  "m_no_active_filters": {
+    "message": "Keine aktiven Filter."
+  },
+  "m_filter_folder": {
+    "message": "Nach Ordner filtern"
+  },
+  "m_filter_by_tag": {
+    "message": "Nach Tag filtern"
+  },
+  "m_filter_by_domain": {
+    "message": "Nach Domain filtern"
+  },
+  "m_tag": {
+    "message": "Tag"
+  },
+  "m_domain": {
+    "message": "Domain"
+  },
+  "m_reset_filters": {
+    "message": "Filter zurücksetzen"
+  },
+  "m_bookmark_filters": {
+    "message": "Lesezeichenfilter"
+  },
+  "m_search_bookmarks": {
+    "message": "Lesezeichen durchsuchen"
+  },
+  "m_find_a_bookmark_idea_or_saved_place": {
+    "message": "Lesezeichen, Idee oder gespeicherte Seite finden…"
+  },
+  "m_light_dark": {
+    "message": "Hell / Dunkel"
+  },
+  "m_light": {
+    "message": "Hell"
+  },
+  "m_dark": {
+    "message": "Dunkel"
+  },
+  "m_follow_system": {
+    "message": "Systemeinstellung"
+  },
+  "m_color_mode": {
+    "message": "Farbmodus"
+  },
+  "m_design_theme": {
+    "message": "Designthema"
+  },
+  "m_violet_ink": {
+    "message": "Violett & Tinte"
+  },
+  "m_warm_editorial": {
+    "message": "Warm & redaktionell"
+  },
+  "m_clean_precise": {
+    "message": "Klar & präzise"
+  },
+  "m_playful_graphic": {
+    "message": "Verspielt & grafisch"
+  },
+  "m_focused_professional": {
+    "message": "Fokussiert & professionell"
+  },
+  "m_text_icons": {
+    "message": "Text & Symbole"
+  },
+  "m_text_size": {
+    "message": "Textgröße"
+  },
+  "m_icon_size": {
+    "message": "Symbolgröße"
+  },
+  "m_make_titles_labels_and_notes_easier_to_read": {
+    "message": "Titel, Beschriftungen und Notizen leichter lesbar machen."
+  },
+  "m_enlarge_bookmark_icons_and_action_controls": {
+    "message": "Lesezeichensymbole und Bedienelemente vergrößern."
+  },
+  "m_a_clearer_view_of_your_library": {
+    "message": "Ihre Bibliothek übersichtlicher gestalten"
+  },
+  "m_your_changes_appear_immediately": {
+    "message": "Änderungen werden sofort angezeigt."
+  },
+  "m_preview": {
+    "message": "Vorschau"
+  },
+  "m_workspace": {
+    "message": "Arbeitsbereich"
+  },
+  "m_bookmark_view": {
+    "message": "Lesezeichenansicht"
+  },
+  "m_cards": {
+    "message": "Karten"
+  },
+  "m_list": {
+    "message": "Liste"
+  },
+  "m_list_view": {
+    "message": "Listenansicht"
+  },
+  "m_grid_view": {
+    "message": "Rasteransicht"
+  },
+  "m_default_sort": {
+    "message": "Standardsortierung"
+  },
+  "m_sort_bookmarks": {
+    "message": "Lesezeichen sortieren"
+  },
+  "m_manual_order": {
+    "message": "Manuelle Reihenfolge"
+  },
+  "m_name_a_z": {
+    "message": "Name A–Z"
+  },
+  "m_newest_first": {
+    "message": "Neueste zuerst"
+  },
+  "m_spacing": {
+    "message": "Abstände"
+  },
+  "m_comfortable": {
+    "message": "Großzügig"
+  },
+  "m_compact": {
+    "message": "Kompakt"
+  },
+  "m_show_bookmark_notes": {
+    "message": "Lesezeichennotizen anzeigen"
+  },
+  "m_display_the_note_beneath_each_bookmark_title": {
+    "message": "Notiz unter jedem Lesezeichentitel anzeigen."
+  },
+  "m_reduce_motion": {
+    "message": "Bewegung reduzieren"
+  },
+  "m_keep_the_interface_still_when_hovering_and_switching_views": {
+    "message": "Animationen beim Zeigen und Ansichtswechsel vermeiden."
+  },
+  "m_card_shape": {
+    "message": "Kartenform"
+  },
+  "m_card_shapes": {
+    "message": "Kartenformen"
+  },
+  "m_rectangle": {
+    "message": "Rechteck"
+  },
+  "m_square": {
+    "message": "Quadrat"
+  },
+  "m_rounded": {
+    "message": "Abgerundet"
+  },
+  "m_circle": {
+    "message": "Kreis"
+  },
+  "m_sphere": {
+    "message": "Kugel"
+  },
+  "m_choose_the_silhouette_of_your_bookmark_cards_list_view_stays_compact": {
+    "message": "Wählen Sie die Form Ihrer Lesezeichenkarten. Die Listenansicht bleibt kompakt."
+  },
+  "m_preview_in_card_view": {
+    "message": "In Kartenansicht ansehen"
+  },
+  "m_reset_appearance": {
+    "message": "Darstellung zurücksetzen"
+  },
+  "m_library_tools": {
+    "message": "Bibliothekswerkzeuge"
+  },
+  "m_your_bookmarks_follow_chrome_s_sync_settings_tags_and_notes_stay_on_this_device": {
+    "message": "Ihre Lesezeichen folgen den Chrome-Synchronisierungseinstellungen. Tags und Notizen bleiben auf diesem Gerät."
+  },
+  "m_export_library": {
+    "message": "Bibliothek exportieren"
+  },
+  "m_import": {
+    "message": "Importieren"
+  },
+  "m_undo_last_edit": {
+    "message": "Letzte Änderung rückgängig machen"
+  },
+  "m_clean_duplicates": {
+    "message": "Duplikate bereinigen"
+  },
+  "m_user_guide": {
+    "message": "Benutzerhandbuch ↗"
+  },
+  "m_terms_conditions": {
+    "message": "Nutzungsbedingungen ↗"
+  },
+  "m_privacy": {
+    "message": "Datenschutz ↗"
+  },
+  "m_bookmark_saved": {
+    "message": "Lesezeichen gespeichert."
+  },
+  "m_collection_saved": {
+    "message": "Sammlung gespeichert."
+  },
+  "m_library_ready": {
+    "message": "Bibliothek bereit."
+  },
+  "m_loading_library": {
+    "message": "Bibliothek wird geladen…"
+  },
+  "m_last_supported_operation_undone": {
+    "message": "Letzte unterstützte Aktion rückgängig gemacht."
+  },
+  "m_bookmark_order_updated_undo_available": {
+    "message": "Lesezeichenreihenfolge aktualisiert. Rückgängig möglich."
+  },
+  "m_nothing_here_yet": {
+    "message": "Hier ist noch nichts"
+  },
+  "m_a_home_for_your_next_discovery": {
+    "message": "Ein Zuhause für Ihre nächste Entdeckung"
+  },
+  "m_try_another_collection_or_clear_your_filters_you_can_also_drag_bookmarks_into_an_empty_collection": {
+    "message": "Wählen Sie eine andere Sammlung oder setzen Sie die Filter zurück. Sie können Lesezeichen auch in eine leere Sammlung ziehen."
+  },
+  "m_save_your_first_bookmark_or_import_your_existing_library": {
+    "message": "Speichern Sie Ihr erstes Lesezeichen oder importieren Sie Ihre Bibliothek."
+  },
+  "m_untitled": {
+    "message": "Ohne Titel"
+  },
+  "m_untitled_collection": {
+    "message": "Unbenannte Sammlung"
+  },
+  "m_untitled_folder": {
+    "message": "Unbenannter Ordner"
+  },
+  "m_close_collections": {
+    "message": "Sammlungen schließen"
+  },
+  "m_close_collections_drawer": {
+    "message": "Sammlungsleiste schließen"
+  },
+  "m_bookmark_folders": {
+    "message": "Lesezeichenordner"
+  },
+  "m_saved_bookmarks": {
+    "message": "Gespeicherte Lesezeichen"
+  },
+  "m_show_more": {
+    "message": "Mehr anzeigen"
+  },
+  "m_installed_version": {
+    "message": "Installierte Version"
+  },
+  "m_managed_bookmark": {
+    "message": "Verwaltetes Lesezeichen"
+  },
+  "m_drag_to_move_or_sort": {
+    "message": "Zum Verschieben oder Sortieren ziehen"
+  },
+  "m_resize_folder_sidebar": {
+    "message": "Ordnerseitenleiste skalieren"
+  },
+  "m_drag_to_resize_arrow_keys_to_adjust_double_click_to_reset": {
+    "message": "Ziehen zum Skalieren · Pfeiltasten zum Anpassen · Doppelklick zum Zurücksetzen"
+  },
+  "m_move_selected": {
+    "message": "Auswahl verschieben"
+  },
+  "m_delete_selected": {
+    "message": "Auswahl löschen"
+  },
+  "m_tag_selected": {
+    "message": "Auswahl taggen"
+  },
+  "m_tag_bookmarks": {
+    "message": "Lesezeichen taggen"
+  },
+  "m_add_tags": {
+    "message": "Tags hinzufügen"
+  },
+  "m_adds_these_tags_to_every_selected_bookmark_existing_tags_and_notes_are_preserved": {
+    "message": "Fügt diese Tags allen ausgewählten Lesezeichen hinzu. Vorhandene Tags und Notizen bleiben erhalten."
+  },
+  "m_enter_at_least_one_tag": {
+    "message": "Geben Sie mindestens einen Tag ein."
+  },
+  "m_select_bookmarks_to_move": {
+    "message": "Wählen Sie Lesezeichen zum Verschieben aus."
+  },
+  "m_select_items_to_delete": {
+    "message": "Wählen Sie Elemente zum Löschen aus."
+  },
+  "m_select_items_to_review": {
+    "message": "Wählen Sie Elemente zur Prüfung aus."
+  },
+  "m_move_items": {
+    "message": "Elemente verschieben"
+  },
+  "m_move_bookmarks": {
+    "message": "Lesezeichen verschieben"
+  },
+  "m_delete_items": {
+    "message": "Elemente löschen"
+  },
+  "m_confirm_move": {
+    "message": "Verschieben bestätigen"
+  },
+  "m_confirm_delete": {
+    "message": "Löschen bestätigen"
+  },
+  "m_a_local_snapshot_will_be_saved_before_moving_these_items": {
+    "message": "Vor dem Verschieben wird eine lokale Sicherung erstellt."
+  },
+  "m_folders_include_their_contents_a_local_recovery_snapshot_will_be_saved_first": {
+    "message": "Ordner schließen ihre Inhalte ein. Zuerst wird eine lokale Wiederherstellungssicherung erstellt."
+  },
+  "m_items_moved_recovery_snapshot_retained": {
+    "message": "Elemente verschoben. Wiederherstellungssicherung bleibt erhalten."
+  },
+  "m_deleted_recovery_snapshot_retained": {
+    "message": "Gelöscht. Wiederherstellungssicherung bleibt erhalten."
+  },
+  "m_these_bookmarks_are_already_in_this_collection": {
+    "message": "Diese Lesezeichen sind bereits in dieser Sammlung."
+  },
+  "m_review_duplicate_links": {
+    "message": "Doppelte Links prüfen"
+  },
+  "m_review_selected_deletions": {
+    "message": "Ausgewählte Löschungen prüfen"
+  },
+  "m_import_bookmarks": {
+    "message": "Lesezeichen importieren"
+  },
+  "m_confirm_import": {
+    "message": "Import bestätigen"
+  },
+  "m_top_level_folders": {
+    "message": "Oberste Ordner: "
+  },
+  "m_adds_the_imported_folders_and_bookmarks_directly_to_the_destination_folder_existing_bookmarks_will_not_be_overwritten_a_local_snapshot_is_saved_first": {
+    "message": "Fügt importierte Ordner und Lesezeichen direkt im Zielordner hinzu. Vorhandene Lesezeichen werden nicht überschrieben. Zuerst wird eine lokale Sicherung erstellt."
+  },
+  "m_also_restore_appearance_and_view_preferences": {
+    "message": "Darstellungs- und Ansichtseinstellungen ebenfalls wiederherstellen"
+  },
+  "m_restores_theme_design_sizes_card_shape_sidebar_width_spacing_note_visibility_motion_view_sort_and_filter_visibility_browser_specific_folder_selections_stay_local": {
+    "message": "Stellt Thema, Design, Größen, Kartenform, Seitenleistenbreite, Abstände, Notizen, Animationen, Ansicht, Sortierung und Filteranzeige wieder her. Browserspezifische Ordnerauswahlen bleiben lokal."
+  },
+  "m_backup_google_drive": {
+    "message": "Sicherung & Google Drive"
+  },
+  "m_connect_google_drive": {
+    "message": "Google Drive verbinden"
+  },
+  "m_disconnect": {
+    "message": "Trennen"
+  },
+  "m_connected": {
+    "message": "Verbunden"
+  },
+  "m_not_connected": {
+    "message": "Nicht verbunden"
+  },
+  "m_connecting": {
+    "message": "Verbindung wird hergestellt…"
+  },
+  "m_checking_connection": {
+    "message": "Verbindung wird geprüft…"
+  },
+  "m_reconnect_required": {
+    "message": "Erneute Verbindung erforderlich"
+  },
+  "m_connect_your_google_account_to_back_up_to_drive": {
+    "message": "Verbinden Sie Ihr Google-Konto für Sicherungen in Drive."
+  },
+  "m_back_up_now": {
+    "message": "Jetzt sichern"
+  },
+  "m_review_google_drive_backup": {
+    "message": "Google-Drive-Sicherung prüfen"
+  },
+  "m_backing_up_to_google_drive": {
+    "message": "Sicherung in Google Drive läuft…"
+  },
+  "m_google_drive_backup_saved": {
+    "message": "Google-Drive-Sicherung gespeichert."
+  },
+  "m_google_drive_disconnected_your_saved_backups_remain_in_drive": {
+    "message": "Google Drive getrennt. Gespeicherte Sicherungen bleiben in Drive."
+  },
+  "m_google_receives_a_bookmark_export_including_urls_tags_notes_favorites_and_portable_preferences_only_when_you_choose_back_up_now_backups_are_stored_privately_in_google_drive_restore_adds_bookmarks_after_your_review": {
+    "message": "Google erhält den Lesezeichenexport mit URLs, Tags, Notizen, Favoriten und übertragbaren Einstellungen nur bei „Jetzt sichern“. Sicherungen werden privat in Google Drive gespeichert. Die Wiederherstellung fügt Lesezeichen nach Ihrer Prüfung hinzu."
+  },
+  "m_an_upload_may_have_completed_review_google_drive_backup_before_uploading_again": {
+    "message": "Ein Upload könnte abgeschlossen sein. Prüfen Sie die Sicherungen vor einem erneuten Upload."
+  },
+  "m_no_successful_backup_yet": {
+    "message": "Noch keine erfolgreiche Sicherung"
+  },
+  "m_google_drive_snapshots": {
+    "message": "Google-Drive-Sicherungen"
+  },
+  "m_saved_google_drive_snapshots": {
+    "message": "Gespeicherte Google-Drive-Sicherungen"
+  },
+  "m_snapshot": {
+    "message": "Sicherung"
+  },
+  "m_bookmark_snapshot": {
+    "message": "Lesezeichensicherung"
+  },
+  "m_restore": {
+    "message": "Wiederherstellen"
+  },
+  "m_select_a_snapshot_first": {
+    "message": "Wählen Sie zuerst eine Sicherung aus."
+  },
+  "m_delete_this_cloud_backup": {
+    "message": "Diese Cloud-Sicherung löschen?"
+  },
+  "m_confirm_cloud_deletion": {
+    "message": "Löschen aus der Cloud bestätigen"
+  },
+  "m_cloud_backup_deleted": {
+    "message": "Cloud-Sicherung gelöscht."
+  },
+  "m_select_one_snapshot_then_choose_restore_or_delete_restore_shows_a_preview_before_changing_your_library": {
+    "message": "Wählen Sie eine Sicherung und dann Wiederherstellen oder Löschen. Vor Änderungen wird eine Vorschau angezeigt."
+  },
+  "m_no_backups_found": {
+    "message": "Keine Sicherungen gefunden."
+  },
+  "m_older_snapshot_counts_available_in_the_restore_preview": {
+    "message": "Ältere Sicherung — Anzahlen in der Wiederherstellungsvorschau verfügbar."
+  },
+  "m_date_unavailable": {
+    "message": "Datum nicht verfügbar"
+  },
+  "m_last_backup_date": {
+    "message": "Letzte Sicherung: {date}"
+  },
+  "m_move_count_item_s": {
+    "message": "{count} Elemente verschieben"
+  },
+  "m_delete_count_item_s": {
+    "message": "{count} Elemente löschen?"
+  },
+  "m_import_bookmarks_bookmarks_and_folders_folders": {
+    "message": "{bookmarks} Lesezeichen und {folders} Ordner importieren"
+  },
+  "m_duplicates_duplicate_urls_differences_metadata_differences_duplicates_will_be_added_as_separate_bookmarks_existing_notes_and_tags_are_preserved": {
+    "message": "{duplicates} doppelte URLs; {differences} Metadatenunterschiede. Duplikate werden als eigene Lesezeichen hinzugefügt; vorhandene Notizen und Tags bleiben erhalten."
+  },
+  "m_imported_count_items": {
+    "message": "{count} Elemente importiert."
+  },
+  "m_duplicates_exact_url_duplicate_groups_folders_empty_folders_no_automatic_deletion": {
+    "message": "{duplicates} Gruppen identischer URLs; {folders} leere Ordner. Kein automatisches Löschen."
+  },
+  "m_empty_folder_title": {
+    "message": "Leerer Ordner: {title}"
+  },
+  "m_count_active_filters_hiding_the_controls_keeps_filters_applied": {
+    "message": "{count} aktive Filter. Ausblenden der Steuerelemente behält die Filter bei."
+  },
+  "m_count_pixels": {
+    "message": "{count} Pixel"
+  },
+  "m_moved_count_bookmarks_to_title_undo_available": {
+    "message": "{count} Lesezeichen nach „{title}“ verschoben. Rückgängig möglich."
+  },
+  "m_collapse_title": {
+    "message": "{title} einklappen"
+  },
+  "m_expand_title": {
+    "message": "{title} ausklappen"
+  },
+  "m_title_folder": {
+    "message": "{title}, Ordner"
+  },
+  "m_add_collection_in_title": {
+    "message": "Sammlung in {title} hinzufügen"
+  },
+  "m_edit_folder_title": {
+    "message": "Ordner {title} bearbeiten"
+  },
+  "m_delete_folder_title": {
+    "message": "Ordner {title} löschen"
+  },
+  "m_tag_count_bookmarks": {
+    "message": "{count} Lesezeichen taggen"
+  },
+  "m_tags_added_to_count_bookmarks_undo_available": {
+    "message": "Tags zu {count} Lesezeichen hinzugefügt. Rückgängig möglich."
+  },
+  "m_count_bookmarks_folders_collections": {
+    "message": "{count} Lesezeichen · {folders} Sammlungen"
+  },
+  "m_count_saved_places": {
+    "message": "{count} gespeicherte Seiten"
+  },
+  "m_count_selected": {
+    "message": "{count} ausgewählt"
+  },
+  "m_select_title": {
+    "message": "{title} auswählen"
+  },
+  "m_title_bookmark": {
+    "message": "Lesezeichen {title}"
+  },
+  "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort": {
+    "message": "{count} Lesezeichen werden gezogen · Auf einer Sammlung ablegen zum Verschieben oder zwischen Lesezeichen desselben Ordners zum Sortieren."
+  },
+  "m_show_more_count_remaining": {
+    "message": "Mehr anzeigen ({count} verbleibend)"
+  },
+  "m_bookmarks_bookmarks_folders_folders_favorites_favorites_notes_with_notes_tagged_with_tags_preferences_preferences": {
+    "message": "{bookmarks} Lesezeichen · {folders} Ordner · {favorites} Favoriten · {notes} mit Notizen · {tagged} mit Tags · Einstellungen {preferences}"
+  },
+  "m_included": {
+    "message": "enthalten"
+  },
+  "m_not_included": {
+    "message": "nicht enthalten"
+  },
+  "m_format_version": {
+    "message": "Format {version}"
+  },
+  "m_count_kb": {
+    "message": "{count} KB"
+  },
+  "m_saved_automatically_on_this_device": {
+    "message": "Automatisch auf diesem Gerät gespeichert"
+  },
+  "m_1sttab_bookmark_manager": {
+    "message": "1stTab Lesezeichenverwaltung"
+  },
+  "m_1sttab_bookmark_manager_version_version": {
+    "message": "1stTab Lesezeichenverwaltung, Version {version}"
+  },
+  "m_1sttab_bookmarks": {
+    "message": "1stTab Lesezeichen"
+  },
+  "m_research_work": {
+    "message": "Recherche, Arbeit"
+  },
+  "m_research_ideas": {
+    "message": "Recherche, Ideen"
+  },
+  "extension_name": {
+    "message": "1stTab — Lesezeichenverwaltung"
+  },
+  "m_save_organize_and_find_your_chrome_bookmarks_with_folders_tags_notes_and_safe_import_export": {
+    "message": "Chrome-Lesezeichen speichern, ordnen und finden – mit Ordnern, Tags, Notizen und sicherem Import/Export."
+  },
+  "m_open_1sttab_side_panel": {
+    "message": "1stTab-Seitenleiste öffnen"
+  },
+  "m_save_this_page_to_1sttab": {
+    "message": "Diese Seite in 1stTab speichern"
+  },
+  "m_import_is_limited_to_20_mb": {
+    "message": "Importe sind auf 20 MB begrenzt."
+  },
+  "m_use_an_http_https_or_ftp_url": {
+    "message": "Verwenden Sie eine http-, https- oder ftp-URL."
+  },
+  "m_notes_and_tags_belong_to_a_bookmark": {
+    "message": "Notizen und Tags gehören zu einem Lesezeichen."
+  },
+  "m_this_item_no_longer_exists_refresh_and_try_again": {
+    "message": "Dieses Element existiert nicht mehr. Laden Sie neu und versuchen Sie es erneut."
+  },
+  "m_chrome_root_and_managed_folders_cannot_be_edited": {
+    "message": "Chrome-Stammordner und verwaltete Ordner können nicht bearbeitet werden."
+  },
+  "m_choose_a_writable_bookmark_folder": {
+    "message": "Wählen Sie einen beschreibbaren Lesezeichenordner."
+  },
+  "m_a_folder_cannot_become_a_bookmark": {
+    "message": "Ein Ordner kann nicht in ein Lesezeichen umgewandelt werden."
+  },
+  "m_a_folder_cannot_move_inside_itself": {
+    "message": "Ein Ordner kann nicht in sich selbst verschoben werden."
+  },
+  "m_choose_a_bookmark_to_sort_beside": {
+    "message": "Wählen Sie ein Lesezeichen als Sortierziel aus."
+  },
+  "m_sort_bookmarks_in_the_same_folder_drop_onto_a_folder_to_move_them": {
+    "message": "Sortieren Sie Lesezeichen im selben Ordner. Zum Verschieben auf einem Ordner ablegen."
+  },
+  "m_choose_a_version_1_or_2_1sttab_bookmark_export": {
+    "message": "Wählen Sie einen 1stTab-Lesezeichenexport der Version 1 oder 2."
+  },
+  "m_import_is_too_large_or_deeply_nested": {
+    "message": "Import zu groß oder zu tief verschachtelt."
+  },
+  "m_invalid_item_title": {
+    "message": "Ungültiger Elementtitel."
+  },
+  "m_invalid_folder": {
+    "message": "Ungültiger Ordner."
+  },
+  "m_invalid_backup_preferences": {
+    "message": "Ungültige Sicherungseinstellungen."
+  },
+  "m_the_library_changed_preview_the_restore_again_before_importing": {
+    "message": "Die Bibliothek wurde geändert. Prüfen Sie die Wiederherstellung vor dem Import erneut."
+  },
+  "m_no_supported_operation_is_available_to_undo": {
+    "message": "Keine unterstützte Aktion zum Rückgängigmachen verfügbar."
+  },
+  "m_the_library_changed_after_this_operation_undo_stopped_to_avoid_overwriting_other_edits_use_snapshot_import_for_recovery": {
+    "message": "Die Bibliothek wurde seit dieser Aktion geändert. Rückgängig wurde gestoppt, um andere Änderungen zu schützen. Importieren Sie zur Wiederherstellung eine Sicherung."
+  },
+  "m_chrome_root_structure_changed": {
+    "message": "Chrome-Stammstruktur wurde geändert."
+  },
+  "m_restored_bookmark_order_is_incomplete": {
+    "message": "Wiederhergestellte Lesezeichenreihenfolge ist unvollständig."
+  },
+  "m_undo_stopped_partway_through_pre_undo_snapshot_retained": {
+    "message": "Rückgängig wurde unterbrochen. Vorherige Sicherung bleibt erhalten. "
+  },
+  "m_another_google_drive_operation_is_running_try_again_when_it_finishes": {
+    "message": "Eine andere Google-Drive-Aktion läuft. Versuchen Sie es nach deren Abschluss erneut."
+  },
+  "m_connect_google_drive_first": {
+    "message": "Verbinden Sie zuerst Google Drive."
+  },
+  "m_connect_or_reconnect_google_drive_first": {
+    "message": "Verbinden Sie Google Drive zuerst oder erneut."
+  },
+  "m_google_drive_could_not_be_reached_check_your_connection_and_try_again": {
+    "message": "Google Drive ist nicht erreichbar. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut."
+  },
+  "m_google_account_changed_disconnect_and_reconnect_before_continuing": {
+    "message": "Google-Konto geändert. Trennen und verbinden Sie es erneut."
+  },
+  "m_google_account_changed_reconnect": {
+    "message": "Google-Konto geändert. Erneut verbinden."
+  },
+  "m_could_not_verify_the_google_drive_account_reconnect_before_continuing": {
+    "message": "Google-Drive-Konto konnte nicht geprüft werden. Verbinden Sie es erneut."
+  },
+  "m_cloud_backup_access_was_declined_local_export_remains_available": {
+    "message": "Zugriff auf Cloud-Sicherungen abgelehnt. Lokaler Export bleibt verfügbar."
+  },
+  "m_google_connection_changed_refresh_backup_history_and_preview_again": {
+    "message": "Google-Verbindung geändert. Laden Sie Sicherungsverlauf und Vorschau erneut."
+  },
+  "m_refresh_backup_history_and_preview_again": {
+    "message": "Laden Sie Sicherungsverlauf und Vorschau erneut."
+  },
+  "m_backup_completion_is_unknown_refresh_backup_history_before_uploading_again_the_backup_may_already_exist": {
+    "message": "Sicherungsstatus unbekannt. Prüfen Sie vor erneutem Upload den Verlauf; die Sicherung könnte bereits existieren. "
+  },
+  "m_google_drive_returned_invalid_backup_history": {
+    "message": "Google Drive hat einen ungültigen Sicherungsverlauf zurückgegeben."
+  },
+  "m_backup_history_is_too_large_or_incomplete_try_again_later": {
+    "message": "Sicherungsverlauf zu groß oder unvollständig. Versuchen Sie es später erneut."
+  },
+  "m_invalid_backup_id": {
+    "message": "Ungültige Sicherungs-ID."
+  },
+  "m_reconnect_google_drive_authorization_expired": {
+    "message": "Google Drive erneut verbinden. Autorisierung abgelaufen."
+  },
+  "m_google_drive_denied_access_check_consent_and_storage_quota_then_try_again": {
+    "message": "Google Drive hat den Zugriff verweigert. Prüfen Sie Einwilligung und Speicherplatz."
+  },
+  "m_google_drive_rate_limit_reached_try_again_later": {
+    "message": "Google-Drive-Anfragelimit erreicht. Versuchen Sie es später erneut."
+  },
+  "m_this_backup_no_longer_exists_refresh_backup_history": {
+    "message": "Diese Sicherung existiert nicht mehr. Laden Sie den Verlauf erneut."
+  },
+  "m_google_drive_request_failed_status_try_again_later": {
+    "message": "Google-Drive-Anfrage fehlgeschlagen ({status}). Versuchen Sie es später erneut."
+  },
+  "m_reconnect_google_drive": {
+    "message": "Google Drive erneut verbinden. "
+  },
+  "m_chrome_could_not_authorize_google_drive_verify_the_publisher_oauth_client_and_consent_configuration": {
+    "message": "Chrome konnte Google Drive nicht autorisieren. Prüfen Sie OAuth-Client und Einwilligungskonfiguration des Herausgebers."
+  },
+  "m_google_rejected_the_oauth_client_its_application_type_must_be_chrome_extension_and_its_item_id_must_match_this_extension": {
+    "message": "Google hat den OAuth-Client abgelehnt. Der Typ muss Chrome Extension sein und die Item ID zu dieser Erweiterung passen."
+  },
+  "m_chrome_has_no_signed_in_google_account_available_sign_in_to_this_chrome_profile_then_try_connect_again": {
+    "message": "In Chrome ist kein Google-Konto angemeldet. Melden Sie sich in diesem Profil an und verbinden Sie erneut."
+  },
+  "m_google_sign_in_or_consent_was_cancelled_choose_connect_again_and_complete_the_consent_screen": {
+    "message": "Google-Anmeldung oder Einwilligung abgebrochen. Verbinden Sie erneut und schließen Sie die Einwilligung ab."
+  },
+  "m_google_denied_access_check_the_consent_audience_and_if_the_app_is_in_testing_add_your_google_account_as_a_test_user": {
+    "message": "Google hat den Zugriff verweigert. Prüfen Sie die Zielgruppe und fügen Sie Ihr Konto im Testmodus als Testnutzer hinzu."
+  },
+  "m_google_needs_interactive_authorization_choose_connect_google_drive_again": {
+    "message": "Google benötigt eine interaktive Autorisierung. Wählen Sie erneut Google Drive verbinden."
+  },
+  "m_chrome_could_not_reach_google_check_your_network_connection_and_try_again": {
+    "message": "Chrome konnte Google nicht erreichen. Prüfen Sie die Netzwerkverbindung."
+  },
+  "m_loaded_extension_id_id": {
+    "message": " ID der geladenen Erweiterung: {id}."
+  },
+  "m_find_the_loaded_extension_id_on_chrome_extensions": {
+    "message": " Die Erweiterungs-ID finden Sie unter chrome://extensions."
+  },
+  "m_could_not_load_language_file": {
+    "message": "Sprachdatei konnte nicht geladen werden."
+  },
+  "m_applied_of_total_items_moved_backup_retained_detail": {
+    "message": "{applied} von {total} Elementen verschoben. Sicherung bleibt erhalten. {detail}"
+  },
+  "m_applied_of_total_items_deleted_backup_retained_detail": {
+    "message": "{applied} von {total} Elementen gelöscht. Sicherung bleibt erhalten. {detail}"
+  },
+  "m_applied_sorting_steps_applied_backup_retained_detail": {
+    "message": "{applied} Sortierschritte angewendet. Sicherung bleibt erhalten. {detail}"
+  },
+  "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail": {
+    "message": "Import nach {count} Elementen gestoppt. Metadaten konnten nicht gespeichert werden. Bewahren Sie die Quelldatei zur Wiederherstellung auf; die vorherige Sicherung bleibt erhalten. {detail}"
+  },
+  "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail": {
+    "message": "Import nach {count} Elementen gestoppt. Bereits hinzugefügte Elemente bleiben in „{title}“; Tags und Notizen bleiben erhalten. Bestehende Lesezeichen sind unverändert. {detail}"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained": {
+    "message": "{count} Elemente importiert, aber Einstellungen konnten nicht wiederhergestellt werden. Vorherige Sicherung bleibt erhalten."
+  },
+  "m_count_active_filters_hiding_the_controls_keeps_filters_applied_one": {
+    "message": "{count} aktiver Filter. Beim Ausblenden der Steuerelemente bleibt der Filter aktiv."
+  },
+  "m_moved_count_bookmarks_to_title_undo_available_one": {
+    "message": "{count} Lesezeichen nach „{title}“ verschoben. Rückgängig möglich."
+  },
+  "m_tag_count_bookmarks_one": {
+    "message": "{count} Lesezeichen taggen"
+  },
+  "m_tags_added_to_count_bookmarks_undo_available_one": {
+    "message": "Tags zu {count} Lesezeichen hinzugefügt. Rückgängig möglich."
+  },
+  "m_count_bookmarks_folders_collections_one": {
+    "message": "{count} Lesezeichen · {folders} Sammlungen"
+  },
+  "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
+    "message": "{count} Lesezeichen werden gezogen · Auf einer Sammlung ablegen zum Verschieben oder zwischen Lesezeichen desselben Ordners zum Sortieren."
+  },
+  "m_move_count_item_s_one": {
+    "message": "{count} Element verschieben"
+  },
+  "m_move_count_item_s_few": {
+    "message": "{count} Elemente verschieben"
+  },
+  "m_move_count_item_s_many": {
+    "message": "{count} Elemente verschieben"
+  },
+  "m_delete_count_item_s_one": {
+    "message": "{count} Element löschen?"
+  },
+  "m_delete_count_item_s_few": {
+    "message": "{count} Elemente löschen?"
+  },
+  "m_delete_count_item_s_many": {
+    "message": "{count} Elemente löschen?"
+  },
+  "m_imported_count_items_one": {
+    "message": "{count} Element importiert."
+  },
+  "m_imported_count_items_few": {
+    "message": "{count} Elemente importiert."
+  },
+  "m_imported_count_items_many": {
+    "message": "{count} Elemente importiert."
+  },
+  "m_count_saved_places_one": {
+    "message": "{count} gespeicherte Seite"
+  }
+}

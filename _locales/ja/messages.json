@@ -1,0 +1,911 @@
+{
+  "m_language": {
+    "message": "言語"
+  },
+  "m_automatic_browser_language": {
+    "message": "自動 — ブラウザの言語"
+  },
+  "m_appearance": {
+    "message": "外観"
+  },
+  "m_settings": {
+    "message": "設定"
+  },
+  "m_settings_1sttab": {
+    "message": "設定 · 1stTab"
+  },
+  "m_settings_sections": {
+    "message": "設定のセクション"
+  },
+  "m_back_to_library": {
+    "message": "ライブラリに戻る"
+  },
+  "m_your_workspace_your_way": {
+    "message": "自分に合ったワークスペースに。"
+  },
+  "m_make_this_space_feel_like_yours_changes_save_automatically_on_this_device": {
+    "message": "使いやすい空間にカスタマイズできます。変更はこの端末に自動保存されます。"
+  },
+  "m_all_bookmarks": {
+    "message": "すべてのブックマーク"
+  },
+  "m_all_collections": {
+    "message": "すべてのコレクション"
+  },
+  "m_favorites": {
+    "message": "お気に入り"
+  },
+  "m_favorite": {
+    "message": "お気に入り"
+  },
+  "m_collection": {
+    "message": "コレクション"
+  },
+  "m_collections": {
+    "message": "コレクション"
+  },
+  "m_add_bookmark": {
+    "message": "ブックマークを追加"
+  },
+  "m_new_collection": {
+    "message": "新しいコレクション"
+  },
+  "m_new_folder": {
+    "message": "新しいフォルダ"
+  },
+  "m_edit_bookmark": {
+    "message": "ブックマークを編集"
+  },
+  "m_save_bookmark": {
+    "message": "ブックマークを保存"
+  },
+  "m_edit_folder": {
+    "message": "フォルダを編集"
+  },
+  "m_save_folder": {
+    "message": "フォルダを保存"
+  },
+  "m_title": {
+    "message": "タイトル"
+  },
+  "m_url": {
+    "message": "URL"
+  },
+  "m_folder": {
+    "message": "フォルダ"
+  },
+  "m_folder_name": {
+    "message": "フォルダ名"
+  },
+  "m_parent_folder": {
+    "message": "親フォルダ"
+  },
+  "m_destination": {
+    "message": "保存先"
+  },
+  "m_destination_folder": {
+    "message": "保存先フォルダ"
+  },
+  "m_tags_separated_by_commas": {
+    "message": "タグ（カンマ区切り）"
+  },
+  "m_note_about_this_bookmark": {
+    "message": "このブックマークのメモ"
+  },
+  "m_save": {
+    "message": "保存"
+  },
+  "m_cancel": {
+    "message": "キャンセル"
+  },
+  "m_edit": {
+    "message": "編集"
+  },
+  "m_delete": {
+    "message": "削除"
+  },
+  "m_close": {
+    "message": "閉じる"
+  },
+  "m_clear": {
+    "message": "クリア"
+  },
+  "m_add_favorite": {
+    "message": "お気に入りに追加"
+  },
+  "m_remove_favorite": {
+    "message": "お気に入りから削除"
+  },
+  "m_toggle_favorite": {
+    "message": "お気に入りを切り替え"
+  },
+  "m_show_filters": {
+    "message": "フィルタを表示"
+  },
+  "m_hide_filters": {
+    "message": "フィルタを非表示"
+  },
+  "m_no_active_filters": {
+    "message": "有効なフィルタはありません。"
+  },
+  "m_filter_folder": {
+    "message": "フォルダで絞り込み"
+  },
+  "m_filter_by_tag": {
+    "message": "タグで絞り込み"
+  },
+  "m_filter_by_domain": {
+    "message": "ドメインで絞り込み"
+  },
+  "m_tag": {
+    "message": "タグ"
+  },
+  "m_domain": {
+    "message": "ドメイン"
+  },
+  "m_reset_filters": {
+    "message": "フィルタをリセット"
+  },
+  "m_bookmark_filters": {
+    "message": "ブックマークのフィルタ"
+  },
+  "m_search_bookmarks": {
+    "message": "ブックマークを検索"
+  },
+  "m_find_a_bookmark_idea_or_saved_place": {
+    "message": "ブックマーク、アイデア、保存したサイトを検索…"
+  },
+  "m_light_dark": {
+    "message": "ライト / ダーク"
+  },
+  "m_light": {
+    "message": "ライト"
+  },
+  "m_dark": {
+    "message": "ダーク"
+  },
+  "m_follow_system": {
+    "message": "システム設定に従う"
+  },
+  "m_color_mode": {
+    "message": "カラーモード"
+  },
+  "m_design_theme": {
+    "message": "デザインテーマ"
+  },
+  "m_violet_ink": {
+    "message": "バイオレットとインク"
+  },
+  "m_warm_editorial": {
+    "message": "温かみのある誌面風"
+  },
+  "m_clean_precise": {
+    "message": "すっきりと整然"
+  },
+  "m_playful_graphic": {
+    "message": "遊び心のあるグラフィック"
+  },
+  "m_focused_professional": {
+    "message": "集中しやすいプロ仕様"
+  },
+  "m_text_icons": {
+    "message": "テキストとアイコン"
+  },
+  "m_text_size": {
+    "message": "文字サイズ"
+  },
+  "m_icon_size": {
+    "message": "アイコンサイズ"
+  },
+  "m_make_titles_labels_and_notes_easier_to_read": {
+    "message": "タイトル、ラベル、メモを読みやすくします。"
+  },
+  "m_enlarge_bookmark_icons_and_action_controls": {
+    "message": "ブックマークのアイコンと操作ボタンを大きくします。"
+  },
+  "m_a_clearer_view_of_your_library": {
+    "message": "ライブラリをもっと見やすく"
+  },
+  "m_your_changes_appear_immediately": {
+    "message": "変更はすぐに反映されます。"
+  },
+  "m_preview": {
+    "message": "プレビュー"
+  },
+  "m_workspace": {
+    "message": "ワークスペース"
+  },
+  "m_bookmark_view": {
+    "message": "ブックマークの表示"
+  },
+  "m_cards": {
+    "message": "カード"
+  },
+  "m_list": {
+    "message": "リスト"
+  },
+  "m_list_view": {
+    "message": "リスト表示"
+  },
+  "m_grid_view": {
+    "message": "グリッド表示"
+  },
+  "m_default_sort": {
+    "message": "既定の並び順"
+  },
+  "m_sort_bookmarks": {
+    "message": "ブックマークを並べ替え"
+  },
+  "m_manual_order": {
+    "message": "手動順"
+  },
+  "m_name_a_z": {
+    "message": "名前順"
+  },
+  "m_newest_first": {
+    "message": "新しい順"
+  },
+  "m_spacing": {
+    "message": "間隔"
+  },
+  "m_comfortable": {
+    "message": "ゆったり"
+  },
+  "m_compact": {
+    "message": "コンパクト"
+  },
+  "m_show_bookmark_notes": {
+    "message": "ブックマークのメモを表示"
+  },
+  "m_display_the_note_beneath_each_bookmark_title": {
+    "message": "各ブックマークのタイトルの下にメモを表示します。"
+  },
+  "m_reduce_motion": {
+    "message": "アニメーションを減らす"
+  },
+  "m_keep_the_interface_still_when_hovering_and_switching_views": {
+    "message": "ホバー時や表示切り替え時の動きを抑えます。"
+  },
+  "m_card_shape": {
+    "message": "カードの形"
+  },
+  "m_card_shapes": {
+    "message": "カードの形"
+  },
+  "m_rectangle": {
+    "message": "長方形"
+  },
+  "m_square": {
+    "message": "正方形"
+  },
+  "m_rounded": {
+    "message": "角丸"
+  },
+  "m_circle": {
+    "message": "円"
+  },
+  "m_sphere": {
+    "message": "球"
+  },
+  "m_choose_the_silhouette_of_your_bookmark_cards_list_view_stays_compact": {
+    "message": "ブックマークカードの形を選べます。リスト表示はコンパクトなままです。"
+  },
+  "m_preview_in_card_view": {
+    "message": "カード表示で確認"
+  },
+  "m_reset_appearance": {
+    "message": "外観をリセット"
+  },
+  "m_library_tools": {
+    "message": "ライブラリのツール"
+  },
+  "m_your_bookmarks_follow_chrome_s_sync_settings_tags_and_notes_stay_on_this_device": {
+    "message": "ブックマークはChromeの同期設定に従います。タグとメモはこの端末に保存されます。"
+  },
+  "m_export_library": {
+    "message": "ライブラリをエクスポート"
+  },
+  "m_import": {
+    "message": "インポート"
+  },
+  "m_undo_last_edit": {
+    "message": "最後の編集を元に戻す"
+  },
+  "m_clean_duplicates": {
+    "message": "重複を整理"
+  },
+  "m_user_guide": {
+    "message": "ユーザーガイド ↗"
+  },
+  "m_terms_conditions": {
+    "message": "利用規約 ↗"
+  },
+  "m_privacy": {
+    "message": "プライバシー ↗"
+  },
+  "m_bookmark_saved": {
+    "message": "ブックマークを保存しました。"
+  },
+  "m_collection_saved": {
+    "message": "コレクションを保存しました。"
+  },
+  "m_library_ready": {
+    "message": "ライブラリの準備ができました。"
+  },
+  "m_loading_library": {
+    "message": "ライブラリを読み込み中…"
+  },
+  "m_last_supported_operation_undone": {
+    "message": "最後の対応操作を元に戻しました。"
+  },
+  "m_bookmark_order_updated_undo_available": {
+    "message": "ブックマークの順序を更新しました。元に戻せます。"
+  },
+  "m_nothing_here_yet": {
+    "message": "まだ何もありません"
+  },
+  "m_a_home_for_your_next_discovery": {
+    "message": "次の発見を保存する場所"
+  },
+  "m_try_another_collection_or_clear_your_filters_you_can_also_drag_bookmarks_into_an_empty_collection": {
+    "message": "別のコレクションを選ぶか、フィルタを解除してください。空のコレクションにブックマークをドラッグすることもできます。"
+  },
+  "m_save_your_first_bookmark_or_import_your_existing_library": {
+    "message": "最初のブックマークを保存するか、既存のライブラリをインポートしてください。"
+  },
+  "m_untitled": {
+    "message": "無題"
+  },
+  "m_untitled_collection": {
+    "message": "無題のコレクション"
+  },
+  "m_untitled_folder": {
+    "message": "無題のフォルダ"
+  },
+  "m_close_collections": {
+    "message": "コレクションを閉じる"
+  },
+  "m_close_collections_drawer": {
+    "message": "コレクションパネルを閉じる"
+  },
+  "m_bookmark_folders": {
+    "message": "ブックマークのフォルダ"
+  },
+  "m_saved_bookmarks": {
+    "message": "保存したブックマーク"
+  },
+  "m_show_more": {
+    "message": "さらに表示"
+  },
+  "m_installed_version": {
+    "message": "インストール済みのバージョン"
+  },
+  "m_managed_bookmark": {
+    "message": "管理対象のブックマーク"
+  },
+  "m_drag_to_move_or_sort": {
+    "message": "ドラッグして移動または並べ替え"
+  },
+  "m_resize_folder_sidebar": {
+    "message": "フォルダサイドバーの幅を変更"
+  },
+  "m_drag_to_resize_arrow_keys_to_adjust_double_click_to_reset": {
+    "message": "ドラッグで幅を変更 · 矢印キーで調整 · ダブルクリックでリセット"
+  },
+  "m_move_selected": {
+    "message": "選択項目を移動"
+  },
+  "m_delete_selected": {
+    "message": "選択項目を削除"
+  },
+  "m_tag_selected": {
+    "message": "選択項目にタグを付ける"
+  },
+  "m_tag_bookmarks": {
+    "message": "ブックマークにタグを付ける"
+  },
+  "m_add_tags": {
+    "message": "タグを追加"
+  },
+  "m_adds_these_tags_to_every_selected_bookmark_existing_tags_and_notes_are_preserved": {
+    "message": "選択したすべてのブックマークにタグを追加します。既存のタグとメモは保持されます。"
+  },
+  "m_enter_at_least_one_tag": {
+    "message": "タグを1つ以上入力してください。"
+  },
+  "m_select_bookmarks_to_move": {
+    "message": "移動するブックマークを選んでください。"
+  },
+  "m_select_items_to_delete": {
+    "message": "削除する項目を選んでください。"
+  },
+  "m_select_items_to_review": {
+    "message": "確認する項目を選んでください。"
+  },
+  "m_move_items": {
+    "message": "項目を移動"
+  },
+  "m_move_bookmarks": {
+    "message": "ブックマークを移動"
+  },
+  "m_delete_items": {
+    "message": "項目を削除"
+  },
+  "m_confirm_move": {
+    "message": "移動を確認"
+  },
+  "m_confirm_delete": {
+    "message": "削除を確認"
+  },
+  "m_a_local_snapshot_will_be_saved_before_moving_these_items": {
+    "message": "移動する前にローカルスナップショットを保存します。"
+  },
+  "m_folders_include_their_contents_a_local_recovery_snapshot_will_be_saved_first": {
+    "message": "フォルダの内容も含まれます。先に復元用のローカルスナップショットを保存します。"
+  },
+  "m_items_moved_recovery_snapshot_retained": {
+    "message": "項目を移動しました。復元用スナップショットは保持されています。"
+  },
+  "m_deleted_recovery_snapshot_retained": {
+    "message": "削除しました。復元用スナップショットは保持されています。"
+  },
+  "m_these_bookmarks_are_already_in_this_collection": {
+    "message": "このブックマークはすでにこのコレクションにあります。"
+  },
+  "m_review_duplicate_links": {
+    "message": "重複リンクを確認"
+  },
+  "m_review_selected_deletions": {
+    "message": "選択した削除対象を確認"
+  },
+  "m_import_bookmarks": {
+    "message": "ブックマークをインポート"
+  },
+  "m_confirm_import": {
+    "message": "インポートを確認"
+  },
+  "m_top_level_folders": {
+    "message": "最上位のフォルダ："
+  },
+  "m_adds_the_imported_folders_and_bookmarks_directly_to_the_destination_folder_existing_bookmarks_will_not_be_overwritten_a_local_snapshot_is_saved_first": {
+    "message": "インポートしたフォルダとブックマークを保存先に直接追加します。既存のブックマークは上書きされません。先にローカルスナップショットを保存します。"
+  },
+  "m_also_restore_appearance_and_view_preferences": {
+    "message": "外観と表示設定も復元する"
+  },
+  "m_restores_theme_design_sizes_card_shape_sidebar_width_spacing_note_visibility_motion_view_sort_and_filter_visibility_browser_specific_folder_selections_stay_local": {
+    "message": "テーマ、デザイン、サイズ、カードの形、サイドバーの幅、間隔、メモ表示、動き、表示形式、並び順、フィルタ表示を復元します。ブラウザ固有のフォルダ選択はこの端末に保持されます。"
+  },
+  "m_backup_google_drive": {
+    "message": "バックアップとGoogle Drive"
+  },
+  "m_connect_google_drive": {
+    "message": "Google Driveに接続"
+  },
+  "m_disconnect": {
+    "message": "接続を解除"
+  },
+  "m_connected": {
+    "message": "接続済み"
+  },
+  "m_not_connected": {
+    "message": "未接続"
+  },
+  "m_connecting": {
+    "message": "接続中…"
+  },
+  "m_checking_connection": {
+    "message": "接続を確認中…"
+  },
+  "m_reconnect_required": {
+    "message": "再接続が必要です"
+  },
+  "m_connect_your_google_account_to_back_up_to_drive": {
+    "message": "DriveにバックアップするにはGoogleアカウントを接続してください。"
+  },
+  "m_back_up_now": {
+    "message": "今すぐバックアップ"
+  },
+  "m_review_google_drive_backup": {
+    "message": "Google Driveのバックアップを確認"
+  },
+  "m_backing_up_to_google_drive": {
+    "message": "Google Driveにバックアップ中…"
+  },
+  "m_google_drive_backup_saved": {
+    "message": "Google Driveにバックアップを保存しました。"
+  },
+  "m_google_drive_disconnected_your_saved_backups_remain_in_drive": {
+    "message": "Google Driveとの接続を解除しました。保存済みのバックアップはDriveに残ります。"
+  },
+  "m_google_receives_a_bookmark_export_including_urls_tags_notes_favorites_and_portable_preferences_only_when_you_choose_back_up_now_backups_are_stored_privately_in_google_drive_restore_adds_bookmarks_after_your_review": {
+    "message": "「今すぐバックアップ」を選んだときだけ、URL、タグ、メモ、お気に入り、移行可能な設定を含むブックマークのエクスポートがGoogleに送信されます。バックアップはGoogle Driveに非公開で保存されます。復元では確認後にブックマークが追加されます。"
+  },
+  "m_an_upload_may_have_completed_review_google_drive_backup_before_uploading_again": {
+    "message": "アップロードが完了している可能性があります。再実行する前にGoogle Driveのバックアップを確認してください。"
+  },
+  "m_no_successful_backup_yet": {
+    "message": "まだバックアップは成功していません"
+  },
+  "m_google_drive_snapshots": {
+    "message": "Google Driveのスナップショット"
+  },
+  "m_saved_google_drive_snapshots": {
+    "message": "保存済みのGoogle Driveスナップショット"
+  },
+  "m_snapshot": {
+    "message": "スナップショット"
+  },
+  "m_bookmark_snapshot": {
+    "message": "ブックマークのスナップショット"
+  },
+  "m_restore": {
+    "message": "復元"
+  },
+  "m_select_a_snapshot_first": {
+    "message": "先にスナップショットを選んでください。"
+  },
+  "m_delete_this_cloud_backup": {
+    "message": "このクラウドバックアップを削除しますか？"
+  },
+  "m_confirm_cloud_deletion": {
+    "message": "クラウドからの削除を確認"
+  },
+  "m_cloud_backup_deleted": {
+    "message": "クラウドバックアップを削除しました。"
+  },
+  "m_select_one_snapshot_then_choose_restore_or_delete_restore_shows_a_preview_before_changing_your_library": {
+    "message": "スナップショットを1つ選び、「復元」または「削除」を選択してください。復元では変更前にプレビューが表示されます。"
+  },
+  "m_no_backups_found": {
+    "message": "バックアップが見つかりません。"
+  },
+  "m_older_snapshot_counts_available_in_the_restore_preview": {
+    "message": "古いスナップショット — 件数は復元プレビューで確認できます。"
+  },
+  "m_date_unavailable": {
+    "message": "日付不明"
+  },
+  "m_last_backup_date": {
+    "message": "前回のバックアップ：{date}"
+  },
+  "m_move_count_item_s": {
+    "message": "{count}件を移動"
+  },
+  "m_delete_count_item_s": {
+    "message": "{count}件を削除しますか？"
+  },
+  "m_import_bookmarks_bookmarks_and_folders_folders": {
+    "message": "ブックマーク{bookmarks}件とフォルダ{folders}個をインポート"
+  },
+  "m_duplicates_duplicate_urls_differences_metadata_differences_duplicates_will_be_added_as_separate_bookmarks_existing_notes_and_tags_are_preserved": {
+    "message": "重複URL：{duplicates}件、メタデータの相違：{differences}件。重複は別のブックマークとして追加され、既存のメモとタグは保持されます。"
+  },
+  "m_imported_count_items": {
+    "message": "{count}件をインポートしました。"
+  },
+  "m_duplicates_exact_url_duplicate_groups_folders_empty_folders_no_automatic_deletion": {
+    "message": "完全一致するURLのグループ：{duplicates}件、空のフォルダ：{folders}個。自動削除は行いません。"
+  },
+  "m_empty_folder_title": {
+    "message": "空のフォルダ：{title}"
+  },
+  "m_count_active_filters_hiding_the_controls_keeps_filters_applied": {
+    "message": "有効なフィルタ：{count}件。操作パネルを非表示にしてもフィルタは適用されます。"
+  },
+  "m_count_pixels": {
+    "message": "{count}ピクセル"
+  },
+  "m_moved_count_bookmarks_to_title_undo_available": {
+    "message": "「{title}」にブックマーク{count}件を移動しました。元に戻せます。"
+  },
+  "m_collapse_title": {
+    "message": "{title}を折りたたむ"
+  },
+  "m_expand_title": {
+    "message": "{title}を展開"
+  },
+  "m_title_folder": {
+    "message": "{title}、フォルダ"
+  },
+  "m_add_collection_in_title": {
+    "message": "{title}にコレクションを追加"
+  },
+  "m_edit_folder_title": {
+    "message": "フォルダ{title}を編集"
+  },
+  "m_delete_folder_title": {
+    "message": "フォルダ{title}を削除"
+  },
+  "m_tag_count_bookmarks": {
+    "message": "ブックマーク{count}件にタグを付ける"
+  },
+  "m_tags_added_to_count_bookmarks_undo_available": {
+    "message": "ブックマーク{count}件にタグを追加しました。元に戻せます。"
+  },
+  "m_count_bookmarks_folders_collections": {
+    "message": "ブックマーク{count}件 · コレクション{folders}個"
+  },
+  "m_count_saved_places": {
+    "message": "保存したサイト{count}件"
+  },
+  "m_count_selected": {
+    "message": "{count}件選択中"
+  },
+  "m_select_title": {
+    "message": "{title}を選択"
+  },
+  "m_title_bookmark": {
+    "message": "ブックマーク{title}"
+  },
+  "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort": {
+    "message": "ブックマーク{count}件をドラッグ中 · コレクションにドロップして移動、同じフォルダ内のブックマーク間にドロップして並べ替え。"
+  },
+  "m_show_more_count_remaining": {
+    "message": "さらに表示（残り{count}件）"
+  },
+  "m_bookmarks_bookmarks_folders_folders_favorites_favorites_notes_with_notes_tagged_with_tags_preferences_preferences": {
+    "message": "ブックマーク{bookmarks}件 · フォルダ{folders}個 · お気に入り{favorites}件 · メモ付き{notes}件 · タグ付き{tagged}件 · 設定：{preferences}"
+  },
+  "m_included": {
+    "message": "あり"
+  },
+  "m_not_included": {
+    "message": "なし"
+  },
+  "m_format_version": {
+    "message": "形式{version}"
+  },
+  "m_count_kb": {
+    "message": "{count} KB"
+  },
+  "m_saved_automatically_on_this_device": {
+    "message": "この端末に自動保存"
+  },
+  "m_1sttab_bookmark_manager": {
+    "message": "1stTab ブックマーク管理"
+  },
+  "m_1sttab_bookmark_manager_version_version": {
+    "message": "1stTab ブックマーク管理、バージョン{version}"
+  },
+  "m_1sttab_bookmarks": {
+    "message": "1stTab ブックマーク"
+  },
+  "m_research_work": {
+    "message": "調査, 仕事"
+  },
+  "m_research_ideas": {
+    "message": "調査, アイデア"
+  },
+  "extension_name": {
+    "message": "1stTab — ブックマーク管理"
+  },
+  "m_save_organize_and_find_your_chrome_bookmarks_with_folders_tags_notes_and_safe_import_export": {
+    "message": "フォルダ、タグ、メモ、安全なインポートとエクスポートでChromeのブックマークを保存・整理・検索。"
+  },
+  "m_open_1sttab_side_panel": {
+    "message": "1stTabサイドパネルを開く"
+  },
+  "m_save_this_page_to_1sttab": {
+    "message": "このページを1stTabに保存"
+  },
+  "m_import_is_limited_to_20_mb": {
+    "message": "インポートは20 MBまでです。"
+  },
+  "m_use_an_http_https_or_ftp_url": {
+    "message": "http、https、ftpのURLを使用してください。"
+  },
+  "m_notes_and_tags_belong_to_a_bookmark": {
+    "message": "メモとタグはブックマークに設定できます。"
+  },
+  "m_this_item_no_longer_exists_refresh_and_try_again": {
+    "message": "この項目はもうありません。再読み込みしてやり直してください。"
+  },
+  "m_chrome_root_and_managed_folders_cannot_be_edited": {
+    "message": "Chromeのルートフォルダと管理対象フォルダは編集できません。"
+  },
+  "m_choose_a_writable_bookmark_folder": {
+    "message": "書き込み可能なブックマークフォルダを選んでください。"
+  },
+  "m_a_folder_cannot_become_a_bookmark": {
+    "message": "フォルダをブックマークに変えることはできません。"
+  },
+  "m_a_folder_cannot_move_inside_itself": {
+    "message": "フォルダを自身の中に移動することはできません。"
+  },
+  "m_choose_a_bookmark_to_sort_beside": {
+    "message": "並べ替え先となるブックマークを選んでください。"
+  },
+  "m_sort_bookmarks_in_the_same_folder_drop_onto_a_folder_to_move_them": {
+    "message": "同じフォルダ内で並べ替えてください。移動する場合はフォルダにドロップしてください。"
+  },
+  "m_choose_a_version_1_or_2_1sttab_bookmark_export": {
+    "message": "バージョン1または2の1stTabブックマークエクスポートを選んでください。"
+  },
+  "m_import_is_too_large_or_deeply_nested": {
+    "message": "インポートが大きすぎるか、階層が深すぎます。"
+  },
+  "m_invalid_item_title": {
+    "message": "項目のタイトルが無効です。"
+  },
+  "m_invalid_folder": {
+    "message": "フォルダが無効です。"
+  },
+  "m_invalid_backup_preferences": {
+    "message": "バックアップの設定が無効です。"
+  },
+  "m_the_library_changed_preview_the_restore_again_before_importing": {
+    "message": "ライブラリが変更されました。インポート前に復元プレビューをもう一度確認してください。"
+  },
+  "m_no_supported_operation_is_available_to_undo": {
+    "message": "元に戻せる対応操作はありません。"
+  },
+  "m_the_library_changed_after_this_operation_undo_stopped_to_avoid_overwriting_other_edits_use_snapshot_import_for_recovery": {
+    "message": "この操作後にライブラリが変更されました。他の編集を上書きしないよう元に戻す操作を中止しました。復元にはスナップショットをインポートしてください。"
+  },
+  "m_chrome_root_structure_changed": {
+    "message": "Chromeのルート構造が変更されました。"
+  },
+  "m_restored_bookmark_order_is_incomplete": {
+    "message": "ブックマークの順序の復元が不完全です。"
+  },
+  "m_undo_stopped_partway_through_pre_undo_snapshot_retained": {
+    "message": "元に戻す操作が途中で停止しました。操作前のスナップショットは保持されています。 "
+  },
+  "m_another_google_drive_operation_is_running_try_again_when_it_finishes": {
+    "message": "別のGoogle Drive操作が実行中です。完了後にやり直してください。"
+  },
+  "m_connect_google_drive_first": {
+    "message": "先にGoogle Driveに接続してください。"
+  },
+  "m_connect_or_reconnect_google_drive_first": {
+    "message": "先にGoogle Driveに接続または再接続してください。"
+  },
+  "m_google_drive_could_not_be_reached_check_your_connection_and_try_again": {
+    "message": "Google Driveに接続できませんでした。接続を確認してやり直してください。"
+  },
+  "m_google_account_changed_disconnect_and_reconnect_before_continuing": {
+    "message": "Googleアカウントが変更されました。接続を解除し、再接続してから続行してください。"
+  },
+  "m_google_account_changed_reconnect": {
+    "message": "Googleアカウントが変更されました。再接続してください。"
+  },
+  "m_could_not_verify_the_google_drive_account_reconnect_before_continuing": {
+    "message": "Google Driveのアカウントを確認できませんでした。再接続してください。"
+  },
+  "m_cloud_backup_access_was_declined_local_export_remains_available": {
+    "message": "クラウドバックアップへのアクセスが拒否されました。ローカルエクスポートは利用できます。"
+  },
+  "m_google_connection_changed_refresh_backup_history_and_preview_again": {
+    "message": "Googleの接続が変更されました。バックアップ履歴とプレビューを開き直してください。"
+  },
+  "m_refresh_backup_history_and_preview_again": {
+    "message": "バックアップ履歴とプレビューを開き直してください。"
+  },
+  "m_backup_completion_is_unknown_refresh_backup_history_before_uploading_again_the_backup_may_already_exist": {
+    "message": "バックアップの完了状況が不明です。既に存在する可能性があるため、再アップロード前に履歴を確認してください。 "
+  },
+  "m_google_drive_returned_invalid_backup_history": {
+    "message": "Google Driveから無効なバックアップ履歴が返されました。"
+  },
+  "m_backup_history_is_too_large_or_incomplete_try_again_later": {
+    "message": "バックアップ履歴が大きすぎるか不完全です。後でやり直してください。"
+  },
+  "m_invalid_backup_id": {
+    "message": "バックアップIDが無効です。"
+  },
+  "m_reconnect_google_drive_authorization_expired": {
+    "message": "Google Driveに再接続してください。認証の有効期限が切れました。"
+  },
+  "m_google_drive_denied_access_check_consent_and_storage_quota_then_try_again": {
+    "message": "Google Driveへのアクセスが拒否されました。同意設定と空き容量を確認してやり直してください。"
+  },
+  "m_google_drive_rate_limit_reached_try_again_later": {
+    "message": "Google Driveのリクエスト上限に達しました。後でやり直してください。"
+  },
+  "m_this_backup_no_longer_exists_refresh_backup_history": {
+    "message": "このバックアップはもうありません。履歴を開き直してください。"
+  },
+  "m_google_drive_request_failed_status_try_again_later": {
+    "message": "Google Driveのリクエストに失敗しました（{status}）。後でやり直してください。"
+  },
+  "m_reconnect_google_drive": {
+    "message": "Google Driveに再接続してください。 "
+  },
+  "m_chrome_could_not_authorize_google_drive_verify_the_publisher_oauth_client_and_consent_configuration": {
+    "message": "ChromeでGoogle Driveを認証できませんでした。公開者のOAuthクライアントと同意設定を確認してください。"
+  },
+  "m_google_rejected_the_oauth_client_its_application_type_must_be_chrome_extension_and_its_item_id_must_match_this_extension": {
+    "message": "GoogleがOAuthクライアントを拒否しました。種類をChrome Extensionにし、Item IDをこの拡張機能に合わせてください。"
+  },
+  "m_chrome_has_no_signed_in_google_account_available_sign_in_to_this_chrome_profile_then_try_connect_again": {
+    "message": "Chromeにログイン済みのGoogleアカウントがありません。このプロファイルにログインして再接続してください。"
+  },
+  "m_google_sign_in_or_consent_was_cancelled_choose_connect_again_and_complete_the_consent_screen": {
+    "message": "Googleへのログインまたは同意がキャンセルされました。再接続して同意画面を完了してください。"
+  },
+  "m_google_denied_access_check_the_consent_audience_and_if_the_app_is_in_testing_add_your_google_account_as_a_test_user": {
+    "message": "Googleがアクセスを拒否しました。同意対象を確認し、テスト中ならGoogleアカウントをテストユーザーに追加してください。"
+  },
+  "m_google_needs_interactive_authorization_choose_connect_google_drive_again": {
+    "message": "Googleの認証操作が必要です。もう一度Google Driveへの接続を選んでください。"
+  },
+  "m_chrome_could_not_reach_google_check_your_network_connection_and_try_again": {
+    "message": "ChromeからGoogleに接続できませんでした。ネットワーク接続を確認してやり直してください。"
+  },
+  "m_loaded_extension_id_id": {
+    "message": " 読み込まれた拡張機能のID：{id}。"
+  },
+  "m_find_the_loaded_extension_id_on_chrome_extensions": {
+    "message": " 拡張機能IDはchrome://extensionsで確認できます。"
+  },
+  "m_could_not_load_language_file": {
+    "message": "言語ファイルを読み込めませんでした。"
+  },
+  "m_applied_of_total_items_moved_backup_retained_detail": {
+    "message": "{total}件中{applied}件を移動しました。バックアップは保持されています。{detail}"
+  },
+  "m_applied_of_total_items_deleted_backup_retained_detail": {
+    "message": "{total}件中{applied}件を削除しました。バックアップは保持されています。{detail}"
+  },
+  "m_applied_sorting_steps_applied_backup_retained_detail": {
+    "message": "並べ替えを{applied}ステップ適用しました。バックアップは保持されています。{detail}"
+  },
+  "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail": {
+    "message": "{count}件でインポートが停止しました。メタデータを保存できませんでした。復元用に元のエクスポートを保管してください。インポート前のスナップショットは保持されています。{detail}"
+  },
+  "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail": {
+    "message": "{count}件でインポートが停止しました。追加済みの項目は「{title}」に残り、タグとメモも保持されます。既存のブックマークは変更されていません。{detail}"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained": {
+    "message": "{count}件をインポートしましたが、設定を復元できませんでした。インポート前のスナップショットは保持されています。"
+  },
+  "m_count_active_filters_hiding_the_controls_keeps_filters_applied_one": {
+    "message": "有効なフィルタ：{count}件。操作パネルを非表示にしてもフィルタは適用されます。"
+  },
+  "m_moved_count_bookmarks_to_title_undo_available_one": {
+    "message": "「{title}」にブックマーク{count}件を移動しました。元に戻せます。"
+  },
+  "m_tag_count_bookmarks_one": {
+    "message": "ブックマーク{count}件にタグを付ける"
+  },
+  "m_tags_added_to_count_bookmarks_undo_available_one": {
+    "message": "ブックマーク{count}件にタグを追加しました。元に戻せます。"
+  },
+  "m_count_bookmarks_folders_collections_one": {
+    "message": "ブックマーク{count}件 · コレクション{folders}個"
+  },
+  "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
+    "message": "ブックマーク{count}件をドラッグ中 · コレクションにドロップして移動、同じフォルダ内のブックマーク間にドロップして並べ替え。"
+  },
+  "m_move_count_item_s_one": {
+    "message": "{count}件を移動"
+  },
+  "m_move_count_item_s_few": {
+    "message": "{count}件を移動"
+  },
+  "m_move_count_item_s_many": {
+    "message": "{count}件を移動"
+  },
+  "m_delete_count_item_s_one": {
+    "message": "{count}件を削除しますか？"
+  },
+  "m_delete_count_item_s_few": {
+    "message": "{count}件を削除しますか？"
+  },
+  "m_delete_count_item_s_many": {
+    "message": "{count}件を削除しますか？"
+  },
+  "m_imported_count_items_one": {
+    "message": "{count}件をインポートしました。"
+  },
+  "m_imported_count_items_few": {
+    "message": "{count}件をインポートしました。"
+  },
+  "m_imported_count_items_many": {
+    "message": "{count}件をインポートしました。"
+  },
+  "m_count_saved_places_one": {
+    "message": "保存したサイト{count}件"
+  }
+}

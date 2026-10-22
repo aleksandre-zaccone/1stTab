@@ -11,6 +11,16 @@ class Assets(HTMLParser):
 with zipfile.ZipFile(root/('dist/1stTab-bookmarks-optional.zip' if optional else 'dist/1stTab-bookmarks.zip')) as z:
  names=set(z.namelist());m=json.loads(z.read('manifest.json'))
  assert 'initial_bookmarks.json' in names
+ assert m['default_locale']=='en'
+ catalogs={lang:json.loads(z.read(f'_locales/{lang}/messages.json')) for lang in ['en','ru','ka','de','ja']}
+ for lang,catalog in catalogs.items():
+  assert catalog.keys()==catalogs['en'].keys(),f'Incomplete locale: {lang}'
+  for key,value in catalog.items():
+   assert value.get('message'),(lang,key)
+   assert set(re.findall(r'\{(\w+)\}',value['message']))==set(re.findall(r'\{(\w+)\}',catalogs['en'][key]['message'])),(lang,key)
+ for token in re.findall(r'__MSG_(\w+)__',json.dumps(m)):
+  assert token in catalogs['en'],f'Unknown manifest message: {token}'
+ assert 'bookmark-core/integrations.js' not in names
  for icon in (root/'icons/sites').glob('*'):
   if icon.suffix in ['.png','.svg','.ico','.webp']:assert str(icon.relative_to(root)) in names,f'Missing bundled icon: {icon.name}'
  assert set(m['permissions'])=={'bookmarks','storage','sidePanel','activeTab','favicon'}
@@ -18,7 +28,7 @@ with zipfile.ZipFile(root/('dist/1stTab-bookmarks-optional.zip' if optional else
  assert 'host_permissions' not in m
  if optional:
   assert m['optional_permissions']==['identity']
-  assert set(m['optional_host_permissions'])=={'https://api.openai.com/*','https://www.googleapis.com/*'}
+  assert set(m['optional_host_permissions'])=={'https://www.googleapis.com/*'}
   assert m['oauth2']['scopes']==['https://www.googleapis.com/auth/drive.appdata']
  else: assert 'oauth2' not in m and 'optional_host_permissions' not in m
  assert m['minimum_chrome_version']=='116'

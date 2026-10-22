@@ -98,3 +98,44 @@ Prepared `feature/bookmark-manager-v2` for the v2 bookmark workspace.
 Validation passed: all six unit-test files; deterministic builds and asset/source/permission checks for both 2.0.0 package variants; four browser suites (library workflows, settings/filters, workspace customization, visual preview); and both native package suites in isolated Chrome for Testing profiles. Native checks covered new tabs, actual bookmark edits, manager/panel synchronization, settings, restart persistence, capture, drag/drop, native ordering and undo. Optional consent dialogs did not grant service access merely by opening them.
 
 Release limits remain: actual toolbar/shortcut gestures and enterprise-managed policy behavior need publisher checks. Live Google OAuth/Drive and paid AI provider requests were not exercised. Import validation currently accepts HTTP, HTTPS and FTP URLs and rejects executable or other schemes; an export containing unsupported native bookmark URLs cannot be imported unchanged. No merge, Chrome Web Store upload, or publication was performed during this review.
+
+## 2.2.0 manual Drive backup — October 18, 2026
+
+Implemented on feature/2.2-google-drive-backup. The complete `npm run test:integration` run passed with Node 24.13.0 and Chrome for Testing 156.0.8078.4, using externally installed Playwright through PLAYWRIGHT_MODULE and CHROME_PATH.
+
+- 60 unit checks passed, zero failures: account binding, explicit consent, token refresh, error handling, multipart format, credential exclusion, uncertain-upload reconciliation, pagination, streamed size limits, preference compatibility, snapshot/partial-failure handling and stale restore rejection, plus existing bookmark/AI regressions.
+- Both core and optional ZIPs passed manifest, source parity, module graph and package boundary checks.
+- Core browser, Drive browser, settings, customization and workspace preview suites passed. The settings/customization suites use the existing checked-in design fixtures; current-source workflows are covered by the core/Drive/browser/native tests.
+- Native core and optional package suites passed against isolated Chrome profiles: actual bookmarks, manager/panel updates, options page, restart persistence, capture, drag/drop, sorting and undo. Opening optional disclosures did not grant provider permissions.
+- Native Drive integration passed with real Chrome bookmark/storage APIs: metadata and preference round trip, recovery snapshot, cross-page Web Lock and stale-preview rejection. Only Google authentication and transport were mocked.
+- A freshly generated current-source preview passed with 12 starter favorites and recovery controls. After the full run, a focused Drive UI regression verified that connection changes leave unrelated bookmark-edit dialogs open; the fresh-preview smoke test also passed again.
+
+Live Google OAuth/Drive requests were not performed: final extension-ID/client pairing, consent configuration, account selection, revoked grants and real upload/restore/delete remain publisher release gates. No personal browser profile was used. The optional package remains a local release candidate; publishing still targets the local core package, and no release was submitted.
+
+### Backup settings and snapshot details follow-up
+
+Removed AI controls and provider permission; excluded the unused AI module from both ZIPs. Added the separate Backup & Google Drive section/navigation, local connection/account indicator, direct restore entry, new snapshot summary metadata, legacy detail loading and richer restore previews.
+
+Verification passed: 62 unit checks, both package/source/permission verifiers, Drive browser integration (new and legacy snapshot details, connection state, restore/cancel/delete/disconnect), freshly generated preview, and the optional native Chrome suite (new section, no AI controls, permission boundaries, restart persistence and bookmark workflows). Google transport remains mocked in Drive browser tests. Both existing local unpacked installation folders were refreshed without changing the configured OAuth client or folder locations.
+
+### Direct Google Drive actions
+
+Review Google Drive backup now fetches and opens the snapshot list directly. Connect Google Drive, Back up now, Disconnect and Refresh are separate Settings buttons, with another Refresh inside the snapshot list. Consent disclosure and connection/error/uncertain-upload status remain visible in the section. The updated Drive browser integration passed through connection, direct backup/review, both refresh controls, restore/cancel, deletion and disconnect; both package verifiers and the current-source preview check passed. Local unpacked folders were refreshed.
+
+### Selectable snapshot list — October 19, 2026
+
+Replaced snapshot cards and per-row actions with a scrollable single-choice list and shared Restore/Delete buttons. Both actions remain disabled until selection. Restore opens the existing preview; deletion confirms the selected snapshot. Legacy detail loading targets the selected row. Refresh clears selection.
+
+Drive browser integration passed, including switching between two snapshots, single-selection enforcement, selection reset after refresh, selected-file deletion, disabled actions for an empty list, legacy details, restore/cancel and disconnect. Both package verifiers passed and local unpacked folders were refreshed.
+
+### Snapshot details feedback — October 19, 2026
+
+Loading snapshot details now opens a dedicated visible panel, announces loading, shows the selected snapshot's counts/folder names and confirms completion. Failures remain visible with retry instructions. The action is available for all selected snapshots. Results from an older selection are discarded, and the panel scrolls into view. Previously only the small row summary changed, with no loading feedback.
+
+The Drive browser test passed for delayed downloads, provider failure and retry, visible completion, and unchanged bookmark data. Both package verifiers passed and both local unpacked folders were refreshed. This test uses mocked Google responses; it does not diagnose the user's live provider response.
+
+### Snapshot dialog action simplification — October 19, 2026
+
+Removed the separate snapshot details button/panel and the duplicate Cancel action. The snapshot dialog now has exactly Restore, Delete, Refresh and Close. Existing summary information remains in list rows; legacy counts remain available in restore preview. Restore previews and delete confirmations retain their cancellation controls.
+
+Drive browser integration passed with exact four-button assertions for both new and legacy snapshots, plus restore/cancel/delete/refresh flows. Both package verifiers passed and local unpacked folders were refreshed.

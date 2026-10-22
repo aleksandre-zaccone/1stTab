@@ -1,6 +1,6 @@
-import {normalizeMeta}from'./library.js';import{makeExport,parseImport}from'./transfer.js';
-export const AI_ORIGIN='https://api.openai.com/*';export const DRIVE_ORIGIN='https://www.googleapis.com/*';
-export const DRIVE_SCOPE='https://www.googleapis.com/auth/drive.appdata';
+import {normalizeMeta}from'./library.js';
+export const AI_ORIGIN='https://api.openai.com/*';
+export {DRIVE_ORIGIN,DRIVE_SCOPE,enableDrive,disableDrive,uploadBackup,listBackups,downloadBackup,deleteBackup} from './drive.js';
 async function jsonResponse(r){if(!r.ok)throw Error(`Service request failed (${r.status}). Check access and try again.`);return r.json()}
 export async function enableAI(api){if(!await api.permissions.request({origins:[AI_ORIGIN]}))throw Error('AI access was declined. The local library remains available.');}
 export async function disableAI(api){await api.permissions.remove({origins:[AI_ORIGIN]});}
@@ -16,11 +16,3 @@ export async function suggestBookmarks(api,request,fetcher=fetch){
  if(!Array.isArray(doc.suggestions))throw Error('AI returned an unsupported format.');const seen=new Set();
  return doc.suggestions.filter(v=>selected.has(v.id)&&!seen.has(v.id)&&seen.add(v.id)).map(v=>({id:v.id,tags:retrieval?[]:normalizeMeta({tags:v.tags}).tags,folderId:!retrieval&&folders.has(v.folderId)?v.folderId:null,reason:typeof v.reason==='string'?v.reason.slice(0,500):''}));
 }
-export async function enableDrive(api){if(!await api.permissions.request({permissions:['identity'],origins:[DRIVE_ORIGIN]}))throw Error('Cloud backup access was declined. Local export remains available.');}
-async function driveToken(api){if(!await api.permissions.contains({permissions:['identity'],origins:[DRIVE_ORIGIN]}))throw Error('Enable optional Google Drive access first.');try{const result=await api.identity.getAuthToken({interactive:true,scopes:[DRIVE_SCOPE]});const token=typeof result==='string'?result:result?.token;if(!token)throw Error('No token');return token}catch{throw Error('Google authorization failed. Verify the OAuth client is configured for this extension ID, then connect again.')}}
-export async function uploadBackup(api,state,fetcher=fetch){const token=await driveToken(api),doc=makeExport(state),boundary='1sttab_'+Date.now();const meta={name:`1stTab bookmarks ${new Date().toISOString()}.json`,parents:['appDataFolder'],mimeType:'application/json'};const body=`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(meta)}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(doc)}\r\n--${boundary}--`;
- const r=await jsonResponse(await fetcher('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name',{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':`multipart/related; boundary=${boundary}`},body,signal:AbortSignal.timeout(30000)}));return r;}
-export async function listBackups(api,fetcher=fetch){const token=await driveToken(api);const query=new URLSearchParams({spaces:'appDataFolder',fields:'files(id,name,createdTime),nextPageToken',orderBy:'createdTime desc',pageSize:'100',q:"trashed = false and name contains '1stTab bookmarks'"});const r=await jsonResponse(await fetcher(`https://www.googleapis.com/drive/v3/files?${query}`,{headers:{Authorization:`Bearer ${token}`},signal:AbortSignal.timeout(30000)}));return r.files||[];}
-export async function downloadBackup(api,id,fetcher=fetch){if(!/^[a-zA-Z0-9_-]+$/.test(id))throw Error('Invalid backup ID.');const token=await driveToken(api);const r=await fetcher(`https://www.googleapis.com/drive/v3/files/${id}?alt=media`,{headers:{Authorization:`Bearer ${token}`},signal:AbortSignal.timeout(30000)});if(!r.ok)throw Error(`Backup download failed (${r.status}).`);const text=await r.text();return parseImport(text)}
-export async function deleteBackup(api,id,fetcher=fetch){if(!/^[a-zA-Z0-9_-]+$/.test(id))throw Error('Invalid backup ID.');const token=await driveToken(api);const r=await fetcher(`https://www.googleapis.com/drive/v3/files/${id}`,{method:'DELETE',headers:{Authorization:`Bearer ${token}`},signal:AbortSignal.timeout(30000)});if(!r.ok)throw Error(`Backup deletion failed (${r.status}).`)}
-export async function disableDrive(api){if(api.identity)try{await api.identity.clearAllCachedAuthTokens()}catch{}await api.permissions.remove({permissions:['identity'],origins:[DRIVE_ORIGIN]});}

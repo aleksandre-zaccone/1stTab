@@ -1,0 +1,911 @@
+{
+  "m_language": {
+    "message": "ენა"
+  },
+  "m_automatic_browser_language": {
+    "message": "ავტომატური — ბრაუზერის ენა"
+  },
+  "m_appearance": {
+    "message": "გარეგნობა"
+  },
+  "m_settings": {
+    "message": "პარამეტრები"
+  },
+  "m_settings_1sttab": {
+    "message": "პარამეტრები · 1stTab"
+  },
+  "m_settings_sections": {
+    "message": "პარამეტრების განყოფილებები"
+  },
+  "m_back_to_library": {
+    "message": "ბიბლიოთეკაში დაბრუნება"
+  },
+  "m_your_workspace_your_way": {
+    "message": "თქვენი სამუშაო სივრცე, თქვენი არჩევანი."
+  },
+  "m_make_this_space_feel_like_yours_changes_save_automatically_on_this_device": {
+    "message": "მოირგეთ ეს სივრცე. ცვლილებები ავტომატურად ინახება ამ მოწყობილობაზე."
+  },
+  "m_all_bookmarks": {
+    "message": "ყველა სანიშნე"
+  },
+  "m_all_collections": {
+    "message": "ყველა კოლექცია"
+  },
+  "m_favorites": {
+    "message": "რჩეულები"
+  },
+  "m_favorite": {
+    "message": "რჩეული"
+  },
+  "m_collection": {
+    "message": "კოლექცია"
+  },
+  "m_collections": {
+    "message": "კოლექციები"
+  },
+  "m_add_bookmark": {
+    "message": "სანიშნის დამატება"
+  },
+  "m_new_collection": {
+    "message": "ახალი კოლექცია"
+  },
+  "m_new_folder": {
+    "message": "ახალი საქაღალდე"
+  },
+  "m_edit_bookmark": {
+    "message": "სანიშნის რედაქტირება"
+  },
+  "m_save_bookmark": {
+    "message": "სანიშნის შენახვა"
+  },
+  "m_edit_folder": {
+    "message": "საქაღალდის რედაქტირება"
+  },
+  "m_save_folder": {
+    "message": "საქაღალდის შენახვა"
+  },
+  "m_title": {
+    "message": "სათაური"
+  },
+  "m_url": {
+    "message": "URL"
+  },
+  "m_folder": {
+    "message": "საქაღალდე"
+  },
+  "m_folder_name": {
+    "message": "საქაღალდის სახელი"
+  },
+  "m_parent_folder": {
+    "message": "მშობელი საქაღალდე"
+  },
+  "m_destination": {
+    "message": "დანიშნულების ადგილი"
+  },
+  "m_destination_folder": {
+    "message": "დანიშნულების საქაღალდე"
+  },
+  "m_tags_separated_by_commas": {
+    "message": "მძიმით გამოყოფილი ტეგები"
+  },
+  "m_note_about_this_bookmark": {
+    "message": "შენიშვნა ამ სანიშნეზე"
+  },
+  "m_save": {
+    "message": "შენახვა"
+  },
+  "m_cancel": {
+    "message": "გაუქმება"
+  },
+  "m_edit": {
+    "message": "რედაქტირება"
+  },
+  "m_delete": {
+    "message": "წაშლა"
+  },
+  "m_close": {
+    "message": "დახურვა"
+  },
+  "m_clear": {
+    "message": "გასუფთავება"
+  },
+  "m_add_favorite": {
+    "message": "რჩეულებში დამატება"
+  },
+  "m_remove_favorite": {
+    "message": "რჩეულებიდან ამოღება"
+  },
+  "m_toggle_favorite": {
+    "message": "რჩეულის გადართვა"
+  },
+  "m_show_filters": {
+    "message": "ფილტრების ჩვენება"
+  },
+  "m_hide_filters": {
+    "message": "ფილტრების დამალვა"
+  },
+  "m_no_active_filters": {
+    "message": "აქტიური ფილტრები არ არის."
+  },
+  "m_filter_folder": {
+    "message": "ფილტრი საქაღალდის მიხედვით"
+  },
+  "m_filter_by_tag": {
+    "message": "ფილტრი ტეგით"
+  },
+  "m_filter_by_domain": {
+    "message": "ფილტრი დომენით"
+  },
+  "m_tag": {
+    "message": "ტეგი"
+  },
+  "m_domain": {
+    "message": "დომენი"
+  },
+  "m_reset_filters": {
+    "message": "ფილტრების განულება"
+  },
+  "m_bookmark_filters": {
+    "message": "სანიშნეების ფილტრები"
+  },
+  "m_search_bookmarks": {
+    "message": "სანიშნეების ძიება"
+  },
+  "m_find_a_bookmark_idea_or_saved_place": {
+    "message": "იპოვეთ სანიშნე, იდეა ან შენახული საიტი…"
+  },
+  "m_light_dark": {
+    "message": "ღია / მუქი"
+  },
+  "m_light": {
+    "message": "ღია"
+  },
+  "m_dark": {
+    "message": "მუქი"
+  },
+  "m_follow_system": {
+    "message": "სისტემის მიხედვით"
+  },
+  "m_color_mode": {
+    "message": "ფერის რეჟიმი"
+  },
+  "m_design_theme": {
+    "message": "დიზაინის თემა"
+  },
+  "m_violet_ink": {
+    "message": "იისფერი და მელნისფერი"
+  },
+  "m_warm_editorial": {
+    "message": "თბილი და ჟურნალის სტილი"
+  },
+  "m_clean_precise": {
+    "message": "სუფთა და ზუსტი"
+  },
+  "m_playful_graphic": {
+    "message": "მხიარული და გრაფიკული"
+  },
+  "m_focused_professional": {
+    "message": "კონცენტრირებული და პროფესიონალური"
+  },
+  "m_text_icons": {
+    "message": "ტექსტი და ხატულები"
+  },
+  "m_text_size": {
+    "message": "ტექსტის ზომა"
+  },
+  "m_icon_size": {
+    "message": "ხატულების ზომა"
+  },
+  "m_make_titles_labels_and_notes_easier_to_read": {
+    "message": "გახადეთ სათაურები, წარწერები და შენიშვნები უფრო ადვილად წასაკითხი."
+  },
+  "m_enlarge_bookmark_icons_and_action_controls": {
+    "message": "გაზარდეთ სანიშნეების ხატულები და მოქმედების ღილაკები."
+  },
+  "m_a_clearer_view_of_your_library": {
+    "message": "თქვენი ბიბლიოთეკის უფრო მკაფიო ხედი"
+  },
+  "m_your_changes_appear_immediately": {
+    "message": "ცვლილებები მაშინვე გამოჩნდება."
+  },
+  "m_preview": {
+    "message": "წინასწარი ნახვა"
+  },
+  "m_workspace": {
+    "message": "სამუშაო სივრცე"
+  },
+  "m_bookmark_view": {
+    "message": "სანიშნეების ხედი"
+  },
+  "m_cards": {
+    "message": "ბარათები"
+  },
+  "m_list": {
+    "message": "სია"
+  },
+  "m_list_view": {
+    "message": "სიის ხედი"
+  },
+  "m_grid_view": {
+    "message": "ბადის ხედი"
+  },
+  "m_default_sort": {
+    "message": "ნაგულისხმევი დალაგება"
+  },
+  "m_sort_bookmarks": {
+    "message": "სანიშნეების დალაგება"
+  },
+  "m_manual_order": {
+    "message": "ხელით დალაგება"
+  },
+  "m_name_a_z": {
+    "message": "სახელით ა–ჰ"
+  },
+  "m_newest_first": {
+    "message": "ჯერ უახლესი"
+  },
+  "m_spacing": {
+    "message": "დაშორება"
+  },
+  "m_comfortable": {
+    "message": "თავისუფალი"
+  },
+  "m_compact": {
+    "message": "კომპაქტური"
+  },
+  "m_show_bookmark_notes": {
+    "message": "სანიშნეების შენიშვნების ჩვენება"
+  },
+  "m_display_the_note_beneath_each_bookmark_title": {
+    "message": "შენიშვნის ჩვენება თითოეული სანიშნის სათაურის ქვეშ."
+  },
+  "m_reduce_motion": {
+    "message": "ანიმაციის შემცირება"
+  },
+  "m_keep_the_interface_still_when_hovering_and_switching_views": {
+    "message": "გამორთეთ ანიმაცია მაუსის მიტანისა და ხედების შეცვლისას."
+  },
+  "m_card_shape": {
+    "message": "ბარათის ფორმა"
+  },
+  "m_card_shapes": {
+    "message": "ბარათების ფორმები"
+  },
+  "m_rectangle": {
+    "message": "მართკუთხედი"
+  },
+  "m_square": {
+    "message": "კვადრატი"
+  },
+  "m_rounded": {
+    "message": "მომრგვალებული"
+  },
+  "m_circle": {
+    "message": "წრე"
+  },
+  "m_sphere": {
+    "message": "სფერო"
+  },
+  "m_choose_the_silhouette_of_your_bookmark_cards_list_view_stays_compact": {
+    "message": "აირჩიეთ სანიშნეების ბარათების ფორმა. სიის ხედი რჩება კომპაქტური."
+  },
+  "m_preview_in_card_view": {
+    "message": "ბარათების ხედში ნახვა"
+  },
+  "m_reset_appearance": {
+    "message": "გარეგნობის განულება"
+  },
+  "m_library_tools": {
+    "message": "ბიბლიოთეკის ხელსაწყოები"
+  },
+  "m_your_bookmarks_follow_chrome_s_sync_settings_tags_and_notes_stay_on_this_device": {
+    "message": "სანიშნეები მიჰყვება Chrome-ის სინქრონიზაციის პარამეტრებს. ტეგები და შენიშვნები რჩება ამ მოწყობილობაზე."
+  },
+  "m_export_library": {
+    "message": "ბიბლიოთეკის ექსპორტი"
+  },
+  "m_import": {
+    "message": "იმპორტი"
+  },
+  "m_undo_last_edit": {
+    "message": "ბოლო ცვლილების გაუქმება"
+  },
+  "m_clean_duplicates": {
+    "message": "დუბლიკატების გასუფთავება"
+  },
+  "m_user_guide": {
+    "message": "მომხმარებლის სახელმძღვანელო ↗"
+  },
+  "m_terms_conditions": {
+    "message": "გამოყენების პირობები ↗"
+  },
+  "m_privacy": {
+    "message": "კონფიდენციალურობა ↗"
+  },
+  "m_bookmark_saved": {
+    "message": "სანიშნე შენახულია."
+  },
+  "m_collection_saved": {
+    "message": "კოლექცია შენახულია."
+  },
+  "m_library_ready": {
+    "message": "ბიბლიოთეკა მზადაა."
+  },
+  "m_loading_library": {
+    "message": "ბიბლიოთეკა იტვირთება…"
+  },
+  "m_last_supported_operation_undone": {
+    "message": "ბოლო მხარდაჭერილი მოქმედება გაუქმებულია."
+  },
+  "m_bookmark_order_updated_undo_available": {
+    "message": "სანიშნეების რიგი განახლებულია. გაუქმება შესაძლებელია."
+  },
+  "m_nothing_here_yet": {
+    "message": "აქ ჯერ არაფერია"
+  },
+  "m_a_home_for_your_next_discovery": {
+    "message": "ადგილი თქვენი შემდეგი აღმოჩენისთვის"
+  },
+  "m_try_another_collection_or_clear_your_filters_you_can_also_drag_bookmarks_into_an_empty_collection": {
+    "message": "აირჩიეთ სხვა კოლექცია ან გაასუფთავეთ ფილტრები. შეგიძლიათ სანიშნეები ცარიელ კოლექციაშიც გადაიტანოთ."
+  },
+  "m_save_your_first_bookmark_or_import_your_existing_library": {
+    "message": "შეინახეთ პირველი სანიშნე ან შემოიტანეთ არსებული ბიბლიოთეკა."
+  },
+  "m_untitled": {
+    "message": "უსათაურო"
+  },
+  "m_untitled_collection": {
+    "message": "უსათაურო კოლექცია"
+  },
+  "m_untitled_folder": {
+    "message": "უსათაურო საქაღალდე"
+  },
+  "m_close_collections": {
+    "message": "კოლექციების დახურვა"
+  },
+  "m_close_collections_drawer": {
+    "message": "კოლექციების პანელის დახურვა"
+  },
+  "m_bookmark_folders": {
+    "message": "სანიშნეების საქაღალდეები"
+  },
+  "m_saved_bookmarks": {
+    "message": "შენახული სანიშნეები"
+  },
+  "m_show_more": {
+    "message": "მეტის ჩვენება"
+  },
+  "m_installed_version": {
+    "message": "დაყენებული ვერსია"
+  },
+  "m_managed_bookmark": {
+    "message": "მართული სანიშნე"
+  },
+  "m_drag_to_move_or_sort": {
+    "message": "გადაიტანეთ გადასაადგილებლად ან დასალაგებლად"
+  },
+  "m_resize_folder_sidebar": {
+    "message": "საქაღალდეების პანელის ზომის შეცვლა"
+  },
+  "m_drag_to_resize_arrow_keys_to_adjust_double_click_to_reset": {
+    "message": "გადაიტანეთ ზომის შესაცვლელად · ისრები დასარეგულირებლად · ორმაგი დაწკაპუნება გასანულებლად"
+  },
+  "m_move_selected": {
+    "message": "არჩეულის გადატანა"
+  },
+  "m_delete_selected": {
+    "message": "არჩეულის წაშლა"
+  },
+  "m_tag_selected": {
+    "message": "არჩეულებზე ტეგების დამატება"
+  },
+  "m_tag_bookmarks": {
+    "message": "სანიშნეებზე ტეგების დამატება"
+  },
+  "m_add_tags": {
+    "message": "ტეგების დამატება"
+  },
+  "m_adds_these_tags_to_every_selected_bookmark_existing_tags_and_notes_are_preserved": {
+    "message": "ამ ტეგებს ამატებს ყველა არჩეულ სანიშნეს. არსებული ტეგები და შენიშვნები შენარჩუნდება."
+  },
+  "m_enter_at_least_one_tag": {
+    "message": "შეიყვანეთ მინიმუმ ერთი ტეგი."
+  },
+  "m_select_bookmarks_to_move": {
+    "message": "აირჩიეთ გადასატანი სანიშნეები."
+  },
+  "m_select_items_to_delete": {
+    "message": "აირჩიეთ წასაშლელი ელემენტები."
+  },
+  "m_select_items_to_review": {
+    "message": "აირჩიეთ შესამოწმებელი ელემენტები."
+  },
+  "m_move_items": {
+    "message": "ელემენტების გადატანა"
+  },
+  "m_move_bookmarks": {
+    "message": "სანიშნეების გადატანა"
+  },
+  "m_delete_items": {
+    "message": "ელემენტების წაშლა"
+  },
+  "m_confirm_move": {
+    "message": "გადატანის დადასტურება"
+  },
+  "m_confirm_delete": {
+    "message": "წაშლის დადასტურება"
+  },
+  "m_a_local_snapshot_will_be_saved_before_moving_these_items": {
+    "message": "გადატანამდე შეინახება ლოკალური ასლი."
+  },
+  "m_folders_include_their_contents_a_local_recovery_snapshot_will_be_saved_first": {
+    "message": "საქაღალდეები მოიცავს შიგთავსსაც. ჯერ შეინახება ლოკალური აღდგენის ასლი."
+  },
+  "m_items_moved_recovery_snapshot_retained": {
+    "message": "ელემენტები გადატანილია. აღდგენის ასლი შენარჩუნებულია."
+  },
+  "m_deleted_recovery_snapshot_retained": {
+    "message": "წაშლილია. აღდგენის ასლი შენარჩუნებულია."
+  },
+  "m_these_bookmarks_are_already_in_this_collection": {
+    "message": "ეს სანიშნეები უკვე ამ კოლექციაშია."
+  },
+  "m_review_duplicate_links": {
+    "message": "დუბლირებული ბმულების შემოწმება"
+  },
+  "m_review_selected_deletions": {
+    "message": "არჩეული წაშლის შემოწმება"
+  },
+  "m_import_bookmarks": {
+    "message": "სანიშნეების იმპორტი"
+  },
+  "m_confirm_import": {
+    "message": "იმპორტის დადასტურება"
+  },
+  "m_top_level_folders": {
+    "message": "ზედა დონის საქაღალდეები: "
+  },
+  "m_adds_the_imported_folders_and_bookmarks_directly_to_the_destination_folder_existing_bookmarks_will_not_be_overwritten_a_local_snapshot_is_saved_first": {
+    "message": "შემოტანილ საქაღალდეებსა და სანიშნეებს პირდაპირ დანიშნულების საქაღალდეში ამატებს. არსებული სანიშნეები არ გადაიწერება. ჯერ ინახება ლოკალური ასლი."
+  },
+  "m_also_restore_appearance_and_view_preferences": {
+    "message": "გარეგნობისა და ხედის პარამეტრების აღდგენაც"
+  },
+  "m_restores_theme_design_sizes_card_shape_sidebar_width_spacing_note_visibility_motion_view_sort_and_filter_visibility_browser_specific_folder_selections_stay_local": {
+    "message": "აღადგენს თემას, დიზაინს, ზომებს, ბარათის ფორმას, პანელის სიგანეს, დაშორებას, შენიშვნების ხილვადობას, ანიმაციას, ხედს, დალაგებასა და ფილტრების ხილვადობას. ბრაუზერის საქაღალდეების არჩევანი რჩება ლოკალური."
+  },
+  "m_backup_google_drive": {
+    "message": "სარეზერვო ასლები და Google Drive"
+  },
+  "m_connect_google_drive": {
+    "message": "Google Drive-თან დაკავშირება"
+  },
+  "m_disconnect": {
+    "message": "კავშირის გაწყვეტა"
+  },
+  "m_connected": {
+    "message": "დაკავშირებულია"
+  },
+  "m_not_connected": {
+    "message": "არ არის დაკავშირებული"
+  },
+  "m_connecting": {
+    "message": "მიმდინარეობს დაკავშირება…"
+  },
+  "m_checking_connection": {
+    "message": "კავშირის შემოწმება…"
+  },
+  "m_reconnect_required": {
+    "message": "საჭიროა ხელახლა დაკავშირება"
+  },
+  "m_connect_your_google_account_to_back_up_to_drive": {
+    "message": "Drive-ში სარეზერვო ასლისთვის დააკავშირეთ Google-ის ანგარიში."
+  },
+  "m_back_up_now": {
+    "message": "სარეზერვო ასლის შექმნა"
+  },
+  "m_review_google_drive_backup": {
+    "message": "Google Drive-ის ასლების ნახვა"
+  },
+  "m_backing_up_to_google_drive": {
+    "message": "Google Drive-ში ასლი იქმნება…"
+  },
+  "m_google_drive_backup_saved": {
+    "message": "სარეზერვო ასლი შენახულია Google Drive-ში."
+  },
+  "m_google_drive_disconnected_your_saved_backups_remain_in_drive": {
+    "message": "Google Drive გათიშულია. შენახული ასლები რჩება Drive-ში."
+  },
+  "m_google_receives_a_bookmark_export_including_urls_tags_notes_favorites_and_portable_preferences_only_when_you_choose_back_up_now_backups_are_stored_privately_in_google_drive_restore_adds_bookmarks_after_your_review": {
+    "message": "Google იღებს სანიშნეების ექსპორტს URL-ებით, ტეგებით, შენიშვნებით, რჩეულებითა და გადასატანი პარამეტრებით მხოლოდ „სარეზერვო ასლის შექმნის“ არჩევისას. ასლები ინახება პირადად Google Drive-ში. აღდგენა სანიშნეებს ამატებს თქვენი შემოწმების შემდეგ."
+  },
+  "m_an_upload_may_have_completed_review_google_drive_backup_before_uploading_again": {
+    "message": "ატვირთვა შესაძლოა დასრულდა. ხელახლა ატვირთვამდე შეამოწმეთ Google Drive-ის ასლები."
+  },
+  "m_no_successful_backup_yet": {
+    "message": "წარმატებული ასლი ჯერ არ არის"
+  },
+  "m_google_drive_snapshots": {
+    "message": "Google Drive-ის ასლები"
+  },
+  "m_saved_google_drive_snapshots": {
+    "message": "Google Drive-ში შენახული ასლები"
+  },
+  "m_snapshot": {
+    "message": "ასლი"
+  },
+  "m_bookmark_snapshot": {
+    "message": "სანიშნეების ასლი"
+  },
+  "m_restore": {
+    "message": "აღდგენა"
+  },
+  "m_select_a_snapshot_first": {
+    "message": "ჯერ აირჩიეთ ასლი."
+  },
+  "m_delete_this_cloud_backup": {
+    "message": "წაიშალოს ეს ღრუბლოვანი ასლი?"
+  },
+  "m_confirm_cloud_deletion": {
+    "message": "ღრუბლიდან წაშლის დადასტურება"
+  },
+  "m_cloud_backup_deleted": {
+    "message": "ღრუბლოვანი ასლი წაშლილია."
+  },
+  "m_select_one_snapshot_then_choose_restore_or_delete_restore_shows_a_preview_before_changing_your_library": {
+    "message": "აირჩიეთ ერთი ასლი, შემდეგ „აღდგენა“ ან „წაშლა“. აღდგენა ბიბლიოთეკის შეცვლამდე აჩვენებს წინასწარ ნახვას."
+  },
+  "m_no_backups_found": {
+    "message": "სარეზერვო ასლები ვერ მოიძებნა."
+  },
+  "m_older_snapshot_counts_available_in_the_restore_preview": {
+    "message": "ძველი ასლი — რაოდენობები ხელმისაწვდომია აღდგენის წინასწარ ნახვაში."
+  },
+  "m_date_unavailable": {
+    "message": "თარიღი მიუწვდომელია"
+  },
+  "m_last_backup_date": {
+    "message": "ბოლო ასლი: {date}"
+  },
+  "m_move_count_item_s": {
+    "message": "ელემენტების გადატანა: {count}"
+  },
+  "m_delete_count_item_s": {
+    "message": "წაიშალოს {count} ელემენტი?"
+  },
+  "m_import_bookmarks_bookmarks_and_folders_folders": {
+    "message": "იმპორტი: {bookmarks} სანიშნე და {folders} საქაღალდე"
+  },
+  "m_duplicates_duplicate_urls_differences_metadata_differences_duplicates_will_be_added_as_separate_bookmarks_existing_notes_and_tags_are_preserved": {
+    "message": "დუბლირებული URL-ები: {duplicates}; მეტამონაცემების სხვაობები: {differences}. დუბლიკატები დაემატება ცალკე სანიშნეებად; არსებული შენიშვნები და ტეგები შენარჩუნდება."
+  },
+  "m_imported_count_items": {
+    "message": "შემოტანილია {count} ელემენტი."
+  },
+  "m_duplicates_exact_url_duplicate_groups_folders_empty_folders_no_automatic_deletion": {
+    "message": "ზუსტად ერთნაირი URL-ების ჯგუფები: {duplicates}; ცარიელი საქაღალდეები: {folders}. ავტომატური წაშლა არ ხდება."
+  },
+  "m_empty_folder_title": {
+    "message": "ცარიელი საქაღალდე: {title}"
+  },
+  "m_count_active_filters_hiding_the_controls_keeps_filters_applied": {
+    "message": "აქტიური ფილტრები: {count}. მართვის ელემენტების დამალვისას ფილტრები რჩება გამოყენებული."
+  },
+  "m_count_pixels": {
+    "message": "{count} პიქსელი"
+  },
+  "m_moved_count_bookmarks_to_title_undo_available": {
+    "message": "{count} სანიშნე გადატანილია „{title}“-ში. გაუქმება შესაძლებელია."
+  },
+  "m_collapse_title": {
+    "message": "{title} — ჩაკეცვა"
+  },
+  "m_expand_title": {
+    "message": "{title} — გაშლა"
+  },
+  "m_title_folder": {
+    "message": "{title}, საქაღალდე"
+  },
+  "m_add_collection_in_title": {
+    "message": "კოლექციის დამატება: {title}"
+  },
+  "m_edit_folder_title": {
+    "message": "საქაღალდის რედაქტირება: {title}"
+  },
+  "m_delete_folder_title": {
+    "message": "საქაღალდის წაშლა: {title}"
+  },
+  "m_tag_count_bookmarks": {
+    "message": "ტეგების დამატება {count} სანიშნეზე"
+  },
+  "m_tags_added_to_count_bookmarks_undo_available": {
+    "message": "ტეგები დაემატა {count} სანიშნეს. გაუქმება შესაძლებელია."
+  },
+  "m_count_bookmarks_folders_collections": {
+    "message": "სანიშნეები: {count} · კოლექციები: {folders}"
+  },
+  "m_count_saved_places": {
+    "message": "შენახული ადგილები: {count}"
+  },
+  "m_count_selected": {
+    "message": "არჩეულია: {count}"
+  },
+  "m_select_title": {
+    "message": "არჩევა: {title}"
+  },
+  "m_title_bookmark": {
+    "message": "სანიშნე {title}"
+  },
+  "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort": {
+    "message": "გადაადგილდება {count} სანიშნე · ჩააგდეთ კოლექციაში გადასატანად ან იმავე საქაღალდის სანიშნეებს შორის დასალაგებლად."
+  },
+  "m_show_more_count_remaining": {
+    "message": "მეტის ჩვენება (დარჩა {count})"
+  },
+  "m_bookmarks_bookmarks_folders_folders_favorites_favorites_notes_with_notes_tagged_with_tags_preferences_preferences": {
+    "message": "სანიშნეები: {bookmarks} · საქაღალდეები: {folders} · რჩეულები: {favorites} · შენიშვნებით: {notes} · ტეგებით: {tagged} · პარამეტრები: {preferences}"
+  },
+  "m_included": {
+    "message": "შეტანილია"
+  },
+  "m_not_included": {
+    "message": "არ არის შეტანილი"
+  },
+  "m_format_version": {
+    "message": "ფორმატი {version}"
+  },
+  "m_count_kb": {
+    "message": "{count} კბ"
+  },
+  "m_saved_automatically_on_this_device": {
+    "message": "ავტომატურად შენახულია ამ მოწყობილობაზე"
+  },
+  "m_1sttab_bookmark_manager": {
+    "message": "1stTab სანიშნეების მენეჯერი"
+  },
+  "m_1sttab_bookmark_manager_version_version": {
+    "message": "1stTab სანიშნეების მენეჯერი, ვერსია {version}"
+  },
+  "m_1sttab_bookmarks": {
+    "message": "1stTab სანიშნეები"
+  },
+  "m_research_work": {
+    "message": "კვლევა, სამუშაო"
+  },
+  "m_research_ideas": {
+    "message": "კვლევა, იდეები"
+  },
+  "extension_name": {
+    "message": "1stTab — სანიშნეების მენეჯერი"
+  },
+  "m_save_organize_and_find_your_chrome_bookmarks_with_folders_tags_notes_and_safe_import_export": {
+    "message": "შეინახეთ, დაალაგეთ და იპოვეთ Chrome-ის სანიშნეები: საქაღალდეები, ტეგები, შენიშვნები და უსაფრთხო იმპორტი/ექსპორტი."
+  },
+  "m_open_1sttab_side_panel": {
+    "message": "1stTab-ის გვერდითი პანელის გახსნა"
+  },
+  "m_save_this_page_to_1sttab": {
+    "message": "ამ გვერდის შენახვა 1stTab-ში"
+  },
+  "m_import_is_limited_to_20_mb": {
+    "message": "იმპორტი შეზღუდულია 20 მბ-მდე."
+  },
+  "m_use_an_http_https_or_ftp_url": {
+    "message": "გამოიყენეთ http, https ან ftp URL."
+  },
+  "m_notes_and_tags_belong_to_a_bookmark": {
+    "message": "შენიშვნები და ტეგები ეკუთვნის სანიშნეს."
+  },
+  "m_this_item_no_longer_exists_refresh_and_try_again": {
+    "message": "ეს ელემენტი აღარ არსებობს. განაახლეთ და სცადეთ ხელახლა."
+  },
+  "m_chrome_root_and_managed_folders_cannot_be_edited": {
+    "message": "Chrome-ის ძირეული და მართული საქაღალდეების რედაქტირება შეუძლებელია."
+  },
+  "m_choose_a_writable_bookmark_folder": {
+    "message": "აირჩიეთ ჩაწერადი სანიშნეების საქაღალდე."
+  },
+  "m_a_folder_cannot_become_a_bookmark": {
+    "message": "საქაღალდე სანიშნედ ვერ გადაიქცევა."
+  },
+  "m_a_folder_cannot_move_inside_itself": {
+    "message": "საქაღალდე საკუთარ თავში ვერ გადავა."
+  },
+  "m_choose_a_bookmark_to_sort_beside": {
+    "message": "აირჩიეთ სანიშნე, რომლის გვერდითაც უნდა დალაგდეს."
+  },
+  "m_sort_bookmarks_in_the_same_folder_drop_onto_a_folder_to_move_them": {
+    "message": "დაალაგეთ სანიშნეები იმავე საქაღალდეში. გადასატანად ჩააგდეთ საქაღალდეში."
+  },
+  "m_choose_a_version_1_or_2_1sttab_bookmark_export": {
+    "message": "აირჩიეთ 1stTab-ის სანიშნეების ექსპორტი, ვერსია 1 ან 2."
+  },
+  "m_import_is_too_large_or_deeply_nested": {
+    "message": "იმპორტი მეტისმეტად დიდია ან ღრმად ჩადგმული."
+  },
+  "m_invalid_item_title": {
+    "message": "ელემენტის არასწორი სათაური."
+  },
+  "m_invalid_folder": {
+    "message": "არასწორი საქაღალდე."
+  },
+  "m_invalid_backup_preferences": {
+    "message": "სარეზერვო ასლის არასწორი პარამეტრები."
+  },
+  "m_the_library_changed_preview_the_restore_again_before_importing": {
+    "message": "ბიბლიოთეკა შეიცვალა. იმპორტამდე ხელახლა ნახეთ აღდგენის წინასწარი ხედი."
+  },
+  "m_no_supported_operation_is_available_to_undo": {
+    "message": "გასაუქმებელი მხარდაჭერილი მოქმედება არ არის."
+  },
+  "m_the_library_changed_after_this_operation_undo_stopped_to_avoid_overwriting_other_edits_use_snapshot_import_for_recovery": {
+    "message": "ამ მოქმედების შემდეგ ბიბლიოთეკა შეიცვალა. სხვა ცვლილებების გადაწერის თავიდან ასაცილებლად გაუქმება შეჩერდა. აღსადგენად გამოიყენეთ ასლის იმპორტი."
+  },
+  "m_chrome_root_structure_changed": {
+    "message": "Chrome-ის ძირეული სტრუქტურა შეიცვალა."
+  },
+  "m_restored_bookmark_order_is_incomplete": {
+    "message": "სანიშნეების აღდგენილი რიგი არასრულია."
+  },
+  "m_undo_stopped_partway_through_pre_undo_snapshot_retained": {
+    "message": "გაუქმება შეწყდა. გაუქმებამდე შექმნილი ასლი შენარჩუნებულია. "
+  },
+  "m_another_google_drive_operation_is_running_try_again_when_it_finishes": {
+    "message": "Google Drive-ის სხვა მოქმედება მიმდინარეობს. დასრულების შემდეგ სცადეთ ხელახლა."
+  },
+  "m_connect_google_drive_first": {
+    "message": "ჯერ დაუკავშირდით Google Drive-ს."
+  },
+  "m_connect_or_reconnect_google_drive_first": {
+    "message": "ჯერ დაუკავშირდით ან ხელახლა დაუკავშირდით Google Drive-ს."
+  },
+  "m_google_drive_could_not_be_reached_check_your_connection_and_try_again": {
+    "message": "Google Drive-თან დაკავშირება ვერ მოხერხდა. შეამოწმეთ კავშირი და სცადეთ ხელახლა."
+  },
+  "m_google_account_changed_disconnect_and_reconnect_before_continuing": {
+    "message": "Google-ის ანგარიში შეიცვალა. გაგრძელებამდე გათიშეთ და ხელახლა დაუკავშირდით."
+  },
+  "m_google_account_changed_reconnect": {
+    "message": "Google-ის ანგარიში შეიცვალა. დაუკავშირდით ხელახლა."
+  },
+  "m_could_not_verify_the_google_drive_account_reconnect_before_continuing": {
+    "message": "Google Drive-ის ანგარიშის შემოწმება ვერ მოხერხდა. გაგრძელებამდე დაუკავშირდით ხელახლა."
+  },
+  "m_cloud_backup_access_was_declined_local_export_remains_available": {
+    "message": "ღრუბლოვანი ასლის წვდომა უარყოფილია. ლოკალური ექსპორტი ხელმისაწვდომია."
+  },
+  "m_google_connection_changed_refresh_backup_history_and_preview_again": {
+    "message": "Google-ის კავშირი შეიცვალა. განაახლეთ ასლების ისტორია და ხელახლა ნახეთ წინასწარი ხედი."
+  },
+  "m_refresh_backup_history_and_preview_again": {
+    "message": "განაახლეთ ასლების ისტორია და ხელახლა ნახეთ წინასწარი ხედი."
+  },
+  "m_backup_completion_is_unknown_refresh_backup_history_before_uploading_again_the_backup_may_already_exist": {
+    "message": "უცნობია, დასრულდა თუ არა ასლის შექმნა. ხელახლა ატვირთვამდე განაახლეთ ისტორია; ასლი შესაძლოა უკვე არსებობს. "
+  },
+  "m_google_drive_returned_invalid_backup_history": {
+    "message": "Google Drive-მა დააბრუნა ასლების არასწორი ისტორია."
+  },
+  "m_backup_history_is_too_large_or_incomplete_try_again_later": {
+    "message": "ასლების ისტორია მეტისმეტად დიდია ან არასრული. სცადეთ მოგვიანებით."
+  },
+  "m_invalid_backup_id": {
+    "message": "ასლის არასწორი ID."
+  },
+  "m_reconnect_google_drive_authorization_expired": {
+    "message": "ხელახლა დაუკავშირდით Google Drive-ს. ავტორიზაციის ვადა ამოიწურა."
+  },
+  "m_google_drive_denied_access_check_consent_and_storage_quota_then_try_again": {
+    "message": "Google Drive-მა წვდომა უარყო. შეამოწმეთ თანხმობა და საცავის კვოტა, შემდეგ სცადეთ ხელახლა."
+  },
+  "m_google_drive_rate_limit_reached_try_again_later": {
+    "message": "მიღწეულია Google Drive-ის მოთხოვნების ლიმიტი. სცადეთ მოგვიანებით."
+  },
+  "m_this_backup_no_longer_exists_refresh_backup_history": {
+    "message": "ეს ასლი აღარ არსებობს. განაახლეთ ასლების ისტორია."
+  },
+  "m_google_drive_request_failed_status_try_again_later": {
+    "message": "Google Drive-ის მოთხოვნა ვერ შესრულდა ({status}). სცადეთ მოგვიანებით."
+  },
+  "m_reconnect_google_drive": {
+    "message": "ხელახლა დაუკავშირდით Google Drive-ს. "
+  },
+  "m_chrome_could_not_authorize_google_drive_verify_the_publisher_oauth_client_and_consent_configuration": {
+    "message": "Chrome-მა Google Drive-ის ავტორიზაცია ვერ შეძლო. შეამოწმეთ გამომცემლის OAuth კლიენტი და თანხმობის პარამეტრები."
+  },
+  "m_google_rejected_the_oauth_client_its_application_type_must_be_chrome_extension_and_its_item_id_must_match_this_extension": {
+    "message": "Google-მა OAuth კლიენტი უარყო. აპლიკაციის ტიპი უნდა იყოს Chrome Extension და Item ID უნდა ემთხვეოდეს ამ გაფართოებას."
+  },
+  "m_chrome_has_no_signed_in_google_account_available_sign_in_to_this_chrome_profile_then_try_connect_again": {
+    "message": "Chrome-ში შესული Google-ის ანგარიში არ არის. შედით Chrome-ის ამ პროფილში და სცადეთ დაკავშირება ხელახლა."
+  },
+  "m_google_sign_in_or_consent_was_cancelled_choose_connect_again_and_complete_the_consent_screen": {
+    "message": "Google-ში შესვლა ან თანხმობა გაუქმდა. კვლავ აირჩიეთ დაკავშირება და დაასრულეთ თანხმობის ეკრანი."
+  },
+  "m_google_denied_access_check_the_consent_audience_and_if_the_app_is_in_testing_add_your_google_account_as_a_test_user": {
+    "message": "Google-მა წვდომა უარყო. შეამოწმეთ თანხმობის აუდიტორია; ტესტირების რეჟიმში დაამატეთ თქვენი Google-ის ანგარიში სატესტო მომხმარებლად."
+  },
+  "m_google_needs_interactive_authorization_choose_connect_google_drive_again": {
+    "message": "Google-ს ინტერაქტიული ავტორიზაცია სჭირდება. ხელახლა აირჩიეთ Google Drive-თან დაკავშირება."
+  },
+  "m_chrome_could_not_reach_google_check_your_network_connection_and_try_again": {
+    "message": "Chrome ვერ დაუკავშირდა Google-ს. შეამოწმეთ ქსელი და სცადეთ ხელახლა."
+  },
+  "m_loaded_extension_id_id": {
+    "message": " ჩატვირთული გაფართოების ID: {id}."
+  },
+  "m_find_the_loaded_extension_id_on_chrome_extensions": {
+    "message": " გაფართოების ID იპოვეთ chrome://extensions-ზე."
+  },
+  "m_could_not_load_language_file": {
+    "message": "ენის ფაილის ჩატვირთვა ვერ მოხერხდა."
+  },
+  "m_applied_of_total_items_moved_backup_retained_detail": {
+    "message": "გადატანილია {applied} ელემენტი {total}-დან. ასლი შენარჩუნებულია. {detail}"
+  },
+  "m_applied_of_total_items_deleted_backup_retained_detail": {
+    "message": "წაშლილია {applied} ელემენტი {total}-დან. ასლი შენარჩუნებულია. {detail}"
+  },
+  "m_applied_sorting_steps_applied_backup_retained_detail": {
+    "message": "შესრულებულია დალაგების {applied} ნაბიჯი. ასლი შენარჩუნებულია. {detail}"
+  },
+  "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail": {
+    "message": "იმპორტი შეჩერდა {count} ელემენტის შემდეგ. სანიშნეების მეტამონაცემები ვერ შეინახა. აღსადგენად შეინახეთ წყარო ექსპორტი; იმპორტამდე შექმნილი ასლი შენარჩუნებულია. {detail}"
+  },
+  "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail": {
+    "message": "იმპორტი შეჩერდა {count} ელემენტის შემდეგ. მანამდე დამატებული ელემენტები რჩება „{title}“-ში; ტეგები და შენიშვნები შენარჩუნებულია. არსებული სანიშნეები უცვლელია. {detail}"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained": {
+    "message": "შემოტანილია {count} ელემენტი, მაგრამ პარამეტრები ვერ აღდგა. იმპორტამდე შექმნილი ასლი შენარჩუნებულია."
+  },
+  "m_count_active_filters_hiding_the_controls_keeps_filters_applied_one": {
+    "message": "აქტიური ფილტრები: {count}. მართვის ელემენტების დამალვისას ფილტრები რჩება გამოყენებული."
+  },
+  "m_moved_count_bookmarks_to_title_undo_available_one": {
+    "message": "{count} სანიშნე გადატანილია „{title}“-ში. გაუქმება შესაძლებელია."
+  },
+  "m_tag_count_bookmarks_one": {
+    "message": "ტეგების დამატება {count} სანიშნეზე"
+  },
+  "m_tags_added_to_count_bookmarks_undo_available_one": {
+    "message": "ტეგები დაემატა {count} სანიშნეს. გაუქმება შესაძლებელია."
+  },
+  "m_count_bookmarks_folders_collections_one": {
+    "message": "სანიშნეები: {count} · კოლექციები: {folders}"
+  },
+  "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
+    "message": "გადაადგილდება {count} სანიშნე · ჩააგდეთ კოლექციაში გადასატანად ან იმავე საქაღალდის სანიშნეებს შორის დასალაგებლად."
+  },
+  "m_move_count_item_s_one": {
+    "message": "ელემენტების გადატანა: {count}"
+  },
+  "m_move_count_item_s_few": {
+    "message": "ელემენტების გადატანა: {count}"
+  },
+  "m_move_count_item_s_many": {
+    "message": "ელემენტების გადატანა: {count}"
+  },
+  "m_delete_count_item_s_one": {
+    "message": "წაიშალოს {count} ელემენტი?"
+  },
+  "m_delete_count_item_s_few": {
+    "message": "წაიშალოს {count} ელემენტი?"
+  },
+  "m_delete_count_item_s_many": {
+    "message": "წაიშალოს {count} ელემენტი?"
+  },
+  "m_imported_count_items_one": {
+    "message": "შემოტანილია {count} ელემენტი."
+  },
+  "m_imported_count_items_few": {
+    "message": "შემოტანილია {count} ელემენტი."
+  },
+  "m_imported_count_items_many": {
+    "message": "შემოტანილია {count} ელემენტი."
+  },
+  "m_count_saved_places_one": {
+    "message": "შენახული ადგილები: {count}"
+  }
+}
