@@ -1,4 +1,6 @@
-# 2.2 implementation plan — Google Drive manual backup and restore
+# Historical 2.2 implementation plan — Google Drive manual backup and restore
+
+> Superseded by ALE-95: Google Drive backup and restore are included in the default package with optional permissions. Do not follow the historical package-split or build instructions below. See [the current Drive integration guide](optional-integrations.md) and [release checklist](release-automation.md).
 
 Status: implemented locally as a 2.2.0 optional candidate; automated verification passed as recorded in release-verification.md. Live OAuth and distribution remain release gates.
 Created: October 18, 2026.

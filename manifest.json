@@ -15,6 +15,18 @@
     "activeTab",
     "favicon"
   ],
+  "optional_permissions": [
+    "identity"
+  ],
+  "optional_host_permissions": [
+    "https://www.googleapis.com/*"
+  ],
+  "oauth2": {
+    "client_id": "254305727394-68tum8uqtdd1pvdevm0bo27atgu7ok5i.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/drive.appdata"
+    ]
+  },
   "commands": {
     "open-panel": {
       "suggested_key": {

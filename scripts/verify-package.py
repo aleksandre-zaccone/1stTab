@@ -1,14 +1,13 @@
 from pathlib import Path,PurePosixPath
 from html.parser import HTMLParser
-import json,re,zipfile,hashlib,sys
-optional="--optional" in sys.argv
+import json,re,zipfile,hashlib
 root=Path(__file__).resolve().parent.parent
 class Assets(HTMLParser):
  def __init__(self):super().__init__();self.refs=[]
  def handle_starttag(self,t,a):
   d=dict(a)
   if t in ('script','link'):self.refs.append(d.get('src') or d.get('href'))
-with zipfile.ZipFile(root/('dist/1stTab-bookmarks-optional.zip' if optional else 'dist/1stTab-bookmarks.zip')) as z:
+with zipfile.ZipFile(root/'dist/1stTab-bookmarks.zip') as z:
  names=set(z.namelist());m=json.loads(z.read('manifest.json'))
  assert 'initial_bookmarks.json' in names
  assert m['default_locale']=='en'
@@ -24,13 +23,12 @@ with zipfile.ZipFile(root/('dist/1stTab-bookmarks-optional.zip' if optional else
  for icon in (root/'icons/sites').glob('*'):
   if icon.suffix in ['.png','.svg','.ico','.webp']:assert str(icon.relative_to(root)) in names,f'Missing bundled icon: {icon.name}'
  assert set(m['permissions'])=={'bookmarks','storage','sidePanel','activeTab','favicon'}
+ assert m['optional_permissions']==['identity']
+ assert set(m['optional_host_permissions'])=={'https://www.googleapis.com/*'}
+ assert m['oauth2']['client_id'].endswith('.apps.googleusercontent.com')
+ assert m['oauth2']['scopes']==['https://www.googleapis.com/auth/drive.appdata']
  assert m['chrome_url_overrides']=={'newtab':'manager.html'}
  assert 'host_permissions' not in m
- if optional:
-  assert m['optional_permissions']==['identity']
-  assert set(m['optional_host_permissions'])=={'https://www.googleapis.com/*'}
-  assert m['oauth2']['scopes']==['https://www.googleapis.com/auth/drive.appdata']
- else: assert 'oauth2' not in m and 'optional_host_permissions' not in m
  assert m['minimum_chrome_version']=='116'
  for page in ['manager.html','panel.html','settings.html','manual.html','terms.html','privacy.html']:
   parser=Assets();parser.feed(z.read(page).decode())
@@ -38,7 +36,7 @@ with zipfile.ZipFile(root/('dist/1stTab-bookmarks-optional.zip' if optional else
    assert ref and not ref.startswith(('http:','https:','//')),f'Remote asset: {ref}'
    assert ref in names,f'Missing asset: {ref}'
  for name in names:
-  assert z.read(name)==(root/('manifest.optional.json' if optional and name=='manifest.json' else 'privacy.optional.html' if optional and name=='privacy.html' else name)).read_bytes(),f'Stale bundled file {name}'
+  assert z.read(name)==(root/name).read_bytes(),f'Stale bundled file {name}'
   if name.endswith('.css'):
    import posixpath
    for ref in re.findall(r'@import\s+url\([\"\']?([^\"\')]+)',z.read(name).decode()):
@@ -52,4 +50,4 @@ with zipfile.ZipFile(root/('dist/1stTab-bookmarks-optional.zip' if optional else
      assert posixpath.normpath(str(PurePosixPath(name).parent/ref)) in names,(name,ref)
  assert not any(name.endswith('.jsx') or name in ['app.js','finance.js','data.js','react.min.js'] for name in names)
 print('Manifest, local resources, import graph, source parity and package boundaries verified.')
-print('SHA256:',hashlib.sha256((root/('dist/1stTab-bookmarks-optional.zip' if optional else 'dist/1stTab-bookmarks.zip')).read_bytes()).hexdigest())
+print('SHA256:',hashlib.sha256((root/'dist/1stTab-bookmarks.zip').read_bytes()).hexdigest())
