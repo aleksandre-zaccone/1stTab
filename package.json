@@ -1,12 +1,12 @@
 {
   "name": "1sttab-bookmarks",
-  "version": "2.1.1",
+  "version": "2.2.1",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js",
     "build": "python3 scripts/package.py",
     "verify": "python3 scripts/verify-package.py",
-    "build:optional": "python3 scripts/package.py --optional && python3 scripts/verify-package.py --optional"
+    "test:integration": "node scripts/test-integration.mjs"
   }
 }

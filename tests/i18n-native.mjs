@@ -1,0 +1,32 @@
+import {chromium,browserOptions} from './browser-runtime.mjs';
+import {execFileSync} from 'node:child_process';
+import {mkdtempSync,rmSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const extension=mkdtempSync('/tmp/1sttab-language-extension-'),profile=mkdtempSync('/tmp/1sttab-language-profile-');
+execFileSync('python3',['-c',`import zipfile;zipfile.ZipFile('dist/1stTab-bookmarks.zip').extractall('${extension}')`]);
+const options={...browserOptions,ignoreDefaultArgs:['--disable-extensions'],args:[...browserOptions.args,`--disable-extensions-except=${extension}`,`--load-extension=${extension}`]};
+let context;const errors=[];
+try{
+ context=await chromium.launchPersistentContext(profile,options);context.setDefaultTimeout(10000);
+ const worker=context.serviceWorkers()[0]||await context.waitForEvent('serviceworker'),base=worker.url().replace(/background\.js$/,'');
+ const manager=await context.newPage(),panel=await context.newPage();for(const page of [manager,panel])page.on('pageerror',e=>errors.push(e.message));
+ await manager.goto(base+'settings.html');await panel.goto(base+'panel.html');
+ await manager.locator('#language-choice').waitFor();await panel.getByText('Library ready.',{exact:true}).waitFor();
+ assert.equal(await worker.evaluate(()=>chrome.runtime.getManifest().name),'1stTab — Bookmark Manager');
+ const original=await worker.evaluate(async()=>JSON.stringify(await chrome.bookmarks.getTree()));
+ await panel.getByRole('button',{name:'Add bookmark',exact:true}).first().click();
+ await panel.getByLabel('Title',{exact:true}).fill('Untranslated draft — ქართული 日本語');
+ await manager.locator('#language-choice').selectOption('ka');
+ await manager.getByRole('heading',{name:'პარამეტრები',exact:true}).waitFor();
+ await panel.getByRole('dialog',{name:'სანიშნის შენახვა',exact:true}).waitFor();
+ assert.equal(await panel.getByLabel('სათაური',{exact:true}).inputValue(),'Untranslated draft — ქართული 日本語');
+ await panel.getByRole('button',{name:'გაუქმება',exact:true}).click();
+ assert.equal(await panel.locator('html').getAttribute('lang'),'ka');
+ assert.equal(await worker.evaluate(async()=>JSON.stringify(await chrome.bookmarks.getTree())),original);
+ await manager.locator('#language-choice').selectOption('ja');await manager.getByRole('heading',{name:'設定',exact:true}).waitFor();
+ await context.close();context=await chromium.launchPersistentContext(profile,options);context.setDefaultTimeout(10000);
+ const reopened=await context.newPage();await reopened.goto(base+'settings.html');await reopened.getByRole('heading',{name:'設定',exact:true}).waitFor();
+ assert.equal(await reopened.locator('#language-choice').inputValue(),'ja');
+ await reopened.locator('#language-choice').selectOption('auto');await reopened.getByRole('heading',{name:'Settings',exact:true}).waitFor();
+ assert.deepEqual(errors,[]);console.log('Native localization passed: packaged metadata, manager/panel updates, open draft preservation and translation, restart persistence, automatic browser language, unchanged bookmarks.');
+}finally{await context?.close();rmSync(extension,{recursive:true,force:true});rmSync(profile,{recursive:true,force:true});}

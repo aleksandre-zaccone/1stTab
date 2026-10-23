@@ -1,6 +1,6 @@
 # Chrome Web Store releases
 
-The default `dist/1stTab-bookmarks.zip` is the local bookmark-only extension. Do not submit the optional integration candidate as this release.
+The default `dist/1stTab-bookmarks.zip` includes opt-in Google Drive backup and restore. Google identity and API host access are optional permissions; fresh installs retain the local-only permission set until a user connects Drive. Submit this default ZIP, not a separate integration build.
 
 ## Configure once
 
@@ -13,7 +13,9 @@ In this repository's **Settings → Secrets and variables → Actions**, configu
 
 Use the [official API setup guide](https://developer.chrome.com/docs/webstore/using-api). Never commit credentials or paste them in issues. The access check only reports missing secret names and safe store status fields.
 
-Complete the store listing and Privacy tabs, use current extension screenshots, and verify the public privacy URL: <https://1sttab-app.web.app/privacy>. Listing copy and permission explanations are in [store-submission.md](store-submission.md). Website deployment does not update the Chrome Web Store listing.
+Complete the store listing and Privacy tabs, use current extension screenshots, and verify the public privacy URL: <https://1sttab-app.web.app/privacy>. Listing copy and permission explanations are in [store-submission.md](store-submission.md). Explain that Drive access is optional and that a user-started backup sends bookmark data to the private Drive appDataFolder. Website deployment does not update the Chrome Web Store listing.
+
+Before release, confirm the Chrome Extension OAuth client is configured for the production extension ID, the Drive API and consent screen are ready, and a real account can connect, upload, list and restore a backup. The checked-in client ID is public configuration, not a credential; never commit client secrets or refresh tokens.
 
 ## Release a reviewed version
 

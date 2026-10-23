@@ -4,13 +4,14 @@
 Help users save, organize and retrieve their Chrome bookmarks.
 
 ## Proposed listing
-1stTab — Bookmark Manager: save pages, organize bookmark folders, add tags and bookmark notes, and quickly find saved links. Manage your existing Chrome bookmarks in a full-page library or side panel. Export your library and import a previously exported file with a preview. Review exact duplicate URLs before deleting anything.
+1stTab — Bookmark Manager: save pages, organize bookmark folders, add tags and bookmark notes, and quickly find saved links. Manage your existing Chrome bookmarks in a full-page library or side panel. Export your library and import a previously exported file with a preview. Optionally connect Google Drive to create and restore private bookmark backups; local bookmark management does not require an account. Review exact duplicate URLs before deleting anything.
 
 ## Permission explanations
 - bookmarks: read and edit the native bookmark tree following user actions; refresh changes across surfaces.
 - storage: keep local bookmark metadata, preferences and recovery snapshots; migrate legacy metadata safely.
 - activeTab: read the current page URL/title after the toolbar icon is clicked; no background reading of pages.
 - sidePanel: display the bookmark manager while the user browses.
+- identity and `https://www.googleapis.com/*`: optional; requested only when the user chooses to connect Google Drive. Drive backup uses the `drive.appdata` scope and sends the selected bookmark export to the app-private Drive appDataFolder. No Gmail, Calendar or general Drive-file access is requested.
 
 ## Reviewer walkthrough
 1. Load the packaged folder on Chrome 116+; no login or payment required. Open a new tab and verify it displays the bookmark manager.
@@ -21,7 +22,8 @@ Help users save, organize and retrieve their Chrome bookmarks.
 6. Export a JSON library copy; import that file and inspect counts/destination before confirming. Verify imported links appear in a separate folder.
 7. After a delete, Restore snapshot adds a copy of the snapshot; it does not overwrite existing bookmarks. Duplicates can be reviewed locally.
 8. Open the separate Settings page. Resize the folder sidebar, change card shapes, and test keyboard navigation and narrow panel width. Open How it works, Terms & conditions, and Privacy from Settings.
-9. Verify version 2.0.0. A fresh profile starts in Enterprise light / List view; upgrading preserves saved preferences.
+9. In Settings → Backup & Google Drive, verify the disconnected state and that merely opening the section does not grant Drive access. If a test Google account is available, connect it, create a backup, inspect history, and test the additive restore preview. Denying access must leave local bookmarks and JSON export/import available.
+10. Verify the current manifest/package version. A fresh profile starts in Enterprise light / List view; upgrading preserves saved preferences. Drive permissions must not be requested at install.
 
 ## Required publisher steps
-The public v2 privacy policy is available at https://1sttab-app.web.app/privacy (verified October 7, 2026). Enter it in the developer dashboard. Capture real extension screenshots. Confirm packaged Chrome toolbar/shortcut behavior, restart handling and native managed-bookmark restrictions. Compare the rejection notice if supplied. Follow [release-automation.md](release-automation.md) to check credentials and submit the reviewed default package. Actual submission and publication status must be verified in the workflow and store dashboard.
+Deploy the updated `privacy.html` to the public privacy URL and verify the live page before entering it in the developer dashboard; deploying the website does not update the store listing. Capture real extension screenshots. Confirm packaged Chrome toolbar/shortcut behavior, restart handling and native managed-bookmark restrictions. Compare the rejection notice if supplied. Follow [release-automation.md](release-automation.md) to check credentials and submit the reviewed default package. Actual submission and publication status must be verified in the workflow and store dashboard.

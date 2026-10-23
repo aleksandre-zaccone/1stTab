@@ -1,0 +1,941 @@
+{
+  "m_language": {
+    "message": "Язык"
+  },
+  "m_automatic_browser_language": {
+    "message": "Автоматически — язык браузера"
+  },
+  "m_appearance": {
+    "message": "Оформление"
+  },
+  "m_settings": {
+    "message": "Настройки"
+  },
+  "m_settings_1sttab": {
+    "message": "Настройки · 1stTab"
+  },
+  "m_settings_sections": {
+    "message": "Разделы настроек"
+  },
+  "m_back_to_library": {
+    "message": "Назад в библиотеку"
+  },
+  "m_your_workspace_your_way": {
+    "message": "Ваше пространство, ваши правила."
+  },
+  "m_make_this_space_feel_like_yours_changes_save_automatically_on_this_device": {
+    "message": "Настройте пространство под себя. Изменения автоматически сохраняются на этом устройстве."
+  },
+  "m_all_bookmarks": {
+    "message": "Все закладки"
+  },
+  "m_all_collections": {
+    "message": "Все коллекции"
+  },
+  "m_favorites": {
+    "message": "Избранное"
+  },
+  "m_favorite": {
+    "message": "Избранное"
+  },
+  "m_collection": {
+    "message": "Коллекция"
+  },
+  "m_collections": {
+    "message": "Коллекции"
+  },
+  "m_add_bookmark": {
+    "message": "Добавить закладку"
+  },
+  "m_new_collection": {
+    "message": "Новая коллекция"
+  },
+  "m_new_folder": {
+    "message": "Новая папка"
+  },
+  "m_edit_bookmark": {
+    "message": "Изменить закладку"
+  },
+  "m_save_bookmark": {
+    "message": "Сохранить закладку"
+  },
+  "m_edit_folder": {
+    "message": "Изменить папку"
+  },
+  "m_save_folder": {
+    "message": "Сохранить папку"
+  },
+  "m_title": {
+    "message": "Название"
+  },
+  "m_url": {
+    "message": "URL"
+  },
+  "m_folder": {
+    "message": "Папка"
+  },
+  "m_folder_name": {
+    "message": "Название папки"
+  },
+  "m_parent_folder": {
+    "message": "Родительская папка"
+  },
+  "m_destination": {
+    "message": "Назначение"
+  },
+  "m_destination_folder": {
+    "message": "Папка назначения"
+  },
+  "m_tags_separated_by_commas": {
+    "message": "Теги через запятую"
+  },
+  "m_note_about_this_bookmark": {
+    "message": "Заметка к закладке"
+  },
+  "m_save": {
+    "message": "Сохранить"
+  },
+  "m_cancel": {
+    "message": "Отмена"
+  },
+  "m_edit": {
+    "message": "Изменить"
+  },
+  "m_delete": {
+    "message": "Удалить"
+  },
+  "m_close": {
+    "message": "Закрыть"
+  },
+  "m_clear": {
+    "message": "Очистить"
+  },
+  "m_add_favorite": {
+    "message": "В избранное"
+  },
+  "m_remove_favorite": {
+    "message": "Убрать из избранного"
+  },
+  "m_toggle_favorite": {
+    "message": "Переключить избранное"
+  },
+  "m_show_filters": {
+    "message": "Показать фильтры"
+  },
+  "m_hide_filters": {
+    "message": "Скрыть фильтры"
+  },
+  "m_no_active_filters": {
+    "message": "Нет активных фильтров."
+  },
+  "m_filter_folder": {
+    "message": "Фильтр по папке"
+  },
+  "m_filter_by_tag": {
+    "message": "Фильтр по тегу"
+  },
+  "m_filter_by_domain": {
+    "message": "Фильтр по домену"
+  },
+  "m_tag": {
+    "message": "Тег"
+  },
+  "m_domain": {
+    "message": "Домен"
+  },
+  "m_reset_filters": {
+    "message": "Сбросить фильтры"
+  },
+  "m_bookmark_filters": {
+    "message": "Фильтры закладок"
+  },
+  "m_search_bookmarks": {
+    "message": "Поиск закладок"
+  },
+  "m_find_a_bookmark_idea_or_saved_place": {
+    "message": "Найдите закладку, идею или сохранённый сайт…"
+  },
+  "m_light_dark": {
+    "message": "Светлая / тёмная"
+  },
+  "m_light": {
+    "message": "Светлая"
+  },
+  "m_dark": {
+    "message": "Тёмная"
+  },
+  "m_follow_system": {
+    "message": "Как в системе"
+  },
+  "m_color_mode": {
+    "message": "Цветовой режим"
+  },
+  "m_design_theme": {
+    "message": "Тема оформления"
+  },
+  "m_violet_ink": {
+    "message": "Фиолетовый и чернильный"
+  },
+  "m_warm_editorial": {
+    "message": "Тёплый журнальный стиль"
+  },
+  "m_clean_precise": {
+    "message": "Чистый и точный"
+  },
+  "m_playful_graphic": {
+    "message": "Игривый и графичный"
+  },
+  "m_focused_professional": {
+    "message": "Сдержанный и деловой"
+  },
+  "m_text_icons": {
+    "message": "Текст и значки"
+  },
+  "m_text_size": {
+    "message": "Размер текста"
+  },
+  "m_icon_size": {
+    "message": "Размер значков"
+  },
+  "m_make_titles_labels_and_notes_easier_to_read": {
+    "message": "Сделайте названия, подписи и заметки удобнее для чтения."
+  },
+  "m_enlarge_bookmark_icons_and_action_controls": {
+    "message": "Увеличьте значки закладок и кнопки действий."
+  },
+  "m_a_clearer_view_of_your_library": {
+    "message": "Ваша библиотека стала нагляднее"
+  },
+  "m_your_changes_appear_immediately": {
+    "message": "Изменения видны сразу."
+  },
+  "m_preview": {
+    "message": "Предпросмотр"
+  },
+  "m_workspace": {
+    "message": "Рабочее пространство"
+  },
+  "m_bookmark_view": {
+    "message": "Вид закладок"
+  },
+  "m_cards": {
+    "message": "Карточки"
+  },
+  "m_list": {
+    "message": "Список"
+  },
+  "m_list_view": {
+    "message": "Вид списком"
+  },
+  "m_grid_view": {
+    "message": "Вид сеткой"
+  },
+  "m_default_sort": {
+    "message": "Сортировка по умолчанию"
+  },
+  "m_sort_bookmarks": {
+    "message": "Сортировать закладки"
+  },
+  "m_manual_order": {
+    "message": "Вручную"
+  },
+  "m_name_a_z": {
+    "message": "По названию А–Я"
+  },
+  "m_newest_first": {
+    "message": "Сначала новые"
+  },
+  "m_spacing": {
+    "message": "Интервалы"
+  },
+  "m_comfortable": {
+    "message": "Свободно"
+  },
+  "m_compact": {
+    "message": "Компактно"
+  },
+  "m_show_bookmark_notes": {
+    "message": "Показывать заметки"
+  },
+  "m_display_the_note_beneath_each_bookmark_title": {
+    "message": "Показывать заметку под названием закладки."
+  },
+  "m_reduce_motion": {
+    "message": "Уменьшить анимацию"
+  },
+  "m_keep_the_interface_still_when_hovering_and_switching_views": {
+    "message": "Убрать анимацию при наведении и смене вида."
+  },
+  "m_card_shape": {
+    "message": "Форма карточки"
+  },
+  "m_card_shapes": {
+    "message": "Формы карточек"
+  },
+  "m_rectangle": {
+    "message": "Прямоугольник"
+  },
+  "m_square": {
+    "message": "Квадрат"
+  },
+  "m_rounded": {
+    "message": "Скруглённая"
+  },
+  "m_circle": {
+    "message": "Круг"
+  },
+  "m_sphere": {
+    "message": "Сфера"
+  },
+  "m_choose_the_silhouette_of_your_bookmark_cards_list_view_stays_compact": {
+    "message": "Выберите форму карточек закладок. Вид списком остаётся компактным."
+  },
+  "m_preview_in_card_view": {
+    "message": "Посмотреть в виде карточек"
+  },
+  "m_reset_appearance": {
+    "message": "Сбросить оформление"
+  },
+  "m_library_tools": {
+    "message": "Инструменты библиотеки"
+  },
+  "m_your_bookmarks_follow_chrome_s_sync_settings_tags_and_notes_stay_on_this_device": {
+    "message": "Закладки синхронизируются по настройкам Chrome. Теги и заметки хранятся на этом устройстве."
+  },
+  "m_export_library": {
+    "message": "Экспорт библиотеки"
+  },
+  "m_import": {
+    "message": "Импорт"
+  },
+  "m_undo_last_edit": {
+    "message": "Отменить последнее изменение"
+  },
+  "m_clean_duplicates": {
+    "message": "Убрать дубликаты"
+  },
+  "m_user_guide": {
+    "message": "Руководство ↗"
+  },
+  "m_terms_conditions": {
+    "message": "Условия использования ↗"
+  },
+  "m_privacy": {
+    "message": "Конфиденциальность ↗"
+  },
+  "m_bookmark_saved": {
+    "message": "Закладка сохранена."
+  },
+  "m_collection_saved": {
+    "message": "Коллекция сохранена."
+  },
+  "m_library_ready": {
+    "message": "Библиотека готова."
+  },
+  "m_loading_library": {
+    "message": "Загрузка библиотеки…"
+  },
+  "m_last_supported_operation_undone": {
+    "message": "Последняя поддерживаемая операция отменена."
+  },
+  "m_bookmark_order_updated_undo_available": {
+    "message": "Порядок закладок изменён. Доступна отмена."
+  },
+  "m_nothing_here_yet": {
+    "message": "Здесь пока пусто"
+  },
+  "m_a_home_for_your_next_discovery": {
+    "message": "Место для ваших открытий"
+  },
+  "m_try_another_collection_or_clear_your_filters_you_can_also_drag_bookmarks_into_an_empty_collection": {
+    "message": "Выберите другую коллекцию или сбросьте фильтры. Можно перетащить закладки в пустую коллекцию."
+  },
+  "m_save_your_first_bookmark_or_import_your_existing_library": {
+    "message": "Сохраните первую закладку или импортируйте библиотеку."
+  },
+  "m_untitled": {
+    "message": "Без названия"
+  },
+  "m_untitled_collection": {
+    "message": "Коллекция без названия"
+  },
+  "m_untitled_folder": {
+    "message": "Папка без названия"
+  },
+  "m_close_collections": {
+    "message": "Закрыть коллекции"
+  },
+  "m_close_collections_drawer": {
+    "message": "Закрыть панель коллекций"
+  },
+  "m_bookmark_folders": {
+    "message": "Папки закладок"
+  },
+  "m_saved_bookmarks": {
+    "message": "Сохранённые закладки"
+  },
+  "m_show_more": {
+    "message": "Показать ещё"
+  },
+  "m_installed_version": {
+    "message": "Установленная версия"
+  },
+  "m_managed_bookmark": {
+    "message": "Управляемая закладка"
+  },
+  "m_drag_to_move_or_sort": {
+    "message": "Перетащите для перемещения или сортировки"
+  },
+  "m_resize_folder_sidebar": {
+    "message": "Изменить ширину панели папок"
+  },
+  "m_drag_to_resize_arrow_keys_to_adjust_double_click_to_reset": {
+    "message": "Потяните для изменения размера · Стрелки для настройки · Двойной щелчок для сброса"
+  },
+  "m_move_selected": {
+    "message": "Переместить выбранное"
+  },
+  "m_delete_selected": {
+    "message": "Удалить выбранное"
+  },
+  "m_tag_selected": {
+    "message": "Добавить теги выбранным"
+  },
+  "m_tag_bookmarks": {
+    "message": "Добавить теги закладкам"
+  },
+  "m_add_tags": {
+    "message": "Добавить теги"
+  },
+  "m_adds_these_tags_to_every_selected_bookmark_existing_tags_and_notes_are_preserved": {
+    "message": "Добавляет теги ко всем выбранным закладкам. Существующие теги и заметки сохраняются."
+  },
+  "m_enter_at_least_one_tag": {
+    "message": "Введите хотя бы один тег."
+  },
+  "m_select_bookmarks_to_move": {
+    "message": "Выберите закладки для перемещения."
+  },
+  "m_select_items_to_delete": {
+    "message": "Выберите элементы для удаления."
+  },
+  "m_select_items_to_review": {
+    "message": "Выберите элементы для проверки."
+  },
+  "m_move_items": {
+    "message": "Переместить элементы"
+  },
+  "m_move_bookmarks": {
+    "message": "Переместить закладки"
+  },
+  "m_delete_items": {
+    "message": "Удалить элементы"
+  },
+  "m_confirm_move": {
+    "message": "Подтвердить перемещение"
+  },
+  "m_confirm_delete": {
+    "message": "Подтвердить удаление"
+  },
+  "m_a_local_snapshot_will_be_saved_before_moving_these_items": {
+    "message": "Перед перемещением будет сохранён локальный снимок."
+  },
+  "m_folders_include_their_contents_a_local_recovery_snapshot_will_be_saved_first": {
+    "message": "Папки удаляются вместе с содержимым. Сначала будет сохранён локальный снимок для восстановления."
+  },
+  "m_items_moved_recovery_snapshot_retained": {
+    "message": "Элементы перемещены. Снимок для восстановления сохранён."
+  },
+  "m_deleted_recovery_snapshot_retained": {
+    "message": "Удалено. Снимок для восстановления сохранён."
+  },
+  "m_these_bookmarks_are_already_in_this_collection": {
+    "message": "Эти закладки уже в этой коллекции."
+  },
+  "m_review_duplicate_links": {
+    "message": "Проверить дубликаты ссылок"
+  },
+  "m_review_selected_deletions": {
+    "message": "Проверить выбранное для удаления"
+  },
+  "m_import_bookmarks": {
+    "message": "Импортировать закладки"
+  },
+  "m_confirm_import": {
+    "message": "Подтвердить импорт"
+  },
+  "m_top_level_folders": {
+    "message": "Папки верхнего уровня: "
+  },
+  "m_adds_the_imported_folders_and_bookmarks_directly_to_the_destination_folder_existing_bookmarks_will_not_be_overwritten_a_local_snapshot_is_saved_first": {
+    "message": "Добавляет папки и закладки прямо в папку назначения. Существующие закладки не перезаписываются. Сначала сохраняется локальный снимок."
+  },
+  "m_also_restore_appearance_and_view_preferences": {
+    "message": "Также восстановить оформление и вид"
+  },
+  "m_restores_theme_design_sizes_card_shape_sidebar_width_spacing_note_visibility_motion_view_sort_and_filter_visibility_browser_specific_folder_selections_stay_local": {
+    "message": "Восстанавливает тему, дизайн, размеры, форму карточек, ширину боковой панели, интервалы, отображение заметок, анимацию, вид, сортировку и видимость фильтров. Выбор папок для этого браузера остаётся локальным."
+  },
+  "m_backup_google_drive": {
+    "message": "Резервные копии и Google Drive"
+  },
+  "m_connect_google_drive": {
+    "message": "Подключить Google Drive"
+  },
+  "m_disconnect": {
+    "message": "Отключить"
+  },
+  "m_connected": {
+    "message": "Подключено"
+  },
+  "m_not_connected": {
+    "message": "Не подключено"
+  },
+  "m_connecting": {
+    "message": "Подключение…"
+  },
+  "m_checking_connection": {
+    "message": "Проверка подключения…"
+  },
+  "m_reconnect_required": {
+    "message": "Требуется повторное подключение"
+  },
+  "m_connect_your_google_account_to_back_up_to_drive": {
+    "message": "Подключите аккаунт Google для резервного копирования в Drive."
+  },
+  "m_back_up_now": {
+    "message": "Создать резервную копию"
+  },
+  "m_review_google_drive_backup": {
+    "message": "Просмотреть копии в Google Drive"
+  },
+  "m_backing_up_to_google_drive": {
+    "message": "Создание копии в Google Drive…"
+  },
+  "m_google_drive_backup_saved": {
+    "message": "Резервная копия сохранена в Google Drive."
+  },
+  "m_google_drive_disconnected_your_saved_backups_remain_in_drive": {
+    "message": "Google Drive отключён. Сохранённые копии остаются в Drive."
+  },
+  "m_google_receives_a_bookmark_export_including_urls_tags_notes_favorites_and_portable_preferences_only_when_you_choose_back_up_now_backups_are_stored_privately_in_google_drive_restore_adds_bookmarks_after_your_review": {
+    "message": "Google получает экспорт закладок с URL, тегами, заметками, избранным и настройками только при выборе «Создать резервную копию». Копии хранятся приватно в Google Drive. Восстановление добавляет закладки после вашей проверки."
+  },
+  "m_an_upload_may_have_completed_review_google_drive_backup_before_uploading_again": {
+    "message": "Загрузка могла завершиться. Проверьте копии в Google Drive перед повторной загрузкой."
+  },
+  "m_no_successful_backup_yet": {
+    "message": "Успешных копий пока нет"
+  },
+  "m_google_drive_snapshots": {
+    "message": "Резервные копии Google Drive"
+  },
+  "m_saved_google_drive_snapshots": {
+    "message": "Сохранённые резервные копии Google Drive"
+  },
+  "m_snapshot": {
+    "message": "Резервная копия"
+  },
+  "m_bookmark_snapshot": {
+    "message": "Резервная копия закладок"
+  },
+  "m_restore": {
+    "message": "Восстановить"
+  },
+  "m_select_a_snapshot_first": {
+    "message": "Сначала выберите резервную копию."
+  },
+  "m_delete_this_cloud_backup": {
+    "message": "Удалить эту облачную копию?"
+  },
+  "m_confirm_cloud_deletion": {
+    "message": "Подтвердить удаление из облака"
+  },
+  "m_cloud_backup_deleted": {
+    "message": "Облачная копия удалена."
+  },
+  "m_select_one_snapshot_then_choose_restore_or_delete_restore_shows_a_preview_before_changing_your_library": {
+    "message": "Выберите резервную копию, затем «Восстановить» или «Удалить». Перед восстановлением откроется предпросмотр."
+  },
+  "m_no_backups_found": {
+    "message": "Резервные копии не найдены."
+  },
+  "m_older_snapshot_counts_available_in_the_restore_preview": {
+    "message": "Старая резервная копия — количество элементов доступно при предпросмотре восстановления."
+  },
+  "m_date_unavailable": {
+    "message": "Дата недоступна"
+  },
+  "m_last_backup_date": {
+    "message": "Последняя копия: {date}"
+  },
+  "m_move_count_item_s": {
+    "message": "Переместить {count} элементов"
+  },
+  "m_delete_count_item_s": {
+    "message": "Удалить {count} элементов?"
+  },
+  "m_import_bookmarks_bookmarks_and_folders_folders": {
+    "message": "Импорт закладок: {bookmarks}, папок: {folders}"
+  },
+  "m_duplicates_duplicate_urls_differences_metadata_differences_duplicates_will_be_added_as_separate_bookmarks_existing_notes_and_tags_are_preserved": {
+    "message": "Повторяющихся URL: {duplicates}; различий метаданных: {differences}. Дубликаты будут добавлены отдельно; существующие заметки и теги сохраняются."
+  },
+  "m_imported_count_items": {
+    "message": "Импортировано {count} элементов."
+  },
+  "m_duplicates_exact_url_duplicate_groups_folders_empty_folders_no_automatic_deletion": {
+    "message": "Групп одинаковых URL: {duplicates}; пустых папок: {folders}. Автоматическое удаление не выполняется."
+  },
+  "m_empty_folder_title": {
+    "message": "Пустая папка: {title}"
+  },
+  "m_count_active_filters_hiding_the_controls_keeps_filters_applied": {
+    "message": "Активных фильтров: {count}. При скрытии панели фильтры сохраняются."
+  },
+  "m_count_pixels": {
+    "message": "{count} пикселей"
+  },
+  "m_moved_count_bookmarks_to_title_undo_available": {
+    "message": "Закладок перемещено в «{title}»: {count}. Доступна отмена."
+  },
+  "m_collapse_title": {
+    "message": "Свернуть {title}"
+  },
+  "m_expand_title": {
+    "message": "Развернуть {title}"
+  },
+  "m_title_folder": {
+    "message": "{title}, папка"
+  },
+  "m_add_collection_in_title": {
+    "message": "Добавить коллекцию в {title}"
+  },
+  "m_edit_folder_title": {
+    "message": "Изменить папку {title}"
+  },
+  "m_delete_folder_title": {
+    "message": "Удалить папку {title}"
+  },
+  "m_tag_count_bookmarks": {
+    "message": "Добавить теги к {count} закладкам"
+  },
+  "m_tags_added_to_count_bookmarks_undo_available": {
+    "message": "Теги добавлены к {count} закладкам. Это действие можно отменить."
+  },
+  "m_count_bookmarks_folders_collections": {
+    "message": "Закладок: {count} · Коллекций: {folders}"
+  },
+  "m_count_saved_places": {
+    "message": "Сохранено мест: {count}"
+  },
+  "m_count_selected": {
+    "message": "Выбрано: {count}"
+  },
+  "m_select_title": {
+    "message": "Выбрать {title}"
+  },
+  "m_title_bookmark": {
+    "message": "Закладка {title}"
+  },
+  "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort": {
+    "message": "Перетаскивание закладок: {count} · Отпустите на коллекции для перемещения или между закладками одной папки для сортировки."
+  },
+  "m_show_more_count_remaining": {
+    "message": "Показать ещё (осталось: {count})"
+  },
+  "m_bookmarks_bookmarks_folders_folders_favorites_favorites_notes_with_notes_tagged_with_tags_preferences_preferences": {
+    "message": "Закладок: {bookmarks} · Папок: {folders} · Избранных: {favorites} · С заметками: {notes} · С тегами: {tagged} · Настройки: {preferences}"
+  },
+  "m_included": {
+    "message": "включены"
+  },
+  "m_not_included": {
+    "message": "не включены"
+  },
+  "m_format_version": {
+    "message": "Формат {version}"
+  },
+  "m_count_kb": {
+    "message": "{count} КБ"
+  },
+  "m_saved_automatically_on_this_device": {
+    "message": "Сохранено автоматически на этом устройстве"
+  },
+  "m_1sttab_bookmark_manager": {
+    "message": "Менеджер закладок 1stTab"
+  },
+  "m_1sttab_bookmark_manager_version_version": {
+    "message": "Менеджер закладок 1stTab, версия {version}"
+  },
+  "m_1sttab_bookmarks": {
+    "message": "Закладки 1stTab"
+  },
+  "m_research_work": {
+    "message": "исследования, работа"
+  },
+  "m_research_ideas": {
+    "message": "исследования, идеи"
+  },
+  "extension_name": {
+    "message": "1stTab — Менеджер закладок"
+  },
+  "m_save_organize_and_find_your_chrome_bookmarks_with_folders_tags_notes_and_safe_import_export": {
+    "message": "Сохраняйте, упорядочивайте и находите закладки Chrome: папки, теги, заметки и безопасный импорт/экспорт."
+  },
+  "m_open_1sttab_side_panel": {
+    "message": "Открыть боковую панель 1stTab"
+  },
+  "m_save_this_page_to_1sttab": {
+    "message": "Сохранить страницу в 1stTab"
+  },
+  "m_import_is_limited_to_20_mb": {
+    "message": "Размер импорта ограничен 20 МБ."
+  },
+  "m_use_an_http_https_or_ftp_url": {
+    "message": "Используйте URL с http, https или ftp."
+  },
+  "m_notes_and_tags_belong_to_a_bookmark": {
+    "message": "Заметки и теги доступны только для закладок."
+  },
+  "m_this_item_no_longer_exists_refresh_and_try_again": {
+    "message": "Элемент больше не существует. Обновите страницу и повторите."
+  },
+  "m_chrome_root_and_managed_folders_cannot_be_edited": {
+    "message": "Корневые и управляемые папки Chrome нельзя изменять."
+  },
+  "m_choose_a_writable_bookmark_folder": {
+    "message": "Выберите папку закладок, доступную для записи."
+  },
+  "m_a_folder_cannot_become_a_bookmark": {
+    "message": "Папку нельзя превратить в закладку."
+  },
+  "m_a_folder_cannot_move_inside_itself": {
+    "message": "Нельзя переместить папку в саму себя."
+  },
+  "m_choose_a_bookmark_to_sort_beside": {
+    "message": "Выберите закладку, рядом с которой нужно разместить."
+  },
+  "m_sort_bookmarks_in_the_same_folder_drop_onto_a_folder_to_move_them": {
+    "message": "Сортируйте закладки в одной папке. Для перемещения перетащите их на папку."
+  },
+  "m_choose_a_version_1_or_2_1sttab_bookmark_export": {
+    "message": "Выберите экспорт закладок 1stTab версии 1 или 2."
+  },
+  "m_import_is_too_large_or_deeply_nested": {
+    "message": "Импорт слишком большой или содержит слишком много вложенных папок."
+  },
+  "m_invalid_item_title": {
+    "message": "Недопустимое название элемента."
+  },
+  "m_invalid_folder": {
+    "message": "Недопустимая папка."
+  },
+  "m_invalid_backup_preferences": {
+    "message": "Недопустимые настройки резервной копии."
+  },
+  "m_the_library_changed_preview_the_restore_again_before_importing": {
+    "message": "Библиотека изменилась. Перед импортом снова откройте предпросмотр восстановления."
+  },
+  "m_no_supported_operation_is_available_to_undo": {
+    "message": "Нет операции, которую можно отменить."
+  },
+  "m_the_library_changed_after_this_operation_undo_stopped_to_avoid_overwriting_other_edits_use_snapshot_import_for_recovery": {
+    "message": "После операции библиотека изменилась. Отмена остановлена, чтобы не перезаписать другие изменения. Для восстановления импортируйте снимок."
+  },
+  "m_chrome_root_structure_changed": {
+    "message": "Корневая структура Chrome изменилась."
+  },
+  "m_restored_bookmark_order_is_incomplete": {
+    "message": "Порядок закладок восстановлен не полностью."
+  },
+  "m_undo_stopped_partway_through_pre_undo_snapshot_retained": {
+    "message": "Отмена прервана. Снимок до отмены сохранён. "
+  },
+  "m_another_google_drive_operation_is_running_try_again_when_it_finishes": {
+    "message": "Выполняется другая операция Google Drive. Повторите после её завершения."
+  },
+  "m_connect_google_drive_first": {
+    "message": "Сначала подключите Google Drive."
+  },
+  "m_connect_or_reconnect_google_drive_first": {
+    "message": "Сначала подключите или переподключите Google Drive."
+  },
+  "m_google_drive_could_not_be_reached_check_your_connection_and_try_again": {
+    "message": "Не удалось связаться с Google Drive. Проверьте соединение и повторите."
+  },
+  "m_google_account_changed_disconnect_and_reconnect_before_continuing": {
+    "message": "Аккаунт Google изменился. Отключитесь и подключитесь снова."
+  },
+  "m_google_account_changed_reconnect": {
+    "message": "Аккаунт Google изменился. Подключитесь снова."
+  },
+  "m_could_not_verify_the_google_drive_account_reconnect_before_continuing": {
+    "message": "Не удалось проверить аккаунт Google Drive. Подключитесь снова."
+  },
+  "m_cloud_backup_access_was_declined_local_export_remains_available": {
+    "message": "Доступ к облачным копиям отклонён. Локальный экспорт доступен."
+  },
+  "m_google_connection_changed_refresh_backup_history_and_preview_again": {
+    "message": "Подключение Google изменилось. Откройте историю копий и предпросмотр заново."
+  },
+  "m_refresh_backup_history_and_preview_again": {
+    "message": "Откройте историю копий и предпросмотр заново."
+  },
+  "m_backup_completion_is_unknown_refresh_backup_history_before_uploading_again_the_backup_may_already_exist": {
+    "message": "Неизвестно, завершилось ли копирование. Перед повторной загрузкой проверьте историю: копия уже может существовать. "
+  },
+  "m_google_drive_returned_invalid_backup_history": {
+    "message": "Google Drive вернул неверную историю копий."
+  },
+  "m_backup_history_is_too_large_or_incomplete_try_again_later": {
+    "message": "История копий слишком большая или неполная. Повторите позже."
+  },
+  "m_invalid_backup_id": {
+    "message": "Недопустимый ID копии."
+  },
+  "m_reconnect_google_drive_authorization_expired": {
+    "message": "Подключите Google Drive снова. Авторизация истекла."
+  },
+  "m_google_drive_denied_access_check_consent_and_storage_quota_then_try_again": {
+    "message": "Google Drive отказал в доступе. Проверьте разрешения и свободное место."
+  },
+  "m_google_drive_rate_limit_reached_try_again_later": {
+    "message": "Достигнут лимит запросов Google Drive. Повторите позже."
+  },
+  "m_this_backup_no_longer_exists_refresh_backup_history": {
+    "message": "Копия больше не существует. Обновите историю копий."
+  },
+  "m_google_drive_request_failed_status_try_again_later": {
+    "message": "Ошибка запроса Google Drive ({status}). Повторите позже."
+  },
+  "m_reconnect_google_drive": {
+    "message": "Подключите Google Drive снова. "
+  },
+  "m_chrome_could_not_authorize_google_drive_verify_the_publisher_oauth_client_and_consent_configuration": {
+    "message": "Chrome не смог авторизовать Google Drive. Проверьте OAuth-клиент издателя и настройки согласия."
+  },
+  "m_google_rejected_the_oauth_client_its_application_type_must_be_chrome_extension_and_its_item_id_must_match_this_extension": {
+    "message": "Google отклонил OAuth-клиент. Тип приложения должен быть Chrome Extension, а Item ID должен совпадать с этим расширением."
+  },
+  "m_chrome_has_no_signed_in_google_account_available_sign_in_to_this_chrome_profile_then_try_connect_again": {
+    "message": "В Chrome нет доступного аккаунта Google. Войдите в этот профиль Chrome и подключитесь снова."
+  },
+  "m_google_sign_in_or_consent_was_cancelled_choose_connect_again_and_complete_the_consent_screen": {
+    "message": "Вход или согласие Google отменены. Подключитесь снова и завершите подтверждение."
+  },
+  "m_google_denied_access_check_the_consent_audience_and_if_the_app_is_in_testing_add_your_google_account_as_a_test_user": {
+    "message": "Google отказал в доступе. Проверьте аудиторию согласия; при тестировании добавьте аккаунт как тестового пользователя."
+  },
+  "m_google_needs_interactive_authorization_choose_connect_google_drive_again": {
+    "message": "Google требует подтверждения. Снова выберите подключение Google Drive."
+  },
+  "m_chrome_could_not_reach_google_check_your_network_connection_and_try_again": {
+    "message": "Chrome не смог связаться с Google. Проверьте сеть и повторите."
+  },
+  "m_loaded_extension_id_id": {
+    "message": " ID загруженного расширения: {id}."
+  },
+  "m_find_the_loaded_extension_id_on_chrome_extensions": {
+    "message": " Найдите ID расширения на chrome://extensions."
+  },
+  "m_could_not_load_language_file": {
+    "message": "Не удалось загрузить языковой файл."
+  },
+  "m_applied_of_total_items_moved_backup_retained_detail": {
+    "message": "Перемещено {applied} из {total} элементов. Копия сохранена. {detail}"
+  },
+  "m_applied_of_total_items_deleted_backup_retained_detail": {
+    "message": "Удалено {applied} из {total} элементов. Копия сохранена. {detail}"
+  },
+  "m_applied_sorting_steps_applied_backup_retained_detail": {
+    "message": "Выполнено шагов сортировки: {applied}. Копия сохранена. {detail}"
+  },
+  "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail": {
+    "message": "Импорт остановлен после {count} элементов. Не удалось сохранить метаданные. Сохраните исходный экспорт для восстановления; снимок до импорта сохранён. {detail}"
+  },
+  "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail": {
+    "message": "Импорт остановлен после {count} элементов. Уже добавленные элементы остаются в «{title}» вместе с тегами и заметками. Существующие закладки не изменены. {detail}"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained": {
+    "message": "Импортировано {count} элементов, но настройки восстановить не удалось. Снимок до импорта сохранён."
+  },
+  "m_count_active_filters_hiding_the_controls_keeps_filters_applied_one": {
+    "message": "Активный фильтр: {count}. При скрытии панели фильтр остаётся активным."
+  },
+  "m_moved_count_bookmarks_to_title_undo_available_one": {
+    "message": "Перемещена {count} закладка в «{title}». Это действие можно отменить."
+  },
+  "m_tag_count_bookmarks_one": {
+    "message": "Добавить теги к {count} закладке"
+  },
+  "m_tags_added_to_count_bookmarks_undo_available_one": {
+    "message": "Теги добавлены к {count} закладке. Это действие можно отменить."
+  },
+  "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
+    "message": "Перетаскивание закладок: {count} · Отпустите на коллекции для перемещения или между закладками одной папки для сортировки."
+  },
+  "m_move_count_item_s_one": {
+    "message": "Переместить {count} элемент"
+  },
+  "m_move_count_item_s_few": {
+    "message": "Переместить {count} элемента"
+  },
+  "m_move_count_item_s_many": {
+    "message": "Переместить {count} элементов"
+  },
+  "m_delete_count_item_s_one": {
+    "message": "Удалить {count} элемент?"
+  },
+  "m_delete_count_item_s_few": {
+    "message": "Удалить {count} элемента?"
+  },
+  "m_delete_count_item_s_many": {
+    "message": "Удалить {count} элементов?"
+  },
+  "m_imported_count_items_one": {
+    "message": "Импортирован {count} элемент."
+  },
+  "m_imported_count_items_few": {
+    "message": "Импортировано {count} элемента."
+  },
+  "m_imported_count_items_many": {
+    "message": "Импортировано {count} элементов."
+  },
+  "m_count_saved_places_one": {
+    "message": "Сохранено мест: {count}"
+  },
+  "m_count_pixels_one": {
+    "message": "{count} пиксель"
+  },
+  "m_count_pixels_few": {
+    "message": "{count} пикселя"
+  },
+  "m_count_pixels_many": {
+    "message": "{count} пикселей"
+  },
+  "m_count_pixels_other": {
+    "message": "{count} пикселя"
+  },
+  "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail_one": {
+    "message": "Импорт остановлен после {count} элемента. Не удалось сохранить метаданные. Сохраните исходный экспорт для восстановления; снимок до импорта сохранён. {detail}"
+  },
+  "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail_one": {
+    "message": "Импорт остановлен после {count} элемента. Уже добавленные элементы остаются в «{title}» вместе с тегами и заметками. Существующие закладки не изменены. {detail}"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_one": {
+    "message": "Импортирован {count} элемент, но настройки восстановить не удалось. Снимок до импорта сохранён."
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_few": {
+    "message": "Импортировано {count} элемента, но настройки восстановить не удалось. Снимок до импорта сохранён."
+  },
+  "m_applied_of_total_items_moved_backup_retained_detail_one": {
+    "message": "Перемещено {applied} из {total} элемента. Копия сохранена. {detail}"
+  },
+  "m_applied_of_total_items_deleted_backup_retained_detail_one": {
+    "message": "Удалено {applied} из {total} элемента. Копия сохранена. {detail}"
+  },
+  "m_applied_sorting_steps_applied_backup_retained_detail_one": {
+    "message": "Выполнено шагов сортировки: {applied}. Копия сохранена. {detail}"
+  }
+}

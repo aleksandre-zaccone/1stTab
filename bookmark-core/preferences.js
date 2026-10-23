@@ -6,3 +6,9 @@ export function normalizePreferences(value={}){
  const v=value&&typeof value==='object'?value:{};
  return {...v,sidebarWidth:Number.isFinite(Number(v.sidebarWidth))?Math.round(Math.max(220,Math.min(520,Number(v.sidebarWidth)))):270,gridShape:GRID_SHAPES.includes(v.gridShape)?v.gridShape:'rectangle',design:DESIGNS.includes(v.design)?v.design:'enterprise',theme:['light','dark','system'].includes(v.theme)?v.theme:'light',textScale:size(v.textScale??1,.9,1.4),iconScale:size(v.iconScale??1,.9,1.5),density:v.density==='compact'?'compact':'comfortable',showNotes:v.showNotes!==false,reduceMotion:v.reduceMotion===true,view:v.view==='list'?'list':'grid',sort:['title','newest'].includes(v.sort)?v.sort:'manual',treeOpen:v.treeOpen!==false,filtersOpen:v.filtersOpen===true,collapsed:Array.isArray(v.collapsed)?v.collapsed.filter(id=>typeof id==='string'):[]};
 }
+
+// Portable fields only: never copy browser-local IDs or arbitrary storage keys.
+export function portablePreferences(value={}) {
+ const normalized=normalizePreferences(value);
+ return Object.fromEntries(['sidebarWidth','gridShape','design','theme','textScale','iconScale','density','showNotes','reduceMotion','view','sort','treeOpen','filtersOpen'].map(key=>[key,normalized[key]]));
+}

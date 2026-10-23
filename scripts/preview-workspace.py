@@ -9,6 +9,8 @@ args=parser.parse_args();out=Path(args.output).resolve()
 imports = re.compile(r"import\s*\{([^}]+)\}\s*from\s*['\"]\./([\w-]+)\.js['\"]\s*;")
 exports = re.compile(r'\bexport\s+(?:async\s+)?(?:function|class|const)\s+(\w+)')
 chunks=[]
+locale_catalogs={p.parent.name:json.loads(p.read_text()) for p in (root/'_locales').glob('*/messages.json')}
+chunks.append('const __localeCatalogs='+json.dumps(locale_catalogs)+';')
 site_icons={str(p.relative_to(root)):'data:'+mimetypes.guess_type(p.name)[0]+';base64,'+base64.b64encode(p.read_bytes()).decode() for p in (root/'icons/sites').glob('*') if p.suffix in ['.png','.svg','.ico','.webp']}
 chunks.append('const __siteIcons='+json.dumps(site_icons)+';')
 mock=(root/'tests/mock-chrome.js').read_text().replace('export function','function')
@@ -24,13 +26,16 @@ let __savedPrefs={design:'''+json.dumps(args.design)+''',view:'''+json.dumps('gr
 await chrome.storage.local.set({[__prefKey]:__savedPrefs});
 const __setStorage=chrome.storage.local.set.bind(chrome.storage.local);
 chrome.storage.local.set=async value=>{await __setStorage(value);if(Object.hasOwn(value,__prefKey)){try{localStorage.setItem(__previewKey,JSON.stringify(value[__prefKey]))}catch{}}};''')
-for name in ['preferences','library','transfer','recovery','integrations','favicon','initial-bookmarks','ui']:
+for name in ['i18n','preferences','library','transfer','recovery','drive','integrations','favicon','initial-bookmarks','ui']:
     source=(root/f'bookmark-core/{name}.js').read_text()
+    if name=='i18n':
+        source=source.replace('fetch(new URL(`../_locales/${code}/messages.json`,import.meta.url))','Promise.resolve({ok:true,json:async()=>__localeCatalogs[code]})')
     if name=='ui':
         for doc in ['manual.html','privacy.html','terms.html']:
             source=source.replace("href:'"+doc+"'", "href:"+json.dumps(os.path.relpath(root/doc,out.parent)))
     names=exports.findall(source)
-    source=imports.sub(lambda m:'const {'+m[1]+'}=__'+m[2].replace('-','_')+';', source)
+    source=re.sub(r"export\s*\{([^}]+)\}\s*from\s*['\"]\./([\w-]+)\.js['\"];", lambda m: 'const {'+m[1]+'}=__'+m[2].replace('-','_')+';', source)
+    source=imports.sub(lambda m:'const {'+re.sub(r'\bas\b',':',m[1])+'}=__'+m[2].replace('-','_')+';', source)
     source=re.sub(r'\bexport\s+','',source)
     chunks.append('const __'+name.replace('-','_')+'=(()=>{'+source+'\nreturn {'+','.join(names)+'};})();')
 chunks.append("const __previewObserver=new MutationObserver(()=>{if(document.querySelector('#status')?.textContent==='Library ready.'){__previewObserver.disconnect();const params=new URL(location.href).searchParams;if(params.get('filters')==='1'&&document.querySelector('#filter-tray').hidden)document.querySelector('#filters-toggle').click();const section=params.get('settings');if(section==='1'||section==='library'){document.querySelector('button[aria-label=Settings]')?.click();if(section==='library')document.querySelector('#settings-library-tools')?.scrollIntoView({block:'center'})}}});__previewObserver.observe(document.body,{childList:true,subtree:true,characterData:true});")
