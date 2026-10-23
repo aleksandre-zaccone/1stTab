@@ -1,8 +1,14 @@
 import {initializeBookmarks} from './bookmark-core/initial-bookmarks.js';
+import {recordVersionUpdate} from './bookmark-core/whats-new.js';
 
 chrome.runtime.onInstalled.addListener(async details=>{
-  if(details.reason!=='install')return;
-  try{await initializeBookmarks(chrome,fetch,true)}catch(e){console.error('Unable to initialize bookmarks:',e.message)}
+  if(details.reason==='install'){
+    try{await initializeBookmarks(chrome,fetch,true)}catch(e){console.error('Unable to initialize bookmarks:',e.message)}
+    return;
+  }
+  if(details.reason==='update'){
+    try{await recordVersionUpdate(chrome,details)}catch(e){console.error('Unable to record update announcement:',e.message)}
+  }
 });
 chrome.runtime.onStartup.addListener(async()=>{
   try{await initializeBookmarks(chrome)}catch(e){console.error('Unable to finish initializing bookmarks:',e.message)}

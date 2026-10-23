@@ -55,11 +55,15 @@ jobs:
       - name: Build extension
         run: bash build.sh
 
+      - name: Resolve packaged ZIP path
+        id: package
+        run: printf 'zip=dist/1stTab-bookmarks-%s.zip\n' "$(node -p "require('./manifest.json').version")" >> "$GITHUB_OUTPUT"
+
       - name: Save verified store package
         uses: actions/upload-artifact@v4
         with:
           name: 1stTab-Chrome-Web-Store-${{ github.event.release.tag_name || inputs.tag }}
-          path: dist/1stTab-bookmarks.zip
+          path: dist/1stTab-bookmarks-*.zip
           if-no-files-found: error
 
       - name: Check Chrome Web Store access
@@ -82,7 +86,7 @@ jobs:
         # No subcommand means upload AND publish. `upload --auto-publish` only uploads.
         run: |
           npx --yes chrome-webstore-upload-cli@4.0.2 \
-            --source dist/1stTab-bookmarks.zip \
+            --source "${{ steps.package.outputs.zip }}" \
             --extension-id "$EXTENSION_ID" \
             --publisher-id "$PUBLISHER_ID"
 

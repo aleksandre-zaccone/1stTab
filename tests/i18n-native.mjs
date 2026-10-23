@@ -1,9 +1,10 @@
 import {chromium,browserOptions} from './browser-runtime.mjs';
+import {packageZip} from './package-artifact.mjs';
 import {execFileSync} from 'node:child_process';
 import {mkdtempSync,rmSync} from 'node:fs';
 import assert from 'node:assert/strict';
 const extension=mkdtempSync('/tmp/1sttab-language-extension-'),profile=mkdtempSync('/tmp/1sttab-language-profile-');
-execFileSync('python3',['-c',`import zipfile;zipfile.ZipFile('dist/1stTab-bookmarks.zip').extractall('${extension}')`]);
+execFileSync('python3',['-c',`import zipfile;zipfile.ZipFile('${packageZip}').extractall('${extension}')`]);
 const options={...browserOptions,ignoreDefaultArgs:['--disable-extensions'],args:[...browserOptions.args,`--disable-extensions-except=${extension}`,`--load-extension=${extension}`]};
 let context;const errors=[];
 try{

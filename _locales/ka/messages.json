@@ -937,5 +937,17 @@
   },
   "m_applied_sorting_steps_applied_backup_retained_detail_one": {
     "message": "შესრულებულია დალაგების {applied} ნაბიჯი. ასლი შენარჩუნებულია. {detail}"
+  },
+  "m_updated_to_1sttab_version": {
+    "message": "1stTab განახლდა {version} ვერსიამდე"
+  },
+  "m_this_release_adds_an_in_app_update_notice_in_all_five_supported_languages": {
+    "message": "ამ ვერსიაში დამატებულია განახლების შეტყობინება, რომელიც ხუთივე მხარდაჭერილ ენაზეა ხელმისაწვდომი."
+  },
+  "m_view_changes": {
+    "message": "რა შეიცვალა"
+  },
+  "m_dismiss": {
+    "message": "დახურვა"
   }
 }

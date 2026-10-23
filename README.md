@@ -2,11 +2,11 @@
 
 Save, organize and find Chrome bookmarks in a full-page library or bookmark-only side panel. This release replaces the old dashboard runtime; historical JSX/dashboard sources remain in the repository and are excluded from the shipping ZIP.
 
-Fresh installations start with the Enterprise light theme and Favorites in grid view. The initial_bookmarks.json file supplies 12 starter favorites on first install; existing bookmarks are preserved and duplicate URLs are skipped. Updates do not seed the starter list again. Saved theme, sizing and folder preferences are preserved. The default package identifies as version **2.2.1**.
+Fresh installations start with the Enterprise light theme and Favorites in grid view. The initial_bookmarks.json file supplies 12 starter favorites on first install; existing bookmarks are preserved and duplicate URLs are skipped. Updates do not seed the starter list again. Saved theme, sizing and folder preferences are preserved. The default package identifies as version **2.2.2**.
 
 ## Run
 
-Requires Chrome 116+ and Python 3. Run `bash build.sh`; extract `dist/1stTab-bookmarks.zip`, then select the extracted folder in Chrome → Extensions → Developer mode → Load unpacked. Use the packaged folder rather than the repository root, which retains legacy assets.
+Requires Chrome 116+ and Python 3. Run `bash build.sh`; extract `dist/1stTab-bookmarks-<version>.zip` (for example `1stTab-bookmarks-2.2.2.zip`), then select the extracted folder in Chrome → Extensions → Developer mode → Load unpacked. Use the packaged folder rather than the repository root, which retains legacy assets.
 
 Click the toolbar icon on a web page to open a save form. Alt+Shift+P opens the side panel. Ctrl/Cmd+K focuses saved-link search. New tabs open the bookmark manager. Your search provider is unchanged.
 
@@ -58,7 +58,7 @@ Work on a feature branch based on `integration`, merge an MR into `integration`,
 | Manual Publish run with `operation=check` | Validate/test/build and check credentials and item status; no upload or submission |
 | Manual Publish run with `operation=submit` | Run the publishing pipeline, including upload and submission |
 
-The publishing workflow uses Node.js 20 and `chrome-webstore-upload-cli@4.0.2`. It serializes store publishing runs rather than cancelling an earlier submission. It publishes `dist/1stTab-bookmarks.zip`, which includes opt-in Google Drive backup. Google review is required after submission; a successful job is not proof that the new version is already live.
+The publishing workflow uses Node.js 20 and `chrome-webstore-upload-cli@4.0.2`. It serializes store publishing runs rather than cancelling an earlier submission. It publishes the default package at `dist/1stTab-bookmarks-<version>.zip`, which includes opt-in Google Drive backup. Google review is required after submission; a successful job is not proof that the new version is already live.
 
 ### Step 1: Create Google publishing credentials
 
@@ -159,4 +159,4 @@ Current implementation and release details: [Google Drive integration](innerDocu
 
 Run `npm run test:integration` with Playwright installed and an extension-capable Chrome for Testing binary. `PLAYWRIGHT_MODULE` and `CHROME_PATH` can point to external installations. The command runs unit checks, package verification, browser workflows and isolated native Chrome checks. Drive provider responses are mocked in automated checks; actual Google OAuth remains a separate publisher verification step.
 
-For local Drive testing, run `bash build.sh`, extract `dist/1stTab-bookmarks.zip` into a dedicated folder, then open Chrome Extensions, enable Developer mode and choose Load unpacked on that folder. Open Settings → Backup & Google Drive → Review Google Drive backup. After rebuilding, extract the new ZIP into the same folder and click Reload in Chrome Extensions. The OAuth client must be configured for the extension ID shown there. Keep the same folder for local reloads; do not load the repository root. See [2.2 release notes](innerDocumentation/release-v2.2.0.md) for verification limits.
+For local Drive testing, run `bash build.sh`, extract `dist/1stTab-bookmarks-<version>.zip` into a dedicated folder, then open Chrome Extensions, enable Developer mode and choose Load unpacked on that folder. Open Settings → Backup & Google Drive → Review Google Drive backup. After rebuilding, extract the new ZIP into the same folder and click Reload in Chrome Extensions. The OAuth client must be configured for the extension ID shown there. Keep the same folder for local reloads; do not load the repository root. See [2.2 release notes](innerDocumentation/release-v2.2.0.md) for verification limits.
