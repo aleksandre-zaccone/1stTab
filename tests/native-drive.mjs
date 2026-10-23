@@ -1,9 +1,10 @@
 import {chromium,browserOptions} from './browser-runtime.mjs';
+import {packageZip} from './package-artifact.mjs';
 import {execFileSync} from 'node:child_process';
 import {mkdtempSync} from 'node:fs';
 import assert from 'node:assert/strict';
 const extension=mkdtempSync('/tmp/1sttab-drive-extension-'),profile=mkdtempSync('/tmp/1sttab-drive-profile-');
-execFileSync('python3',['-c',`import zipfile;zipfile.ZipFile('dist/1stTab-bookmarks.zip').extractall('${extension}')`]);
+execFileSync('python3',['-c',`import zipfile;zipfile.ZipFile('${packageZip}').extractall('${extension}')`]);
 let context;
 try{
  context=await chromium.launchPersistentContext(profile,{...browserOptions,ignoreDefaultArgs:['--disable-extensions'],args:[...browserOptions.args,`--disable-extensions-except=${extension}`,`--load-extension=${extension}`]});context.setDefaultTimeout(15000);

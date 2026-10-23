@@ -1,6 +1,6 @@
 # Google Drive integration — current package
 
-Google Drive backup and restore are included in the default `dist/1stTab-bookmarks.zip`. Drive access remains optional: a fresh install requests no Google identity or API host access, and connecting Drive requests those permissions only after the user chooses Connect Google Drive. Local bookmark management and JSON export/import continue to work when permission is denied.
+Google Drive backup and restore are included in the default `dist/1stTab-bookmarks-<version>.zip`. Drive access remains optional: a fresh install requests no Google identity or API host access, and connecting Drive requests those permissions only after the user chooses Connect Google Drive. Local bookmark management and JSON export/import continue to work when permission is denied.
 
 ## Google Drive — 2.2 manual backup and restore
 

@@ -1,6 +1,6 @@
 # Chrome Web Store releases
 
-The default `dist/1stTab-bookmarks.zip` includes opt-in Google Drive backup and restore. Google identity and API host access are optional permissions; fresh installs retain the local-only permission set until a user connects Drive. Submit this default ZIP, not a separate integration build.
+The default package at `dist/1stTab-bookmarks-<version>.zip` includes opt-in Google Drive backup and restore. Google identity and API host access are optional permissions; fresh installs retain the local-only permission set until a user connects Drive. Submit this default ZIP, not a separate integration build.
 
 ## Configure once
 
@@ -36,4 +36,4 @@ The uploader is pinned to `chrome-webstore-upload-cli@4.0.2`, which uses Chrome 
 - Upload succeeded but submission failed: inspect the dashboard first. Complete missing listing/privacy fields and submit the already uploaded draft there. Do not blindly re-upload the same version.
 - Google policy warning, rejection or takedown: read the dashboard's actual notice and resolve it before another submission.
 
-GitHub's artifact download wraps the extension ZIP in another ZIP. Extract the artifact and upload its inner `1stTab-bookmarks.zip` for a manual submission; `manifest.json` must be at the root of the file sent to Chrome.
+GitHub's artifact download wraps the extension ZIP in another ZIP. Extract the artifact and upload its inner `1stTab-bookmarks-<version>.zip` for a manual submission; `manifest.json` must be at the root of the file sent to Chrome.
