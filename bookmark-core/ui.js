@@ -6,7 +6,7 @@ import {normalizePreferences} from './preferences.js';
 import {BookmarkLibrary, normalizeMeta,searchBookmarks,safeUrl} from './library.js';
 import {makeExport,parseImport,importAdditive,importReview,backupSummary,cleanupCandidates} from './transfer.js';
 import {recordOperation,undoOperation} from './recovery.js';
-import {pendingVersionUpdate,dismissVersionUpdate} from './whats-new.js';
+import {pendingVersionUpdate,dismissVersionUpdate,WHATS_NEW_KEY} from './whats-new.js';
 const lib=new BookmarkLibrary(chrome),app=document.querySelector('#app'),narrow=matchMedia('(max-width:760px)');let mobileTreeOpen=false;const systemDark=matchMedia('(prefers-color-scheme: dark)');
 let state,filter={query:'',folder:'',tag:'',domain:'',favorites:true},selected=new Set(),limit=100,mode='grid',sortMode='manual',treeOpen=true,refreshVersion=0,dragIds=[],prefs={},collapsed=new Set(),updateAnnouncement=null;
 let settingsOpen=false,libraryScroll=0,languageChoice='auto';
@@ -164,6 +164,9 @@ narrow.addEventListener('change',()=>{mobileTreeOpen=false;if(state)renderFolder
 run(start);
 
 chrome.storage.onChanged.addListener((changes,area)=>{if(area==='local'&&changes[DRIVE_KEY])run(refreshDriveIndicator);if(area==='local'&&changes[DRIVE_KEY]&&changes[DRIVE_KEY].oldValue?.generation!==changes[DRIVE_KEY].newValue?.generation){document.querySelectorAll('dialog[open][data-drive]').forEach(d=>d.close());}});
+
+// Dismissing the notice on one surface removes it from every other open surface.
+chrome.storage.onChanged.addListener((changes,area)=>{if(area!=='local'||!changes[WHATS_NEW_KEY])return;const saved=changes[WHATS_NEW_KEY].newValue;if(!saved||saved.version!==installedVersion||(saved.dismissedVersions||[]).includes(installedVersion)){updateAnnouncement=null;document.querySelector('.whats-new')?.remove();}});
 
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();if(settingsOpen)showLibrary();document.getElementById('search')?.focus()}if(e.key==='Escape'){finishDrag();mobileTreeOpen=false;if(state)renderFolders()}});
 
