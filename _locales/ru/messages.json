@@ -474,7 +474,7 @@
     "message": "Также восстановить оформление и вид"
   },
   "m_restores_theme_design_sizes_card_shape_sidebar_width_spacing_note_visibility_motion_view_sort_and_filter_visibility_browser_specific_folder_selections_stay_local": {
-    "message": "Восстанавливает тему, дизайн, размеры, форму карточек, ширину панели, интервалы, заметки, анимацию, вид, сортировку и фильтры. Выбор папок остаётся локальным."
+    "message": "Восстанавливает тему, дизайн, размеры, форму карточек, ширину боковой панели, интервалы, отображение заметок, анимацию, вид, сортировку и видимость фильтров. Выбор папок для этого браузера остаётся локальным."
   },
   "m_backup_google_drive": {
     "message": "Резервные копии и Google Drive"
@@ -528,22 +528,22 @@
     "message": "Успешных копий пока нет"
   },
   "m_google_drive_snapshots": {
-    "message": "Снимки Google Drive"
+    "message": "Резервные копии Google Drive"
   },
   "m_saved_google_drive_snapshots": {
-    "message": "Сохранённые снимки Google Drive"
+    "message": "Сохранённые резервные копии Google Drive"
   },
   "m_snapshot": {
-    "message": "Снимок"
+    "message": "Резервная копия"
   },
   "m_bookmark_snapshot": {
-    "message": "Снимок закладок"
+    "message": "Резервная копия закладок"
   },
   "m_restore": {
     "message": "Восстановить"
   },
   "m_select_a_snapshot_first": {
-    "message": "Сначала выберите снимок."
+    "message": "Сначала выберите резервную копию."
   },
   "m_delete_this_cloud_backup": {
     "message": "Удалить эту облачную копию?"
@@ -555,13 +555,13 @@
     "message": "Облачная копия удалена."
   },
   "m_select_one_snapshot_then_choose_restore_or_delete_restore_shows_a_preview_before_changing_your_library": {
-    "message": "Выберите снимок, затем «Восстановить» или «Удалить». Перед восстановлением откроется предпросмотр."
+    "message": "Выберите резервную копию, затем «Восстановить» или «Удалить». Перед восстановлением откроется предпросмотр."
   },
   "m_no_backups_found": {
     "message": "Резервные копии не найдены."
   },
   "m_older_snapshot_counts_available_in_the_restore_preview": {
-    "message": "Старый снимок — количество элементов доступно при предпросмотре восстановления."
+    "message": "Старая резервная копия — количество элементов доступно при предпросмотре восстановления."
   },
   "m_date_unavailable": {
     "message": "Дата недоступна"
@@ -585,7 +585,7 @@
     "message": "Импортировано {count} элементов."
   },
   "m_duplicates_exact_url_duplicate_groups_folders_empty_folders_no_automatic_deletion": {
-    "message": "Групп одинаковых URL: {duplicates}; пустых папок: {folders}. Автоматическое удаление отключено."
+    "message": "Групп одинаковых URL: {duplicates}; пустых папок: {folders}. Автоматическое удаление не выполняется."
   },
   "m_empty_folder_title": {
     "message": "Пустая папка: {title}"
@@ -872,9 +872,6 @@
   "m_tags_added_to_count_bookmarks_undo_available_one": {
     "message": "Теги добавлены к {count} закладке. Это действие можно отменить."
   },
-  "m_count_bookmarks_folders_collections_one": {
-    "message": "Закладок: {count} · Коллекций: {folders}"
-  },
   "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
     "message": "Перетаскивание закладок: {count} · Отпустите на коллекции для перемещения или между закладками одной папки для сортировки."
   },
@@ -907,5 +904,38 @@
   },
   "m_count_saved_places_one": {
     "message": "Сохранено мест: {count}"
+  },
+  "m_count_pixels_one": {
+    "message": "{count} пиксель"
+  },
+  "m_count_pixels_few": {
+    "message": "{count} пикселя"
+  },
+  "m_count_pixels_many": {
+    "message": "{count} пикселей"
+  },
+  "m_count_pixels_other": {
+    "message": "{count} пикселя"
+  },
+  "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail_one": {
+    "message": "Импорт остановлен после {count} элемента. Не удалось сохранить метаданные. Сохраните исходный экспорт для восстановления; снимок до импорта сохранён. {detail}"
+  },
+  "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail_one": {
+    "message": "Импорт остановлен после {count} элемента. Уже добавленные элементы остаются в «{title}» вместе с тегами и заметками. Существующие закладки не изменены. {detail}"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_one": {
+    "message": "Импортирован {count} элемент, но настройки восстановить не удалось. Снимок до импорта сохранён."
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_few": {
+    "message": "Импортировано {count} элемента, но настройки восстановить не удалось. Снимок до импорта сохранён."
+  },
+  "m_applied_of_total_items_moved_backup_retained_detail_one": {
+    "message": "Перемещено {applied} из {total} элемента. Копия сохранена. {detail}"
+  },
+  "m_applied_of_total_items_deleted_backup_retained_detail_one": {
+    "message": "Удалено {applied} из {total} элемента. Копия сохранена. {detail}"
+  },
+  "m_applied_sorting_steps_applied_backup_retained_detail_one": {
+    "message": "Выполнено шагов сортировки: {applied}. Копия сохранена. {detail}"
   }
 }

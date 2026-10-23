@@ -528,22 +528,22 @@
     "message": "No successful backup yet"
   },
   "m_google_drive_snapshots": {
-    "message": "Google Drive snapshots"
+    "message": "Google Drive backups"
   },
   "m_saved_google_drive_snapshots": {
-    "message": "Saved Google Drive snapshots"
+    "message": "Saved Google Drive backups"
   },
   "m_snapshot": {
-    "message": "Snapshot"
+    "message": "Backup"
   },
   "m_bookmark_snapshot": {
-    "message": "Bookmark snapshot"
+    "message": "Bookmark backup"
   },
   "m_restore": {
     "message": "Restore"
   },
   "m_select_a_snapshot_first": {
-    "message": "Select a snapshot first."
+    "message": "Select a backup first."
   },
   "m_delete_this_cloud_backup": {
     "message": "Delete this cloud backup?"
@@ -555,13 +555,13 @@
     "message": "Cloud backup deleted."
   },
   "m_select_one_snapshot_then_choose_restore_or_delete_restore_shows_a_preview_before_changing_your_library": {
-    "message": "Select one snapshot, then choose Restore or Delete. Restore shows a preview before changing your library."
+    "message": "Select one backup, then choose Restore or Delete. Restore shows a preview before changing your library."
   },
   "m_no_backups_found": {
     "message": "No backups found."
   },
   "m_older_snapshot_counts_available_in_the_restore_preview": {
-    "message": "Older snapshot — counts available in the restore preview."
+    "message": "Older backup — counts available in the restore preview."
   },
   "m_date_unavailable": {
     "message": "Date unavailable"
@@ -576,16 +576,16 @@
     "message": "Delete {count} items?"
   },
   "m_import_bookmarks_bookmarks_and_folders_folders": {
-    "message": "Import {bookmarks} bookmarks and {folders} folders"
+    "message": "Import bookmarks: {bookmarks} · Folders: {folders}"
   },
   "m_duplicates_duplicate_urls_differences_metadata_differences_duplicates_will_be_added_as_separate_bookmarks_existing_notes_and_tags_are_preserved": {
-    "message": "{duplicates} duplicate URLs; {differences} metadata differences. Duplicates will be added as separate bookmarks; existing notes and tags are preserved."
+    "message": "Duplicate URLs: {duplicates}; metadata differences: {differences}. Duplicates will be added as separate bookmarks; existing notes and tags are preserved."
   },
   "m_imported_count_items": {
     "message": "Imported {count} items."
   },
   "m_duplicates_exact_url_duplicate_groups_folders_empty_folders_no_automatic_deletion": {
-    "message": "{duplicates} exact-URL duplicate groups; {folders} empty folders. No automatic deletion."
+    "message": "Exact-URL duplicate groups: {duplicates}; empty folders: {folders}. No automatic deletion."
   },
   "m_empty_folder_title": {
     "message": "Empty folder: {title}"
@@ -624,7 +624,7 @@
     "message": "Tags added to {count} bookmarks. Undo available."
   },
   "m_count_bookmarks_folders_collections": {
-    "message": "{count} bookmarks · {folders} collections"
+    "message": "Bookmarks: {count} · Collections: {folders}"
   },
   "m_count_saved_places": {
     "message": "{count} saved places"
@@ -645,7 +645,7 @@
     "message": "Show more ({count} remaining)"
   },
   "m_bookmarks_bookmarks_folders_folders_favorites_favorites_notes_with_notes_tagged_with_tags_preferences_preferences": {
-    "message": "{bookmarks} bookmarks · {folders} folders · {favorites} favorites · {notes} with notes · {tagged} with tags · Preferences {preferences}"
+    "message": "Bookmarks: {bookmarks} · Folders: {folders} · Favorites: {favorites} · With notes: {notes} · With tags: {tagged} · Preferences {preferences}"
   },
   "m_included": {
     "message": "included"
@@ -872,9 +872,6 @@
   "m_tags_added_to_count_bookmarks_undo_available_one": {
     "message": "Tags added to {count} bookmark. Undo available."
   },
-  "m_count_bookmarks_folders_collections_one": {
-    "message": "{count} bookmark · {folders} collections"
-  },
   "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
     "message": "Dragging {count} bookmark · Drop on a collection to move, or between bookmarks in the same folder to sort."
   },
@@ -907,5 +904,38 @@
   },
   "m_count_saved_places_one": {
     "message": "{count} saved place"
+  },
+  "m_count_pixels_one": {
+    "message": "{count} pixel"
+  },
+  "m_count_pixels_few": {
+    "message": "{count} pixels"
+  },
+  "m_count_pixels_many": {
+    "message": "{count} pixels"
+  },
+  "m_count_pixels_other": {
+    "message": "{count} pixels"
+  },
+  "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail_one": {
+    "message": "Import stopped after {count} item. Bookmark metadata could not be saved. Keep the source export for recovery; the pre-import snapshot is retained. {detail}"
+  },
+  "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail_one": {
+    "message": "Import stopped after {count} item. Items added before the failure remain in “{title}”; tags and notes for imported items are retained. Existing bookmarks are unchanged. {detail}"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_one": {
+    "message": "Imported {count} item, but preferences could not be restored. The pre-import snapshot is retained."
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_few": {
+    "message": "Imported {count} items, but preferences could not be restored. The pre-import snapshot is retained."
+  },
+  "m_applied_of_total_items_moved_backup_retained_detail_one": {
+    "message": "{applied} of {total} item moved. Backup retained. {detail}"
+  },
+  "m_applied_of_total_items_deleted_backup_retained_detail_one": {
+    "message": "{applied} of {total} item deleted. Backup retained. {detail}"
+  },
+  "m_applied_sorting_steps_applied_backup_retained_detail_one": {
+    "message": "{applied} sorting step applied. Backup retained. {detail}"
   }
 }

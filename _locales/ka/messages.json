@@ -519,7 +519,7 @@
     "message": "Google Drive გათიშულია. შენახული ასლები რჩება Drive-ში."
   },
   "m_google_receives_a_bookmark_export_including_urls_tags_notes_favorites_and_portable_preferences_only_when_you_choose_back_up_now_backups_are_stored_privately_in_google_drive_restore_adds_bookmarks_after_your_review": {
-    "message": "Google იღებს სანიშნეების ექსპორტს URL-ებით, ტეგებით, შენიშვნებით, რჩეულებითა და გადასატანი პარამეტრებით მხოლოდ „სარეზერვო ასლის შექმნის“ არჩევისას. ასლები ინახება პირადად Google Drive-ში. აღდგენა სანიშნეებს ამატებს თქვენი შემოწმების შემდეგ."
+    "message": "Google იღებს სანიშნეების ექსპორტს URL-ებით, ტეგებით, შენიშვნებით, რჩეულებითა და გადასატანი პარამეტრებით მხოლოდ „სარეზერვო ასლის შექმნის“ არჩევისას. სარეზერვო ასლები Google Drive-ში ინახება და საჯაროდ ხელმისაწვდომი არ არის. აღდგენა სანიშნეებს ამატებს თქვენი შემოწმების შემდეგ."
   },
   "m_an_upload_may_have_completed_review_google_drive_backup_before_uploading_again": {
     "message": "ატვირთვა შესაძლოა დასრულდა. ხელახლა ატვირთვამდე შეამოწმეთ Google Drive-ის ასლები."
@@ -528,22 +528,22 @@
     "message": "წარმატებული ასლი ჯერ არ არის"
   },
   "m_google_drive_snapshots": {
-    "message": "Google Drive-ის ასლები"
+    "message": "Google Drive-ის სარეზერვო ასლები"
   },
   "m_saved_google_drive_snapshots": {
-    "message": "Google Drive-ში შენახული ასლები"
+    "message": "Google Drive-ში შენახული სარეზერვო ასლები"
   },
   "m_snapshot": {
-    "message": "ასლი"
+    "message": "სარეზერვო ასლი"
   },
   "m_bookmark_snapshot": {
-    "message": "სანიშნეების ასლი"
+    "message": "სანიშნეების სარეზერვო ასლი"
   },
   "m_restore": {
     "message": "აღდგენა"
   },
   "m_select_a_snapshot_first": {
-    "message": "ჯერ აირჩიეთ ასლი."
+    "message": "ჯერ აირჩიეთ სარეზერვო ასლი."
   },
   "m_delete_this_cloud_backup": {
     "message": "წაიშალოს ეს ღრუბლოვანი ასლი?"
@@ -852,7 +852,7 @@
     "message": "შესრულებულია დალაგების {applied} ნაბიჯი. ასლი შენარჩუნებულია. {detail}"
   },
   "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail": {
-    "message": "იმპორტი შეჩერდა {count} ელემენტის შემდეგ. სანიშნეების მეტამონაცემები ვერ შეინახა. აღსადგენად შეინახეთ წყარო ექსპორტი; იმპორტამდე შექმნილი ასლი შენარჩუნებულია. {detail}"
+    "message": "იმპორტი შეჩერდა {count} ელემენტის შემდეგ. სანიშნეების მეტამონაცემების შენახვა ვერ მოხერხდა. აღსადგენად შეინახეთ საწყისი ექსპორტის ფაილი; იმპორტამდე შექმნილი ასლი შენარჩუნებულია. {detail}"
   },
   "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail": {
     "message": "იმპორტი შეჩერდა {count} ელემენტის შემდეგ. მანამდე დამატებული ელემენტები რჩება „{title}“-ში; ტეგები და შენიშვნები შენარჩუნებულია. არსებული სანიშნეები უცვლელია. {detail}"
@@ -871,9 +871,6 @@
   },
   "m_tags_added_to_count_bookmarks_undo_available_one": {
     "message": "ტეგები დაემატა {count} სანიშნეს. გაუქმება შესაძლებელია."
-  },
-  "m_count_bookmarks_folders_collections_one": {
-    "message": "სანიშნეები: {count} · კოლექციები: {folders}"
   },
   "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
     "message": "გადაადგილდება {count} სანიშნე · ჩააგდეთ კოლექციაში გადასატანად ან იმავე საქაღალდის სანიშნეებს შორის დასალაგებლად."
@@ -907,5 +904,38 @@
   },
   "m_count_saved_places_one": {
     "message": "შენახული ადგილები: {count}"
+  },
+  "m_count_pixels_one": {
+    "message": "{count} პიქსელი"
+  },
+  "m_count_pixels_few": {
+    "message": "{count} პიქსელი"
+  },
+  "m_count_pixels_many": {
+    "message": "{count} პიქსელი"
+  },
+  "m_count_pixels_other": {
+    "message": "{count} პიქსელი"
+  },
+  "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail_one": {
+    "message": "იმპორტი შეჩერდა {count} ელემენტის შემდეგ. სანიშნეების მეტამონაცემების შენახვა ვერ მოხერხდა. აღსადგენად შეინახეთ საწყისი ექსპორტის ფაილი; იმპორტამდე შექმნილი ასლი შენარჩუნებულია. {detail}"
+  },
+  "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail_one": {
+    "message": "იმპორტი შეჩერდა {count} ელემენტის შემდეგ. მანამდე დამატებული ელემენტები რჩება „{title}“-ში; ტეგები და შენიშვნები შენარჩუნებულია. არსებული სანიშნეები უცვლელია. {detail}"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_one": {
+    "message": "შემოტანილია {count} ელემენტი, მაგრამ პარამეტრები ვერ აღდგა. იმპორტამდე შექმნილი ასლი შენარჩუნებულია."
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_few": {
+    "message": "შემოტანილია {count} ელემენტი, მაგრამ პარამეტრები ვერ აღდგა. იმპორტამდე შექმნილი ასლი შენარჩუნებულია."
+  },
+  "m_applied_of_total_items_moved_backup_retained_detail_one": {
+    "message": "გადატანილია {applied} ელემენტი {total}-დან. ასლი შენარჩუნებულია. {detail}"
+  },
+  "m_applied_of_total_items_deleted_backup_retained_detail_one": {
+    "message": "წაშლილია {applied} ელემენტი {total}-დან. ასლი შენარჩუნებულია. {detail}"
+  },
+  "m_applied_sorting_steps_applied_backup_retained_detail_one": {
+    "message": "შესრულებულია დალაგების {applied} ნაბიჯი. ასლი შენარჩუნებულია. {detail}"
   }
 }

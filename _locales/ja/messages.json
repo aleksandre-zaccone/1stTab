@@ -336,7 +336,7 @@
     "message": "ライブラリを読み込み中…"
   },
   "m_last_supported_operation_undone": {
-    "message": "最後の対応操作を元に戻しました。"
+    "message": "直前の操作を元に戻しました。"
   },
   "m_bookmark_order_updated_undo_available": {
     "message": "ブックマークの順序を更新しました。元に戻せます。"
@@ -432,10 +432,10 @@
     "message": "項目を削除"
   },
   "m_confirm_move": {
-    "message": "移動を確認"
+    "message": "移動する"
   },
   "m_confirm_delete": {
-    "message": "削除を確認"
+    "message": "削除する"
   },
   "m_a_local_snapshot_will_be_saved_before_moving_these_items": {
     "message": "移動する前にローカルスナップショットを保存します。"
@@ -462,7 +462,7 @@
     "message": "ブックマークをインポート"
   },
   "m_confirm_import": {
-    "message": "インポートを確認"
+    "message": "インポートする"
   },
   "m_top_level_folders": {
     "message": "最上位のフォルダ："
@@ -528,40 +528,40 @@
     "message": "まだバックアップは成功していません"
   },
   "m_google_drive_snapshots": {
-    "message": "Google Driveのスナップショット"
+    "message": "Google Driveのバックアップ"
   },
   "m_saved_google_drive_snapshots": {
-    "message": "保存済みのGoogle Driveスナップショット"
+    "message": "保存済みのGoogle Driveバックアップ"
   },
   "m_snapshot": {
-    "message": "スナップショット"
+    "message": "バックアップ"
   },
   "m_bookmark_snapshot": {
-    "message": "ブックマークのスナップショット"
+    "message": "ブックマークのバックアップ"
   },
   "m_restore": {
     "message": "復元"
   },
   "m_select_a_snapshot_first": {
-    "message": "先にスナップショットを選んでください。"
+    "message": "先にバックアップを選んでください。"
   },
   "m_delete_this_cloud_backup": {
     "message": "このクラウドバックアップを削除しますか？"
   },
   "m_confirm_cloud_deletion": {
-    "message": "クラウドからの削除を確認"
+    "message": "バックアップを削除する"
   },
   "m_cloud_backup_deleted": {
     "message": "クラウドバックアップを削除しました。"
   },
   "m_select_one_snapshot_then_choose_restore_or_delete_restore_shows_a_preview_before_changing_your_library": {
-    "message": "スナップショットを1つ選び、「復元」または「削除」を選択してください。復元では変更前にプレビューが表示されます。"
+    "message": "バックアップを1つ選び、「復元」または「削除」を選択してください。復元では変更前にプレビューが表示されます。"
   },
   "m_no_backups_found": {
     "message": "バックアップが見つかりません。"
   },
   "m_older_snapshot_counts_available_in_the_restore_preview": {
-    "message": "古いスナップショット — 件数は復元プレビューで確認できます。"
+    "message": "古いバックアップ — 件数は復元プレビューで確認できます。"
   },
   "m_date_unavailable": {
     "message": "日付不明"
@@ -872,9 +872,6 @@
   "m_tags_added_to_count_bookmarks_undo_available_one": {
     "message": "ブックマーク{count}件にタグを追加しました。元に戻せます。"
   },
-  "m_count_bookmarks_folders_collections_one": {
-    "message": "ブックマーク{count}件 · コレクション{folders}個"
-  },
   "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
     "message": "ブックマーク{count}件をドラッグ中 · コレクションにドロップして移動、同じフォルダ内のブックマーク間にドロップして並べ替え。"
   },
@@ -907,5 +904,38 @@
   },
   "m_count_saved_places_one": {
     "message": "保存したサイト{count}件"
+  },
+  "m_count_pixels_one": {
+    "message": "{count}ピクセル"
+  },
+  "m_count_pixels_few": {
+    "message": "{count}ピクセル"
+  },
+  "m_count_pixels_many": {
+    "message": "{count}ピクセル"
+  },
+  "m_count_pixels_other": {
+    "message": "{count}ピクセル"
+  },
+  "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail_one": {
+    "message": "{count}件でインポートが停止しました。メタデータを保存できませんでした。復元用に元のエクスポートを保管してください。インポート前のスナップショットは保持されています。{detail}"
+  },
+  "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail_one": {
+    "message": "{count}件でインポートが停止しました。追加済みの項目は「{title}」に残り、タグとメモも保持されます。既存のブックマークは変更されていません。{detail}"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_one": {
+    "message": "{count}件をインポートしましたが、設定を復元できませんでした。インポート前のスナップショットは保持されています。"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_few": {
+    "message": "{count}件をインポートしましたが、設定を復元できませんでした。インポート前のスナップショットは保持されています。"
+  },
+  "m_applied_of_total_items_moved_backup_retained_detail_one": {
+    "message": "{total}件中{applied}件を移動しました。バックアップは保持されています。{detail}"
+  },
+  "m_applied_of_total_items_deleted_backup_retained_detail_one": {
+    "message": "{total}件中{applied}件を削除しました。バックアップは保持されています。{detail}"
+  },
+  "m_applied_sorting_steps_applied_backup_retained_detail_one": {
+    "message": "並べ替えを{applied}ステップ適用しました。バックアップは保持されています。{detail}"
   }
 }

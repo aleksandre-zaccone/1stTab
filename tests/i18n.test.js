@@ -28,3 +28,36 @@ test('all catalogs have matching keys and interpolation tokens; translated text 
   await setLanguage('auto','ja-JP');assert.equal(t('Settings'),'設定');
  }finally{globalThis.fetch=originalFetch;}
 });
+
+test('reviewed number forms handle singulars, Russian teens and compound counts',async()=>{
+ const originalFetch=globalThis.fetch;
+ globalThis.fetch=async url=>({ok:true,json:async()=>JSON.parse(await readFile(url,'utf8'))});
+ const counts=[0,1,2,5,11,21,22,25,101,221];
+ try{
+  await setLanguage('ru');
+  const pixels=['пикселей','пиксель','пикселя','пикселей','пикселей','пиксель','пикселя','пикселей','пиксель','пиксель'];
+  const bookmarks=['закладкам','закладке','закладкам','закладкам','закладкам','закладке','закладкам','закладкам','закладке','закладке'];
+  for(const [i,count] of counts.entries()){
+   assert.equal(t('{count} pixels',{count}),`${count} ${pixels[i]}`);
+   assert.equal(t('Tag {count} bookmarks',{count}),`Добавить теги к ${count} ${bookmarks[i]}`);
+  }
+  await setLanguage('en');
+  for(const count of counts)assert.equal(t('Imported {count} items.',{count}),`Imported ${count} ${count===1?'item':'items'}.`);
+  assert.equal(translateError('1 sorting steps applied. Backup retained. Invalid folder.'),'1 sorting step applied. Backup retained. Invalid folder.');
+  for(const count of [0,1,2])for(const folders of [0,1,2]){
+   assert.equal(t('Bookmarks: {count} · Collections: {folders}',{count,folders}),`Bookmarks: ${count} · Collections: ${folders}`);
+  }
+  await setLanguage('de');
+  for(const count of counts)assert.equal(t('Imported {count} items.',{count}),`${count} ${count===1?'Element':'Elemente'} importiert.`);
+  assert.equal(t('{count} active filters. Hiding the controls keeps filters applied.',{count:1}),'1 aktiver Filter. Beim Ausblenden der Steuerelemente bleibt der Filter aktiv.');
+  for(const count of [0,1,2])for(const folders of [0,1,2]){
+   assert.equal(t('Bookmarks: {count} · Collections: {folders}',{count,folders}),`Lesezeichen: ${count} · Sammlungen: ${folders}`);
+  }
+  assert.equal(translateError('1 of 1 items moved. Backup retained. Invalid folder.'),'1 von 1 Element verschoben. Sicherung bleibt erhalten. Ungültiger Ordner.');
+  await setLanguage('ja');
+  assert.equal(t('Confirm delete'),'削除する');
+  assert.equal(t('Confirm import'),'インポートする');
+  assert.equal(t('Confirm move'),'移動する');
+  assert.equal(t('Confirm cloud deletion'),'バックアップを削除する');
+ }finally{globalThis.fetch=originalFetch;}
+});
