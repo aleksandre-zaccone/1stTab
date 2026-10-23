@@ -399,10 +399,10 @@
     "message": "Auswahl löschen"
   },
   "m_tag_selected": {
-    "message": "Auswahl taggen"
+    "message": "Auswahl mit Tags versehen"
   },
   "m_tag_bookmarks": {
-    "message": "Lesezeichen taggen"
+    "message": "Lesezeichen mit Tags versehen"
   },
   "m_add_tags": {
     "message": "Tags hinzufügen"
@@ -474,7 +474,7 @@
     "message": "Darstellungs- und Ansichtseinstellungen ebenfalls wiederherstellen"
   },
   "m_restores_theme_design_sizes_card_shape_sidebar_width_spacing_note_visibility_motion_view_sort_and_filter_visibility_browser_specific_folder_selections_stay_local": {
-    "message": "Stellt Thema, Design, Größen, Kartenform, Seitenleistenbreite, Abstände, Notizen, Animationen, Ansicht, Sortierung und Filteranzeige wieder her. Browserspezifische Ordnerauswahlen bleiben lokal."
+    "message": "Stellt Thema, Design, Größen, Kartenform, Seitenleistenbreite, Abstände, Anzeige der Notizen, Animationen, Ansicht, Sortierung und Filteranzeige wieder her. Browserspezifische Ordnerauswahlen bleiben lokal."
   },
   "m_backup_google_drive": {
     "message": "Sicherung & Google Drive"
@@ -576,16 +576,16 @@
     "message": "{count} Elemente löschen?"
   },
   "m_import_bookmarks_bookmarks_and_folders_folders": {
-    "message": "{bookmarks} Lesezeichen und {folders} Ordner importieren"
+    "message": "Importieren — Lesezeichen: {bookmarks} · Ordner: {folders}"
   },
   "m_duplicates_duplicate_urls_differences_metadata_differences_duplicates_will_be_added_as_separate_bookmarks_existing_notes_and_tags_are_preserved": {
-    "message": "{duplicates} doppelte URLs; {differences} Metadatenunterschiede. Duplikate werden als eigene Lesezeichen hinzugefügt; vorhandene Notizen und Tags bleiben erhalten."
+    "message": "Doppelte URLs: {duplicates}; Metadatenunterschiede: {differences}. Duplikate werden als eigene Lesezeichen hinzugefügt; vorhandene Notizen und Tags bleiben erhalten."
   },
   "m_imported_count_items": {
     "message": "{count} Elemente importiert."
   },
   "m_duplicates_exact_url_duplicate_groups_folders_empty_folders_no_automatic_deletion": {
-    "message": "{duplicates} Gruppen identischer URLs; {folders} leere Ordner. Kein automatisches Löschen."
+    "message": "Gruppen identischer URLs: {duplicates}; leere Ordner: {folders}. Kein automatisches Löschen."
   },
   "m_empty_folder_title": {
     "message": "Leerer Ordner: {title}"
@@ -618,13 +618,13 @@
     "message": "Ordner {title} löschen"
   },
   "m_tag_count_bookmarks": {
-    "message": "{count} Lesezeichen taggen"
+    "message": "{count} Lesezeichen mit Tags versehen"
   },
   "m_tags_added_to_count_bookmarks_undo_available": {
     "message": "Tags zu {count} Lesezeichen hinzugefügt. Rückgängig möglich."
   },
   "m_count_bookmarks_folders_collections": {
-    "message": "{count} Lesezeichen · {folders} Sammlungen"
+    "message": "Lesezeichen: {count} · Sammlungen: {folders}"
   },
   "m_count_saved_places": {
     "message": "{count} gespeicherte Seiten"
@@ -645,7 +645,7 @@
     "message": "Mehr anzeigen ({count} verbleibend)"
   },
   "m_bookmarks_bookmarks_folders_folders_favorites_favorites_notes_with_notes_tagged_with_tags_preferences_preferences": {
-    "message": "{bookmarks} Lesezeichen · {folders} Ordner · {favorites} Favoriten · {notes} mit Notizen · {tagged} mit Tags · Einstellungen {preferences}"
+    "message": "Lesezeichen: {bookmarks} · Ordner: {folders} · Favoriten: {favorites} · Mit Notizen: {notes} · Mit Tags: {tagged} · Einstellungen {preferences}"
   },
   "m_included": {
     "message": "enthalten"
@@ -867,16 +867,13 @@
     "message": "{count} Lesezeichen nach „{title}“ verschoben. Rückgängig möglich."
   },
   "m_tag_count_bookmarks_one": {
-    "message": "{count} Lesezeichen taggen"
+    "message": "{count} Lesezeichen mit Tags versehen"
   },
   "m_tags_added_to_count_bookmarks_undo_available_one": {
     "message": "Tags zu {count} Lesezeichen hinzugefügt. Rückgängig möglich."
   },
-  "m_count_bookmarks_folders_collections_one": {
-    "message": "{count} Lesezeichen · {folders} Sammlungen"
-  },
   "m_dragging_count_bookmarks_drop_on_a_collection_to_move_or_between_bookmarks_in_the_same_folder_to_sort_one": {
-    "message": "{count} Lesezeichen werden gezogen · Auf einer Sammlung ablegen zum Verschieben oder zwischen Lesezeichen desselben Ordners zum Sortieren."
+    "message": "{count} Lesezeichen wird gezogen · Auf einer Sammlung ablegen zum Verschieben oder zwischen Lesezeichen desselben Ordners zum Sortieren."
   },
   "m_move_count_item_s_one": {
     "message": "{count} Element verschieben"
@@ -907,5 +904,38 @@
   },
   "m_count_saved_places_one": {
     "message": "{count} gespeicherte Seite"
+  },
+  "m_count_pixels_one": {
+    "message": "{count} Pixel"
+  },
+  "m_count_pixels_few": {
+    "message": "{count} Pixel"
+  },
+  "m_count_pixels_many": {
+    "message": "{count} Pixel"
+  },
+  "m_count_pixels_other": {
+    "message": "{count} Pixel"
+  },
+  "m_import_stopped_after_count_items_bookmark_metadata_could_not_be_saved_keep_the_source_export_for_recovery_the_pre_import_snapshot_is_retained_detail_one": {
+    "message": "Import nach {count} Element gestoppt. Metadaten konnten nicht gespeichert werden. Bewahren Sie die Quelldatei zur Wiederherstellung auf; die vorherige Sicherung bleibt erhalten. {detail}"
+  },
+  "m_import_stopped_after_count_items_items_added_before_the_failure_remain_in_title_tags_and_notes_for_imported_items_are_retained_existing_bookmarks_are_unchanged_detail_one": {
+    "message": "Import nach {count} Element gestoppt. Bereits hinzugefügte Elemente bleiben in „{title}“; Tags und Notizen bleiben erhalten. Bestehende Lesezeichen sind unverändert. {detail}"
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_one": {
+    "message": "{count} Element importiert, aber Einstellungen konnten nicht wiederhergestellt werden. Vorherige Sicherung bleibt erhalten."
+  },
+  "m_imported_count_items_but_preferences_could_not_be_restored_the_pre_import_snapshot_is_retained_few": {
+    "message": "{count} Elemente importiert, aber Einstellungen konnten nicht wiederhergestellt werden. Vorherige Sicherung bleibt erhalten."
+  },
+  "m_applied_of_total_items_moved_backup_retained_detail_one": {
+    "message": "{applied} von {total} Element verschoben. Sicherung bleibt erhalten. {detail}"
+  },
+  "m_applied_of_total_items_deleted_backup_retained_detail_one": {
+    "message": "{applied} von {total} Element gelöscht. Sicherung bleibt erhalten. {detail}"
+  },
+  "m_applied_sorting_steps_applied_backup_retained_detail_one": {
+    "message": "{applied} Sortierschritt angewendet. Sicherung bleibt erhalten. {detail}"
   }
 }

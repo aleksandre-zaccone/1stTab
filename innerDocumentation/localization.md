@@ -8,7 +8,7 @@ A manual selection is stored in `chrome.storage.local` as `bookmarks.language.v1
 
 Each language has a Chrome-format catalog at `_locales/<code>/messages.json`. The catalogs use identical keys. English messages are also the source strings for the shared `bookmark-core/i18n.js` helper. Calls use `t('Select {title}', {title: bookmark.title})`; placeholders are interpolated as text, never HTML. User titles, folder names, URLs, notes and tags are never translated. Design names such as Enterprise and Atelier remain names.
 
-`Intl.NumberFormat`, `Intl.DateTimeFormat` and `Intl.PluralRules` use the selected interface locale. Optional `_one` message variants handle singular count messages; the base message handles other forms. Missing messages fall back to English. Service-layer errors remain canonical for classification and storage, and known error messages are translated when displayed. Unknown browser/provider diagnostics are preserved.
+`Intl.NumberFormat`, `Intl.DateTimeFormat` and `Intl.PluralRules` use the selected interface locale. Plural variants (`_one`, `_few`, `_many`, `_other`) handle the selected language’s number forms. Error messages can select a form using `total` or `applied` as well as `count`. Summaries containing independent counts use labels such as “Bookmarks: 1 · Collections: 2” so one count never determines another noun’s form. Missing messages fall back to English. Service-layer errors remain canonical for classification and storage, and known error messages are translated when displayed. Unknown browser/provider diagnostics are preserved.
 
 Both manifests use `default_locale: en` and localized name, description, action tooltip and shortcut description. Chrome controls those manifest strings using its own language; the in-app override does not change Chrome's extension-management interface. No new permissions or remote translation service are required.
 
@@ -25,3 +25,7 @@ The standalone generated preview embeds the catalogs and uses the same translati
 ## Verification
 
 Coverage includes browser-language detection, regional/unsupported fallback, all five manual choices, localized counts, catalog/placeholder parity, translated dialogs and accessibility names, unchanged bookmark content, filter preservation, narrow-screen layout, real Chrome manager/panel propagation, unsaved dialog preservation, persisted language after browser restart, and packaged manifest/catalog loading.
+
+## Translation review corrections
+
+The follow-up review corrected Georgian privacy/import wording, Russian and German note-visibility descriptions, Russian deletion wording, Japanese final-action buttons and undo feedback, and German tag terminology. Cloud copies are called backups; local pre-edit recovery copies remain snapshots. Regression checks cover 0, 1, 2, 5, 11, 21, 22, 25, 101 and 221, including Russian pixel forms and independent summary counts. Native-speaker review remains a publication recommendation.

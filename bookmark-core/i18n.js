@@ -27,7 +27,8 @@ export async function setLanguage(choice, browserLanguage=globalThis.chrome?.i18
  return changed;
 }
 export function t(source,values={}) {
- const key=keys.get(source),plural=typeof values.count==='number'?new Intl.PluralRules(locale).select(values.count):null;
+ const key=keys.get(source),quantity=values.count??values.total??values.applied;
+ const plural=typeof quantity==='number'?new Intl.PluralRules(locale).select(quantity):null;
  const variant=plural&&key?key+'_'+plural:null;
  const message=catalog[variant]?.message||catalog[key]?.message||english[variant]?.message||english[key]?.message||source;
  return formatMessage(message,Object.fromEntries(Object.entries(values).map(([key,value])=>[key,typeof value==='number'?number(value):value])));
