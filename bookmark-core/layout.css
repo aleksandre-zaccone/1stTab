@@ -1,7 +1,7 @@
 /* Compact workspace: bookmarks take the space, while search remains reachable. */
 :root[data-design] #app{padding:22px 28px}
 :root[data-design] .workspace-shell{grid-template-rows:auto auto auto auto minmax(0,1fr);min-height:calc(100dvh - 44px)}
-:root[data-design] .tree{grid-row:1/6;padding-top:22px}
+:root[data-design] .tree{grid-row:1/-1;padding-top:22px}
 :root[data-design] .sidebar-brand{margin-bottom:22px}
 :root[data-design] .tree-divider{margin:14px 9px 10px}
 :root[data-design] .tree>.mobile-close{position:absolute;right:15px;top:24px}
@@ -86,7 +86,7 @@
 @media(min-width:761px){
  :root[data-design] .workspace-shell{grid-template-columns:clamp(220px,var(--sidebar-width,270px),min(520px,45vw)) minmax(0,1fr)}
  :root[data-design] .workspace-shell:has(.tree-hidden){grid-template-columns:minmax(0,1fr)}
- .sidebar-resizer{grid-column:1;grid-row:1/5;position:sticky;top:22px;justify-self:end;align-self:start;width:14px;height:calc(100dvh - 44px);transform:translateX(14px);cursor:col-resize;touch-action:none;z-index:7;border-radius:8px;outline-offset:1px}
+ .sidebar-resizer{grid-column:1;grid-row:1/-1;position:sticky;top:22px;justify-self:end;align-self:start;width:14px;height:calc(100dvh - 44px);transform:translateX(14px);cursor:col-resize;touch-action:none;z-index:7;border-radius:8px;outline-offset:1px}
  .sidebar-resizer::after{content:'';position:absolute;top:0;bottom:0;width:3px;left:5px;background:var(--border);border-radius:3px;opacity:.55;transition:opacity .15s,background .15s}
  .sidebar-resizer:hover::after,.sidebar-resizer:focus-visible::after,.resizing-sidebar .sidebar-resizer::after{background:var(--accent);opacity:1}
  .tree-hidden .sidebar-resizer{display:none}
