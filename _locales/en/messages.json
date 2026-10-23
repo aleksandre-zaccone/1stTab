@@ -937,5 +937,17 @@
   },
   "m_applied_sorting_steps_applied_backup_retained_detail_one": {
     "message": "{applied} sorting step applied. Backup retained. {detail}"
+  },
+  "m_updated_to_1sttab_version": {
+    "message": "Updated to 1stTab {version}"
+  },
+  "m_now_available_in_five_languages_with_optional_google_drive_backups": {
+    "message": "Now available in five languages, with optional Google Drive backups."
+  },
+  "m_view_changes": {
+    "message": "View changes"
+  },
+  "m_dismiss": {
+    "message": "Dismiss"
   }
 }

@@ -937,5 +937,17 @@
   },
   "m_applied_sorting_steps_applied_backup_retained_detail_one": {
     "message": "Выполнено шагов сортировки: {applied}. Копия сохранена. {detail}"
+  },
+  "m_updated_to_1sttab_version": {
+    "message": "1stTab обновлён до версии {version}"
+  },
+  "m_now_available_in_five_languages_with_optional_google_drive_backups": {
+    "message": "Интерфейс доступен на пяти языках, а резервное копирование в Google Диск можно включить по желанию."
+  },
+  "m_view_changes": {
+    "message": "Что нового"
+  },
+  "m_dismiss": {
+    "message": "Закрыть"
   }
 }

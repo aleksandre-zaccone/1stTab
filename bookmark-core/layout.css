@@ -1,7 +1,7 @@
 /* Compact workspace: bookmarks take the space, while search remains reachable. */
 :root[data-design] #app{padding:22px 28px}
-:root[data-design] .workspace-shell{grid-template-rows:auto auto auto minmax(0,1fr);min-height:calc(100dvh - 44px)}
-:root[data-design] .tree{grid-row:1/5;padding-top:22px}
+:root[data-design] .workspace-shell{grid-template-rows:auto auto auto auto minmax(0,1fr);min-height:calc(100dvh - 44px)}
+:root[data-design] .tree{grid-row:1/6;padding-top:22px}
 :root[data-design] .sidebar-brand{margin-bottom:22px}
 :root[data-design] .tree-divider{margin:14px 9px 10px}
 :root[data-design] .tree>.mobile-close{position:absolute;right:15px;top:24px}
@@ -13,9 +13,9 @@
 :root[data-design] .settings-button svg{width:calc(19px * var(--icon-scale));height:calc(19px * var(--icon-scale))}
 :root[data-design] .workspace-toolbar{margin:15px 0 16px;gap:16px}
 :root[data-design] .workspace-heading h1{margin:0 0 4px;font-size:calc(26px * var(--text-scale));line-height:1.2}
-:root[data-design] .workspace-toolbar{grid-row:2}
-:root[data-design] .filter-tray{grid-row:3}
-:root[data-design] .bookmark-workspace{grid-row:4}
+:root[data-design] .workspace-toolbar{grid-row:3}
+:root[data-design] .filter-tray{grid-row:4}
+:root[data-design] .bookmark-workspace{grid-row:5}
 :root[data-design] .results.grid{gap:13px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 :root[data-design] .results.grid .bookmark{min-height:0;padding:15px 16px}
 :root[data-design] .grid .bookmark-top{margin-bottom:10px;align-items:center}

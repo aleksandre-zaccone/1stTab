@@ -937,5 +937,17 @@
   },
   "m_applied_sorting_steps_applied_backup_retained_detail_one": {
     "message": "შესრულებულია დალაგების {applied} ნაბიჯი. ასლი შენარჩუნებულია. {detail}"
+  },
+  "m_updated_to_1sttab_version": {
+    "message": "1stTab განახლდა {version} ვერსიამდე"
+  },
+  "m_now_available_in_five_languages_with_optional_google_drive_backups": {
+    "message": "ინტერფეისი ახლა ხელმისაწვდომია ხუთ ენაზე, ხოლო Google Drive-ზე სარეზერვო ასლების შექმნა სურვილისამებრ შეგიძლიათ."
+  },
+  "m_view_changes": {
+    "message": "რა შეიცვალა"
+  },
+  "m_dismiss": {
+    "message": "დახურვა"
   }
 }

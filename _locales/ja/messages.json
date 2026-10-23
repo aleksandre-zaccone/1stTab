@@ -937,5 +937,17 @@
   },
   "m_applied_sorting_steps_applied_backup_retained_detail_one": {
     "message": "並べ替えを{applied}ステップ適用しました。バックアップは保持されています。{detail}"
+  },
+  "m_updated_to_1sttab_version": {
+    "message": "1stTab がバージョン {version} に更新されました"
+  },
+  "m_now_available_in_five_languages_with_optional_google_drive_backups": {
+    "message": "5言語に対応し、Google ドライブへのバックアップを任意で利用できます。"
+  },
+  "m_view_changes": {
+    "message": "変更内容を見る"
+  },
+  "m_dismiss": {
+    "message": "閉じる"
   }
 }
