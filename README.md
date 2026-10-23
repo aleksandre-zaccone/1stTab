@@ -2,7 +2,7 @@
 
 Save, organize and find Chrome bookmarks in a full-page library or bookmark-only side panel. This release replaces the old dashboard runtime; historical JSX/dashboard sources remain in the repository and are excluded from the shipping ZIP.
 
-Fresh installations start with the Enterprise light theme and Favorites in grid view. The initial_bookmarks.json file supplies 12 starter favorites on first install; existing bookmarks are preserved and duplicate URLs are skipped. Updates do not seed the starter list again. Saved theme, sizing and folder preferences are preserved. The default package identifies as version **2.2.1**.
+Fresh installations start with the Enterprise light theme and Favorites in grid view. The initial_bookmarks.json file supplies 12 starter favorites on first install; existing bookmarks are preserved and duplicate URLs are skipped. Updates do not seed the starter list again. Saved theme, sizing and folder preferences are preserved. The default package identifies as version **2.2.2**.
 
 ## Run
 
