@@ -942,7 +942,7 @@
     "message": "1stTab обновлён до версии {version}"
   },
   "m_now_available_in_five_languages_with_optional_google_drive_backups": {
-    "message": "Интерфейс доступен на пяти языках, а резервное копирование в Google Диск можно включить по желанию."
+    "message": "В этом выпуске появилось встроенное уведомление об обновлении на всех пяти поддерживаемых языках."
   },
   "m_view_changes": {
     "message": "Что нового"

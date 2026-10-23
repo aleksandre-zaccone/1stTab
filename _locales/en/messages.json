@@ -942,7 +942,7 @@
     "message": "Updated to 1stTab {version}"
   },
   "m_now_available_in_five_languages_with_optional_google_drive_backups": {
-    "message": "Now available in five languages, with optional Google Drive backups."
+    "message": "This release adds an in-app update notice in all five supported languages."
   },
   "m_view_changes": {
     "message": "View changes"

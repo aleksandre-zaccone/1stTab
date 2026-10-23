@@ -13,11 +13,11 @@ test('language resolution follows browser regions, manual overrides and English 
 
 test('What’s new notice translations preserve the release details and controls',async()=>{
  const translations={
-  en:['Updated to 1stTab 2.2.1','Now available in five languages, with optional Google Drive backups.','View changes','Dismiss'],
-  ru:['1stTab обновлён до версии 2.2.1','Интерфейс доступен на пяти языках, а резервное копирование в Google Диск можно включить по желанию.','Что нового','Закрыть'],
-  ka:['1stTab განახლდა 2.2.1 ვერსიამდე','ინტერფეისი ახლა ხელმისაწვდომია ხუთ ენაზე, ხოლო Google Drive-ზე სარეზერვო ასლების შექმნა სურვილისამებრ შეგიძლიათ.','რა შეიცვალა','დახურვა'],
-  de:['1stTab wurde auf Version 2.2.1 aktualisiert','Jetzt mit fünf Sprachen und optionalen Backups in Google Drive.','Änderungen ansehen','Schließen'],
-  ja:['1stTab がバージョン 2.2.1 に更新されました','5言語に対応し、Google ドライブへのバックアップを任意で利用できます。','変更内容を見る','閉じる']
+  en:['Updated to 1stTab 2.2.1','This release adds an in-app update notice in all five supported languages.','View changes','Dismiss'],
+  ru:['1stTab обновлён до версии 2.2.1','В этом выпуске появилось встроенное уведомление об обновлении на всех пяти поддерживаемых языках.','Что нового','Закрыть'],
+  ka:['1stTab განახლდა 2.2.1 ვერსიამდე','ამ ვერსიაში დამატებულია განახლების შეტყობინება, რომელიც ხუთივე მხარდაჭერილ ენაზეა ხელმისაწვდომი.','რა შეიცვალა','დახურვა'],
+  de:['1stTab wurde auf Version 2.2.1 aktualisiert','Diese Version ergänzt einen Update-Hinweis in allen fünf unterstützten Sprachen.','Änderungen ansehen','Schließen'],
+  ja:['1stTab がバージョン 2.2.1 に更新されました','このリリースでは、対応する5言語でアプリ内の更新通知を表示します。','変更内容を見る','閉じる']
  };
  const originalFetch=globalThis.fetch;
  globalThis.fetch=async url=>({ok:true,json:async()=>JSON.parse(await readFile(url,'utf8'))});
@@ -26,7 +26,7 @@ test('What’s new notice translations preserve the release details and controls
    await setLanguage(language);
    assert.deepEqual([
     t('Updated to 1stTab {version}',{version:'2.2.1'}),
-    t('Now available in five languages, with optional Google Drive backups.'),
+    t('This release adds an in-app update notice in all five supported languages.'),
     t('View changes'),
     t('Dismiss')
    ],expected,`Unexpected announcement copy for ${language}`);

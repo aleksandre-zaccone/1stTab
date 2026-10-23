@@ -942,7 +942,7 @@
     "message": "1stTab がバージョン {version} に更新されました"
   },
   "m_now_available_in_five_languages_with_optional_google_drive_backups": {
-    "message": "5言語に対応し、Google ドライブへのバックアップを任意で利用できます。"
+    "message": "このリリースでは、対応する5言語でアプリ内の更新通知を表示します。"
   },
   "m_view_changes": {
     "message": "変更内容を見る"

@@ -942,7 +942,7 @@
     "message": "1stTab განახლდა {version} ვერსიამდე"
   },
   "m_now_available_in_five_languages_with_optional_google_drive_backups": {
-    "message": "ინტერფეისი ახლა ხელმისაწვდომია ხუთ ენაზე, ხოლო Google Drive-ზე სარეზერვო ასლების შექმნა სურვილისამებრ შეგიძლიათ."
+    "message": "ამ ვერსიაში დამატებულია განახლების შეტყობინება, რომელიც ხუთივე მხარდაჭერილ ენაზეა ხელმისაწვდომი."
   },
   "m_view_changes": {
     "message": "რა შეიცვალა"
