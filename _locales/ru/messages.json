@@ -937,5 +937,17 @@
   },
   "m_applied_sorting_steps_applied_backup_retained_detail_one": {
     "message": "Выполнено шагов сортировки: {applied}. Копия сохранена. {detail}"
+  },
+  "m_updated_to_1sttab_version": {
+    "message": "1stTab обновлён до версии {version}"
+  },
+  "m_this_release_adds_an_in_app_update_notice_in_all_five_supported_languages": {
+    "message": "В этом выпуске появилось встроенное уведомление об обновлении на всех пяти поддерживаемых языках."
+  },
+  "m_view_changes": {
+    "message": "Что нового"
+  },
+  "m_dismiss": {
+    "message": "Закрыть"
   }
 }

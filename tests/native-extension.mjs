@@ -1,5 +1,5 @@
-import {chromium, browserOptions} from './browser-runtime.mjs';import{execFileSync}from'node:child_process';import{resolve}from'node:path';import{mkdtempSync}from'node:fs';import assert from'node:assert/strict';
-const extension=mkdtempSync('/tmp/1sttab-native-extension-');execFileSync('python3',['-c',`import zipfile;zipfile.ZipFile('dist/1stTab-bookmarks.zip').extractall('${extension}')`]);
+import {chromium, browserOptions} from './browser-runtime.mjs';import{packageZip}from'./package-artifact.mjs';import{execFileSync}from'node:child_process';import{resolve}from'node:path';import{mkdtempSync}from'node:fs';import assert from'node:assert/strict';
+const extension=mkdtempSync('/tmp/1sttab-native-extension-');execFileSync('python3',['-c',`import zipfile;zipfile.ZipFile('${packageZip}').extractall('${extension}')`]);
 const profile=mkdtempSync('/tmp/1sttab-native-profile-');const opts={...browserOptions,ignoreDefaultArgs:['--disable-extensions'],args:[...browserOptions.args,`--disable-extensions-except=${extension}`,`--load-extension=${extension}`]};let context;
 try{
 context=await chromium.launchPersistentContext(profile,opts);context.setDefaultTimeout(10000);console.log('Native profile started.');let worker=context.serviceWorkers()[0]||await context.waitForEvent('serviceworker');console.log('Native service worker ready.');const id=worker.url().split('/')[2];const base=`chrome-extension://${id}/`;

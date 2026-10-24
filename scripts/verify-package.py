@@ -2,12 +2,14 @@ from pathlib import Path,PurePosixPath
 from html.parser import HTMLParser
 import json,re,zipfile,hashlib
 root=Path(__file__).resolve().parent.parent
+version=json.loads((root/'manifest.json').read_text())['version']
+package=root/f'dist/1stTab-bookmarks-{version}.zip'
 class Assets(HTMLParser):
  def __init__(self):super().__init__();self.refs=[]
  def handle_starttag(self,t,a):
   d=dict(a)
   if t in ('script','link'):self.refs.append(d.get('src') or d.get('href'))
-with zipfile.ZipFile(root/'dist/1stTab-bookmarks.zip') as z:
+with zipfile.ZipFile(package) as z:
  names=set(z.namelist());m=json.loads(z.read('manifest.json'))
  assert 'initial_bookmarks.json' in names
  assert m['default_locale']=='en'
@@ -50,4 +52,4 @@ with zipfile.ZipFile(root/'dist/1stTab-bookmarks.zip') as z:
      assert posixpath.normpath(str(PurePosixPath(name).parent/ref)) in names,(name,ref)
  assert not any(name.endswith('.jsx') or name in ['app.js','finance.js','data.js','react.min.js'] for name in names)
 print('Manifest, local resources, import graph, source parity and package boundaries verified.')
-print('SHA256:',hashlib.sha256((root/'dist/1stTab-bookmarks.zip').read_bytes()).hexdigest())
+print('SHA256:',hashlib.sha256(package.read_bytes()).hexdigest())

@@ -937,5 +937,17 @@
   },
   "m_applied_sorting_steps_applied_backup_retained_detail_one": {
     "message": "{applied} Sortierschritt angewendet. Sicherung bleibt erhalten. {detail}"
+  },
+  "m_updated_to_1sttab_version": {
+    "message": "1stTab wurde auf Version {version} aktualisiert"
+  },
+  "m_this_release_adds_an_in_app_update_notice_in_all_five_supported_languages": {
+    "message": "Diese Version ergänzt einen Update-Hinweis in allen fünf unterstützten Sprachen."
+  },
+  "m_view_changes": {
+    "message": "Änderungen ansehen"
+  },
+  "m_dismiss": {
+    "message": "Schließen"
   }
 }
