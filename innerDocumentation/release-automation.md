@@ -1,5 +1,9 @@
 # Chrome Web Store releases
 
+Step-by-step walkthrough covering the local build, both OAuth clients, the consent
+screen, domain ownership and the tag/check/submit sequence:
+[publishing-and-google-setup.md](publishing-and-google-setup.md).
+
 The default package at `dist/1stTab-bookmarks-<version>.zip` includes opt-in Google Drive backup and restore. Google identity and API host access are optional permissions; fresh installs retain the local-only permission set until a user connects Drive. Submit this default ZIP, not a separate integration build.
 
 ## Configure once
