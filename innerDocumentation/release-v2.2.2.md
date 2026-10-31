@@ -19,6 +19,10 @@ in [release-automation.md](release-automation.md) before announcing availability
 - A later version announces once; a dismissed version never returns.
 - First installation never announces, and reloading an unpacked build of the same
   version never announces.
+- Google Drive can connect again from the store build. 2.2.1 shipped the OAuth
+  client created for local development, so Chrome rejected it on store installs
+  with "Google rejected the OAuth client" before any consent screen appeared.
+  2.2.2 ships the Chrome Extension client whose Item ID is the store item.
 
 ## How it works
 
@@ -42,6 +46,22 @@ Russian, Georgian, German and Japanese catalogs.
 ## No new permissions
 
 This release adds no permissions and changes no stored bookmark data.
+
+## Drive authorization
+
+`manifest.json` now declares
+`254305727394-k6qef9ig6i5mfpbahlcn0go3895ulo0a.apps.googleusercontent.com`, an OAuth
+client of type Chrome Extension whose Item ID is the store item
+`bigolehnkpljdbocpkljjmkkocefinbh`. `chrome.identity.getAuthToken` checks that
+pairing itself: a client created for an unpacked build fails with
+`invalid_client`, because without a `key` field Chrome derives an unpacked
+extension's ID from its directory path.
+
+The client is public configuration; no secret is checked in. Nobody can verify
+the binding from tests, whose Google transport is mocked, so after the store build
+accepts the package connect once from the published extension before announcing
+availability. Do not create clients keyed to unpacked folders for release work;
+add the store's public `key` to the manifest if development also needs Drive.
 
 ## Release maintenance
 

@@ -17,6 +17,8 @@ Complete the store listing and Privacy tabs, use current extension screenshots, 
 
 Before release, confirm the Chrome Extension OAuth client is configured for the production extension ID, the Drive API and consent screen are ready, and a real account can connect, upload, list and restore a backup. The checked-in client ID is public configuration, not a credential; never commit client secrets or refresh tokens.
 
+The client in `manifest.json` must be an **OAuth 2.0 client of type Chrome Extension whose Item ID is the store item ID** (`bigolehnkpljdbocpkljjmkkocefinbh`). Chrome checks that pairing inside `chrome.identity.getAuthToken` before any consent screen appears, and reports a rejected client as `OAuth2 request failed … invalid_client`. A client created for an unpacked build does not work: without a `key` field in the manifest, Chrome derives the ID of an unpacked extension from its directory path, so every new folder looks like a different extension. 2.2.1 shipped such a client and could not authorize Drive from the store; 2.2.2 ships the store client. After uploading a package that changes the client ID, connect once from the store build to confirm the binding — mock-based tests cannot.
+
 ## Release a reviewed version
 
 1. Update `manifest.json`, `package.json` and the privacy-page version label in a reviewed PR. The version must be greater than the previous uploaded store version. Merge with passing QA.
