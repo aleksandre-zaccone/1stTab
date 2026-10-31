@@ -45,6 +45,8 @@ Settings now opens as a full page. Resize the folder sidebar by dragging its rig
 
 ## GitHub Actions and Chrome Web Store publishing
 
+For the full walkthrough — local build, both OAuth clients, consent screen, domain ownership, tag, check run and submission — see [Build, publish and Google setup, step by step](innerDocumentation/publishing-and-google-setup.md). The sections below are the short version.
+
 ### Pipeline and branch flow
 
 Work on a feature branch based on `integration`, merge an MR into `integration`, then promote the reviewed changes through an `integration` → `main` MR. Publishing uses a release tag whose commit is reachable from `main`.
